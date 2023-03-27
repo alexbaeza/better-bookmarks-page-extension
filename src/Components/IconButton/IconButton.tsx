@@ -4,11 +4,18 @@ interface IconButtonProps {
   onClick: () => void;
   className?: string;
   icon: any;
+  dataTestId?: string;
 }
 
-export const IconButton = ({ className, onClick, icon }: IconButtonProps) => {
+export const IconButton = ({
+  dataTestId,
+  className,
+  onClick,
+  icon
+}: IconButtonProps) => {
   return (
     <button
+      data-testid={dataTestId}
       type="button"
       className={
         className +

@@ -17,7 +17,10 @@ export interface BookmarkFolderRootProps {
   folderContents: IBookmarkItem[];
 }
 
-export const BookmarkFolderRoot = ({ name, folderContents }: BookmarkFolderRootProps) => {
+export const BookmarkFolderRoot = ({
+  name,
+  folderContents
+}: BookmarkFolderRootProps) => {
   if (!folderContents.length) {
     return <></>;
   }
@@ -25,7 +28,9 @@ export const BookmarkFolderRoot = ({ name, folderContents }: BookmarkFolderRootP
   return (
     <div className="group relative inline-block w-full py-6 px-1">
       <div className="mt-3 mb-2 flex">
-        <div className="font-base mr-2 text-sm uppercase leading-6 tracking-wide text-custom-text-primary">{name}</div>
+        <div className="font-base mr-2 text-sm uppercase leading-6 tracking-wide text-custom-text-primary">
+          {name}
+        </div>
         <div className="min-w-8 flex w-8 items-center justify-center rounded-xl bg-custom-primary text-xs font-bold text-custom-text-primary">
           {folderContents.length}
         </div>
@@ -35,17 +40,25 @@ export const BookmarkFolderRoot = ({ name, folderContents }: BookmarkFolderRootP
       >
         <div className=" h-full w-full rounded-lg object-cover ">
           <div className="grid grid-flow-row-dense grid-cols-4 grid-cols-4 gap-4 p-4">
-            {folderContents.map((content) => {
+            {folderContents.map((content, key) => {
               if (content.children) {
                 return (
                   <BookmarkFolderModal
-                    key={`bookmark_folder-${content.id}`}
+                    dataTestId={`bookmark-folder-content-modal-${key}`}
+                    key={`bookmark-folder-content-modal-${content.id}`}
                     title={content.title}
                     folderContents={content.children}
                   />
                 );
               } else if (content.url) {
-                return <BookmarkItem key={`bookmark_item-${content.id}`} title={content.title} url={content?.url} />;
+                return (
+                  <BookmarkItem
+                    dataTestId={`bookmark-item-${key}`}
+                    key={`bookmark-item-${key}`}
+                    title={content.title}
+                    url={content?.url}
+                  />
+                );
               }
               return null;
             })}

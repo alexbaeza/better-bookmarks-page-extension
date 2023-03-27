@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeartIcon } from '../IconButton/icons/Icons';
+import { HeartIcon } from '../IconButton/Icons/Icons';
 
 export const Footer = () => {
   return (
