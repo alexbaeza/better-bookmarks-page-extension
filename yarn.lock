@@ -2114,10 +2114,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/chrome@^0.0.225":
-  version "0.0.225"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.225.tgz#3d8f9ffe8141385389862607dfee2d7b0915fd90"
-  integrity sha512-acSFQN7X0/fjF6PSP0Ki9TlwWsEeJeh5WclMYilJSHHp+ayLDMD/YeSIUzsodwLKPZQ9h8SyiL13/pPab8M4RA==
+"@types/chrome@^0.0.226":
+  version "0.0.226"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.226.tgz#db6fc9a0476718156f97917a3b25e3f876f5bc7e"
+  integrity sha512-cyl2Bt/P3xPH4arxHctNbzksO20hirQCL3Jcqz6mOZKgad7SkhqRqc7BL9EWVRvocs6hyo8bwkzKidTlM8WGUw==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
@@ -9770,10 +9770,10 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-vitals@^2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-2.1.4.tgz#76563175a475a5e835264d373704f9dde718290c"
-  integrity sha512-sVWcwhU5mX6crfI5Vd2dC4qchyTqxV8URinzt25XqVh+bHEPGH4C3NPrNionCP7Obx59wrYEbNlw4Z8sjALzZg==
+web-vitals@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-3.3.0.tgz#2e14bcbb3acf71d00c49519ab92cc517511476d5"
+  integrity sha512-GZsEmJBNclIpViS/7QVOTr7Kbt4BgLeR7kQ5zCCtJVuiWsA+K6xTXaoEXssvl8yYFICEyNmA2Nr+vgBYTnS4bA==
 
 webidl-conversions@^4.0.2:
   version "4.0.2"
