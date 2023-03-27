@@ -10,7 +10,7 @@ const getGreeting = () => {
   } else if (hour >= 12 && hour < 18) {
     greeting = 'Good Afternoon';
   } else {
-    greeting = 'Good evening';
+    greeting = 'Good Evening';
   }
   return greeting;
 };

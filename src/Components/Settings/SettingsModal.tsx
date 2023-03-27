@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IconButton } from '../IconButton/IconButton';
-import { CrossIcon, GearIcon } from '../IconButton/icons/Icons';
+import { CrossIcon, GearIcon } from '../IconButton/Icons/Icons';
 import { GreetingSettings } from './GreetingSettings';
 import { Footer } from '../Footer/Footer';
 import { Sponsor } from '../Sponsor/Sponsor';
@@ -11,16 +11,27 @@ export const SettingsModal = () => {
 
   return (
     <>
-      <IconButton onClick={() => setShow(true)} icon={<GearIcon />} />
+      <IconButton
+        dataTestId="options-modal-button"
+        onClick={() => setShow(true)}
+        icon={<GearIcon />}
+      />
       <div className="relative">
         {show && (
-          <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center">
+          <div
+            data-testid="options-modal-content"
+            className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center"
+          >
             <div
               className="absolute top-0 left-0 right-0 bottom-0 bg-black opacity-50"
               onClick={() => setShow(false)}
             ></div>
             <div className="relative w-[80%] rounded-lg bg-custom-primary-dark p-4 shadow lg:max-w-2xl">
-              <IconButton onClick={() => setShow(false)} icon={<CrossIcon />} />
+              <IconButton
+                dataTestId="options-modal-content-close-button"
+                onClick={() => setShow(false)}
+                icon={<CrossIcon />}
+              />
               <div>
                 <div className="p-6">
                   <div className="mx-auto mb-4 h-14 w-14 text-custom-text-primary">

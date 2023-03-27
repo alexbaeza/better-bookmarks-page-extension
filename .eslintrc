@@ -6,6 +6,8 @@
     "plugin:import/recommended"
   ],
   "rules": {
+    "testing-library/no-unnecessary-act": "off",
+    "testing-library/prefer-screen-queries": "off",
     "react/function-component-definition": [
       2,
       {

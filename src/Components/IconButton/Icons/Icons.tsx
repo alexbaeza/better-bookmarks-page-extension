@@ -15,10 +15,15 @@ const getSizeClassName = (size: IconProps['size']) => {
   }
 };
 
-export const GearIcon = ({ size = 'sm', className = '' }: IconProps) => {
+export const GearIcon = ({
+  dataTestId,
+  size = 'sm',
+  className = ''
+}: IconProps) => {
   const sizeClassName = getSizeClassName(size);
   return (
     <svg
+      data-testid={dataTestId}
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
       className={`${sizeClassName} ${className}`}
@@ -30,11 +35,16 @@ export const GearIcon = ({ size = 'sm', className = '' }: IconProps) => {
   );
 };
 
-export const CrossIcon = ({ size = 'sm', className = '' }: IconProps) => {
+export const CrossIcon = ({
+  dataTestId,
+  size = 'sm',
+  className = ''
+}: IconProps) => {
   const sizeClassName = getSizeClassName(size);
 
   return (
     <svg
+      data-testid={dataTestId}
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
       className={`${sizeClassName} ${className}`}
@@ -50,11 +60,16 @@ export const CrossIcon = ({ size = 'sm', className = '' }: IconProps) => {
   );
 };
 
-export const FolderIcon = ({ size = 'sm', className = '' }: IconProps) => {
+export const FolderIcon = ({
+  dataTestId,
+  size = 'sm',
+  className = ''
+}: IconProps) => {
   const sizeClassName = getSizeClassName(size);
 
   return (
     <svg
+      data-testid={dataTestId}
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
       fill="currentColor"
@@ -65,11 +80,16 @@ export const FolderIcon = ({ size = 'sm', className = '' }: IconProps) => {
     </svg>
   );
 };
-export const HeartIcon = ({ size = 'sm', className = '' }: IconProps) => {
+export const HeartIcon = ({
+  dataTestId,
+  size = 'sm',
+  className = ''
+}: IconProps) => {
   const sizeClassName = getSizeClassName(size);
 
   return (
     <svg
+      data-testid={dataTestId}
       clipRule="evenodd"
       fillRule="evenodd"
       fill="currentColor"
@@ -90,13 +110,19 @@ export const HeartIcon = ({ size = 'sm', className = '' }: IconProps) => {
 interface IconProps {
   size?: 'xl' | 'lg' | 'md' | 'sm';
   className?: string;
+  dataTestId?: string;
 }
 
-export const CheckIcon = ({ size = 'sm', className = '' }: IconProps) => {
+export const CheckIcon = ({
+  dataTestId,
+  size = 'sm',
+  className = ''
+}: IconProps) => {
   const sizeClassName = getSizeClassName(size);
 
   return (
     <svg
+      data-testid={dataTestId}
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       className={`${sizeClassName} ${className}`}

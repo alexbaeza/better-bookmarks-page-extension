@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { BookmarkFolderRoot, IBookmarkItem } from './Components/Bookmark/BookmarkFolderRoot';
+import {
+  BookmarkFolderRoot,
+  IBookmarkItem
+} from './Components/Bookmark/BookmarkFolderRoot';
 import { SettingsModal } from './Components/Settings/SettingsModal';
 import { Greeting } from './Components/Greeting/Greeting';
 import { Footer } from './Components/Footer/Footer';
@@ -36,7 +39,9 @@ export const App = () => {
     const idsToRemove = level1Folders.map((l1) => l1.id);
     const bookmarksWithoutLevel1s = data.map((child) => {
       if (child.children) {
-        child.children = child.children.filter((c) => !idsToRemove.includes(c.id));
+        child.children = child.children.filter(
+          (c) => !idsToRemove.includes(c.id)
+        );
       }
       return child;
     });
@@ -47,6 +52,7 @@ export const App = () => {
 
   return (
     <div
+      data-testid="background"
       className="h-full min-h-screen flex-col bg-repeat"
       style={{
         backgroundImage: `url('${selectedBackground}')`
@@ -74,7 +80,8 @@ export const App = () => {
             </div>
           ) : (
             <p className="text-sm italic text-custom-text-primary">
-              Looks like you don't have any Bookmarks, add some to see the magic! 🪄✨
+              Looks like you don't have any Bookmarks, add some to see the
+              magic! 🪄✨
             </p>
           )}
         </div>
