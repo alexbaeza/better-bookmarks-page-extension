@@ -20,7 +20,7 @@ export const BookmarkFolderItem = ({
         className="mx-auto flex h-16 w-16 transform cursor-pointer items-center justify-center rounded-lg bg-slate-700 transition duration-300 ease-out hover:scale-105"
       >
         <div className="mx-auto text-custom-text-primary">
-          <FolderIcon size={'md'} />
+          <FolderIcon dataTestId="folder-icon" size={'md'} />
         </div>
       </button>
       <div className="flex cursor-pointer items-center justify-center">

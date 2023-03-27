@@ -2,10 +2,6 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { BookmarkFolderItem } from '../../../../../src/Components/Bookmark/Items/BookmarkFolderItem';
 
-jest.mock('../../../../../src/Components/IconButton/icons/Icons', () => ({
-  FolderIcon: () => <div data-testid="folder-icon"></div>
-}));
-
 describe('BookmarkFolderItem', () => {
   const mockOnClick = jest.fn();
   const name = 'Test Folder';
