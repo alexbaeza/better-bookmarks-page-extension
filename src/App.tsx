@@ -22,7 +22,7 @@ export const App = () => {
     }
 
     fetchBookmarks();
-  }, []);
+  }, [selectedBackground]);
 
   let bookmarkFolders: IBookmarkItem[] = [];
 

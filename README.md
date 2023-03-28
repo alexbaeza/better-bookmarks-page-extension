@@ -2,10 +2,22 @@
 
 #### _A better view of your bookmarks as a start page for quick access._
 
-I built this extension out of necessity and passion but you can always say thanks by buying me a
-coffee.
 
+<p align="center">
+  <b>Download:</b>
+<br><br>
+<a href="https://addons.mozilla.org/en-GB/firefox/addon/better-bookmarks-page" target="_blank"><img src="docs/firefox.svg" alt="Download For Firefox"></a>
+<a href="#" target="_blank"><img src="docs/chrome.svg" alt="Download For Chrome"></a>
+<br><br>
 <a href="https://www.buymeacoffee.com/alexbaeza" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 109px !important;" ></a>
+</p>
+
+
+#### Introducing Better Bookmarks Page
+
+Finding and viewing bookmarks has never been easier with a user-friendly start page. This extension seamlessly integrates with your browser's existing bookmark manager, ensuring a smooth and uninterrupted workflow.
+
+Better Bookmarks Page uses the bookmarks API, making it fully compatible with all Chromium-based browsers.
 
 #### The Why?
 
