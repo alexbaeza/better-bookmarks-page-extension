@@ -17,14 +17,14 @@ export const BookmarkFolderItem = ({
       <button
         data-testid={dataTestId}
         onClick={onClick}
-        className="mx-auto flex h-16 w-16 transform cursor-pointer items-center justify-center rounded-lg bg-slate-700 transition duration-300 ease-out hover:scale-105"
+        className="mx-auto flex h-16 w-16 transform cursor-pointer items-center justify-center rounded-lg bg-secondary-dark transition duration-300 ease-out hover:scale-105"
       >
-        <div className="mx-auto text-custom-text-primary">
+        <div className="mx-auto text-text-secondary">
           <FolderIcon dataTestId="folder-icon" size={'md'} />
         </div>
       </button>
       <div className="flex cursor-pointer items-center justify-center">
-        <p className="text-xs text-custom-text-primary line-clamp-2">{name}</p>
+        <p className="text-xs text-text-primary line-clamp-2">{name}</p>
       </div>
     </>
   );

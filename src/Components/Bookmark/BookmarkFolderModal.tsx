@@ -34,7 +34,7 @@ export const BookmarkFolderModal = ({
             className="absolute top-0 left-0 right-0 bottom-0 bg-black opacity-50"
             onClick={() => setShow(false)}
           ></div>
-          <div className="relative rounded-lg bg-custom-primary-dark p-4 shadow">
+          <div className="relative rounded-lg bg-primary-dark p-4 shadow">
             <IconButton
               dataTestId="bookmark-folder-content-modal-close-button"
               onClick={() => setShow(false)}
@@ -42,10 +42,10 @@ export const BookmarkFolderModal = ({
             />
             <div className="max-w-md">
               <div className="p-6">
-                <div className="mx-auto mb-4 h-14 w-14 text-custom-text-primary">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-lg bg-secondary-dark p-2 text-text-primary">
                   <FolderIcon size={'md'} />
                 </div>
-                <div className="font-base mr-2 text-center text-sm uppercase leading-6 text-custom-text-primary">
+                <div className="font-base mr-2 text-center text-sm uppercase leading-6 text-text-primary">
                   {title}
                 </div>
                 <div className="container">

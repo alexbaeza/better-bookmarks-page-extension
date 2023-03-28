@@ -19,7 +19,7 @@ export const IconButton = ({
       type="button"
       className={
         className +
-        ' absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-custom-secondary-dark p-1.5 text-sm text-custom-text-primary hover:bg-custom-secondary-dark-active hover:text-white'
+        ' absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-secondary-dark p-1.5 text-sm text-text-primary hover:bg-secondary-dark-active hover:text-white'
       }
       onClick={onClick}
     >

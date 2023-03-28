@@ -1,12 +1,15 @@
-import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { BackgroundSettings } from '../../../../src/Components/Settings/BackgroundSettings';
-import * as jotai from 'jotai/index';
+import * as jotai from 'jotai';
 import { when } from 'jest-when';
-import { backgroundOverlayAtom } from '../../../../src/Context/atoms';
+import {
+  backgroundOverlayAtom,
+  backgroundOverlayOpacityAtom
+} from '../../../../src/Context/atoms';
+import { BackgroundOverlaySettings } from '../../../../src/Components/Settings/BackgroundOverlaySettings';
 
 describe('BackgroundSettings', () => {
   let spy: jest.SpyInstance;
+
   beforeEach(() => {
     jest.clearAllMocks();
     spy = jest.spyOn(jotai, 'useAtom');
@@ -16,7 +19,7 @@ describe('BackgroundSettings', () => {
   });
 
   it('renders correctly', () => {
-    render(<BackgroundSettings />);
+    render(<BackgroundOverlaySettings />);
 
     expect(screen.getByText('Overlay')).toBeInTheDocument();
     expect(
@@ -32,7 +35,7 @@ describe('BackgroundSettings', () => {
       .calledWith(backgroundOverlayAtom)
       .mockReturnValue(['/images/doodle1.png', jest.fn() as never]);
 
-    render(<BackgroundSettings />);
+    render(<BackgroundOverlaySettings />);
 
     const checkIconContainer = screen.getByTestId(
       'background-check-icon-container'
@@ -48,9 +51,24 @@ describe('BackgroundSettings', () => {
       .calledWith(backgroundOverlayAtom)
       .mockReturnValue(['', setSelectedBackground]);
 
-    render(<BackgroundSettings />);
+    render(<BackgroundOverlaySettings />);
 
     fireEvent.click(screen.getByAltText('Doodle 1'));
     expect(setSelectedBackground).toHaveBeenCalledWith('/images/doodle1.png');
+  });
+
+  test('changes background overlay opacity when slider is moved', () => {
+    const setBackgroundOverlayOpacityMock = jest.fn();
+    when(spy)
+      .calledWith(backgroundOverlayOpacityAtom)
+      .mockReturnValue([50, setBackgroundOverlayOpacityMock]);
+
+    render(<BackgroundOverlaySettings />);
+
+    fireEvent.change(screen.getByTestId('background-overlay-opacity-slider'), {
+      target: { value: 70 }
+    });
+
+    expect(setBackgroundOverlayOpacityMock).toHaveBeenCalledWith(70);
   });
 });

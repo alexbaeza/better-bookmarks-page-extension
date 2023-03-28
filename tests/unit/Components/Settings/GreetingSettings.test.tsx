@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import * as jotai from 'jotai';
 import { GreetingSettings } from '../../../../src/Components/Settings/GreetingSettings';
@@ -29,9 +28,7 @@ describe('GreetingSettings', () => {
       const greetingSettingsTitle = screen.getByTestId(
         'greeting-settings-title'
       ) as HTMLInputElement;
-      expect(greetingSettingsTitle.classList).toContain(
-        'text-custom-text-primary'
-      );
+      expect(greetingSettingsTitle.classList).toContain('text-text-primary');
 
       expect(greetingSettingsTitle).toHaveTextContent(
         '🤝 What should we call you?'
