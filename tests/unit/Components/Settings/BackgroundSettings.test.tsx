@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { BackgroundSettings } from '../../../../src/Components/Settings/BackgroundSettings';
 import * as jotai from 'jotai/index';

@@ -16,7 +16,7 @@ const faviconFromUrl = (url: string): string => {
 export const BookmarkItem = ({ dataTestId, title, url }: BookmarkItemProps) => {
   return (
     <a data-testid={dataTestId} href={url}>
-      <div className=" mx-auto  flex h-16 w-16 transform cursor-pointer items-center justify-center rounded-lg bg-slate-700 transition duration-300 ease-out hover:scale-105">
+      <div className=" mx-auto  flex h-16 w-16 transform cursor-pointer items-center justify-center rounded-lg bg-secondary-dark transition duration-300 ease-out hover:scale-105">
         <ImageWithFallback
           data-testid="image-with-fallback"
           className="h-12 w-12 overflow-hidden rounded-lg"
@@ -25,7 +25,7 @@ export const BookmarkItem = ({ dataTestId, title, url }: BookmarkItemProps) => {
         />
       </div>
       <div className="flex cursor-pointer items-center justify-center">
-        <p className="text-xs text-custom-text-primary line-clamp-2">{title}</p>
+        <p className="text-xs text-text-primary line-clamp-2">{title}</p>
       </div>
     </a>
   );

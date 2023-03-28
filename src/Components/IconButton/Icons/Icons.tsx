@@ -10,6 +10,8 @@ const getSizeClassName = (size: IconProps['size']) => {
       return 'w-12 h-12';
     case 'sm':
       return 'w-5 h-5';
+    case 'xs':
+      return 'w-3 h-3';
     default:
       return 'w-5 h-5';
   }
@@ -108,7 +110,7 @@ export const HeartIcon = ({
 };
 
 interface IconProps {
-  size?: 'xl' | 'lg' | 'md' | 'sm';
+  size?: 'xl' | 'lg' | 'md' | 'sm' | 'xs';
   className?: string;
   dataTestId?: string;
 }

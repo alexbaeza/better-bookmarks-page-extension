@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { IconButton } from '../../../../src/Components/IconButton/IconButton';
 import { HeartIcon } from '../../../../src/Components/IconButton/Icons/Icons';
@@ -45,7 +44,7 @@ describe('IconButton', () => {
     render(<IconButton onClick={onClick} icon={<HeartIcon />} />);
 
     expect(screen.getByRole('button')).toHaveClass(
-      'absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-custom-secondary-dark p-1.5 text-sm text-custom-text-primary hover:bg-custom-secondary-dark-active hover:text-white'
+      'absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-secondary-dark p-1.5 text-sm text-text-primary hover:bg-secondary-dark-active hover:text-white'
     );
   });
 

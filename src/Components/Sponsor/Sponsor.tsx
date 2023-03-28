@@ -5,7 +5,7 @@ export const Sponsor = () => {
     <>
       <div
         data-testid="sponsor-comment"
-        className="mt-2 flex w-full flex-row justify-end text-xs text-custom-text-primary"
+        className="mt-2 flex w-full flex-row justify-end text-xs text-text-primary"
       >
         {
           'This app was built with the intentions of it being free to the public as well as open-sourced but if you like it and it helps you, you can always buy me a coffee.'

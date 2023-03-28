@@ -20,7 +20,7 @@ export const Greeting = () => {
   const [greetingName] = useAtom(greetingNameAtom);
   return (
     <div className="px-3 pt-3">
-      <h1 className="text-title-1 mt-16 pr-3 text-3xl font-bold  text-custom-text-primary md:mb-10">
+      <h1 className="text-title-1 mt-16 pr-3 text-3xl font-bold  text-text-primary md:mb-10">
         {getGreeting() + (greetingEnabled ? `, ${greetingName}` : '')}
       </h1>
     </div>

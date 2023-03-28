@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { BookmarkFolderModal } from '../../../../src/Components/Bookmark/BookmarkFolderModal';
 
