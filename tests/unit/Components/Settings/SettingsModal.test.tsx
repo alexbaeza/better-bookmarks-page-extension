@@ -1,54 +1,74 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { SettingsModal } from '../../../../src/Components/Settings/SettingsModal';
 
 describe('SettingsModal', () => {
-  it('renders the gear icon button', () => {
+  test('renders gear icon button', () => {
     render(<SettingsModal />);
-    const gearIcon = screen.getByTestId('options-modal-button');
-    expect(gearIcon).toBeInTheDocument();
+    const buttonElement = screen.getByTestId('options-modal-button');
+    expect(buttonElement).toBeInTheDocument();
   });
 
-  it('opens the modal when gear icon button is clicked', () => {
+  test('renders modal when gear icon button is clicked', () => {
     render(<SettingsModal />);
-    const gearIcon = screen.getByTestId('options-modal-button');
-    fireEvent.click(gearIcon);
-    const modal = screen.getByTestId('options-modal-content');
-    expect(modal).toBeInTheDocument();
+    const buttonElement = screen.getByTestId('options-modal-button');
+    fireEvent.click(buttonElement);
+    const modalContentElement = screen.getByTestId('options-modal-content');
+    expect(modalContentElement).toBeInTheDocument();
   });
 
-  it('closes the modal when close icon button is clicked', () => {
+  test('renders close button in modal', () => {
     render(<SettingsModal />);
-    const gearIcon = screen.getByTestId('options-modal-button');
-    fireEvent.click(gearIcon);
-    const closeButton = screen.getByTestId(
+    const buttonElement = screen.getByTestId('options-modal-button');
+    fireEvent.click(buttonElement);
+    const closeButtonElement = screen.getByTestId(
       'options-modal-content-close-button'
     );
-    fireEvent.click(closeButton);
-    const modal = screen.queryByTestId('options-modal-content');
-    expect(modal).not.toBeInTheDocument();
+    expect(closeButtonElement).toBeInTheDocument();
   });
 
-  it('renders greeting settings component', () => {
+  test('closes modal when close button is clicked', () => {
     render(<SettingsModal />);
-    const gearIcon = screen.getByTestId('options-modal-button');
-    fireEvent.click(gearIcon);
-    const greetingSettings = screen.getByText(/What should we call you?/i);
-    expect(greetingSettings).toBeInTheDocument();
+    const buttonElement = screen.getByTestId('options-modal-button');
+    fireEvent.click(buttonElement);
+    const closeButtonElement = screen.getByTestId(
+      'options-modal-content-close-button'
+    );
+    fireEvent.click(closeButtonElement);
+    const modalContentElement = screen.queryByTestId('options-modal-content');
+    expect(modalContentElement).not.toBeInTheDocument();
   });
 
-  it('renders background settings component', () => {
+  test('renders greeting settings in modal', () => {
     render(<SettingsModal />);
-    const gearIcon = screen.getByTestId('options-modal-button');
-    fireEvent.click(gearIcon);
-    const backgroundSettings = screen.getByText(/Select an overlay/i);
-    expect(backgroundSettings).toBeInTheDocument();
+    const buttonElement = screen.getByTestId('options-modal-button');
+    fireEvent.click(buttonElement);
+    const greetingSettingsElement = screen.getByTestId('greeting-settings');
+    expect(greetingSettingsElement).toBeInTheDocument();
   });
 
-  it('renders sponsor component', () => {
+  test('renders background overlay settings in modal', () => {
     render(<SettingsModal />);
-    const gearIcon = screen.getByTestId('options-modal-button');
-    fireEvent.click(gearIcon);
-    const sponsor = screen.getByText(/This app was built/i);
-    expect(sponsor).toBeInTheDocument();
+    const buttonElement = screen.getByTestId('options-modal-button');
+    fireEvent.click(buttonElement);
+    const backgroundOverlaySettingsElement = screen.getByTestId(
+      'background-overlay-settings'
+    );
+    expect(backgroundOverlaySettingsElement).toBeInTheDocument();
+  });
+
+  test('renders theme settings in modal', () => {
+    render(<SettingsModal />);
+    const buttonElement = screen.getByTestId('options-modal-button');
+    fireEvent.click(buttonElement);
+    const themeSettingsElement = screen.getByTestId('theme-settings');
+    expect(themeSettingsElement).toBeInTheDocument();
+  });
+
+  test('renders sponsor in modal', () => {
+    render(<SettingsModal />);
+    const buttonElement = screen.getByTestId('options-modal-button');
+    fireEvent.click(buttonElement);
+    const sponsorElement = screen.getByTestId('sponsor');
+    expect(sponsorElement).toBeInTheDocument();
   });
 });

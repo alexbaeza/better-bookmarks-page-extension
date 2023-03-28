@@ -5,8 +5,13 @@ import {
   backgroundOverlayOpacityAtom
 } from '../../Context/atoms';
 import { CheckIcon } from '../IconButton/Icons/Icons';
+interface BackgroundOverlaySettingsProps {
+  dataTestId?: string;
+}
 
-export const BackgroundSettings = () => {
+export const BackgroundOverlaySettings = ({
+  dataTestId
+}: BackgroundOverlaySettingsProps) => {
   const [selectedBackground, setSelectedBackground] = useAtom(
     backgroundOverlayAtom
   );
@@ -52,7 +57,7 @@ export const BackgroundSettings = () => {
 
   return (
     <>
-      <div className="w-full">
+      <div data-testid={dataTestId} className="w-full">
         <div className="my-3 flex justify-between">
           <span className="text-sm font-bold text-text-primary">Overlay</span>
         </div>
@@ -74,6 +79,7 @@ export const BackgroundSettings = () => {
         </label>
 
         <input
+          data-testid="background-overlay-opacity-slider"
           type="range"
           step={10}
           min="0"

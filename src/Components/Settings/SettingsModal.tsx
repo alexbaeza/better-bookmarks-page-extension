@@ -4,7 +4,7 @@ import { CrossIcon, GearIcon } from '../IconButton/Icons/Icons';
 import { GreetingSettings } from './GreetingSettings';
 import { Footer } from '../Footer/Footer';
 import { Sponsor } from '../Sponsor/Sponsor';
-import { BackgroundSettings } from './BackgroundSettings';
+import { BackgroundOverlaySettings } from './BackgroundOverlaySettings';
 import { ThemeSettings } from './ThemeSettings';
 
 export const SettingsModal = () => {
@@ -46,16 +46,16 @@ export const SettingsModal = () => {
                       <div className="mb-6">
                         <div className="grid grid-flow-row-dense grid-cols-1 gap-4 divide-y divide-text-primary">
                           <div>
-                            <GreetingSettings />
+                            <GreetingSettings dataTestId="greeting-settings" />
                           </div>
                           <div>
-                            <BackgroundSettings />
+                            <BackgroundOverlaySettings dataTestId="background-overlay-settings" />
                           </div>
                           <div>
-                            <ThemeSettings />
+                            <ThemeSettings dataTestId="theme-settings" />
                           </div>
                           <div>
-                            <Sponsor />
+                            <Sponsor dataTestId="sponsor" />
                           </div>
                         </div>
                       </div>

@@ -1,8 +1,11 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 import { greetingEnabledAtom, greetingNameAtom } from '../../Context/atoms';
+interface GreetingSettingsProps {
+  dataTestId?: string;
+}
 
-export const GreetingSettings = () => {
+export const GreetingSettings = ({ dataTestId }: GreetingSettingsProps) => {
   const [greetingEnabled, setGreetingEnabled] = useAtom(greetingEnabledAtom);
   const [greetingName, setGreetingName] = useAtom(greetingNameAtom);
 
@@ -18,7 +21,7 @@ export const GreetingSettings = () => {
   const inputClass = greetingEnabled ? inputClassEnabled : inputClassDisabled;
   return (
     <>
-      <div className="my-3 flex justify-between">
+      <div data-testid={dataTestId} className="my-3 flex justify-between">
         <span className="text-sm font-bold text-text-primary">Greeting</span>
         <label className="relative inline-flex cursor-pointer items-center">
           <input

@@ -3,7 +3,11 @@ import { useAtom } from 'jotai';
 import { themeAtom } from '../../Context/atoms';
 import { CheckIcon } from '../IconButton/Icons/Icons';
 
-export const ThemeSettings = () => {
+interface ThemeSettingsProps {
+  dataTestId?: string;
+}
+
+export const ThemeSettings = ({ dataTestId }: ThemeSettingsProps) => {
   const [theme, setTheme] = useAtom(themeAtom);
 
   const renderThemeOption = (themeValue: string, colourClass: string) => {
@@ -14,6 +18,7 @@ export const ThemeSettings = () => {
     return (
       <div className={containerClass}>
         <button
+          data-testid={`theme-button-${themeValue}`}
           onClick={() => setTheme(themeValue)}
           className={`h-8 w-8 rounded-lg border-4 border-accent ${colourClass} cursor-pointer outline-none`}
         />
@@ -34,7 +39,7 @@ export const ThemeSettings = () => {
   };
   return (
     <>
-      <div className="my-3 flex justify-between">
+      <div data-testid={dataTestId} className="my-3 flex justify-between">
         <span className={`text-sm font-bold text-text-primary`}>Theme</span>
       </div>
       <label className={`mb-2 block text-sm font-medium text-text-primary`}>
