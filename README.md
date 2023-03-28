@@ -6,7 +6,7 @@
 <p align="center">
   <b>Download:</b>
 <br><br>
-<a href="https://addons.mozilla.org/en-GB/firefox/addon/better-bookmarks-page" target="_blank"><img src="docs/firefox.svg" alt="Download For Firefox"></a>
+<a href="https://addons.mozilla.org/firefox/addon/better-bookmarks-page" target="_blank"><img src="docs/firefox.svg" alt="Download For Firefox"></a>
 <a href="#" target="_blank"><img src="docs/chrome.svg" alt="Download For Chrome"></a>
 <br><br>
 <a href="https://www.buymeacoffee.com/alexbaeza" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 109px !important;" ></a>
@@ -25,13 +25,13 @@ I wanted a simple speed dial type of bookmark start page that would show me all 
 folders so I could organise them better and get a better view.
 
 But at the same time I didn't want to re-invent the wheel I wanted to keep it simple and use the
-`bookmarks` [Web Extension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions)
+`bookmarks` [Web Extension](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions)
 to maximize compatibility between firefox, chrome and other chromium based browsers _(Just in case I
 ever switch :) )_
 
 _if you'd like to find out more about the  `bookmarks` api_
 
-- [bookmarks WebExtension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/bookmarks)
+- [bookmarks WebExtension](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/bookmarks)
   on (Mozilla Docs)
 - [bookmarks WebExtension](https://developer.chrome.com/docs/extensions/reference/bookmarks/)
   on (Chrome Docs)
