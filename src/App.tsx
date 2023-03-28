@@ -19,6 +19,7 @@ export const App = () => {
   const [selectedBackground] = useAtom(backgroundOverlayAtom);
   const [theme] = useAtom(themeAtom);
   const [backgroundOverlayOpacity] = useAtom(backgroundOverlayOpacityAtom);
+
   useEffect(() => {
     async function fetchBookmarks() {
       const bookMarksResponse = await Bookmarks.getFolders();
@@ -27,7 +28,7 @@ export const App = () => {
     }
 
     fetchBookmarks();
-  }, [selectedBackground]);
+  }, [selectedBackground, theme, backgroundOverlayOpacity]);
 
   let bookmarkFolders: IBookmarkItem[] = [];
 
