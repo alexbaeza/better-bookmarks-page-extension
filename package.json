@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/chrome": "^0.0.227",
-    "@types/firefox-webext-browser": "^111.0.0",
+    "@types/firefox-webext-browser": "^111.0.1",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.10",
     "@types/react": "^18.0.31",
