@@ -18,7 +18,7 @@
     "web-vitals": "^3.3.0"
   },
   "devDependencies": {
-    "@tailwindcss/line-clamp": "^0.4.2",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@testing-library/dom": "^9.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
