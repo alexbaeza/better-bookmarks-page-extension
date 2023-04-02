@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
+/* eslint-disable testing-library/no-wait-for-multiple-assertions */
+import { render, waitFor } from '@testing-library/react';
 import { App } from '../../src/App';
 import { Bookmarks } from '../../src/Data/bookmarks';
-import { act } from 'react-dom/test-utils';
 import { when } from 'jest-when';
 import {
   backgroundOverlayAtom,
@@ -20,44 +20,39 @@ jest.mock('../../src/Data/bookmarks', () => ({
 }));
 
 describe('App', () => {
+  let spy: jest.SpyInstance;
+
   beforeEach(() => {
-    jest.resetAllMocks();
-
-    const spy = jest.spyOn(jotai, 'useAtom');
-
-    when(spy)
-      .calledWith(greetingEnabledAtom)
-      .mockReturnValue([true, jest.fn() as never]);
-    when(spy)
-      .calledWith(greetingNameAtom)
-      .mockReturnValue(['Bob', jest.fn() as never]);
+    jest.clearAllMocks();
+    spy = jest.spyOn(jotai, 'useAtomValue');
+    when(spy).calledWith(greetingEnabledAtom).mockReturnValue(true);
+    when(spy).calledWith(greetingNameAtom).mockReturnValue('Bob');
     when(spy)
       .calledWith(backgroundOverlayAtom)
-      .mockReturnValue(['background-image.png', jest.fn() as never]);
+      .mockReturnValue('background-image.png');
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   it('renders without errors', async () => {
-    await act(async () => {
-      await render(<App />);
-    });
+    render(<App />);
   });
 
   it('displays a greeting message', async () => {
-    await act(async () => {
-      await render(<App />);
-    });
+    const { getByText } = render(<App />);
+
     expect(
-      screen.getByText(/good\s(morning|afternoon|evening),?\s?[a-z]*/i)
+      getByText(/good\s(morning|afternoon|evening),?\s?[a-z]*/i)
     ).toBeInTheDocument();
   });
 
   it('displays a message if there are no bookmarks', async () => {
     jest.spyOn(Bookmarks, 'getFolders').mockResolvedValueOnce([]);
-    await act(async () => {
-      await render(<App />);
-    });
+    const { getByText } = render(<App />);
     expect(
-      screen.getByText(
+      getByText(
         "Looks like you don't have any Bookmarks, add some to see the magic! 🪄✨"
       )
     ).toBeInTheDocument();
@@ -83,19 +78,18 @@ describe('App', () => {
         ]
       }
     ]);
-    await act(async () => {
-      await render(<App />);
+    const { getByText } = render(<App />);
+
+    await waitFor(() => {
+      expect(Bookmarks.getFolders).toBeCalled();
+      expect(getByText('Folder 1')).toBeInTheDocument();
+      expect(getByText('Bookmark 1')).toBeInTheDocument();
     });
-    await expect(Bookmarks.getFolders).toBeCalled();
-    await expect(screen.getByText('Folder 1')).toBeInTheDocument();
-    await expect(screen.getByText('Bookmark 1')).toBeInTheDocument();
   });
 
   it('displays the selected background image', async () => {
-    await act(async () => {
-      await render(<App />);
-    });
-    expect(screen.getByTestId('background')).toHaveStyle({
+    const { getByTestId } = render(<App />);
+    expect(getByTestId('background')).toHaveStyle({
       backgroundImage: "url('background-image.png')"
     });
   });

@@ -103,6 +103,14 @@ export const mockData: IBookmarkItem[] = [
                     dateAdded: 123456789,
                     parentId: '9',
                     url: 'https://www.example.com/sub1'
+                  },
+                  {
+                    id: '12',
+                    title: 'F3 S1 Bookmark 2',
+                    index: 12,
+                    dateAdded: 123456789,
+                    parentId: '9',
+                    url: 'https://www.example.com/sub1'
                   }
                 ]
               }
