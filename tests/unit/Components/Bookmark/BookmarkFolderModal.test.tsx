@@ -80,4 +80,15 @@ describe('BookmarkFolderModal', () => {
       screen.queryByTestId('bookmark-folder-content-modal')
     ).not.toBeInTheDocument();
   });
+
+  it('does not render child elements for items with no URL and no children', () => {
+    render(
+      <BookmarkFolderModal title={name} folderContents={folderContents} />
+    );
+    fireEvent.click(screen.getByTestId('bookmark-folder-item'));
+    expect(
+      screen.getByTestId('bookmark-folder-item-modal')
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId('bookmark-item')).not.toBeInTheDocument();
+  });
 });

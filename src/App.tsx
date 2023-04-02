@@ -6,29 +6,31 @@ import {
 import { SettingsModal } from './Components/Settings/SettingsModal';
 import { Greeting } from './Components/Greeting/Greeting';
 import { Footer } from './Components/Footer/Footer';
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 import {
   backgroundOverlayAtom,
   backgroundOverlayOpacityAtom,
   themeAtom
 } from './Context/atoms';
 import { Bookmarks } from './Data/bookmarks';
+import { ViewModeToggle } from './Sections/ViewModeToggle';
 
 export const App = () => {
   const [data, setData] = useState<IBookmarkItem[]>();
-  const [selectedBackground] = useAtom(backgroundOverlayAtom);
-  const [theme] = useAtom(themeAtom);
-  const [backgroundOverlayOpacity] = useAtom(backgroundOverlayOpacityAtom);
+  const selectedBackground = useAtomValue(backgroundOverlayAtom);
+  const theme = useAtomValue(themeAtom);
+  const backgroundOverlayOpacity = useAtomValue(backgroundOverlayOpacityAtom);
 
   useEffect(() => {
     async function fetchBookmarks() {
       const bookMarksResponse = await Bookmarks.getFolders();
 
+      console.log('called');
       setData(bookMarksResponse);
     }
 
     fetchBookmarks();
-  }, [selectedBackground, theme, backgroundOverlayOpacity]);
+  }, [data]);
 
   let bookmarkFolders: IBookmarkItem[] = [];
 
@@ -56,20 +58,22 @@ export const App = () => {
     bookmarkFolders.push(...bookmarksWithoutLevel1s, ...level1Folders);
   }
 
+  const backgroundStyle = {
+    opacity: `${backgroundOverlayOpacity}%`,
+    backgroundImage: `url('${selectedBackground}')`
+  };
+
   return (
     <div className={theme}>
       <div className=" min-h-screen bg-primary-dark">
         <div
           data-testid="background"
-          className="absolute top-0 right-0 h-full  w-full flex-col bg-repeat p-1.5"
-          style={{
-            opacity: `${backgroundOverlayOpacity}%`,
-            backgroundImage: `url('${selectedBackground}')`
-          }}
+          className="absolute top-0 right-0 h-full w-full flex-col bg-repeat p-1.5"
+          style={backgroundStyle}
         />
-
         <SettingsModal />
         <Greeting />
+        <ViewModeToggle />
         <section className="flex flex-grow flex-col items-center justify-center px-3 pt-3">
           <div className="mx-auto flex flex-col justify-center p-2 align-middle">
             {bookmarkFolders.length ? (

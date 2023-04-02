@@ -134,3 +134,51 @@ export const CheckIcon = ({
     </svg>
   );
 };
+export const ListIcon = ({
+  dataTestId,
+  size = 'sm',
+  className = ''
+}: IconProps) => {
+  const sizeClassName = getSizeClassName(size);
+
+  return (
+    <svg
+      data-testid={dataTestId}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      className={`${sizeClassName} ${className}`}
+      strokeLinejoin="round"
+      strokeMiterlimit="2"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="m3.3 15.4c.717 0 1.3.583 1.3 1.3s-.583 1.3-1.3 1.3-1.3-.583-1.3-1.3.583-1.3 1.3-1.3zm2.7 1.85c0-.414.336-.75.75-.75h14.5c.414 0 .75.336.75.75s-.336.75-.75.75h-14.5c-.414 0-.75-.336-.75-.75zm-2.7-6.55c.717 0 1.3.583 1.3 1.3s-.583 1.3-1.3 1.3-1.3-.583-1.3-1.3.583-1.3 1.3-1.3zm2.7 1.3c0-.414.336-.75.75-.75h14.5c.414 0 .75.336.75.75s-.336.75-.75.75h-14.5c-.414 0-.75-.336-.75-.75zm-2.7-6c.717 0 1.3.583 1.3 1.3s-.583 1.3-1.3 1.3-1.3-.583-1.3-1.3.583-1.3 1.3-1.3zm2.7.75c0-.414.336-.75.75-.75h14.5c.414 0 .75.336.75.75s-.336.75-.75.75h-14.5c-.414 0-.75-.336-.75-.75z"
+        fillRule="nonzero"
+      />
+    </svg>
+  );
+};
+
+export const GridIcon = ({
+  dataTestId,
+  size = 'sm',
+  className = ''
+}: IconProps) => {
+  const sizeClassName = getSizeClassName(size);
+
+  return (
+    <svg
+      data-testid={dataTestId}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      className={`${sizeClassName} ${className}`}
+      strokeMiterlimit="2"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="m8 16h-5v4c0 .621.52 1 1 1h4zm6.6 5v-5h-5.2v5zm6.4-5h-5v5h4c.478 0 1-.379 1-1zm0-1.4v-5.2h-5v5.2zm-18-5.2v5.2h5v-5.2zm11.6 0h-5.2v5.2h5.2zm1.4-6.4v5h5v-4c0-.478-.379-1-1-1zm-8 5v-5h-4c-.62 0-1 .519-1 1v4zm6.6-5h-5.2v5h5.2z"
+        fillRule="nonzero"
+      />
+    </svg>
+  );
+};

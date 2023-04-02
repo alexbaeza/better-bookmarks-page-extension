@@ -1,32 +1,65 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import { ImageWithFallback } from '../../Image/ImageWithFallback';
+import { BookmarkListItem } from './BookmarkListItem';
+import { BookmarkGridItem } from './BookmarkGridItem';
+import { BookmarkFolderGridItem } from './BookmarkFolderGridItem';
+import { BookmarkFolderListItem } from './BookmarkFolderListItem';
+import { useAtomValue } from 'jotai';
+import { viewModeAtom } from '../../../Context/atoms';
+import { BookmarkDisplayMode, BookmarkType } from '../../../types.d';
 
 export type BookmarkItemProps = {
   dataTestId?: string;
-
   title: string;
   url: string;
+  type: BookmarkType.Item;
 };
 
-const faviconFromUrl = (url: string): string => {
-  let domainUrl: URL = new URL(url);
-  const domain = domainUrl.hostname.replace('www.', '');
-  return `https://puny-yellow-llama.faviconkit.com/${domain}/256`;
+export type BookmarkFolderItemProps = {
+  dataTestId?: string;
+  title: string;
+  onClickAction: () => void;
+  type: BookmarkType.Folder;
 };
-export const BookmarkItem = ({ dataTestId, title, url }: BookmarkItemProps) => {
-  return (
-    <a data-testid={dataTestId} href={url}>
-      <div className=" mx-auto  flex h-16 w-16 transform cursor-pointer items-center justify-center rounded-lg bg-secondary-dark transition duration-300 ease-out hover:scale-105">
-        <ImageWithFallback
-          data-testid="image-with-fallback"
-          className="h-12 w-12 overflow-hidden rounded-lg"
-          src={faviconFromUrl(url)}
-          alt={`Bookmark item for ${title}`}
+
+type Props = BookmarkItemProps | BookmarkFolderItemProps;
+
+export const BookmarkItem = (props: Props) => {
+  const viewMode = useAtomValue(viewModeAtom);
+
+  let item;
+
+  if (props.type === BookmarkType.Folder) {
+    const { dataTestId, title, onClickAction } = props;
+    if (viewMode === BookmarkDisplayMode.Grid) {
+      item = (
+        <BookmarkFolderGridItem
+          dataTestId={dataTestId}
+          title={title}
+          onClick={onClickAction}
         />
-      </div>
-      <div className="flex cursor-pointer items-center justify-center">
-        <p className="text-xs text-text-primary line-clamp-2">{title}</p>
-      </div>
-    </a>
-  );
+      );
+    } else {
+      item = (
+        <BookmarkFolderListItem
+          dataTestId={dataTestId}
+          title={title}
+          onClick={onClickAction}
+        />
+      );
+    }
+  } else {
+    const { dataTestId, title, url } = props;
+    if (viewMode === BookmarkDisplayMode.Grid) {
+      item = (
+        <BookmarkGridItem dataTestId={dataTestId} title={title} url={url} />
+      );
+    } else {
+      item = (
+        <BookmarkListItem dataTestId={dataTestId} title={title} url={url} />
+      );
+    }
+  }
+
+  return <div className="mt-2">{item}</div>;
 };

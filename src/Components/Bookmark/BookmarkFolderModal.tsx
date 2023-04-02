@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { IconButton } from '../IconButton/IconButton';
 import { CrossIcon, FolderIcon } from '../IconButton/Icons/Icons';
 import { BookmarkItem } from './Items/BookmarkItem';
-import { BookmarkFolderItem } from './Items/BookmarkFolderItem';
+import { BookmarkType } from '../../types.d';
 
 export interface BookmarkFolderModalProps {
   dataTestId?: string;
@@ -20,10 +20,11 @@ export const BookmarkFolderModal = ({
 
   return (
     <div className="relative" data-testid={dataTestId}>
-      <BookmarkFolderItem
+      <BookmarkItem
         dataTestId="bookmark-folder-item"
-        name={title}
-        onClick={() => setShow(true)}
+        title={title}
+        onClickAction={() => setShow(true)}
+        type={BookmarkType.Folder}
       />
       {show && (
         <div
@@ -69,6 +70,7 @@ export const BookmarkFolderModal = ({
                                 key={`bookmark_item-${content.id}`}
                                 title={content.title}
                                 url={content.url}
+                                type={BookmarkType.Item}
                               />
                             );
                           } else {
