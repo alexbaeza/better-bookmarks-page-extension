@@ -1,11 +1,12 @@
 import { GridIcon, ListIcon } from '../Components/IconButton/Icons/Icons';
 import { BookmarkDisplayMode } from '../types.d';
 import React from 'react';
-import { useAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { viewModeAtom } from '../Context/atoms';
 
 export const ViewModeToggle = () => {
-  const [viewMode, setViewMode] = useAtom(viewModeAtom);
+  const viewMode = useAtomValue(viewModeAtom);
+  const setViewMode = useSetAtom(viewModeAtom);
   const toggleViewMode = () => {
     if (viewMode === BookmarkDisplayMode.Grid) {
       setViewMode(BookmarkDisplayMode.List);

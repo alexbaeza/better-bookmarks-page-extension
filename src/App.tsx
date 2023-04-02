@@ -24,13 +24,10 @@ export const App = () => {
   useEffect(() => {
     async function fetchBookmarks() {
       const bookMarksResponse = await Bookmarks.getFolders();
-
-      console.log('called');
       setData(bookMarksResponse);
     }
-
     fetchBookmarks();
-  }, [data]);
+  }, [backgroundOverlayOpacity, selectedBackground, theme]);
 
   let bookmarkFolders: IBookmarkItem[] = [];
 
