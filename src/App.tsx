@@ -58,18 +58,21 @@ export const App = () => {
     bookmarkFolders.push(...bookmarksWithoutLevel1s, ...level1Folders);
   }
 
-  const backgroundStyle = {
-    opacity: `${backgroundOverlayOpacity}%`,
-    backgroundImage: `url('${selectedBackground}')`
-  };
-
   return (
     <div className={theme}>
       <div className=" min-h-screen bg-primary-dark">
         <div
           data-testid="background"
           className="absolute top-0 right-0 h-full w-full flex-col bg-repeat p-1.5"
-          style={backgroundStyle}
+          style={{
+            opacity: `${backgroundOverlayOpacity}%`,
+            backgroundImage: `url('${selectedBackground}')`,
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%'
+          }}
         />
         <SettingsModal />
         <Greeting />
