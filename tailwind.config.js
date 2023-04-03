@@ -118,7 +118,6 @@ module.exports = {
   darkMode: 'class',
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   plugins: [
-    require('@tailwindcss/line-clamp'),
     require('tailwindcss-themer')({
       defaultTheme: {
         extend: {

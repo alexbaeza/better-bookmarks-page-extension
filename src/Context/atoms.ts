@@ -22,7 +22,7 @@ export const backgroundOverlayOpacityAtom = atomWithStorage<number>(
 
 export const greetingEnabledAtom = atomWithStorage<boolean>(
   settings.greetingEnabled,
-  false
+  true
 );
 export const greetingNameAtom = atomWithStorage<string>(
   settings.greetingName,
