@@ -7,7 +7,7 @@
   <b>Download:</b>
 <br><br>
 <a href="https://addons.mozilla.org/firefox/addon/better-bookmarks-page" target="_blank"><img src="docs/firefox.svg" alt="Download For Firefox"></a>
-<a href="https://chrome.google.com/webstore/detail/better-bookmarks-page" target="_blank"><img src="docs/chrome.svg" alt="Download For Chrome"></a>
+<a href="https://chrome.google.com/webstore/detail/better-bookmarks-page/feefhdkjeppmjmkhedchnjpfnnnbgeij" target="_blank"><img src="docs/chrome.svg" alt="Download For Chrome"></a>
 <br><br>
 <a href="https://www.buymeacoffee.com/alexbaeza" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 109px !important;" ></a>
 </p>
