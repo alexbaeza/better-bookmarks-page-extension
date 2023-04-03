@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   BookmarkFolderRoot,
   IBookmarkItem
@@ -12,22 +12,18 @@ import {
   backgroundOverlayOpacityAtom,
   themeAtom
 } from './Context/atoms';
-import { Bookmarks } from './Data/bookmarks';
 import { ViewModeToggle } from './Sections/ViewModeToggle';
+import { useBookmarks } from './Hooks/useBookmarks';
 
 export const App = () => {
-  const [data, setData] = useState<IBookmarkItem[]>();
+  const { data, loading } = useBookmarks();
   const selectedBackground = useAtomValue(backgroundOverlayAtom);
   const theme = useAtomValue(themeAtom);
   const backgroundOverlayOpacity = useAtomValue(backgroundOverlayOpacityAtom);
 
-  useEffect(() => {
-    async function fetchBookmarks() {
-      const bookMarksResponse = await Bookmarks.getFolders();
-      setData(bookMarksResponse);
-    }
-    fetchBookmarks();
-  }, [backgroundOverlayOpacity, selectedBackground, theme]);
+  if (loading) {
+    return <p>Loading</p>;
+  }
 
   let bookmarkFolders: IBookmarkItem[] = [];
 

@@ -11,12 +11,12 @@ if (window.browser && window.browser.runtime) {
   console.log('Detected Chrome browser');
   browser = window.chrome;
 }
-
+const isDevelopmentMode = process.env.NODE_ENV === 'development';
 export class Bookmarks {
   static async getFolders(): Promise<IBookmarkItem[]> {
     // This will return the root folder and all sub-folders
     let tree;
-    if (process.env.NODE_ENV === 'development') {
+    if (isDevelopmentMode) {
       console.warn('Detected Development environment: Using mock data');
       //Use mock data when in development mode
       tree = mockData;
