@@ -2,6 +2,21 @@
   "name": "better-bookmarks-page-extension",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "start": "NODE_ENV=development react-scripts start",
+    "build": "react-scripts build",
+    "build:all": "yarn build && yarn build:chrome && yarn build:firefox",
+    "build:chrome": "yarn build:manifest:chrome && yarn build:package:chrome",
+    "build:firefox": "yarn build:manifest:firefox && yarn build:package:firefox",
+    "build:manifest:chrome": "mv build/manifest-chrome.json build/manifest.json",
+    "build:manifest:firefox": "mv build/manifest-firefox.json build/manifest.json",
+    "build:package:chrome": "pushd build; zip -r ./release/extension-chrome.zip ./* -x 'manifest-*' -x 'release/*'; popd",
+    "build:package:firefox": "pushd build; zip -r ./release/extension-firefox.zip ./* -x 'manifest-*' -x 'release/*'; popd",
+    "lint": "eslint ./src",
+    "lint:fix": "yarn lint --fix",
+    "test": "jest --watchAll=false",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@types/chrome": "^0.0.227",
     "@types/firefox-webext-browser": "^111.0.0",
@@ -38,14 +53,6 @@
     "tailwindcss-themer": "^3.0.1",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1"
-  },
-  "scripts": {
-    "start": "NODE_ENV=development react-scripts start",
-    "build": "react-scripts build",
-    "lint": "eslint ./src",
-    "lint:fix": "yarn lint --fix",
-    "test": "jest --watchAll=false",
-    "eject": "react-scripts eject"
   },
   "browserslist": {
     "production": [

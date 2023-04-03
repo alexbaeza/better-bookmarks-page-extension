@@ -4,15 +4,22 @@
   "version": "1.2.3",
   "manifest_version": 3,
   "homepage_url": "https://github.com/alexbaeza/better-bookmarks-page-extension",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "better-bookmarks-page-extension@alexbaeza.github.com"
+    }
+  },
   "icons": {
     "16": "icons/logo16.png",
     "32": "icons/logo32.png",
     "48": "icons/logo48.png",
     "128": "icons/logo128.png"
   },
-  "chrome_url_overrides": {
-    "newtab": "index.html",
+  "chrome_settings_overrides" : {
     "homepage": "index.html"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
   },
   "permissions": [
     "bookmarks"
