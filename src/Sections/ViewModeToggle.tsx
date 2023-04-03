@@ -10,7 +10,7 @@ export const ViewModeToggle = () => {
   const toggleViewMode = () => {
     if (viewMode === BookmarkDisplayMode.Grid) {
       setViewMode(BookmarkDisplayMode.List);
-    } else {
+    } else if (viewMode === BookmarkDisplayMode.List) {
       setViewMode(BookmarkDisplayMode.Grid);
     }
   };

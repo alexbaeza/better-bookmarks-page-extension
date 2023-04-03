@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import * as jotai from 'jotai/index';
 import { when } from 'jest-when';
 import { viewModeAtom } from '../../../src/Context/atoms';
@@ -6,14 +6,16 @@ import { BookmarkDisplayMode } from '../../../src/types.d';
 import { ViewModeToggle } from '../../../src/Sections/ViewModeToggle';
 
 describe('ViewModeToggle', () => {
-  let spy: jest.SpyInstance;
+  let useAtomValueSpy: jest.SpyInstance;
+  let useSetAtomSpy: jest.SpyInstance;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    spy = jest.spyOn(jotai, 'useAtom');
-    when(spy)
+    useAtomValueSpy = jest.spyOn(jotai, 'useAtomValue');
+    useSetAtomSpy = jest.spyOn(jotai, 'useSetAtom');
+    when(useAtomValueSpy)
       .calledWith(viewModeAtom)
-      .mockReturnValue([BookmarkDisplayMode.Grid, jest.fn() as never]);
+      .mockReturnValue(BookmarkDisplayMode.Grid);
   });
 
   it('renders without errors', () => {
@@ -27,9 +29,9 @@ describe('ViewModeToggle', () => {
   });
 
   it('shows the list view mode state', () => {
-    when(spy)
+    when(useAtomValueSpy)
       .calledWith(viewModeAtom)
-      .mockReturnValue([BookmarkDisplayMode.List, jest.fn() as never]);
+      .mockReturnValue(BookmarkDisplayMode.List);
 
     const { getByTestId } = render(<ViewModeToggle />);
     const toggleCheckbox = getByTestId('view-mode-toggle');
@@ -37,14 +39,17 @@ describe('ViewModeToggle', () => {
   });
 
   it('updates the view mode state correctly when toggled', () => {
-    const setViewMode = jest.fn();
-    when(spy)
+    when(useAtomValueSpy)
       .calledWith(viewModeAtom)
-      .mockReturnValue([BookmarkDisplayMode.List, setViewMode]);
+      .mockReturnValue(BookmarkDisplayMode.List);
 
+    const useSetAtomMock = jest.fn();
+    when(useSetAtomSpy)
+      .calledWith(viewModeAtom)
+      .mockReturnValue(useSetAtomMock);
     const { getByTestId } = render(<ViewModeToggle />);
     const toggleCheckbox = getByTestId('view-mode-toggle');
     fireEvent.click(toggleCheckbox);
-    expect(setViewMode).toHaveBeenCalledWith(BookmarkDisplayMode.Grid);
+    expect(useSetAtomMock).toHaveBeenCalledWith(BookmarkDisplayMode.Grid);
   });
 });

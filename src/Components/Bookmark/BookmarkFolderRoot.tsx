@@ -33,14 +33,12 @@ export const BookmarkFolderRoot = ({
   const items = folderContents.map((content, key) => {
     if (content.children) {
       return (
-        <div className="mt-2">
-          <BookmarkFolderModal
-            dataTestId={`bookmark-folder-content-modal-${key}`}
-            key={`bookmark-folder-content-modal-${content.id}`}
-            title={content.title}
-            folderContents={content.children}
-          />
-        </div>
+        <BookmarkFolderModal
+          dataTestId={`bookmark-folder-content-modal-${key}`}
+          key={`bookmark-folder-content-modal-${content.id}`}
+          title={content.title}
+          folderContents={content.children}
+        />
       );
     } else if (content.url) {
       return (
