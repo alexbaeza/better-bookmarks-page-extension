@@ -13,9 +13,9 @@ export const App = () => {
 
   return (
     <div className={theme}>
-      <div className="relative min-h-screen bg-primary-dark">
+      <section className="min-h-screen bg-primary-dark">
         <Background />
-        <div className="absolute">
+        <div className="absolute min-h-screen bg-primary-dark">
           <SettingsModal />
           <Greeting />
           <ViewModeToggle />
@@ -26,7 +26,7 @@ export const App = () => {
             <Footer />
           </section>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

@@ -12,9 +12,10 @@ export const Content = () => {
     return <p>Loading</p>;
   }
 
-  let bookmarkFolders: IBookmarkItem[] = [];
+  let items;
 
   if (data) {
+    const bookmarkFolders = [];
     // Find all level-1 folders
     const level1Folders: IBookmarkItem[] = data.flatMap((folder) => {
       if (folder.children) {
@@ -36,32 +37,35 @@ export const Content = () => {
 
     // Add level-1 folders to the bookmark folders array
     bookmarkFolders.push(...bookmarksWithoutLevel1s, ...level1Folders);
+
+    items = (
+      <div className="w-full gap-12 sm:columns-1 md:columns-2 lg:columns-3 xl:columns-3 2xl:columns-4">
+        {bookmarkFolders
+          .filter((folder) => folder.children?.length)
+          .map((folder) => {
+            //Safe-guard
+            const children = folder.children ?? [];
+            return (
+              <BookmarkFolderRoot
+                name={folder.title}
+                folderContents={children}
+                key={`bookmark_root_folder_${folder.id}`}
+              />
+            );
+          })}
+      </div>
+    );
+  } else {
+    items = (
+      <p className="text-sm italic text-text-primary">
+        Looks like you don't have any Bookmarks, add some to see the magic! 🪄✨
+      </p>
+    );
   }
 
   return (
     <div className="mx-auto flex flex-col justify-center p-2 align-middle">
-      {bookmarkFolders.length ? (
-        <div className="w-full gap-12 sm:columns-1 md:columns-2 lg:columns-3 xl:columns-3 2xl:columns-4">
-          {bookmarkFolders
-            .filter((folder) => folder.children?.length)
-            .map((folder) => {
-              //Safe-guard
-              const children = folder.children ?? [];
-              return (
-                <BookmarkFolderRoot
-                  name={folder.title}
-                  folderContents={children}
-                  key={`bookmark_root_folder_${folder.id}`}
-                />
-              );
-            })}
-        </div>
-      ) : (
-        <p className="text-sm italic text-text-primary">
-          Looks like you don't have any Bookmarks, add some to see the magic!
-          🪄✨
-        </p>
-      )}
+      {items}
     </div>
   );
 };
