@@ -78,7 +78,7 @@ export const BookmarkFolderRoot = ({
           ) : (
             <div
               data-testid="display-mode-container"
-              className="grid grid-flow-row-dense grid-cols-4 grid-cols-4 gap-4 p-4"
+              className="grid grid-flow-row-dense grid-cols-4 grid-cols-4 p-4 md:gap-4 lg:gap-20"
             >
               {items}
             </div>

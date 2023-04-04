@@ -13,9 +13,9 @@ export const BookmarkFolderGridItem = ({
   title
 }: BookmarkFolderGridItemProps) => {
   return (
-    <div>
+    <div className="flex w-20 flex-col items-center justify-center rounded-lg bg-primary-dark-contrast bg-opacity-20 p-2 transition duration-300 ease-out hover:scale-105">
       <button data-testid={dataTestId} onClick={onClick}>
-        <div className="flex h-16 w-16 cursor-pointer flex-col items-center justify-center rounded-lg bg-secondary-dark transition duration-300 ease-out hover:scale-105 hover:bg-secondary-dark-active">
+        <div className="flex h-16 w-16 flex-col items-center justify-center rounded-lg bg-secondary-dark hover:bg-secondary-dark-active">
           <FolderIcon
             className="text-text-secondary"
             dataTestId="folder-icon"
@@ -23,8 +23,8 @@ export const BookmarkFolderGridItem = ({
           />
         </div>
       </button>
-      <div className="flex cursor-pointer items-center justify-center">
-        <p className="text-xs text-text-primary line-clamp-2">{title}</p>
+      <div className="mt-1 flex cursor-pointer items-center justify-center">
+        <p className="line-clamp-2 text-xs text-text-primary">{title}</p>
       </div>
     </div>
   );

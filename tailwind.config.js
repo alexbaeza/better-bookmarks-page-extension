@@ -1,19 +1,21 @@
 const lightTheme = {
   'primary-dark': '#F0F5F9',
   'primary-dark-active': '#E1E8ED',
+  'primary-dark-contrast': '#9797e1',
   'secondary-dark': '#9797e1',
   'secondary-dark-active': '#CFD6DC',
   'secondary-dark-muted': '#CDD3D8',
-  accent: '#9797e1',
+  accent: '#8282e0',
   'text-primary': '#3C4858',
   'text-primary-muted': '#95A5A6',
-  'text-secondary': '#576574',
+  'text-secondary': '#F0F5F9',
   'text-secondary-muted': '#8395A7'
 };
 
 const redTheme = {
   'primary-dark': '#FADBD8',
   'primary-dark-active': '#F1948A',
+  'primary-dark-contrast': '#F8FAFC',
   'secondary-dark': '#E6B0AA',
   'secondary-dark-active': '#D98880',
   'secondary-dark-muted': '#d59898',
@@ -27,6 +29,7 @@ const redTheme = {
 const orangeTheme = {
   'primary-dark': '#F8C471',
   'primary-dark-active': '#F0B27A',
+  'primary-dark-contrast': '#F8FAFC',
   'secondary-dark': '#EB984E',
   'secondary-dark-active': '#DC7633',
   'secondary-dark-muted': '#ffcdbd',
@@ -39,6 +42,7 @@ const orangeTheme = {
 const greenTheme = {
   'primary-dark': '#daffe9',
   'primary-dark-active': '#73C6B6',
+  'primary-dark-contrast': '#F8FAFC',
   'secondary-dark': '#58D68D',
   'secondary-dark-active': '#45B39D',
   'secondary-dark-muted': '#d5fff7',
@@ -52,6 +56,7 @@ const greenTheme = {
 const tealTheme = {
   'primary-dark': '#73C6B6',
   'primary-dark-active': '#5DADE2',
+  'primary-dark-contrast': '#F8FAFC',
   'secondary-dark': '#85C1E9',
   'secondary-dark-active': '#1F618D',
   'secondary-dark-muted': '#d6eeff',
@@ -64,6 +69,7 @@ const tealTheme = {
 const blueTheme = {
   'primary-dark': '#AED6F1',
   'primary-dark-active': '#85C1E9',
+  'primary-dark-contrast': '#F8FAFC',
   'secondary-dark': '#5DADE2',
   'secondary-dark-active': '#3498DB',
   'secondary-dark-muted': '#acddff',
@@ -77,6 +83,7 @@ const blueTheme = {
 const indigoTheme = {
   'primary-dark': '#B0BEC5',
   'primary-dark-active': '#9FA8DA',
+  'primary-dark-contrast': '#F8FAFC',
   'secondary-dark': '#7986CB',
   'secondary-dark-active': '#5C6BC0',
   'secondary-dark-muted': '#b2befc',
@@ -90,6 +97,7 @@ const indigoTheme = {
 const purpleTheme = {
   'primary-dark': '#9c9cf3',
   'primary-dark-active': '#EDE7F6',
+  'primary-dark-contrast': '#F8FAFC',
   'secondary-dark': '#9575CD',
   'secondary-dark-active': '#673AB7',
   'secondary-dark-muted': '#bb9af6',
@@ -103,13 +111,14 @@ const purpleTheme = {
 const pinkTheme = {
   'primary-dark': '#FCE4EC',
   'primary-dark-active': '#F8BBD0',
+  'primary-dark-contrast': '#F48FB1',
   'secondary-dark': '#F06292',
   'secondary-dark-active': '#EC407A',
   'secondary-dark-muted': '#f8a6c2',
   accent: '#FF80AB',
   'text-primary': '#FF80AB',
   'text-primary-muted': '#D1D5DB',
-  'text-secondary': '#F48FB1',
+  'text-secondary': '#ffffff',
   'text-secondary-muted': '#F8BBD0'
 };
 
@@ -123,6 +132,7 @@ module.exports = {
         extend: {
           colors: {
             'primary-dark': '#212839',
+            'primary-dark-contrast': '#F8FAFC',
             'primary-dark-active': '#222838',
             'secondary-dark': '#2e3649',
             'secondary-dark-active': '#283041',
@@ -130,7 +140,7 @@ module.exports = {
             accent: '#5251f6',
             'text-primary': '#F8FAFC',
             'text-primary-muted': '#4B5563',
-            'text-secondary': '#919bb7',
+            'text-secondary': '#F8FAFC',
             'text-secondary-muted': '#4B5563'
           }
         }

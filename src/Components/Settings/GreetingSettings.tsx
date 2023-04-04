@@ -14,7 +14,7 @@ export const GreetingSettings = ({ dataTestId }: GreetingSettingsProps) => {
   };
 
   const inputClassEnabled =
-    'mb-6 block w-full rounded-lg border border-secondary-dark bg-secondary-dark p-2.5 text-sm text-text-primary placeholder-gray-400 focus:border-primary focus:border-primary focus:ring-4 focus:ring-primary';
+    'mb-6 block w-full rounded-lg border border-secondary-dark bg-secondary-dark p-2.5 text-sm text-text-secondary placeholder-gray-400 focus:border-primary focus:border-primary focus:ring-4 focus:ring-primary';
   const inputClassDisabled =
     'mb-6 block w-full cursor-not-allowed rounded-lg border border-secondary-dark bg-secondary-dark-muted p-2.5 text-sm text-text-primary-muted';
 
@@ -32,7 +32,7 @@ export const GreetingSettings = ({ dataTestId }: GreetingSettingsProps) => {
             className="peer sr-only"
             defaultChecked={greetingEnabled}
           />
-          <div className="peer h-6 w-11 rounded-full border-gray-600 bg-gray-700 after:absolute after:top-0.5 after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-accent peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-accent"></div>
+          <div className="peer h-6 w-11 rounded-full border-primary-dark bg-primary-dark-active after:absolute after:top-0.5 after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-accent peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-accent"></div>
         </label>
       </div>
       <label

@@ -90,7 +90,6 @@ describe('BookmarkFolderRoot', () => {
 
     const bookmarkItems = screen.getAllByTestId(/bookmark-item-*/);
     expect(bookmarkItems.length).toBe(1);
-    expect(bookmarkItems[0]).toHaveTextContent('Bookmark 1');
   });
 
   it('renders all the bookmark items in the folder in list mode', () => {

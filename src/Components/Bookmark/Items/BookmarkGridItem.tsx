@@ -15,18 +15,20 @@ export const BookmarkGridItem = ({
   url
 }: BookmarkGridItemProps) => {
   return (
-    <a data-testid={dataTestId} href={url}>
-      <div className="mx-auto flex h-16 w-16 transform cursor-pointer items-center justify-center rounded-lg bg-secondary-dark transition duration-300 ease-out hover:scale-105">
-        <ImageWithFallback
-          data-testid="image-with-fallback"
-          className="h-12 w-12 overflow-hidden rounded-lg"
-          src={faviconFromUrl(url)}
-          alt={`Bookmark item for ${title}`}
-        />
+    <div className="flex w-20 flex-col items-center justify-center rounded-lg bg-primary-dark-contrast bg-opacity-20 p-2 transition duration-300 ease-out hover:scale-105">
+      <a data-testid={dataTestId} href={url}>
+        <div className="mx-auto flex h-16 w-16 transform cursor-pointer items-center justify-center rounded-lg bg-secondary-dark  hover:bg-secondary-dark-active">
+          <ImageWithFallback
+            data-testid="image-with-fallback"
+            className="h-12 w-12 overflow-hidden rounded-lg"
+            src={faviconFromUrl(url)}
+            alt={`Bookmark item for ${title}`}
+          />
+        </div>
+      </a>
+      <div className="mt-1 flex cursor-pointer items-center justify-center">
+        <p className="line-clamp-2 text-xs text-text-primary">{title}</p>
       </div>
-      <div className="flex cursor-pointer items-center justify-center">
-        <p className="text-xs text-text-primary line-clamp-2">{title}</p>
-      </div>
-    </a>
+    </div>
   );
 };

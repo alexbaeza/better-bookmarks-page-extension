@@ -17,7 +17,7 @@ export const BookmarkListItem = ({
   return (
     <a data-testid={dataTestId} href={url}>
       <div className="flex cursor-pointer flex-row rounded-lg bg-secondary-dark transition duration-300 ease-out hover:scale-105 hover:bg-secondary-dark-active">
-        <div className="flex h-10 w-10 flex-none transform items-center justify-center rounded-lg bg-secondary-dark">
+        <div className="flex h-10 w-10 flex-none transform items-center justify-center rounded-l-lg bg-primary-dark-contrast bg-opacity-20">
           <ImageWithFallback
             data-testid="image-with-fallback"
             className="h-6 w-6 rounded-lg"
@@ -26,7 +26,7 @@ export const BookmarkListItem = ({
           />
         </div>
         <div className="flex cursor-pointer items-center justify-center pl-3">
-          <p className="text-xs text-text-primary line-clamp-2">{title}</p>
+          <p className="line-clamp-2 text-xs text-text-secondary">{title}</p>
         </div>
       </div>
     </a>
