@@ -4,7 +4,8 @@ import { mockData } from './mock-data';
 let browser: any;
 
 // Check if browser is firefox or chrome
-if (window.browser && window.browser.runtime) {
+let userAgent = navigator.userAgent;
+if (userAgent.match(/firefox|fxios/i)) {
   console.log('Detected Firefox browser');
   browser = window.browser;
 } else {
@@ -12,6 +13,7 @@ if (window.browser && window.browser.runtime) {
   browser = window.chrome;
 }
 const isDevelopmentMode = process.env.NODE_ENV === 'development';
+
 export class Bookmarks {
   static async getFolders(): Promise<IBookmarkItem[]> {
     // This will return the root folder and all sub-folders

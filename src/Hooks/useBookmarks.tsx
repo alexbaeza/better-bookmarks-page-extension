@@ -8,10 +8,14 @@ export const useBookmarks = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      Bookmarks.getFolders()
-        .then((response) => setData(response))
-        .catch((err) => console.error(err));
-      setLoading(false);
+      return Bookmarks.getFolders()
+        .then((response) => {
+          setData(response);
+        })
+        .catch((err) => console.error(err))
+        .finally(() => {
+          setLoading(false);
+        });
     };
 
     fetchData();

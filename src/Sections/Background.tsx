@@ -17,7 +17,7 @@ export const Background = () => {
       style={{
         opacity: `${backgroundOverlayOpacity}%`,
         backgroundImage: `url('${selectedBackground}')`,
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         right: 0
       }}
