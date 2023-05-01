@@ -18,7 +18,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.228",
+    "@types/chrome": "^0.0.234",
     "@types/firefox-webext-browser": "^111.0.1",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.11",
