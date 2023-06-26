@@ -2122,10 +2122,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/chrome@^0.0.228":
-  version "0.0.228"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.228.tgz#e507fe23ecbc7369774520255c1b7011b30ceced"
-  integrity sha512-rDmyVEF+l9H+6FQYqsEGqQOjBw/uaSx6KJ6o47FwbQmPPcskmt8XlPbKjy5KeQXU3ZLiV2x45Fk4kdtRMSghfQ==
+"@types/chrome@^0.0.238":
+  version "0.0.238"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.238.tgz#a21105960077402fcc478d08ced47ae482c394cf"
+  integrity sha512-WManYZwAkCjaBcJXV/Dj/UwGOUm1qFpqyasovWmqSlvbTWzjYFUUZW4IRnZsjxmu2r5VtNWWHexgFcHVFbWGuQ==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
