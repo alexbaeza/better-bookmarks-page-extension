@@ -26,6 +26,7 @@ export const ViewModeToggle = () => {
             type="checkbox"
             checked={viewMode === BookmarkDisplayMode.Grid}
             className="peer sr-only"
+            readOnly
           />
           <div className="peer h-6 w-11 rounded-full border-primary-dark bg-primary-dark-active after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-accent peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-accent"></div>
         </label>
