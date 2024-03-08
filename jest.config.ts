@@ -1,9 +1,7 @@
-export default {
+/** @type {import('ts-jest').JestConfigWithTsJest} */
+module.exports = {
   testEnvironment: 'jsdom',
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest'
-  },
+  preset: 'ts-jest',
   collectCoverageFrom: ['src/**/*.tsx'],
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  moduleDirectories: ['node_modules', 'src']
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts']
 };

@@ -39,11 +39,11 @@ describe('App', () => {
     jest.resetAllMocks();
   });
 
-  it('renders without errors', async () => {
+  it('renders without errors', () => {
     render(<App />);
   });
 
-  it('displays a greeting message', async () => {
+  it('displays a greeting message', () => {
     const { getByText } = render(<App />);
 
     expect(
@@ -51,7 +51,7 @@ describe('App', () => {
     ).toBeInTheDocument();
   });
 
-  it('displays a message if there are no bookmarks', async () => {
+  it('displays a message if there are no bookmarks', () => {
     const { getByText } = render(<App />);
     expect(
       getByText(
@@ -60,7 +60,7 @@ describe('App', () => {
     ).toBeInTheDocument();
   });
 
-  it('displays bookmark folders if there are any', async () => {
+  it('displays bookmark folders if there are any', () => {
     when(useBookmarksSpy).mockReturnValue({
       data: [
         {
@@ -89,14 +89,14 @@ describe('App', () => {
     expect(getByText('Bookmark 1')).toBeInTheDocument();
   });
 
-  it('displays the selected background image', async () => {
+  it('displays the selected background image', () => {
     const { getByTestId } = render(<App />);
     expect(getByTestId('background')).toHaveStyle({
       backgroundImage: "url('background-image.png')"
     });
   });
 
-  it('displays the selected background image opacity', async () => {
+  it('displays the selected background image opacity', () => {
     render(<App />);
 
     expect(screen.getByTestId('background')).toHaveStyle({
@@ -104,7 +104,7 @@ describe('App', () => {
     });
   });
 
-  it('displays a loading message while data is being fetched', async () => {
+  it('displays a loading message while data is being fetched', () => {
     when(useBookmarksSpy).mockReturnValue({
       data: [],
       loading: true
