@@ -2,7 +2,6 @@
 
 #### _A better view of your bookmarks as a start page for quick access._
 
-
 <p align="center">
   <b>Download:</b>
 <br><br>
@@ -12,12 +11,14 @@
 <a href="https://www.buymeacoffee.com/alexbaeza" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 109px !important;" ></a>
 </p>
 
-
 #### Introducing Better Bookmarks Page
 
-Finding and viewing bookmarks has never been easier with a user-friendly start page. This extension seamlessly integrates with your browser's existing bookmark manager, ensuring a smooth and uninterrupted workflow.
+Finding and viewing bookmarks has never been easier with a user-friendly start page. This extension
+seamlessly integrates with your browser's existing bookmark manager, ensuring a smooth and
+uninterrupted workflow.
 
-Better Bookmarks Page uses the bookmarks API, making it fully compatible with all Chromium-based browsers.
+Better Bookmarks Page uses the bookmarks API, making it fully compatible with all Chromium-based
+browsers.
 
 #### The Why?
 
@@ -53,3 +54,25 @@ Builds an optimized production build of the extension in the `build` folder.\
 The build for the best performance.
 
 The build is minified and filenames include hashes.
+
+## Releasing the extension
+
+_I am attempting a semi-automated release creation, currently the automation takes care of building,
+updating release versions and creating the packages but does not automatically publish to the
+firefox and chrome stores._
+
+### `yarn release patch`
+
+This will update the patch version by 0.0.1 and create the package to be published
+under `build/release/`
+
+### `yarn release minor`
+
+This will update the patch version by 0.1.0 and create the package to be published
+under `build/release/`
+
+### `yarn release major`
+
+This will update the patch version by 1.0.0 and create the package to be published
+under `build/release/`
+

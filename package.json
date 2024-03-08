@@ -1,6 +1,6 @@
 {
   "name": "better-bookmarks-page-extension",
-  "version": "1.2.6",
+  "version": "1.3.0",
   "private": true,
   "scripts": {
     "start": "NODE_ENV=development react-scripts start",
@@ -12,6 +12,7 @@
     "build:manifest:firefox": "mv build/manifest-firefox.json build/manifest.json",
     "build:package:chrome": "pushd build; zip -r ./release/extension-chrome.zip ./* -x 'manifest-*' -x 'release/*'; popd",
     "build:package:firefox": "pushd build; zip -r ./release/extension-firefox.zip ./* -x 'manifest-*' -x 'release/*'; popd",
+    "release": "./scripts/create-release.sh",
     "lint": "eslint ./src",
     "lint:fix": "yarn lint --fix",
     "test": "jest --watchAll=false",
