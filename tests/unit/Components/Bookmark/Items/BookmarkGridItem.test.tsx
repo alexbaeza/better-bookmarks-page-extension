@@ -10,7 +10,7 @@ describe('BookmarkGridItem', () => {
     expect(screen.getByText(title)).toBeInTheDocument();
     expect(screen.getByTestId('image-with-fallback')).toHaveAttribute(
       'src',
-      `https://puny-yellow-llama.faviconkit.com/example.com/256`
+      `https://www.google.com/s2/favicons?domain=example.com&sz=256`
     );
   });
 
