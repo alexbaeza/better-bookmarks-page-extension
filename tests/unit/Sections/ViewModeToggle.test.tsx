@@ -22,13 +22,13 @@ describe('ViewModeToggle', () => {
     render(<ViewModeToggle />);
   });
 
-  it('shows the grid view mode state', () => {
+  it('shows the grid view mode state by default', () => {
     const { getByTestId } = render(<ViewModeToggle />);
     const toggleCheckbox = getByTestId('view-mode-toggle');
     expect(toggleCheckbox).toBeChecked();
   });
 
-  it('shows the list view mode state', () => {
+  it('shows the list view mode state from preferences', () => {
     when(useAtomValueSpy)
       .calledWith(viewModeAtom)
       .mockReturnValue(BookmarkDisplayMode.List);
@@ -36,6 +36,16 @@ describe('ViewModeToggle', () => {
     const { getByTestId } = render(<ViewModeToggle />);
     const toggleCheckbox = getByTestId('view-mode-toggle');
     expect(toggleCheckbox).not.toBeChecked();
+  });
+
+  it('shows the grid view mode state from preferences', () => {
+    when(useAtomValueSpy)
+      .calledWith(viewModeAtom)
+      .mockReturnValue(BookmarkDisplayMode.Grid);
+
+    const { getByTestId } = render(<ViewModeToggle />);
+    const toggleCheckbox = getByTestId('view-mode-toggle');
+    expect(toggleCheckbox).toBeChecked();
   });
 
   it('updates the view mode state correctly when toggled', () => {
