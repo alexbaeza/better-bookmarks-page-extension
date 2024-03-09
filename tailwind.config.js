@@ -1,16 +1,27 @@
 const lightTheme = {
   'primary-dark': '#F0F5F9',
   'primary-dark-active': '#E1E8ED',
-  'primary-dark-contrast': '#9797e1',
-  'secondary-dark': '#9797e1',
-  'secondary-dark-active': '#CFD6DC',
+  'primary-dark-contrast': '#0000ff',
+  'secondary-dark': '#7373d3',
+  'secondary-dark-active': '#949b9f',
   'secondary-dark-muted': '#CDD3D8',
   accent: '#8282e0',
-  'text-primary': '#3C4858',
+  'text-primary': '#4f5764',
   'text-primary-muted': '#95A5A6',
   'text-secondary': '#F0F5F9',
-  'text-secondary-muted': '#8395A7'
+  'text-secondary-muted': '#717d8a'
 };
+// 'primary-dark': '#212839',
+//   'primary-dark-contrast': '#F8FAFC',
+//   'primary-dark-active': '#222838',
+//   'secondary-dark': '#2e3649',
+//   'secondary-dark-active': '#283041',
+//   'secondary-dark-muted': '#2e3749',
+//   accent: '#5251f6',
+//   'text-primary': '#F8FAFC',
+//   'text-primary-muted': '#4B5563',
+//   'text-secondary': '#F8FAFC',
+//   'text-secondary-muted': '#4B5563'
 
 const redTheme = {
   'primary-dark': '#FADBD8',
@@ -21,9 +32,9 @@ const redTheme = {
   'secondary-dark-muted': '#d59898',
   accent: '#E57373',
   'text-primary': '#E57373',
-  'text-primary-muted': '#F5B7B1',
-  'text-secondary': '#F5B7B1',
-  'text-secondary-muted': '#F7DC6F'
+  'text-primary-muted': '#95A5A6',
+  'text-secondary': '#F0F5F9',
+  'text-secondary-muted': '#8395A7'
 };
 
 const orangeTheme = {
@@ -48,9 +59,9 @@ const greenTheme = {
   'secondary-dark-muted': '#d5fff7',
   accent: '#b8f3a9',
   'text-primary': '#78b469',
-  'text-primary-muted': '#D1D5DB',
-  'text-secondary': '#76D7C4',
-  'text-secondary-muted': '#82E0AA'
+  'text-primary-muted': '#95A5A6',
+  'text-secondary': '#F0F5F9',
+  'text-secondary-muted': '#8395A7'
 };
 
 const tealTheme = {
@@ -62,9 +73,9 @@ const tealTheme = {
   'secondary-dark-muted': '#d6eeff',
   accent: '#AED6F1',
   'text-primary': '#F8FAFC',
-  'text-primary-muted': '#D1D5DB',
-  'text-secondary': '#A9CCE3',
-  'text-secondary-muted': '#AED6F1'
+  'text-primary-muted': '#95A5A6',
+  'text-secondary': '#F0F5F9',
+  'text-secondary-muted': '#8395A7'
 };
 const blueTheme = {
   'primary-dark': '#AED6F1',
@@ -75,9 +86,9 @@ const blueTheme = {
   'secondary-dark-muted': '#acddff',
   accent: '#6EC6FF',
   'text-primary': '#F8FAFC',
-  'text-primary-muted': '#D1D5DB',
-  'text-secondary': '#A9CCE3',
-  'text-secondary-muted': '#AED6F1'
+  'text-primary-muted': '#95A5A6',
+  'text-secondary': '#F0F5F9',
+  'text-secondary-muted': '#8395A7'
 };
 
 const indigoTheme = {
