@@ -22,7 +22,9 @@ export const BookmarkFolderListItem = ({
             </div>
           </div>
           <div className="flex cursor-pointer items-center justify-center pl-3">
-            <p className="line-clamp-2 text-xs text-text-secondary">{title}</p>
+            <p className="line-clamp-2 text-xs text-text-secondary break-normal">
+              {title}
+            </p>
           </div>
         </div>
       </button>

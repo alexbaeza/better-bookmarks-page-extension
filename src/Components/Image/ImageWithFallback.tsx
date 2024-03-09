@@ -15,14 +15,13 @@ export const ImageWithFallback = ({
   alt,
   ...props
 }: ImageWithFallbackProps) => {
-  const [imgSrc, setImgSrc] = useState<string | undefined>(src);
-  const onError = () => setImgSrc(fallback);
+  const [hasError, setError] = useState<boolean>(false);
 
   return (
     <img
       alt={alt}
-      src={imgSrc ? imgSrc : fallback}
-      onError={onError}
+      src={hasError ? fallback : src}
+      onError={() => setError(true)}
       {...props}
     />
   );

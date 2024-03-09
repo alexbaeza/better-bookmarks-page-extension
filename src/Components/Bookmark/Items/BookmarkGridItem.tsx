@@ -27,7 +27,7 @@ export const BookmarkGridItem = ({
         </div>
       </a>
       <div className="mt-1 flex cursor-pointer items-center justify-center">
-        <p className="line-clamp-2 h-8 min-h-full text-xs text-text-primary">
+        <p className="line-clamp-2 h-8 min-h-full text-xs text-text-primary break-normal">
           {title}
         </p>
       </div>

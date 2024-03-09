@@ -10,7 +10,7 @@ describe('BookmarkGridItem', () => {
     expect(screen.getByText(title)).toBeInTheDocument();
     expect(screen.getByTestId('image-with-fallback')).toHaveAttribute(
       'src',
-      `https://www.google.com/s2/favicons?domain=example.com&sz=256`
+      `https://icons.duckduckgo.com/ip3/example.com.ico`
     );
   });
 

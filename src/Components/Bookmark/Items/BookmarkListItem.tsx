@@ -26,7 +26,9 @@ export const BookmarkListItem = ({
           />
         </div>
         <div className="flex cursor-pointer items-center justify-center pl-3">
-          <p className="line-clamp-2 text-xs text-text-secondary">{title}</p>
+          <p className="line-clamp-2 text-xs text-text-secondary break-normal">
+            {title}
+          </p>
         </div>
       </div>
     </a>
