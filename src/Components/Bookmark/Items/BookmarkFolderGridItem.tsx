@@ -24,7 +24,7 @@ export const BookmarkFolderGridItem = ({
         </div>
       </button>
       <div className="mt-1 flex cursor-pointer items-center justify-center">
-        <p className="line-clamp-2 h-8 min-h-full text-xs text-text-primary break-normal">
+        <p className="line-clamp-2 h-8 min-h-full text-xs text-text-primary break-words">
           {title}
         </p>
       </div>
