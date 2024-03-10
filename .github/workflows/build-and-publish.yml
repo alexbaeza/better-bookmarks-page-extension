@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       update_type:
+        type: choice
         description: 'The type of version update'
         required: true
         options:
