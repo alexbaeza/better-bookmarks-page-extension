@@ -28,16 +28,16 @@ jobs:
           echo "EXTENSION_VERSION=$(./scripts/current-version-check.sh)" >> $GITHUB_ENV
 
       - name: Archive firefox-extension artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: extension-chrome-${{EXTENSION_VERSION}}
-          path: ./build/release/extension-firefox-${{EXTENSION_VERSION}}.zip
+          name: extension-chrome-${EXTENSION_VERSION}
+          path: ./build/release/extension-firefox-${EXTENSION_VERSION}.zip
 
       - name: Archive chrome-extension artifact
         uses: actions/upload-artifact@v4
         with:
-          name: extension-chrome-{{$EXTENSION_VERSION}}
-          path: ./build/release/extension-chrome-{{$EXTENSION_VERSION}}.zip
+          name: extension-chrome-{$EXTENSION_VERSION}
+          path: ./build/release/extension-chrome-{$EXTENSION_VERSION}.zip
 
       - name: Git set identity
         run: |
