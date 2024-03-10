@@ -4,13 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       update_type:
-        description: 'The update type [major/minor/patch]'
+        description: 'The type of version update'
         required: true
-        default: 'patch'
-      publish_artifacts:
-        description: 'Publish artifacts'
-        required: true
-        default: 'true'
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   build-extension:
