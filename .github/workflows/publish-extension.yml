@@ -37,9 +37,6 @@ jobs:
       - name: Print version
         run: |-
           echo ${EXTENSION_VERSION}
-      - name: Debug
-        run: |-
-          ls -la
 
       - name: Archive firefox-extension artifact
         uses: actions/upload-artifact@v4
@@ -50,8 +47,8 @@ jobs:
       - name: Archive chrome-extension artifact
         uses: actions/upload-artifact@v4
         with:
-          name: extension-chrome-{$EXTENSION_VERSION}
-          path: ./build/release/extension-chrome-{$EXTENSION_VERSION}.zip
+          name: extension-chrome-${EXTENSION_VERSION}
+          path: ./build/release/extension-chrome-${EXTENSION_VERSION}.zip
 
       - name: Git set identity
         run: |
