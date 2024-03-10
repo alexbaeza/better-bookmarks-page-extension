@@ -1,0 +1,55 @@
+name: Build and publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      update_type:
+        description: 'The type of version update'
+        required: true
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  build-extension:
+    name: Build extensions artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build Chrome & Firefox Extension
+        run: |-
+          ./scripts/create-release.sh ${{ github.event.inputs.update_type }}
+
+      - name: Obtaining extension version
+        run: |-
+          echo "EXTENSION_VERSION=$(./scripts/current-version-check.sh)" >> $GITHUB_ENV
+
+      - name: Archive firefox-extension artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: extension-chrome-${{EXTENSION_VERSION}}
+          path: ./build/release/extension-firefox-${{EXTENSION_VERSION}}.zip
+
+      - name: Archive chrome-extension artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-chrome-{{$EXTENSION_VERSION}}
+          path: ./build/release/extension-chrome-{{$EXTENSION_VERSION}}.zip
+
+      - name: Git set identity
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Git Merge
+        run: |
+          git add .
+          git commit -m "Bump version to ${{EXTENSION_VERSION}}"
+
+      - name: Git Push
+        run: |
+          git remote set-url origin https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}
+          git push master
