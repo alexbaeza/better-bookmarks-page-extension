@@ -16,7 +16,11 @@ echo "Creating Firefox release"
 mv build/manifest-firefox.json build/manifest.json
 
 echo "Setting Firefox version"
-sed -i '' "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\",/" build/manifest.json
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed -i '' -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\",/" build/manifest.json
+else
+  sed -i -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\",/" build/manifest.json
+fi
 
 echo "Bundling Firefox release"
 
@@ -27,7 +31,11 @@ popd || exit
 echo "Creating Chrome release"
 mv build/manifest-chrome.json build/manifest.json
 echo "Setting Chrome version"
-sed -i '' "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\",/" build/manifest.json
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed -i '' -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\",/" build/manifest.json
+else
+  sed -i -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\",/" build/manifest.json
+fi
 
 echo "Bundling Chrome release"
 pushd build || exit
