@@ -48,7 +48,7 @@ jobs:
       - name: Git Merge
         run: |
           git add .
-          git commit -m "Bump version to ${EXTENSION_VERSION}"
+          git commit -m "Bump version to ${EXTENSION_VERSION} and publish artefacts"
 
       - name: Git Push
         run: |
