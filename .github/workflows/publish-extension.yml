@@ -26,6 +26,9 @@ jobs:
       - name: Unit test
         run: yarn test
 
+      - name: Debug
+        run: ls -l
+
       - name: Build Chrome & Firefox Extension
         run: |-
           ./scripts/create-release.sh ${{ github.event.inputs.update_type }}
