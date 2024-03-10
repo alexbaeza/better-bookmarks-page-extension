@@ -34,6 +34,13 @@ jobs:
         run: |-
           echo "EXTENSION_VERSION=$(./scripts/current-version-check.sh)" >> $GITHUB_ENV
 
+      - name: Print version
+        run: |-
+          echo ${EXTENSION_VERSION}
+      - name: Debug
+        run: |-
+          ls -la
+
       - name: Archive firefox-extension artifact
         uses: actions/upload-artifact@v4
         with:
@@ -51,7 +58,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Git Merge
+      - name: Git Commit Updates
         run: |
           git add .
           git commit -m "Bump version to ${EXTENSION_VERSION} and publish artefacts"
