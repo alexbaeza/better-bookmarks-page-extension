@@ -14,7 +14,7 @@ on:
 
 jobs:
   build-extension:
-    name: Build extensions artifact
+    name: Build extension & create artifacts
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -61,7 +61,7 @@ jobs:
       - name: Git Commit Updates
         run: |
           git add .
-          git commit -m "Bump version to ${EXTENSION_VERSION} and publish artefacts"
+          git commit -m "Bump version to ${EXTENSION_VERSION} and publish artifacts"
 
       - name: Git Push
         run: |
