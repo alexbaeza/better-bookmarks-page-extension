@@ -24,9 +24,7 @@ fi
 
 echo "Bundling Firefox release"
 
-pushd build || exit
-zip -r ./release/extension-firefox-$CURR_VERSION.zip ./* -x 'manifest-*' -x 'release/*'
-popd || exit
+zip -r ./build/release/extension-firefox-$CURR_VERSION.zip ./* -x 'manifest-*' -x 'build/release/*'
 
 echo "Creating Chrome release"
 mv build/manifest-chrome.json build/manifest.json
@@ -38,8 +36,6 @@ else
 fi
 
 echo "Bundling Chrome release"
-pushd build || exit
-zip -r ./release/extension-chrome-$CURR_VERSION.zip ./* -x 'manifest-*' -x 'release/*'
-popd || exit
+zip -r ./build/release/extension-chrome-$CURR_VERSION.zip ./* -x 'manifest-*' -x 'build/release/*'
 
 echo "Completed successfully"
