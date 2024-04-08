@@ -2186,10 +2186,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/chrome@^0.0.262":
-  version "0.0.262"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.262.tgz#7c188d946da51216a558342637393c998bb85dd2"
-  integrity sha512-TOoj3dqSYE13PD2fRuMQ6X6pggEvL9rRk/yOYOyWE6sfqRWxsJm4VoVm+wr9pkr4Sht/M5t7FFL4vXato8d1gA==
+"@types/chrome@^0.0.266":
+  version "0.0.266"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.266.tgz#1ef0c3076ea05489db2a04a057657587920d2390"
+  integrity sha512-QSQWJTL7NjZElvq/6/E5C1+pHgEP8UAJzwoz7M4vSJ7AECt6NNehJ+tU6snnvuTqZOBjFCivvitYo5+8tNPmhg==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
