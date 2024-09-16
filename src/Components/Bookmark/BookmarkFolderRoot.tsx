@@ -8,9 +8,10 @@ import { BookmarkDisplayMode, BookmarkType } from '../../types.d';
 export interface IBookmarkItem {
   id: string;
   title: string;
-  index: number;
+  index?: number;
   dateAdded: number;
-  parentId: string;
+  dateGroupModified?: number;
+  parentId?: string;
   children?: IBookmarkItem[];
   url?: string;
 }
@@ -60,12 +61,12 @@ export const BookmarkFolderRoot = ({
         <div className="font-base mr-2 text-sm uppercase leading-6 tracking-wide text-text-primary">
           {name}
         </div>
-        <div className="min-w-8 flex w-8 items-center justify-center rounded-xl bg-accent text-xs font-bold text-teal-50">
+        <span className="min-w-8 flex w-8 items-center justify-center rounded-xl bg-accent text-xs font-bold text-teal-50">
           {folderContents.length}
-        </div>
+        </span>
       </div>
       <div
-        className={`min-h-64 mb-3 mr-6 block h-auto w-full overflow-hidden rounded-lg border border-4 border-secondary-dark sm:mb-0`}
+        className={`min-h-64 mb-3 mr-6 block h-auto w-full overflow-hidden rounded-lg border-4 border-secondary-dark sm:mb-0`}
       >
         <div className="h-full w-full rounded-lg object-cover ">
           {viewMode === BookmarkDisplayMode.List ? (
@@ -78,7 +79,7 @@ export const BookmarkFolderRoot = ({
           ) : (
             <div
               data-testid="display-mode-container"
-              className="grid grid-flow-row-dense grid-cols-4 gap-4 p-4 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
+              className="grid gap-4 p-4 grid-cols-[repeat(auto-fill,5rem)]"
             >
               {items}
             </div>

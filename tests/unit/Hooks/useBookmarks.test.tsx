@@ -7,7 +7,7 @@ describe('useBookmarks', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    bookmarksSpy = jest.spyOn(Bookmarks, 'getFolders');
+    bookmarksSpy = jest.spyOn(Bookmarks, 'getBookmarksData');
   });
 
   afterEach(() => {

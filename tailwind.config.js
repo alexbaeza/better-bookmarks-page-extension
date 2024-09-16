@@ -150,9 +150,9 @@ module.exports = {
             'secondary-dark-muted': '#2e3749',
             accent: '#5251f6',
             'text-primary': '#F8FAFC',
-            'text-primary-muted': '#4B5563',
+            'text-primary-muted': '#D3D8DE',
             'text-secondary': '#F8FAFC',
-            'text-secondary-muted': '#4B5563'
+            'text-secondary-muted': '#D3D8DE'
           }
         }
       },
