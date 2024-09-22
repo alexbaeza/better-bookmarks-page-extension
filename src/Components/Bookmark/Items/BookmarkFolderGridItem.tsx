@@ -18,7 +18,7 @@ export const BookmarkFolderGridItem = ({
       onClick={onClick}
       className="flex w-20 flex-col items-center justify-center break-all rounded-lg bg-secondary-dark p-2 transition duration-300 ease-out hover:scale-105"
     >
-      <div className="flex size-16 flex-col items-center justify-center rounded-lg bg-primary-dark-contrast bg-opacity-20 hover:bg-secondary-dark-active">
+      <div className="flex size-16 flex-col items-center justify-center rounded-lg bg-primary-dark-contrast/10 hover:bg-secondary-dark-active">
         <FolderIcon
           className="text-text-secondary"
           dataTestId="folder-icon"

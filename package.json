@@ -12,24 +12,24 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.262",
+    "@types/chrome": "^0.0.271",
     "@types/firefox-webext-browser": "^120.0.2",
-    "@types/node": "^20.11.25",
+    "@types/node": "^22.5.5",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "axios": "^1.6.7",
     "jotai": "^2.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^5.4.2",
-    "web-vitals": "^3.5.2"
+    "typescript": "^5.5.4",
+    "web-vitals": "^4.2.3"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "@tailwindcss/line-clamp": "^0.4.4",
-    "@testing-library/dom": "^9.3.4",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.2",
-    "@testing-library/react": "^14.2.1",
+    "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
     "@types/jest-when": "^3.5.5",
@@ -45,13 +45,12 @@
     "jest-when": "^3.6.0",
     "postcss": "^8.4.35",
     "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.12",
+    "prettier-plugin-tailwindcss": "^0.6.6",
     "react-scripts": "^5.0.1",
     "tailwindcss": "^3.4.1",
     "tailwindcss-themer": "^4.0.0",
     "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.2",
-    "typescript-eslint": "^8.6.0"
+    "ts-node": "^10.9.2"
   },
   "browserslist": {
     "production": [

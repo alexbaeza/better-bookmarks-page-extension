@@ -15,9 +15,9 @@ export const BookmarkListItem = ({
   url
 }: BookmarkListItemProps) => {
   return (
-    <a data-testid={dataTestId} href={url}>
-      <div className="flex cursor-pointer flex-row rounded-lg bg-secondary-dark transition duration-300 ease-out hover:scale-105 hover:bg-secondary-dark-active">
-        <div className="flex size-10 flex-none items-center justify-center rounded-l-lg bg-primary-dark-contrast bg-opacity-20">
+    <a data-testid={dataTestId} href={url} className="group/item">
+      <div className="flex cursor-pointer flex-row rounded-lg bg-secondary-dark transition duration-300 ease-out group-hover/item:scale-105 group-hover/item:bg-secondary-dark-active">
+        <div className="flex size-10 flex-none items-center justify-center rounded-l-lg bg-primary-dark-contrast/10">
           <ImageWithFallback
             data-testid="image-with-fallback"
             className="size-6 rounded-lg"
