@@ -1,28 +1,33 @@
-import { useEffect, useState } from 'react';
-import { Bookmarks } from '../Data/bookmarks';
-import { IBookmarkItem } from '../Components/Bookmark/BookmarkFolderRoot';
+import { useEffect } from 'react';
+import { useAppStateContext } from '../Context/app-state-context';
 
 export const useBookmarks = () => {
-  const [data, setData] = useState<IBookmarkItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    isLoading,
+    error,
+    providerInitialised,
+    getBookmarks,
+    bookmarks,
+    currentPage,
+    setCurrentPage,
+    filteredData
+  } = useAppStateContext();
 
   useEffect(() => {
-    const fetchData = async () => {
-      return Bookmarks.getFolders()
-        .then((response) => {
-          setData(response);
-        })
-        .catch((err) => console.error(err))
-        .finally(() => {
-          setLoading(false);
-        });
-    };
-
-    fetchData();
+    if (providerInitialised) {
+      return;
+    }
+    getBookmarks();
+    // eslint-disable-next-line
   }, []);
 
   return {
-    data,
-    loading
+    bookmarks,
+    currentPage,
+    getBookmarks,
+    setCurrentPage,
+    filteredData,
+    error,
+    isLoading
   };
 };

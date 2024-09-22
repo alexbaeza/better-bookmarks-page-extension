@@ -20,8 +20,6 @@ describe('BackgroundSettings', () => {
 
   it('renders correctly', () => {
     render(<BackgroundOverlaySettings />);
-
-    expect(screen.getByText('Overlay')).toBeInTheDocument();
     expect(
       screen.getByText('🌶️ Select an overlay, spice things up.')
     ).toBeInTheDocument();

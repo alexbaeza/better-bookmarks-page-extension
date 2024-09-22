@@ -13,21 +13,23 @@ export const BookmarkFolderGridItem = ({
   title
 }: BookmarkFolderGridItemProps) => {
   return (
-    <div className="flex w-20 flex-col items-center justify-center break-all rounded-lg bg-primary-dark-contrast bg-opacity-20 p-2 transition duration-300 ease-out hover:scale-105">
-      <button data-testid={dataTestId} onClick={onClick}>
-        <div className="flex h-16 w-16 flex-col items-center justify-center rounded-lg bg-secondary-dark hover:bg-secondary-dark-active">
-          <FolderIcon
-            className="text-text-secondary"
-            dataTestId="folder-icon"
-            size={'md'}
-          />
-        </div>
-      </button>
+    <button
+      data-testid={dataTestId}
+      onClick={onClick}
+      className="flex w-20 flex-col items-center justify-center break-all rounded-lg bg-secondary-dark p-2 transition duration-300 ease-out hover:scale-105"
+    >
+      <div className="flex size-16 flex-col items-center justify-center rounded-lg bg-primary-dark-contrast/10 hover:bg-secondary-dark-active">
+        <FolderIcon
+          className="text-text-secondary"
+          dataTestId="folder-icon"
+          size={'md'}
+        />
+      </div>
       <div className="mt-1 flex cursor-pointer items-center justify-center">
-        <p className="line-clamp-2 h-8 min-h-full text-xs text-text-primary break-words">
+        <p className="line-clamp-2 h-8 min-h-full break-words text-xs text-text-primary">
           {title}
         </p>
       </div>
-    </div>
+    </button>
   );
 };

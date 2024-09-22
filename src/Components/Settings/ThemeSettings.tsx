@@ -20,12 +20,12 @@ export const ThemeSettings = ({ dataTestId }: ThemeSettingsProps) => {
         <button
           data-testid={`theme-button-${themeValue}`}
           onClick={() => setTheme(themeValue)}
-          className={`h-8 w-8 rounded-lg border-4 border-accent ${colourClass} cursor-pointer outline-none`}
+          className={`size-8 rounded-lg border-4 border-accent ${colourClass} cursor-pointer outline-none`}
         />
         {isSelected && (
           <div
             data-testid="background-check-icon-container"
-            className="absolute top-0 right-0 p-1.5"
+            className="absolute right-0 top-0 p-1.5"
           >
             <CheckIcon
               dataTestId="background-check-icon"
@@ -38,34 +38,25 @@ export const ThemeSettings = ({ dataTestId }: ThemeSettingsProps) => {
     );
   };
   return (
-    <>
-      <div data-testid={dataTestId} className="my-3 flex justify-between">
-        <span className={`text-sm font-bold text-text-primary`}>Theme</span>
+    <div
+      data-testid={dataTestId}
+      className="mt-4 flex w-full flex-row items-center justify-center rounded-lg bg-secondary-dark p-2"
+    >
+      <div
+        className={`xs:gap-1 flex w-80 items-center justify-center gap-0.5 sm:gap-2 md:gap-4`}
+      >
+        {renderThemeOption('default', 'bg-[#252525]')}
+        {renderThemeOption('light', 'bg-[#ffffff]')}
+        <div className="h-8 border border-l-2 border-accent"></div>
+        {renderThemeOption('red', 'bg-red-500')}
+        {renderThemeOption('orange', 'bg-orange-500')}
+        {renderThemeOption('green', 'bg-green-500')}
+        {renderThemeOption('teal', 'bg-teal-500')}
+        {renderThemeOption('blue', 'bg-blue-500')}
+        {renderThemeOption('indigo', 'bg-indigo-500')}
+        {renderThemeOption('purple', 'bg-purple-500')}
+        {renderThemeOption('pink', 'bg-pink-500')}
       </div>
-      <label className={`mb-2 block text-sm font-medium text-text-primary`}>
-        🎨 Change the default colours to your likes.
-      </label>
-      <div className="mt-4 flex flex-row">
-        <div
-          className={`flex w-full items-center justify-center rounded-lg bg-secondary-dark p-2`}
-        >
-          <div
-            className={`xs:gap-1 flex w-80 items-center justify-center gap-0.5 sm:gap-2 md:gap-4`}
-          >
-            {renderThemeOption('default', 'bg-[#252525]')}
-            {renderThemeOption('light', 'bg-[#ffffff]')}
-            <div className="h-8 border border-l-2 border-accent"></div>
-            {renderThemeOption('red', 'bg-red-500')}
-            {renderThemeOption('orange', 'bg-orange-500')}
-            {renderThemeOption('green', 'bg-green-500')}
-            {renderThemeOption('teal', 'bg-teal-500')}
-            {renderThemeOption('blue', 'bg-blue-500')}
-            {renderThemeOption('indigo', 'bg-indigo-500')}
-            {renderThemeOption('purple', 'bg-purple-500')}
-            {renderThemeOption('pink', 'bg-pink-500')}
-          </div>
-        </div>
-      </div>
-    </>
+    </div>
   );
 };
