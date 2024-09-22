@@ -38,6 +38,14 @@ describe('SettingsModal', () => {
     expect(modalContentElement).not.toBeInTheDocument();
   });
 
+  test('renders sidebar settings in modal', () => {
+    render(<SettingsModal />);
+    const buttonElement = screen.getByTestId('options-modal-button');
+    fireEvent.click(buttonElement);
+    const greetingSettingsElement = screen.getByTestId('sidebar-settings');
+    expect(greetingSettingsElement).toBeInTheDocument();
+  });
+
   test('renders greeting settings in modal', () => {
     render(<SettingsModal />);
     const buttonElement = screen.getByTestId('options-modal-button');

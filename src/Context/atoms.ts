@@ -6,6 +6,7 @@ const settings = {
   background: 'bb-background',
   backgroundOverlayOpacity: 'bb-backgroundOverlayOpacity',
   greetingEnabled: 'bb-greetingEnabled',
+  sidebarEnabled: 'bb-sidebarEnabled',
   greetingName: 'bb-greetingName',
   viewMode: 'bb-viewMode'
 };
@@ -13,6 +14,11 @@ export const themeAtom = atomWithStorage<string>(settings.theme, 'default');
 export const backgroundOverlayAtom = atomWithStorage<string>(
   settings.background,
   '/images/transparent.png'
+);
+
+export const sidebarEnabledAtom = atomWithStorage<boolean>(
+  settings.sidebarEnabled,
+  true
 );
 
 export const backgroundOverlayOpacityAtom = atomWithStorage<number>(

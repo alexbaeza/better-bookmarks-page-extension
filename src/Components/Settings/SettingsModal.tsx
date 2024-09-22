@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { IconButton } from '../IconButton/IconButton';
 import { CrossIcon, GearIcon } from '../IconButton/Icons/Icons';
 import { GreetingSettings } from './GreetingSettings';
+import { SidebarSettings } from './SidebarSettings';
 import { Footer } from '../Footer/Footer';
 import { Sponsor } from '../Sponsor/Sponsor';
 import { BackgroundOverlaySettings } from './BackgroundOverlaySettings';
@@ -45,11 +46,13 @@ export const SettingsModal = () => {
                   <div className="container">
                     <div className="size-full rounded-lg object-cover ">
                       <div className="grid grid-flow-row-dense grid-cols-1">
-                        <Divider title="Greeting" />
+                        <Divider title="Sidebar Options" />
+                        <SidebarSettings dataTestId="sidebar-settings" />
+                        <Divider title="Greeting Options" />
                         <GreetingSettings dataTestId="greeting-settings" />
-                        <Divider title="Overlay" />
+                        <Divider title="Overlay Options" />
                         <BackgroundOverlaySettings dataTestId="background-overlay-settings" />
-                        <Divider title="Theme" />
+                        <Divider title="Theme Options" />
                         <ThemeSettings dataTestId="theme-settings" />
                         <Sponsor dataTestId="sponsor" />
                       </div>

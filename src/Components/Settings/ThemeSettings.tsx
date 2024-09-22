@@ -38,25 +38,24 @@ export const ThemeSettings = ({ dataTestId }: ThemeSettingsProps) => {
     );
   };
   return (
-    <div className="mt-4 flex flex-row">
+    <div
+      data-testid={dataTestId}
+      className="mt-4 flex w-full flex-row items-center justify-center rounded-lg bg-secondary-dark p-2"
+    >
       <div
-        className={`flex w-full items-center justify-center rounded-lg bg-secondary-dark p-2`}
+        className={`xs:gap-1 flex w-80 items-center justify-center gap-0.5 sm:gap-2 md:gap-4`}
       >
-        <div
-          className={`xs:gap-1 flex w-80 items-center justify-center gap-0.5 sm:gap-2 md:gap-4`}
-        >
-          {renderThemeOption('default', 'bg-[#252525]')}
-          {renderThemeOption('light', 'bg-[#ffffff]')}
-          <div className="h-8 border border-l-2 border-accent"></div>
-          {renderThemeOption('red', 'bg-red-500')}
-          {renderThemeOption('orange', 'bg-orange-500')}
-          {renderThemeOption('green', 'bg-green-500')}
-          {renderThemeOption('teal', 'bg-teal-500')}
-          {renderThemeOption('blue', 'bg-blue-500')}
-          {renderThemeOption('indigo', 'bg-indigo-500')}
-          {renderThemeOption('purple', 'bg-purple-500')}
-          {renderThemeOption('pink', 'bg-pink-500')}
-        </div>
+        {renderThemeOption('default', 'bg-[#252525]')}
+        {renderThemeOption('light', 'bg-[#ffffff]')}
+        <div className="h-8 border border-l-2 border-accent"></div>
+        {renderThemeOption('red', 'bg-red-500')}
+        {renderThemeOption('orange', 'bg-orange-500')}
+        {renderThemeOption('green', 'bg-green-500')}
+        {renderThemeOption('teal', 'bg-teal-500')}
+        {renderThemeOption('blue', 'bg-blue-500')}
+        {renderThemeOption('indigo', 'bg-indigo-500')}
+        {renderThemeOption('purple', 'bg-purple-500')}
+        {renderThemeOption('pink', 'bg-pink-500')}
       </div>
     </div>
   );
