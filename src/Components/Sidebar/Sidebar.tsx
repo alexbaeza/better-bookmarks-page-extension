@@ -2,6 +2,7 @@ import { Footer } from '../Footer/Footer';
 import React from 'react';
 import { SidebarItemList, SidebarItemType } from './SidebarItemList';
 import { useBookmarks } from '../../Hooks/useBookmarks';
+import { Divider } from '../Divider/Divider';
 
 export const Sidebar = () => {
   const {
@@ -37,13 +38,7 @@ export const Sidebar = () => {
           counter={data.uncategorized?.children?.length}
         />
       </ul>
-
-      <div className="grid grid-cols-[1fr_auto_1fr] place-items-center gap-4 p-2">
-        <span className="w-full border-y border-text-primary"></span>
-        <h4 className="w-fit text-xs text-text-primary">Folders</h4>
-        <span className="w-full border-y border-text-primary"></span>
-      </div>
-
+      <Divider title="Folders" />
       <ul className="h-full overflow-auto overflow-x-hidden">
         {data.folders.map((item, key) => (
           <SidebarItemList

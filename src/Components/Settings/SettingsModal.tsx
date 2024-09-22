@@ -6,6 +6,7 @@ import { Footer } from '../Footer/Footer';
 import { Sponsor } from '../Sponsor/Sponsor';
 import { BackgroundOverlaySettings } from './BackgroundOverlaySettings';
 import { ThemeSettings } from './ThemeSettings';
+import { Divider } from '../Divider/Divider';
 
 export const SettingsModal = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -43,21 +44,14 @@ export const SettingsModal = () => {
                   </div>
                   <div className="container">
                     <div className="size-full rounded-lg object-cover ">
-                      <div className="mb-6">
-                        <div className="grid grid-flow-row-dense grid-cols-1 gap-4 divide-y divide-text-primary">
-                          <div>
-                            <GreetingSettings dataTestId="greeting-settings" />
-                          </div>
-                          <div>
-                            <BackgroundOverlaySettings dataTestId="background-overlay-settings" />
-                          </div>
-                          <div>
-                            <ThemeSettings dataTestId="theme-settings" />
-                          </div>
-                          <div>
-                            <Sponsor dataTestId="sponsor" />
-                          </div>
-                        </div>
+                      <div className="grid grid-flow-row-dense grid-cols-1">
+                        <Divider title="Greeting" />
+                        <GreetingSettings dataTestId="greeting-settings" />
+                        <Divider title="Overlay" />
+                        <BackgroundOverlaySettings dataTestId="background-overlay-settings" />
+                        <Divider title="Theme" />
+                        <ThemeSettings dataTestId="theme-settings" />
+                        <Sponsor dataTestId="sponsor" />
                       </div>
                       <Footer />
                     </div>
