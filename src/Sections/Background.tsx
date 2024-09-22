@@ -13,7 +13,7 @@ export const Background = () => {
   return (
     <div
       data-testid="background"
-      className="h-full w-full flex-col bg-repeat p-1.5 z-0"
+      className="z-0 size-full flex-col bg-repeat p-1.5"
       style={{
         opacity: `${backgroundOverlayOpacity}%`,
         backgroundImage: `url('${selectedBackground}')`,

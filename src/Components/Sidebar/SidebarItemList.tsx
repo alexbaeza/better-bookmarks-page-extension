@@ -11,7 +11,7 @@ export enum SidebarItemType {
 const ItemIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-6 w-6"
+    className="size-6"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -42,7 +42,7 @@ export const SidebarItemList = ({
   return (
     <>
       <li
-        className={`relative flex cursor-pointer space-x-2 rounded-md py-2 px-5 text-gray-300 hover:bg-slate-600 ${bgColor}`}
+        className={`relative flex cursor-pointer space-x-2 rounded-md px-5 py-2 text-gray-300 hover:bg-slate-600 ${bgColor}`}
         onClick={onClick}
       >
         {/*{type === SidebarItemType.Folder && */}
@@ -53,12 +53,12 @@ export const SidebarItemList = ({
           <FolderIcon dataTestId="folder-icon" size={'sm'} />
         )}
         <span className="text-sm">{name}</span>
-        <span className="min-w-8 flex w-8 items-center justify-center rounded-xl bg-accent text-xs font-bold text-teal-50">
+        <span className="flex w-8 min-w-8 items-center justify-center rounded-xl bg-accent text-xs font-bold text-teal-50">
           {counter}
         </span>
         {isSelected && (
           <svg
-            className="absolute -top-1/2 -right-2 h-20 w-8 text-primary-dark"
+            className="absolute -right-2 -top-1/2 h-20 w-8 text-primary-dark"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="399.349 57.696 100.163 402.081"
             width="1em"

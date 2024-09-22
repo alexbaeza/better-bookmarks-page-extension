@@ -16,7 +16,7 @@ export const Content = () => {
   );
 
   return (
-    <div className="mx-auto flex flex-col w-full justify-center p-2 align-middle">
+    <div className="mx-auto flex w-full flex-col justify-center p-2 align-middle">
       {filteredData.length > 1 && (
         <div className="w-full gap-12 sm:columns-1 md:columns-2 lg:columns-3 xl:columns-3 ">
           {filteredData.map((folder) => {

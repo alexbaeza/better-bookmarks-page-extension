@@ -37,7 +37,7 @@ export const BackgroundOverlaySettings = ({
         {isSelected && (
           <div
             data-testid="background-check-icon-container"
-            className="absolute top-0 right-0 p-2"
+            className="absolute right-0 top-0 p-2"
           >
             <CheckIcon
               dataTestId="background-check-icon"

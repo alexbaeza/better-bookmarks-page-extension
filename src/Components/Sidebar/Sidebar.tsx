@@ -17,7 +17,7 @@ export const Sidebar = () => {
 
   return (
     <div className="flex h-screen min-w-64 flex-col rounded-r-2xl bg-gray-700 text-white">
-      <h1 className="mt-5 ml-5 text-xl font-bold">Better Bookmarks</h1>
+      <h1 className="ml-5 mt-5 text-xl font-bold">Better Bookmarks</h1>
       <ul className="mt-10 text-sm">
         <SidebarItemList
           type={SidebarItemType.Item}
@@ -44,7 +44,7 @@ export const Sidebar = () => {
           </span>
         </div>
       </div>
-      <ul className="h-full overflow-x-hidden overflow-auto">
+      <ul className="h-full overflow-auto overflow-x-hidden">
         {data.folders.map((item, key) => (
           <SidebarItemList
             type={SidebarItemType.Folder}
@@ -56,7 +56,7 @@ export const Sidebar = () => {
           />
         ))}
       </ul>
-      <div className="h-[1vh] z-10 my-6 align-bottom flex">
+      <div className="z-10 my-6 flex h-[1vh] align-bottom">
         <Footer classname="justify-center"></Footer>
       </div>
     </div>

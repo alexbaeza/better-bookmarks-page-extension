@@ -20,12 +20,12 @@ export const App = () => {
         <Sidebar />
         <div
           id="content"
-          className=" h-screen sticky flex flex-col w-full overflow-y-auto"
+          className=" sticky flex h-screen w-full flex-col overflow-y-auto"
         >
           <SettingsModal />
           <Greeting />
           <ViewModeToggle />
-          <section className="flex flex-grow flex-col items-center px-3 pt-3">
+          <section className="flex grow flex-col items-center px-3 pt-3">
             <Content />
           </section>
         </div>

@@ -56,19 +56,19 @@ export const BookmarkFolderRoot = ({
   });
 
   return (
-    <div className="group relative inline-block w-full py-6 px-1">
-      <div className="mt-3 mb-2 flex">
+    <div className="group relative inline-block w-full px-1 py-6">
+      <div className="mb-2 mt-3 flex">
         <div className="font-base mr-2 text-sm uppercase leading-6 tracking-wide text-text-primary">
           {name}
         </div>
-        <span className="min-w-8 flex w-8 items-center justify-center rounded-xl bg-accent text-xs font-bold text-teal-50">
+        <span className="flex w-8 min-w-8 items-center justify-center rounded-xl bg-accent text-xs font-bold text-teal-50">
           {folderContents.length}
         </span>
       </div>
       <div
-        className={`min-h-64 mb-3 mr-6 block h-auto w-full overflow-hidden rounded-lg border-4 border-secondary-dark sm:mb-0`}
+        className={`mb-3 mr-6 block h-auto min-h-64 w-full overflow-hidden rounded-lg border-4 border-secondary-dark sm:mb-0`}
       >
-        <div className="h-full w-full rounded-lg object-cover ">
+        <div className="size-full rounded-lg object-cover ">
           {viewMode === BookmarkDisplayMode.List ? (
             <div
               data-testid="display-mode-container"
@@ -79,7 +79,7 @@ export const BookmarkFolderRoot = ({
           ) : (
             <div
               data-testid="display-mode-container"
-              className="grid gap-4 p-4 grid-cols-[repeat(auto-fill,5rem)]"
+              className="grid grid-cols-[repeat(auto-fill,5rem)] gap-4 p-4"
             >
               {items}
             </div>

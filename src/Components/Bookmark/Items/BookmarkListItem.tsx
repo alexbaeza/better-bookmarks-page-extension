@@ -17,16 +17,16 @@ export const BookmarkListItem = ({
   return (
     <a data-testid={dataTestId} href={url}>
       <div className="flex cursor-pointer flex-row rounded-lg bg-secondary-dark transition duration-300 ease-out hover:scale-105 hover:bg-secondary-dark-active">
-        <div className="flex h-10 w-10 flex-none transform items-center justify-center rounded-l-lg bg-primary-dark-contrast bg-opacity-20">
+        <div className="flex size-10 flex-none items-center justify-center rounded-l-lg bg-primary-dark-contrast bg-opacity-20">
           <ImageWithFallback
             data-testid="image-with-fallback"
-            className="h-6 w-6 rounded-lg"
+            className="size-6 rounded-lg"
             src={faviconFromUrl(url)}
             alt={`Bookmark item for ${title}`}
           />
         </div>
         <div className="flex cursor-pointer items-center justify-center pl-3">
-          <p className="line-clamp-2 text-xs text-text-secondary break-words">
+          <p className="line-clamp-2 break-words text-xs text-text-secondary">
             {title}
           </p>
         </div>

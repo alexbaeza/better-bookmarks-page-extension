@@ -19,7 +19,7 @@ export const Footer = ({
         {'by'}
         <a
           data-testid="author-link"
-          className="ml-1 text-primary font-bold"
+          className="text-primary ml-1 font-bold"
           href={'https://github.com/alexbaeza/better-bookmarks-page-extension'}
         >
           alexbaeza.

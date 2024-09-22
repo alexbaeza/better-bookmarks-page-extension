@@ -20,12 +20,12 @@ export const ThemeSettings = ({ dataTestId }: ThemeSettingsProps) => {
         <button
           data-testid={`theme-button-${themeValue}`}
           onClick={() => setTheme(themeValue)}
-          className={`h-8 w-8 rounded-lg border-4 border-accent ${colourClass} cursor-pointer outline-none`}
+          className={`size-8 rounded-lg border-4 border-accent ${colourClass} cursor-pointer outline-none`}
         />
         {isSelected && (
           <div
             data-testid="background-check-icon-container"
-            className="absolute top-0 right-0 p-1.5"
+            className="absolute right-0 top-0 p-1.5"
           >
             <CheckIcon
               dataTestId="background-check-icon"
