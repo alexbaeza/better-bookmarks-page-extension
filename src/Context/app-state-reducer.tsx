@@ -2,7 +2,7 @@ import { AppState } from './app-state';
 import { BookmarksData } from '../Data/bookmarks';
 import { IBookmarkItem } from '../Components/Bookmark/BookmarkFolderRoot';
 
-type AppStateAction =
+export type AppStateAction =
   | { type: 'PROVIDER_INITIALISED' }
   | { type: 'LOAD_BOOKMARKS_DATA_START' }
   | { type: 'LOAD_BOOKMARKS_DATA_SUCCESS'; data: BookmarksData }

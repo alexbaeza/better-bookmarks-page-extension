@@ -16,7 +16,10 @@ export const Sidebar = () => {
   }
 
   return (
-    <div className="flex h-screen min-w-64 flex-col rounded-r-2xl bg-gray-700 text-white">
+    <div
+      data-testid="sidebar"
+      className="flex h-screen min-w-64 flex-col rounded-r-2xl bg-primary-dark-contrast/10 text-text-primary"
+    >
       <h1 className="ml-5 mt-5 text-xl font-bold">Better Bookmarks</h1>
       <ul className="mt-10 text-sm">
         <SidebarItemList
@@ -34,16 +37,13 @@ export const Sidebar = () => {
           counter={data.uncategorized?.children?.length}
         />
       </ul>
-      <div className="relative py-2">
-        <div className="absolute inset-0 flex items-center">
-          <div className="mx-3 w-full border-b border-gray-300"></div>
-        </div>
-        <div className="relative flex justify-center">
-          <span className="bg-gray-700 px-4 text-xs text-gray-300">
-            Folders
-          </span>
-        </div>
+
+      <div className="grid grid-cols-[1fr_auto_1fr] place-items-center gap-4 p-2">
+        <span className="w-full border-y border-text-primary"></span>
+        <h4 className="w-fit text-xs text-text-primary">Folders</h4>
+        <span className="w-full border-y border-text-primary"></span>
       </div>
+
       <ul className="h-full overflow-auto overflow-x-hidden">
         {data.folders.map((item, key) => (
           <SidebarItemList

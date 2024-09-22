@@ -16,7 +16,10 @@ export const App = () => {
   return (
     <AppStateProvider>
       <Background />
-      <div className={'flex max-h-screen flex-row bg-primary-dark ' + theme}>
+      <div
+        data-testid="container"
+        className={'flex max-h-screen flex-row bg-primary-dark ' + theme}
+      >
         <Sidebar />
         <div
           id="content"

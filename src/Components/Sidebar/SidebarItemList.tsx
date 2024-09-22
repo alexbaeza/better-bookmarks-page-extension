@@ -38,39 +38,34 @@ export const SidebarItemList = ({
   type: SidebarItemType;
   counter?: number;
 }) => {
-  const bgColor = isSelected ? 'bg-slate-600' : '';
+  const bgColor = isSelected ? 'bg-secondary-dark-active' : '';
   return (
-    <>
-      <li
-        className={`relative flex cursor-pointer space-x-2 rounded-md px-5 py-2 text-gray-300 hover:bg-slate-600 ${bgColor}`}
-        onClick={onClick}
-      >
-        {/*{type === SidebarItemType.Folder && */}
-        {/*"  <FolderIcon dataTestId="folder-icon" size={'sm'} />"*/}
-        {/*}*/}
-        {type === SidebarItemType.Item && ItemIcon}
-        {type === SidebarItemType.Folder && (
-          <FolderIcon dataTestId="folder-icon" size={'sm'} />
-        )}
-        <span className="text-sm">{name}</span>
-        <span className="flex w-8 min-w-8 items-center justify-center rounded-xl bg-accent text-xs font-bold text-teal-50">
-          {counter}
-        </span>
-        {isSelected && (
-          <svg
-            className="absolute -right-2 -top-1/2 h-20 w-8 text-primary-dark"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="399.349 57.696 100.163 402.081"
-            width="1em"
-            height="4em"
-          >
-            <path
-              fill="currentColor"
-              d="M 499.289 57.696 C 499.289 171.989 399.349 196.304 399.349 257.333 C 399.349 322.485 499.512 354.485 499.512 458.767 C 499.512 483.155 499.289 57.696 499.289 57.696 Z"
-            />
-          </svg>
-        )}
-      </li>
-    </>
+    <li
+      className={`relative flex cursor-pointer space-x-2 rounded-md px-5 py-2 text-text-primary hover:bg-primary-dark ${bgColor}`}
+      onClick={onClick}
+    >
+      {type === SidebarItemType.Item && ItemIcon}
+      {type === SidebarItemType.Folder && (
+        <FolderIcon dataTestId="folder-icon" size={'sm'} />
+      )}
+      <span className="text-sm">{name}</span>
+      <span className="flex w-8 min-w-8 items-center justify-center rounded-xl bg-accent text-xs font-bold text-teal-50">
+        {counter}
+      </span>
+      {isSelected && (
+        <svg
+          className="absolute -right-2 -top-1/2 h-20 w-8 text-primary-dark"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="399.349 57.696 100.163 402.081"
+          width="1em"
+          height="4em"
+        >
+          <path
+            fill="currentColor"
+            d="M 499.289 57.696 C 499.289 171.989 399.349 196.304 399.349 257.333 C 399.349 322.485 499.512 354.485 499.512 458.767 C 499.512 483.155 499.289 57.696 499.289 57.696 Z"
+          />
+        </svg>
+      )}
+    </li>
   );
 };

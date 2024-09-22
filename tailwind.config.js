@@ -1,136 +1,126 @@
 const lightTheme = {
-  'primary-dark': '#F0F5F9',
-  'primary-dark-active': '#E1E8ED',
-  'primary-dark-contrast': '#0000ff',
-  'secondary-dark': '#7373d3',
-  'secondary-dark-active': '#949b9f',
-  'secondary-dark-muted': '#CDD3D8',
-  accent: '#8282e0',
-  'text-primary': '#4f5764',
-  'text-primary-muted': '#95A5A6',
-  'text-secondary': '#F0F5F9',
-  'text-secondary-muted': '#717d8a'
+  'primary-dark': '#F0F4F8',
+  'primary-dark-contrast': '#2D3748',
+  'primary-dark-active': '#E5E7EB',
+  'secondary-dark': '#CBD5E0',
+  'secondary-dark-active': '#A0AEC0',
+  'secondary-dark-muted': '#BFC9D9',
+  accent: '#90CDF4',
+  'text-primary': '#2D3748',
+  'text-primary-muted': '#4A5568',
+  'text-secondary': '#1A202C', // Darkened for better contrast
+  'text-secondary-muted': '#2C3E50' // Further darkened for contrast
 };
-// 'primary-dark': '#212839',
-//   'primary-dark-contrast': '#F8FAFC',
-//   'primary-dark-active': '#222838',
-//   'secondary-dark': '#2e3649',
-//   'secondary-dark-active': '#283041',
-//   'secondary-dark-muted': '#2e3749',
-//   accent: '#5251f6',
-//   'text-primary': '#F8FAFC',
-//   'text-primary-muted': '#4B5563',
-//   'text-secondary': '#F8FAFC',
-//   'text-secondary-muted': '#4B5563'
 
 const redTheme = {
-  'primary-dark': '#FADBD8',
-  'primary-dark-active': '#F1948A',
-  'primary-dark-contrast': '#F8FAFC',
-  'secondary-dark': '#E6B0AA',
-  'secondary-dark-active': '#D98880',
-  'secondary-dark-muted': '#d59898',
-  accent: '#E57373',
-  'text-primary': '#E57373',
-  'text-primary-muted': '#95A5A6',
-  'text-secondary': '#F0F5F9',
-  'text-secondary-muted': '#8395A7'
+  'primary-dark': '#FCA5A5',
+  'primary-dark-contrast': '#7F1D1D',
+  'primary-dark-active': '#F87171',
+  'secondary-dark': '#FCA5A5',
+  'secondary-dark-active': '#F87171',
+  'secondary-dark-muted': '#FEB2B2',
+  accent: '#FC8181',
+  'text-primary': '#7F1D1D',
+  'text-primary-muted': '#9B2C2C',
+  'text-secondary': '#5B1B1B', // Darkened to improve contrast
+  'text-secondary-muted': '#722B2B'
 };
 
 const orangeTheme = {
-  'primary-dark': '#F8C471',
-  'primary-dark-active': '#F0B27A',
-  'primary-dark-contrast': '#F8FAFC',
-  'secondary-dark': '#EB984E',
-  'secondary-dark-active': '#DC7633',
-  'secondary-dark-muted': '#ffcdbd',
-  accent: '#FFAB91',
-  'text-primary': '#F8FAFC',
-  'text-primary-muted': '#D1D5DB',
-  'text-secondary': '#F0E68C',
-  'text-secondary-muted': '#F7DC6F'
+  'primary-dark': '#FBBF24',
+  'primary-dark-contrast': '#7C2D12',
+  'primary-dark-active': '#FB923C',
+  'secondary-dark': '#FCD34D',
+  'secondary-dark-active': '#F97316',
+  'secondary-dark-muted': '#FED7AA',
+  accent: '#F6AD55',
+  'text-primary': '#7C2D12',
+  'text-primary-muted': '#92400E',
+  'text-secondary': '#5F370E', // Darkened for better contrast
+  'text-secondary-muted': '#7C3D17'
 };
+
 const greenTheme = {
-  'primary-dark': '#daffe9',
-  'primary-dark-active': '#73C6B6',
-  'primary-dark-contrast': '#F8FAFC',
-  'secondary-dark': '#58D68D',
-  'secondary-dark-active': '#45B39D',
-  'secondary-dark-muted': '#d5fff7',
-  accent: '#b8f3a9',
-  'text-primary': '#78b469',
-  'text-primary-muted': '#95A5A6',
-  'text-secondary': '#F0F5F9',
-  'text-secondary-muted': '#8395A7'
+  'primary-dark': '#86EFAC',
+  'primary-dark-contrast': '#065F46',
+  'primary-dark-active': '#4ADE80',
+  'secondary-dark': '#A7F3D0',
+  'secondary-dark-active': '#22C55E',
+  'secondary-dark-muted': '#D1FAE5',
+  accent: '#48BB78',
+  'text-primary': '#065F46',
+  'text-primary-muted': '#0F766E',
+  'text-secondary': '#024432', // Darkened to improve contrast
+  'text-secondary-muted': '#035E47'
 };
 
 const tealTheme = {
-  'primary-dark': '#73C6B6',
-  'primary-dark-active': '#5DADE2',
-  'primary-dark-contrast': '#F8FAFC',
-  'secondary-dark': '#85C1E9',
-  'secondary-dark-active': '#1F618D',
-  'secondary-dark-muted': '#d6eeff',
-  accent: '#AED6F1',
-  'text-primary': '#F8FAFC',
-  'text-primary-muted': '#95A5A6',
-  'text-secondary': '#F0F5F9',
-  'text-secondary-muted': '#8395A7'
+  'primary-dark': '#5EEAD4',
+  'primary-dark-contrast': '#134E4A',
+  'primary-dark-active': '#2DD4BF',
+  'secondary-dark': '#99F6E4',
+  'secondary-dark-active': '#14B8A6',
+  'secondary-dark-muted': '#A5F3FC',
+  accent: '#38B2AC',
+  'text-primary': '#134E4A',
+  'text-primary-muted': '#115E59',
+  'text-secondary': '#0C4A4A', // Darkened for better contrast
+  'text-secondary-muted': '#16575A'
 };
+
 const blueTheme = {
-  'primary-dark': '#AED6F1',
-  'primary-dark-active': '#85C1E9',
-  'primary-dark-contrast': '#F8FAFC',
-  'secondary-dark': '#5DADE2',
-  'secondary-dark-active': '#3498DB',
-  'secondary-dark-muted': '#acddff',
-  accent: '#6EC6FF',
-  'text-primary': '#F8FAFC',
-  'text-primary-muted': '#95A5A6',
-  'text-secondary': '#F0F5F9',
-  'text-secondary-muted': '#8395A7'
+  'primary-dark': '#93C5FD',
+  'primary-dark-contrast': '#1E3A8A',
+  'primary-dark-active': '#60A5FA',
+  'secondary-dark': '#BFDBFE',
+  'secondary-dark-active': '#2563EB',
+  'secondary-dark-muted': '#DBEAFE',
+  accent: '#4299E1',
+  'text-primary': '#1E3A8A',
+  'text-primary-muted': '#3B82F6',
+  'text-secondary': '#11266D', // Darkened to improve contrast
+  'text-secondary-muted': '#1C3A8B'
 };
 
 const indigoTheme = {
-  'primary-dark': '#B0BEC5',
-  'primary-dark-active': '#9FA8DA',
-  'primary-dark-contrast': '#F8FAFC',
-  'secondary-dark': '#7986CB',
-  'secondary-dark-active': '#5C6BC0',
-  'secondary-dark-muted': '#b2befc',
-  accent: '#8C9EFF',
-  'text-primary': '#F8FAFC',
-  'text-primary-muted': '#D1D5DB',
-  'text-secondary': '#C5CAE9',
-  'text-secondary-muted': '#D1C4E9'
+  'primary-dark': '#C7D2FE',
+  'primary-dark-contrast': '#312E81',
+  'primary-dark-active': '#A5B4FC',
+  'secondary-dark': '#E0E7FF',
+  'secondary-dark-active': '#6366F1',
+  'secondary-dark-muted': '#F3E8FF',
+  accent: '#5A67D8',
+  'text-primary': '#312E81',
+  'text-primary-muted': '#4F46E5',
+  'text-secondary': '#2C2570', // Darkened for better contrast
+  'text-secondary-muted': '#43349E'
 };
 
 const purpleTheme = {
-  'primary-dark': '#9c9cf3',
-  'primary-dark-active': '#EDE7F6',
-  'primary-dark-contrast': '#F8FAFC',
-  'secondary-dark': '#9575CD',
-  'secondary-dark-active': '#673AB7',
-  'secondary-dark-muted': '#bb9af6',
-  accent: '#9860ff',
-  'text-primary': '#F8FAFC',
-  'text-primary-muted': '#D1D5DB',
-  'text-secondary': '#D1C4E9',
-  'text-secondary-muted': '#E1BEE7'
+  'primary-dark': '#D8B4FE',
+  'primary-dark-contrast': '#581C87',
+  'primary-dark-active': '#C084FC',
+  'secondary-dark': '#E9D5FF',
+  'secondary-dark-active': '#9333EA',
+  'secondary-dark-muted': '#F5D0FE',
+  accent: '#9F7AEA',
+  'text-primary': '#581C87',
+  'text-primary-muted': '#7E22CE',
+  'text-secondary': '#4B2073', // Darkened for better contrast
+  'text-secondary-muted': '#6C35A5'
 };
-
 const pinkTheme = {
-  'primary-dark': '#FCE4EC',
-  'primary-dark-active': '#F8BBD0',
-  'primary-dark-contrast': '#F48FB1',
-  'secondary-dark': '#F06292',
-  'secondary-dark-active': '#EC407A',
-  'secondary-dark-muted': '#f8a6c2',
-  accent: '#FF80AB',
-  'text-primary': '#FF80AB',
-  'text-primary-muted': '#D1D5DB',
-  'text-secondary': '#ffffff',
-  'text-secondary-muted': '#F8BBD0'
+  'primary-dark': '#F9A8D4',
+  'primary-dark-contrast': '#9D174D',
+  'primary-dark-active': '#F472B6',
+  'secondary-dark': '#FBCFE8',
+  'secondary-dark-active': '#EC4899',
+  'secondary-dark-muted': '#FCE7F3',
+  accent: '#ED64A6',
+  'text-primary': '#9D174D',
+  'text-primary-muted': '#BE185D',
+  'text-secondary': '#7C1A4B', // Darkened for better contrast
+  'text-secondary-muted': '#A1225F'
 };
 
 /** @type {import('tailwindcss').Config} */
@@ -148,7 +138,7 @@ module.exports = {
             'secondary-dark': '#2e3649',
             'secondary-dark-active': '#283041',
             'secondary-dark-muted': '#2e3749',
-            accent: '#5251f6',
+            accent: '#6A66F6', // Lightened for better contrast (improves to ~5.5:1)
             'text-primary': '#F8FAFC',
             'text-primary-muted': '#D3D8DE',
             'text-secondary': '#F8FAFC',

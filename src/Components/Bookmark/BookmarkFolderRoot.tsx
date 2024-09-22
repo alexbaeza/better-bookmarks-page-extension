@@ -9,7 +9,7 @@ export interface IBookmarkItem {
   id: string;
   title: string;
   index?: number;
-  dateAdded: number;
+  dateAdded?: number;
   dateGroupModified?: number;
   parentId?: string;
   children?: IBookmarkItem[];
