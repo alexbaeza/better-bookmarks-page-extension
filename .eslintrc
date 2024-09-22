@@ -3,7 +3,8 @@
     "react-app",
     "react-app/jest",
     "eslint:recommended",
-    "plugin:import/recommended"
+    "plugin:import/recommended",
+    "plugin:tailwindcss/recommended"
   ],
   "rules": {
     "testing-library/no-unnecessary-act": "off",
