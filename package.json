@@ -14,7 +14,7 @@
   "dependencies": {
     "@types/chrome": "^0.0.271",
     "@types/firefox-webext-browser": "^120.0.2",
-    "@types/node": "^22.6.1",
+    "@types/node": "^22.7.5",
     "@types/react": "^18.3.8",
     "@types/react-dom": "^18.3.0",
     "axios": "^1.7.7",
