@@ -12,7 +12,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.271",
+    "@types/chrome": "^0.0.280",
     "@types/firefox-webext-browser": "^120.0.2",
     "@types/node": "^22.6.1",
     "@types/react": "^18.3.8",
