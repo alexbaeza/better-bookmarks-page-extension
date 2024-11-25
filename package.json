@@ -50,7 +50,7 @@
     "tailwindcss-themer": "^4.0.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.1.6"
+    "typescript": "^5.7.2"
   },
   "browserslist": {
     "production": [
