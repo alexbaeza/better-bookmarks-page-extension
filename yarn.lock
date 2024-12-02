@@ -5445,10 +5445,10 @@ globals@^13.19.0:
   dependencies:
     type-fest "^0.20.2"
 
-globals@^15.9.0:
-  version "15.9.0"
-  resolved "https://registry.yarnpkg.com/globals/-/globals-15.9.0.tgz#e9de01771091ffbc37db5714dab484f9f69ff399"
-  integrity sha512-SmSKyLLKFbSr6rptvP8izbyxJL4ILwqO9Jg23UA0sDlGlu58V59D1//I3vlc0KJphVdUR7vMjHIplYnzBxorQA==
+globals@^15.13.0:
+  version "15.13.0"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-15.13.0.tgz#bbec719d69aafef188ecd67954aae76a696010fc"
+  integrity sha512-49TewVEz0UxZjr1WYYsWpPrhyC/B/pA8Bq0fUmet2n+eR7yn0IvNzNaoBwnK6mdkzcN+se7Ez9zUgULTz2QH4g==
 
 globalthis@^1.0.3:
   version "1.0.4"
