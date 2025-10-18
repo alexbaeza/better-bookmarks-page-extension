@@ -15,13 +15,11 @@
     "48": "icons/logo48.png",
     "128": "icons/logo128.png"
   },
-  "chrome_settings_overrides" : {
+  "chrome_settings_overrides": {
     "homepage": "index.html"
   },
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": [
-    "bookmarks"
-  ]
+  "permissions": ["bookmarks"]
 }

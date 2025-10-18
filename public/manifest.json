@@ -14,7 +14,5 @@
     "newtab": "index.html",
     "homepage": "index.html"
   },
-  "permissions": [
-    "bookmarks"
-  ]
+  "permissions": ["bookmarks"]
 }
