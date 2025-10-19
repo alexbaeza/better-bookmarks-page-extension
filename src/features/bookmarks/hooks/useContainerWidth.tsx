@@ -12,7 +12,7 @@ export function useContainerWidth() {
 
   useEffect(() => {
     updateWidth();
-    
+
     const resizeObserver = new ResizeObserver(updateWidth);
     if (containerRef.current) {
       resizeObserver.observe(containerRef.current);

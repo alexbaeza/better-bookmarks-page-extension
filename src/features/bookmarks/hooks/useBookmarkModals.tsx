@@ -1,11 +1,9 @@
-import type React from 'react';
-
 import { useModal } from '@/app/providers/modal-context';
 import { useBookmarkActions } from '@/features/bookmarks/hooks/useBookmarkActions';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
-import { BookmarkFolderModal } from '@/features/bookmarks/containers/BookmarkFolderModal';
 import { BookmarkFormModal } from '@/features/bookmarks/components/BookmarkFormModal';
+import { BookmarkFolderModal } from '@/features/bookmarks/containers/BookmarkFolderModal';
 
 export function useBookmarkModals() {
   const { showModal, hideModal } = useModal();
