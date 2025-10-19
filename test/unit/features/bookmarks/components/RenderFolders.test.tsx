@@ -35,7 +35,7 @@ describe('RenderFolders', () => {
     // Use getAllByTestId to handle multiple elements
     const folderRoots = screen.getAllByTestId('folder-root');
     expect(folderRoots).toHaveLength(2);
-    
+
     // Check the container has columns class
     const container = folderRoots[0].parentElement;
     expect(container?.className).toMatch(/columns-1/);
