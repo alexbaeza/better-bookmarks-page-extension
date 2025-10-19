@@ -15,7 +15,7 @@ describe('SettingsFlyoutContainer', () => {
       </SettingsFlyoutContainer>
     );
 
-    expect(screen.getByTestId('settings-flyout-toggle')).toBeInTheDocument();
+    expect(screen.getByTestId('settings-toggle')).toBeInTheDocument();
   });
 
   it('opens flyout when toggle is clicked', () => {
@@ -25,7 +25,7 @@ describe('SettingsFlyoutContainer', () => {
       </SettingsFlyoutContainer>
     );
 
-    const toggleButton = screen.getByTestId('settings-flyout-toggle');
+    const toggleButton = screen.getByTestId('settings-toggle');
     fireEvent.click(toggleButton);
 
     expect(screen.getByText('Settings')).toBeInTheDocument();
@@ -39,12 +39,12 @@ describe('SettingsFlyoutContainer', () => {
       </SettingsFlyoutContainer>
     );
 
-    const toggleButton = screen.getByTestId('settings-flyout-toggle');
+    const toggleButton = screen.getByTestId('settings-toggle');
     fireEvent.click(toggleButton);
 
     expect(screen.getByText('Settings')).toBeInTheDocument();
 
-    const closeButton = screen.getByTestId('settings-flyout-close');
+    const closeButton = screen.getByTestId('modal-close-button');
     fireEvent.click(closeButton);
 
     expect(screen.queryByText('Settings')).not.toBeInTheDocument();
@@ -57,7 +57,7 @@ describe('SettingsFlyoutContainer', () => {
       </SettingsFlyoutContainer>
     );
 
-    const toggleButton = screen.getByTestId('settings-flyout-toggle');
+    const toggleButton = screen.getByTestId('settings-toggle');
     fireEvent.click(toggleButton);
 
     expect(screen.getByText('Settings')).toBeInTheDocument();

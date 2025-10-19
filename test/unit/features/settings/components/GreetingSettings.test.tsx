@@ -33,12 +33,12 @@ describe('GreetingSettings', () => {
       expect(greetingToggle).not.toBeChecked();
 
       // Input should not be visible when greeting is not shown
-      expect(screen.queryByTestId('greeting-settings-input')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('greeting-name-input')).not.toBeInTheDocument();
     });
 
     it('does not render input when greeting is not shown', () => {
       render(<GreetingSettings />);
-      expect(screen.queryByTestId('greeting-settings-input')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('greeting-name-input')).not.toBeInTheDocument();
     });
   });
 
@@ -68,7 +68,7 @@ describe('GreetingSettings', () => {
         .thenReturn(['Bob', setGreetingNameMock as never]);
 
       render(<GreetingSettings />);
-      const input = screen.getByTestId('greeting-settings-input');
+      const input = screen.getByTestId('greeting-name-input');
       fireEvent.change(input, { target: { value: 'Jane' } });
 
       expect(setGreetingNameMock).toHaveBeenCalledTimes(1);
@@ -101,7 +101,7 @@ describe('GreetingSettings', () => {
 
     it('renders an enabled input when the greeting is enabled', () => {
       render(<GreetingSettings />);
-      const input = screen.getByTestId('greeting-settings-input') as HTMLInputElement;
+      const input = screen.getByTestId('greeting-name-input') as HTMLInputElement;
 
       expect(input).toBeEnabled();
     });
@@ -115,7 +115,7 @@ describe('GreetingSettings', () => {
         .thenReturn([false, vi.fn() as never]);
 
       render(<GreetingSettings />);
-      expect(screen.queryByTestId('greeting-settings-input')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('greeting-name-input')).not.toBeInTheDocument();
     });
   });
 });

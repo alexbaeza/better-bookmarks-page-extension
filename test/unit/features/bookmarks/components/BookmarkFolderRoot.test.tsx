@@ -82,8 +82,8 @@ describe('BookmarkFolderRoot', () => {
   it('renders all the bookmark items in the folder', () => {
     renderWithModalProvider(<BookmarkFolderRoot name={name} folderContents={folderContents} />);
 
-    const bookmarkItems = screen.getAllByTestId('bookmark-folder-item');
-    expect(bookmarkItems.length).toBe(2);
+    const bookmarkItems = screen.getAllByTestId(/bookmark-item-/);
+    expect(bookmarkItems.length).toBe(1);
 
     const folderItem = screen.getByText('Bookmark Folder 1');
     expect(folderItem).toBeInTheDocument();
@@ -115,7 +115,7 @@ describe('BookmarkFolderRoot', () => {
 
     renderWithModalProvider(<BookmarkFolderRoot name={name} folderContents={folderContents} />);
 
-    const bookmarkItems = screen.getAllByTestId('bookmark-folder-item');
+    const bookmarkItems = screen.getAllByTestId(/bookmark-item-/);
     expect(bookmarkItems.length).toBe(2);
     expect(bookmarkItems[0]).toHaveTextContent('Bookmark 1');
     expect(bookmarkItems[1]).toHaveTextContent('Bookmark 2');
@@ -143,7 +143,7 @@ describe('BookmarkFolderRoot', () => {
 
     renderWithModalProvider(<BookmarkFolderRoot name={name} folderContents={folderContents} />);
 
-    const bookmarkItems = screen.getAllByTestId('bookmark-folder-item');
+    const bookmarkItems = screen.getAllByTestId(/bookmark-item-/);
     expect(bookmarkItems.length).toBe(2);
     expect(bookmarkItems[0]).toHaveTextContent('Bookmark 1');
     expect(bookmarkItems[1]).toHaveTextContent('Bookmark 2');
