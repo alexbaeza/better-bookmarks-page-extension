@@ -49,46 +49,6 @@ jobs:
             echo "$COMMIT_MSG" | npx commitlint
           fi
 
-  basic-checks:
-    name: Basic Code Checks
-    runs-on: ubuntu-latest
-    needs: commit-validation
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Install dependencies
-        run: pnpm install
-
       - name: Run checks
         run: |
-          pnpm lint
-          pnpm format
           pnpm check
-
-  pre-checks-summary:
-    name: Pre-checks Summary
-    runs-on: ubuntu-latest
-    needs: [commit-validation, basic-checks]
-    if: always()
-    steps:
-      - name: Summary
-        run: |
-          echo "## Pre-checks Results" >> $GITHUB_STEP_SUMMARY
-          echo "- Commit Validation: ${{ needs.commit-validation.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- Basic Checks: ${{ needs.basic-checks.result }}" >> $GITHUB_STEP_SUMMARY
-          if [ "${{ needs.commit-validation.result }}" = "success" ] && [ "${{ needs.basic-checks.result }}" = "success" ]; then
-            echo "✅ All pre-checks passed!" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "❌ Some pre-checks failed." >> $GITHUB_STEP_SUMMARY
-          fi

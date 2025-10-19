@@ -23,7 +23,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.4.1
         with:
           ref: ${{ github.ref }}
-          check-name: 'Pre-checks Summary'
+          running-workflow-name: "Pre-checks"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 10
 
