@@ -2,9 +2,9 @@ name: Pre-checks
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, develop]
   push:
-    branches: [main]
+    branches: [main, develop]
 
 env:
   NODE_VERSION: '24'
