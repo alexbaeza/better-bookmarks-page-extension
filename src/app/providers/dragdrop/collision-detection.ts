@@ -18,7 +18,7 @@ export const createConstrainedCollisionDetection = (rawFolders: IBookmarkItem[])
       if (isFolder) {
         // Folders can be reordered within the layout or moved to sidebar
         const fromFolderId = srcParent?.id || 'root';
-        
+
         // Check if this droppable container represents the same folder
         let isSameFolder = false;
         if (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX)) {
@@ -31,7 +31,7 @@ export const createConstrainedCollisionDetection = (rawFolders: IBookmarkItem[])
           const destFolderId = id.slice(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX.length);
           isSameFolder = destFolderId === fromFolderId;
         }
-        
+
         // Prevent dropping into the same folder, only allow reordering within same level
         return (
           (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX) && !isSameFolder) ||
@@ -44,7 +44,7 @@ export const createConstrainedCollisionDetection = (rawFolders: IBookmarkItem[])
       // Bookmarks can be dropped in folders or reordered within same folder
       const fromFolderId = srcParent?.id || 'root';
       const ownItems = srcParent?.children?.map((c) => c.id) ?? [];
-      
+
       // Check if this droppable container represents the same folder
       let isSameFolder = false;
       if (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX)) {
@@ -57,7 +57,7 @@ export const createConstrainedCollisionDetection = (rawFolders: IBookmarkItem[])
         const destFolderId = id.slice(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX.length);
         isSameFolder = destFolderId === fromFolderId;
       }
-      
+
       // Prevent dropping into the same folder, only allow reordering within same level
       return (
         (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX) && !isSameFolder) ||
