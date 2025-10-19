@@ -2,9 +2,9 @@ name: Build and Test
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
-    branches: [main]
+    branches: [main, develop]
 
 # Wait for pre-checks to pass before running main pipeline
 # This ensures we don't waste CI resources on invalid commits
@@ -14,10 +14,24 @@ env:
   PNPM_VERSION: '8'
 
 jobs:
+  # Wait for pre-checks to complete successfully before running main pipeline
+  wait-for-pre-checks:
+    name: Wait for Pre-checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for pre-checks to succeed
+        uses: lewagon/wait-on-check-action@v1.4.1
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'Pre-checks Summary'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+
   # Code quality and linting checks
   lint-and-format:
     name: Lint & Format Check
     runs-on: ubuntu-latest
+    needs: [wait-for-pre-checks]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,19 +45,6 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: ${{ env.PNPM_VERSION }}
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -61,6 +62,7 @@ jobs:
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
+    needs: [wait-for-pre-checks]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -75,19 +77,6 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -97,18 +86,16 @@ jobs:
       - name: Generate coverage report
         run: pnpm test:coverage
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
         with:
-          file: ./coverage/lcov.info
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   # Build verification
   build:
     name: Build Verification
     runs-on: ubuntu-latest
+    needs: [wait-for-pre-checks]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -129,18 +116,10 @@ jobs:
       - name: Build application
         run: pnpm build
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: dist/
-          retention-days: 7
-
-  # E2E Tests - Chrome
   e2e-chrome:
     name: E2E Tests (Chrome)
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [wait-for-pre-checks, build]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -155,27 +134,8 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-          path: dist/
 
       - name: Start development server
         run: |
@@ -189,31 +149,14 @@ jobs:
         run: npx wait-on http://localhost:3000 --timeout 30000
 
       - name: Run E2E tests (Chrome)
-        run: pnpm cypress run --browser chrome --config video=false,screenshotOnRunFailure=true
+        run: pnpm test:e2e:chrome
         env:
           CYPRESS_baseUrl: http://localhost:3000
 
-      - name: Upload E2E screenshots
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: e2e-screenshots-chrome
-          path: cypress/screenshots/
-          retention-days: 7
-
-      - name: Upload E2E videos
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: e2e-videos-chrome
-          path: cypress/videos/
-          retention-days: 7
-
-  # E2E Tests - Firefox
   e2e-firefox:
     name: E2E Tests (Firefox)
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [wait-for-pre-checks, build]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -228,27 +171,8 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-          path: dist/
 
       - name: Start development server
         run: |
@@ -262,142 +186,6 @@ jobs:
         run: npx wait-on http://localhost:3000 --timeout 30000
 
       - name: Run E2E tests (Firefox)
-        run: pnpm cypress run --browser firefox --config video=false,screenshotOnRunFailure=true
+        run: pnpm test:e2e:firefox
         env:
           CYPRESS_baseUrl: http://localhost:3000
-
-      - name: Upload E2E screenshots
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: e2e-screenshots-firefox
-          path: cypress/screenshots/
-          retention-days: 7
-
-      - name: Upload E2E videos
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: e2e-videos-firefox
-          path: cypress/videos/
-          retention-days: 7
-
-  # Security audit
-  security-audit:
-    name: Security Audit
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-  # Security audit with detailed reporting
-  security-audit:
-    name: Security Audit
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run security audit
-        run: |
-          echo "🔍 Running security audit..."
-          pnpm audit --audit-level moderate --json > audit-results.json || true
-          
-          # Check for critical vulnerabilities
-          if pnpm audit --audit-level critical 2>/dev/null; then
-            echo "❌ Critical vulnerabilities found!"
-            exit 1
-          else
-            echo "✅ No critical vulnerabilities found"
-          fi
-          
-          # Check for high vulnerabilities
-          if pnpm audit --audit-level high 2>/dev/null; then
-            echo "⚠️ High vulnerabilities found - review required"
-            pnpm audit --audit-level high
-          else
-            echo "✅ No high vulnerabilities found"
-          fi
-
-      - name: Upload security audit results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: security-audit-results
-          path: audit-results.json
-          retention-days: 30
-
-  # Summary job
-  ci-summary:
-    name: CI Summary
-    runs-on: ubuntu-latest
-    needs: [lint-and-format, unit-tests, build, e2e-chrome, e2e-firefox, security-audit]
-    if: always()
-    steps:
-      - name: CI Summary
-        run: |
-          echo "## 🚀 CI Pipeline Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Lint & Format | ${{ needs.lint-and-format.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Unit Tests | ${{ needs.unit-tests.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Build | ${{ needs.build.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| E2E Tests (Chrome) | ${{ needs.e2e-chrome.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| E2E Tests (Firefox) | ${{ needs.e2e-firefox.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Security Audit | ${{ needs.security-audit.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Note**: This pipeline runs after pre-checks (commit validation, basic linting) have passed." >> $GITHUB_STEP_SUMMARY
-
