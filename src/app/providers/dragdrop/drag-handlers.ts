@@ -45,7 +45,8 @@ export const createDragHandlers = (rawFolders: IBookmarkItem[], refreshBookmarks
           refreshBookmarks();
           return;
         }
-        // Same-folder container drop: continue to reorder flow below
+        // Same-folder container drop: prevent this operation
+        return;
       }
 
       // Handle reordering folders within same level
@@ -78,14 +79,15 @@ export const createDragHandlers = (rawFolders: IBookmarkItem[], refreshBookmarks
       }
 
       if (destFolderId) {
-        // If destination is same folder, do not treat as a move-to-index-0; fall through to reorder logic
+        // If destination is different from source, move the bookmark
         const fromFolderId = srcParent?.id || 'root';
         if (destFolderId !== fromFolderId) {
           await moveItem(fromId, fromFolderId, destFolderId, 0);
           refreshBookmarks();
           return;
         }
-        // Same-folder container drop: continue to reorder flow below
+        // Same-folder container drop: prevent this operation
+        return;
       }
 
       // Handle reordering within same folder (bookmarks only)

@@ -80,14 +80,15 @@ export const DragDropProvider: React.FC<{ children: ReactNode }> = ({ children }
       }
 
       if (destFolderId) {
-        // If destination is same folder, do not treat as a move-to-index-0; fall through to reorder logic
+        // If destination is different from source, move the bookmark
         const fromFolderId = srcParent?.id || 'root';
         if (destFolderId !== fromFolderId) {
           await moveItem(fromId, fromFolderId, destFolderId, 0);
           refreshBookmarks();
           return;
         }
-        // Same-folder container drop: continue to reorder flow below
+        // Same-folder container drop: prevent this operation
+        return;
       }
 
       // Handle reordering within same folder (bookmarks only)
@@ -120,20 +121,53 @@ export const DragDropProvider: React.FC<{ children: ReactNode }> = ({ children }
 
       if (isFolder) {
         // Folders can be reordered within the layout or moved to sidebar
+        const fromFolderId = srcParent?.id || 'root';
+        
+        // Check if this droppable container represents the same folder
+        let isSameFolder = false;
+        if (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX)) {
+          const destFolderId = id.slice(DROPPABLE_ROOT_FOLDER_PREFIX.length);
+          isSameFolder = destFolderId === fromFolderId;
+        } else if (id.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX)) {
+          const destFolderId = id.slice(DROPPABLE_SIDEBAR_FOLDER_PREFIX.length);
+          isSameFolder = destFolderId === fromFolderId;
+        } else if (id.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX)) {
+          const destFolderId = id.slice(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX.length);
+          isSameFolder = destFolderId === fromFolderId;
+        }
+        
+        // Prevent dropping into the same folder, only allow reordering within same level
         return (
-          id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX) ||
-          id.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX) ||
-          id.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX) ||
-          // Allow reordering within same level
+          (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX) && !isSameFolder) ||
+          (id.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX) && !isSameFolder) ||
+          (id.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX) && !isSameFolder) ||
+          // Allow reordering within same level (but not dropping into same folder)
           (srcParent?.children?.map((c) => c.id) ?? []).includes(id)
         );
       }
       // Bookmarks can be dropped in folders or reordered within same folder
+      const fromFolderId = srcParent?.id || 'root';
       const ownItems = srcParent?.children?.map((c) => c.id) ?? [];
+      
+      // Check if this droppable container represents the same folder
+      let isSameFolder = false;
+      if (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX)) {
+        const destFolderId = id.slice(DROPPABLE_ROOT_FOLDER_PREFIX.length);
+        isSameFolder = destFolderId === fromFolderId;
+      } else if (id.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX)) {
+        const destFolderId = id.slice(DROPPABLE_SIDEBAR_FOLDER_PREFIX.length);
+        isSameFolder = destFolderId === fromFolderId;
+      } else if (id.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX)) {
+        const destFolderId = id.slice(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX.length);
+        isSameFolder = destFolderId === fromFolderId;
+      }
+      
+      // Prevent dropping into the same folder, only allow reordering within same level
       return (
-        id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX) ||
-        id.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX) ||
-        id.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX) ||
+        (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX) && !isSameFolder) ||
+        (id.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX) && !isSameFolder) ||
+        (id.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX) && !isSameFolder) ||
+        // Allow reordering within same level (but not dropping into same folder)
         ownItems.includes(id)
       );
     });
