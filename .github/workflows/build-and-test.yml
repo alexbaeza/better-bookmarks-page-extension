@@ -14,24 +14,10 @@ env:
   PNPM_VERSION: '8'
 
 jobs:
-  # Wait for pre-checks to complete successfully before running main pipeline
-  wait-for-pre-checks:
-    name: Wait for Pre-checks
-    runs-on: ubuntu-latest
-    steps:
-      - name: Wait for pre-checks to succeed
-        uses: lewagon/wait-on-check-action@v1.4.1
-        with:
-          ref: ${{ github.ref }}
-          running-workflow-name: "Pre-checks"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
-
   # Code quality and linting checks
   lint-and-format:
     name: Lint & Format Check
     runs-on: ubuntu-latest
-    needs: [wait-for-pre-checks]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
