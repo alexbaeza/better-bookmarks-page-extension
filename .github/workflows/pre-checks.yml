@@ -26,20 +26,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Validate commit messages
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "Validating commits in PR..."
-            git log --oneline ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} | while read commit; do
-              COMMIT_MSG=$(git log --format=%s -n 1 ${commit%% *})
-              echo "Checking: $COMMIT_MSG"
-              echo "$COMMIT_MSG" | npx commitlint
-            done
-          else
-            echo "Validating commit in push..."
-            COMMIT_MSG=$(git log --format=%s -n 1 HEAD)
-            echo "Checking: $COMMIT_MSG"
-            echo "$COMMIT_MSG" | npx commitlint
-          fi
+        uses: wagoid/commitlint-github-action@v6
 
   basic-checks:
     name: Basic Code Checks
