@@ -21,7 +21,6 @@ export const createDragHandlers = (rawFolders: IBookmarkItem[], refreshBookmarks
     const srcParent = findParentOfItem(rawFolders, fromId);
     const activeItem = findItemById(rawFolders, fromId);
 
-
     // Determine if we're dragging a folder or a bookmark
     const isFolder = activeItem && !activeItem.url;
 
@@ -77,7 +76,6 @@ export const createDragHandlers = (rawFolders: IBookmarkItem[], refreshBookmarks
       } else if (overId.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX)) {
         destFolderId = overId.slice(DROPPABLE_ROOT_FOLDER_PREFIX.length);
       }
-      
 
       if (destFolderId) {
         // If destination is same folder, do not treat as a move-to-index-0; fall through to reorder logic
@@ -94,7 +92,7 @@ export const createDragHandlers = (rawFolders: IBookmarkItem[], refreshBookmarks
       if (srcParent?.children) {
         const fromIndex = srcParent.children.findIndex((c) => c.id === fromId);
         let toIndex = srcParent.children.findIndex((c) => c.id === overId);
-        
+
         // If overId is a droppable container (same folder), default to last position
         if (toIndex === -1 && destFolderId === srcParent.id) {
           toIndex = srcParent.children.length - 1;
