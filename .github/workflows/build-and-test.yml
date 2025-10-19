@@ -35,14 +35,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run linting
-        run: pnpm lint
-
-      - name: Check formatting
-        run: pnpm format --check
-
-      - name: Run type checking
+      - name: Check lint & formatting
         run: pnpm check
+
 
   # Unit tests
   unit-tests:
