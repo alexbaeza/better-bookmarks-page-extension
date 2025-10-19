@@ -1,6 +1,5 @@
 // src/app/app.tsx
 import { useAtomValue } from 'jotai';
-import { useAtomValue as useAtomValueJotai } from 'jotai';
 import type React from 'react';
 
 import { themeAtom } from '@/app/providers/atoms';
@@ -11,7 +10,7 @@ import { BackgroundOverlay } from '@/shared/ui/BackgroundOverlay';
 
 export const App: React.FC = () => {
   const themeClass = useAtomValue(themeAtom);
-  const zoom = useAtomValueJotai(zoomAtom);
+  const zoom = useAtomValue(zoomAtom);
   return (
     <AppProviders>
       <div data-testid="container" className={`flex h-screen max-h-screen flex-col overflow-hidden bg-bgColor-primary ${themeClass}`} style={{ zoom }}>

@@ -4,7 +4,7 @@ import type React from 'react';
 import { memo } from 'react';
 
 import { DROPPABLE_SIDEBAR_FOLDER_PREFIX } from '@/config/dnd-constants';
-import { countFolders, countItems, onlyFolders } from '@/features/navigation/sidebar/utils/sidebar.utils';
+import { countFolders, countItems, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
 import { SidebarLeaf } from './SideBarLeaf';

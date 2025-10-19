@@ -18,23 +18,26 @@ export const SettingsFlyoutContainer: React.FC<SettingsFlyoutContainerProps> = (
   return (
     <>
       <IconButton
-        dataTestId="settings-flyout-toggle"
+        dataTestId="settings-toggle"
         onClick={toggleFlyout}
         icon={<CogIcon size={16} />}
         className="text-fgColor-secondary hover:text-fgColor-primary"
+        aria-label="Open settings"
       />
 
-      <Flyout isOpen={isOpen} onClose={closeFlyout} side="right" widthClass="w-[28rem]">
+      <Flyout isOpen={isOpen} onClose={closeFlyout} side="right" widthClass="w-[28rem]" data-testid="settings-modal">
         <div className="flex items-center justify-between border-b border-fgColor-secondary/20 p-4">
           <h2 className="text-xl font-semibold text-fgColor-primary">Settings</h2>
           <IconButton
-            dataTestId="settings-flyout-close"
+            dataTestId="modal-close-button"
             onClick={closeFlyout}
             icon={<X size={16} />}
             className="text-fgColor-secondary hover:text-fgColor-primary"
           />
         </div>
-        <div className="flex-1 overflow-y-auto p-4">{children}</div>
+        <div className="flex-1 overflow-y-auto p-4" style={{ overflowY: 'auto' }}>
+          {children}
+        </div>
       </Flyout>
     </>
   );

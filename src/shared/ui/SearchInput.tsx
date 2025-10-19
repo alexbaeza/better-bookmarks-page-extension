@@ -6,9 +6,10 @@ interface SearchInputProps {
   onChange: (value: string) => void;
   placeholder?: string;
   className?: string;
+  'data-testid'?: string;
 }
 
-export const SearchInput: React.FC<SearchInputProps> = ({ value, onChange, placeholder, className = '' }) => {
+export const SearchInput: React.FC<SearchInputProps> = ({ value, onChange, placeholder, className = '', 'data-testid': dataTestId }) => {
   return (
     <div className={`relative mx-auto w-full max-w-xl ${className}`}>
       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-fgColor-secondary">
@@ -19,6 +20,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({ value, onChange, place
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
+        data-testid={dataTestId}
         className="
           w-full rounded-xl bg-bgColor-secondary
           px-12 py-5 text-xl text-fgColor-primary transition-shadow

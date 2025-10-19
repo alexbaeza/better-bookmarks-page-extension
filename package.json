@@ -49,14 +49,6 @@
     "@badeball/cypress-cucumber-preprocessor": "^20.0.0",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@biomejs/biome": "^1.9.4",
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2",
-    "@cypress/webpack-preprocessor": "^6.0.0",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/exec": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^10.0.0",
-    "@semantic-release/npm": "^11.0.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.9.1",
@@ -84,7 +76,17 @@
     "vite": "^7.1.10",
     "vitest": "^3.2.4",
     "vitest-when": "^0.8.1",
-    "wait-on": "^8.0.1"
+    "wait-on": "^8.0.1",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "husky": "^9.1.6",
+    "conventional-changelog-cli": "^4.1.0",
+    "semantic-release": "^23.0.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^10.0.0",
+    "@semantic-release/npm": "^11.0.0"
   },
   "browserslist": {
     "production": [

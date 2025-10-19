@@ -1,13 +1,12 @@
 import { useAtom } from 'jotai';
 import type React from 'react';
-import { useCallback, useEffect, useMemo, useReducer } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 
 import { initialAppState } from '@/app/providers/app-state';
 import { AppStateContext } from '@/app/providers/app-state-context';
 import { appStateReducer } from '@/app/providers/app-state-reducer';
 import { bookmarksAtom } from '@/app/providers/atoms';
 import { getBookmarksData } from '@/features/bookmarks/lib/bookmarks';
-import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
 interface AppStateProviderProps {
   children?: React.ReactNode;
@@ -44,14 +43,6 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
     fetchData();
   }, [setPersistedBookmarks]);
 
-  const updateBookmarkLayout = useCallback(
-    (_updatedFolders: IBookmarkItem[]) => {
-      // No-op: layout persistence removed in favor of ordering service persistence
-      dispatch({ type: 'LOAD_BOOKMARKS_DATA_SUCCESS', data: state.bookmarks });
-    },
-    [state.bookmarks]
-  );
-
   const contextValues = useMemo(
     () => ({
       bookmarks: state.bookmarks,
@@ -70,9 +61,8 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
           dispatch({ type: 'LOAD_BOOKMARKS_DATA_FINISHED' });
         }
       },
-      updateBookmarkLayout,
     }),
-    [state, setPersistedBookmarks, updateBookmarkLayout]
+    [state, setPersistedBookmarks]
   );
 
   return <AppStateContext.Provider value={contextValues}>{children}</AppStateContext.Provider>;

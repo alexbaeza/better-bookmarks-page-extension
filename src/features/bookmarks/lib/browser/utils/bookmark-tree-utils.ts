@@ -48,3 +48,9 @@ export function findFolderById(folders: IBookmarkItem[], id: string | null): IBo
   }
   return undefined;
 }
+
+export const countItems = (f: IBookmarkItem) => f.children?.filter((c) => !Array.isArray(c.children)).length || 0;
+
+export const countFolders = (f: IBookmarkItem) => f.children?.filter((c) => Array.isArray(c.children)).length || 0;
+
+export const onlyFolders = (f: IBookmarkItem) => Array.isArray(f.children);

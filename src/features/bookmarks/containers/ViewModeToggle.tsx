@@ -16,11 +16,7 @@ export const ViewModeToggle: React.FC = () => {
     <div className="mr-2 flex justify-end">
       <div className="my-3 flex items-center space-x-2 rounded-lg bg-bgColor-secondary p-2">
         <List size={16} className="text-fgColor-primary" data-testid="list-icon" />
-        <Toggle
-          data-testid="view-mode-toggle"
-          checked={isGrid}
-          onChange={(checked) => setViewMode(checked ? BookmarkDisplayMode.Grid : BookmarkDisplayMode.List)}
-        />
+        <Toggle data-testid="view-toggle" checked={isGrid} onChange={(checked) => setViewMode(checked ? BookmarkDisplayMode.Grid : BookmarkDisplayMode.List)} />
         <LayoutGrid size={16} className="text-fgColor-primary" data-testid="grid-icon" />
       </div>
     </div>

@@ -3,11 +3,11 @@ import type React from 'react';
 
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { useFavicon } from '@/features/bookmarks/hooks/useFavicon';
+import { countFolders, countItems, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import { getDefaultFavicon } from '@/features/bookmarks/lib/browser/utils/default-favicon';
 import { FlyoutFolderNode } from '@/features/navigation/sidebar/components/FlyOutFolderNode';
 import { SidebarLeaf } from '@/features/navigation/sidebar/components/SideBarLeaf';
 import { SidebarSection } from '@/features/navigation/sidebar/components/SideBarSection';
-import { countFolders, countItems, onlyFolders } from '@/features/navigation/sidebar/utils/sidebar.utils';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { InlineFlyout } from '@/shared/ui/Flyout';
 import { ImageWithFallback } from '@/shared/ui/ImageWithFallback';

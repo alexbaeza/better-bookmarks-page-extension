@@ -60,7 +60,7 @@ export const UnifiedThemeSettings: React.FC = () => {
   const activeTheme = getActiveTheme();
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-testid="theme-settings">
       <div className="text-sm text-fgColor-secondary">Choose from preset themes or create your own custom theme with personalized colors.</div>
 
       {/* Theme Selection */}
@@ -73,6 +73,7 @@ export const UnifiedThemeSettings: React.FC = () => {
               <button
                 type="button"
                 key={themeKey}
+                data-testid={`theme-${themeKey}`}
                 onClick={() => handleThemeChange(themeKey)}
                 className={`p-3 rounded-lg border text-sm font-medium transition-colors ${
                   theme === themeKey
@@ -106,6 +107,7 @@ export const UnifiedThemeSettings: React.FC = () => {
             <div className="flex-1">
               <button
                 type="button"
+                data-testid="theme-custom"
                 onClick={() => handleThemeChange('custom')}
                 className={`relative p-3 rounded-lg border text-sm font-medium transition-all duration-300 w-full ${
                   theme === 'custom'

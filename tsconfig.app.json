@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client", "vitest", "@testing-library/jest-dom"],
+    "types": ["vite/client", "vitest", "@testing-library/jest-dom", "chrome", "firefox-webext-browser"],
     "jsx": "react-jsx",
     "useDefineForClassFields": true,
     "allowJs": false,

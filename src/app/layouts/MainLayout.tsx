@@ -14,7 +14,9 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({ children 
       {sidebarEnabled && <Sidebar />}
       <div className="flex-1 overflow-y-auto">
         <Header />
-        <div className="flex-1 overflow-y-auto p-2">{children}</div>
+        <div className="flex-1 overflow-y-auto p-2" data-testid="content">
+          {children}
+        </div>
       </div>
     </div>
   );

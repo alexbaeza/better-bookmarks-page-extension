@@ -1,4 +1,5 @@
 import type React from 'react';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 type Side = 'left' | 'right';
@@ -11,14 +12,44 @@ interface FlyoutProps {
   withOverlay?: boolean;
   className?: string;
   children: React.ReactNode;
+  'data-testid'?: string;
 }
 
-export const Flyout: React.FC<FlyoutProps> = ({ isOpen, onClose, side = 'right', widthClass = 'w-[28rem]', withOverlay = true, className = '', children }) => {
+export const Flyout: React.FC<FlyoutProps> = ({
+  isOpen,
+  onClose,
+  side = 'right',
+  widthClass = 'w-[28rem]',
+  withOverlay = true,
+  className = '',
+  children,
+  'data-testid': dataTestId,
+}) => {
   const handleOverlayKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Escape') {
       onClose();
     }
   };
+
+  const handleFlyoutKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      onClose();
+    }
+  };
+
+  // Add global Escape key listener when flyout is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleGlobalKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleGlobalKeyDown);
+    return () => document.removeEventListener('keydown', handleGlobalKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
   return createPortal(
@@ -39,6 +70,9 @@ export const Flyout: React.FC<FlyoutProps> = ({ isOpen, onClose, side = 'right',
         } ${className}`}
         role="dialog"
         aria-modal="true"
+        data-testid={dataTestId}
+        onKeyDown={handleFlyoutKeyDown}
+        tabIndex={-1}
         style={{
           margin: 0,
           padding: 0,

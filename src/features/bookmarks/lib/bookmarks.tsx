@@ -5,6 +5,9 @@ import type { BrowserBookmarkAPI, NormalizedBookmarkItem, NormalizedBookmarkTree
 import { faviconFromUrl } from './favicon';
 import { orderingService } from './ordering-service';
 
+// Create browser API instance
+const browserAPI: BrowserBookmarkAPI = createBookmarkAPI();
+
 /**
  * Convert normalized bookmark item to our app's bookmark interface
  */
@@ -118,8 +121,11 @@ export async function moveItem(itemId: string, fromFolderId: string, toFolderId:
  * Reorder items within the same folder
  */
 export async function reorderItems(folderId: string, fromIndex: number, toIndex: number): Promise<void> {
-  // Keep browser data pure; persist ordering overlay client-side only
+  // Update the ordering service first for immediate UI feedback
   orderingService.reorderItems(folderId, fromIndex, toIndex);
+
+  // Then update the browser API
+  await browserAPI.reorderItems(folderId, fromIndex, toIndex);
 }
 
 /**

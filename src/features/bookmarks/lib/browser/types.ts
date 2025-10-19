@@ -57,4 +57,9 @@ export interface BrowserBookmarkAPI {
    * Search bookmarks
    */
   searchBookmarks(query: string): Promise<NormalizedBookmarkItem[]>;
+
+  /**
+   * Reorder items within a folder
+   */
+  reorderItems(folderId: string, fromIndex: number, toIndex: number): Promise<void>;
 }

@@ -10,7 +10,6 @@ interface AppStateContextProps {
   error?: Error;
   providerInitialised: boolean;
   refreshBookmarks: () => Promise<void>;
-  updateBookmarkLayout: (folders: BookmarksData['folders']) => void;
 }
 
 const stub = (): never => {
@@ -23,7 +22,6 @@ export const initialContext: AppStateContextProps = {
   error: initialAppState.error,
   providerInitialised: initialAppState.providerInitialised,
   refreshBookmarks: stub,
-  updateBookmarkLayout: stub,
 };
 
 export const AppStateContext = createContext<AppStateContextProps>(initialContext);

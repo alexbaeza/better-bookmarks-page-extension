@@ -24,7 +24,9 @@ export const ZoomSettings: React.FC<ZoomSettingsProps> = ({ dataTestId }) => {
           disabled={zoom >= maxZoom}
           className="disabled:opacity-50"
         />
-        <div className="w-12 text-center text-sm tabular-nums text-fgColor-primary">{Math.round(zoom * 100)}%</div>
+        <div className="w-12 text-center text-sm tabular-nums text-fgColor-primary" data-testid="zoom-display">
+          {Math.round(zoom * 100)}%
+        </div>
         <IconButton
           aria-label="Decrease scale"
           onClick={() => setZoom(-zoomStep)}

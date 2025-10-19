@@ -37,3 +37,38 @@ code {
     background-position: 0% 50%;
   }
 }
+
+/* Utility Classes for Common Patterns */
+@layer components {
+  /* Text utilities */
+  .text-primary-sm {
+    @apply text-sm text-fgColor-primary;
+  }
+
+  .text-secondary-sm {
+    @apply text-sm text-fgColor-secondary;
+  }
+
+  /* Layout utilities */
+  .flex-center {
+    @apply flex items-center;
+  }
+
+  .flex-center-space {
+    @apply flex items-center space-x-2;
+  }
+
+  /* Button utilities */
+  .btn-menu-item {
+    @apply flex w-full items-center space-x-2 rounded-lg p-2 text-sm text-fgColor-primary hover:bg-fgColor-hover;
+  }
+
+  .btn-icon {
+    @apply inline-flex items-center rounded-lg bg-bgColor-secondary p-1.5 text-sm text-fgColor-primary hover:bg-fgColor-hover hover:text-white disabled:opacity-50;
+  }
+
+  /* Keep only essential utilities that can't be components */
+  .truncate-text {
+    @apply truncate;
+  }
+}

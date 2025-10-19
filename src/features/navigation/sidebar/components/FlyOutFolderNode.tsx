@@ -3,7 +3,7 @@ import type React from 'react';
 
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
-import { countFolders, countItems } from '../utils/sidebar.utils';
+import { countFolders, countItems } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import { SidebarLeaf } from './SideBarLeaf';
 
 type FlyoutFolderNodeProps = {

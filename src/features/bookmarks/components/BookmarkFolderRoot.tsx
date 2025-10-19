@@ -1,5 +1,4 @@
 import { useDraggable, useDroppable } from '@dnd-kit/core';
-import { GripVertical } from 'lucide-react';
 import type React from 'react';
 
 import { DROPPABLE_ROOT_FOLDER_PREFIX } from '@/config/dnd-constants';
@@ -18,17 +17,16 @@ export interface BookmarkFolderRootProps {
 export const BookmarkFolderRoot: React.FC<BookmarkFolderRootProps> = ({ folderId, name, folderContents }) => {
   const { searchTerm } = useBookmarks();
 
+  // System folders that shouldn't be draggable
+  const isSystemFolder = name === 'Bookmarks Menu' || name === 'Bookmarks Toolbar' || name === 'Other Bookmarks';
+
   const { isOver, setNodeRef } = useDroppable({
     id: `${DROPPABLE_ROOT_FOLDER_PREFIX}${folderId}`,
   });
 
-  const {
-    attributes,
-    listeners,
-    setNodeRef: setDragRef,
-    isDragging,
-  } = useDraggable({
+  const { setNodeRef: setDragRef, isDragging } = useDraggable({
     id: folderId,
+    disabled: isSystemFolder,
   });
 
   return (
@@ -43,9 +41,6 @@ export const BookmarkFolderRoot: React.FC<BookmarkFolderRootProps> = ({ folderId
     >
       <div className="mb-2 mt-3 flex items-center justify-between space-x-2">
         <div className="flex items-center space-x-2 truncate">
-          <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-fgColor-secondary hover:text-fgColor-primary">
-            <GripVertical size={16} />
-          </div>
           <h2 className="font-base truncate text-sm uppercase leading-6 tracking-wide text-fgColor-primary">{highlighter(name, searchTerm)}</h2>
         </div>
         <span className="flex w-8 min-w-8 items-center justify-center rounded-full bg-bgColor-tertiary text-xs font-bold text-fgColor-primary">

@@ -125,6 +125,25 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
   }
 
   /**
+   * Reorder items within a folder using moveBookmark
+   */
+  async reorderItems(folderId: string, fromIndex: number, toIndex: number): Promise<void> {
+    // Get the folder to find the item to move
+    const folder = await this.browser.bookmarks.getSubTree(folderId);
+    if (!folder[0]?.children || fromIndex >= folder[0].children.length) {
+      throw new Error(`Invalid folder or index: ${folderId}, ${fromIndex}`);
+    }
+
+    const itemToMove = folder[0].children[fromIndex];
+    if (!itemToMove) {
+      throw new Error(`Item not found at index ${fromIndex}`);
+    }
+
+    // Move the item to the new position
+    await this.browser.bookmarks.move(itemToMove.id, { index: toIndex });
+  }
+
+  /**
    * Normalize Firefox bookmark item to our standard format
    */
   private normalizeBookmarkItem = (item: browser.bookmarks.BookmarkTreeNode): NormalizedBookmarkItem => {
