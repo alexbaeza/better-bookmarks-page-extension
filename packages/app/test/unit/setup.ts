@@ -2,13 +2,13 @@ import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
 import { afterAll, afterEach, beforeAll } from 'vitest';
 
-import { server } from '../mocks/server';
-import '../mocks/modules';
+import { server } from './mocks/server';
+import './mocks/modules';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => {
   server.resetHandlers();
-  cleanup(); // Clean up DOM after each test
+  cleanup();
 });
 afterAll(() => server.close());
 
@@ -19,3 +19,5 @@ document.body.appendChild(modalRoot);
 const bookmarkMenuPortal = document.createElement('div');
 bookmarkMenuPortal.setAttribute('id', 'bookmark-menu-portal');
 document.body.appendChild(bookmarkMenuPortal);
+
+

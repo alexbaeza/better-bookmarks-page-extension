@@ -1,6 +1,5 @@
 import { vi } from 'vitest';
 
-// Mock jotai with proper exports
 vi.mock('jotai', async () => {
   const actual = await vi.importActual('jotai');
   return {
@@ -11,7 +10,6 @@ vi.mock('jotai', async () => {
   };
 });
 
-// Mock context providers with new architecture paths
 vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
   BookmarkNavigationProvider: ({ children }: { children: React.ReactNode }) => children,
   useBookmarkNavigation: vi.fn(() => ({
@@ -42,10 +40,7 @@ vi.mock('@/app/providers/app-state-context', () => {
     AppStateContext: {
       Provider: ({ children }: { children: React.ReactNode }) => children,
     },
-    useAppStateContext: vi.fn(() => {
-      // This will be overridden in individual tests that need the error behavior
-      return mockInitialContext;
-    }),
+    useAppStateContext: vi.fn(() => mockInitialContext),
     initialContext: mockInitialContext,
   };
 });
@@ -107,7 +102,6 @@ vi.mock('@/features/bookmarks/hooks/useBookmarkActions', () => ({
   })),
 }));
 
-// Mock chrome APIs
 Object.assign(global, {
   chrome: {
     bookmarks: {
@@ -124,3 +118,5 @@ Object.assign(global, {
     },
   },
 });
+
+

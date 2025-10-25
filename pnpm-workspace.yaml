@@ -1,6 +1,5 @@
 packages:
   - 'packages/app'
   - 'packages/shared-tooling'
-  - 'packages/tests-unit'
   - 'packages/tests-e2e'
 

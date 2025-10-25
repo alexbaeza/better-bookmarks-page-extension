@@ -37,7 +37,6 @@ export default defineConfig({
     environment: 'happy-dom',
     setupFiles: ['./test/unit/setup.ts'],
     css: true,
-
     include: ['test/unit/**/*.test.{ts,tsx}'],
     exclude: [
       'coverage/**',
@@ -87,6 +86,7 @@ export default defineConfig({
         'src/styles/**',
         'src/assets/**',
       ],
+      all: true,
       thresholds: {
         global: {
           branches: 100,
