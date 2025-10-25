@@ -59,7 +59,7 @@ describe('BookmarkContentRenderer', () => {
     render(<BookmarkContentRenderer folderContents={mockItems} folderId="folder1" />);
 
     const container = screen.getByTestId('bookmark-content-container');
-    expect(container).toHaveClass('grid gap-4 p-4');
+    expect(container).toHaveClass('grid gap-2 p-4');
   });
 
   it('passes isGhost to DraggableBookmarkItem when item is active', () => {
