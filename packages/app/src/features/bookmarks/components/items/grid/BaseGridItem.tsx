@@ -55,6 +55,14 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
     }
   };
 
+  const handleTileClick = () => {
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } else if (onClick) {
+      onClick();
+    }
+  };
+
   return (
     <div
       data-testid={dataTestId}
@@ -69,13 +77,13 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
         hover:bg-bgColor-tertiary
       "
     >
-      {/* Top row: Drag handle and options */}
+      {/* Top row: Drag handle and options - non-clickable */}
       <div className="flex w-full flex-end justify-between">
         {/* Drag handle */}
         <div
           data-testid="drag-handle-button"
           {...dragHandleProps}
-          className={`cursor-grab p-1 text-xs ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}
+          className={`cursor-grab p-2 min-w-[24px] min-h-[24px] flex items-center justify-center text-xs ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}
           onClick={(e) => e.stopPropagation()}
         >
           <GripVertical size={12} />
@@ -86,7 +94,7 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
           ref={menuRef}
           data-testid="item-options-button"
           type="button"
-          className="p-1 text-fgColor-secondary hover:text-fgColor-primary cursor-pointer"
+          className="p-2 min-w-[24px] min-h-[24px] flex items-center justify-center text-fgColor-secondary hover:text-fgColor-primary cursor-pointer"
           onClick={(e) => {
             e.stopPropagation();
             setMenuOpen((o) => !o);
@@ -121,36 +129,24 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
         )}
       </div>
 
-      <div className="z-0 -mt-4 flex flex-col items-center">
+      {/* Clickable main content area */}
+      <div
+        className="z-0 -mt-4 flex flex-col items-center cursor-pointer flex-1 w-full"
+        onClick={handleTileClick}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        role="button"
+      >
         {/* Main icon */}
         <div>
-          {url ? (
-            <a
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="
-                bg-bgColor-tertiary-contrast flex size-14 items-center
-                justify-center rounded-lg focus:outline-none focus:ring-2
-                focus:ring-fgColor-accent
-              "
-            >
-              {icon}
-            </a>
-          ) : (
-            <button
-              type="button"
-              className="
-                bg-bgColor-tertiary-contrast flex size-14 items-center
-                justify-center rounded-lg focus:outline-none focus:ring-2
-                focus:ring-fgColor-accent cursor-pointer
-              "
-              onClick={onClick}
-              onKeyDown={handleKeyDown}
-            >
-              {icon}
-            </button>
-          )}
+          <div
+            className="
+              bg-bgColor-tertiary-contrast flex size-14 items-center
+              justify-center rounded-lg
+            "
+          >
+            {icon}
+          </div>
         </div>
 
         {/* Text content - max 2 lines, robust wrapping */}

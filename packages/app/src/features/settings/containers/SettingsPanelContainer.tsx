@@ -1,10 +1,13 @@
 import type React from 'react';
+import { useState } from 'react';
 
-import { AppFooter } from '@/shared/ui/AppFooter';
+import { BuiltWith } from '@/shared/ui/BuiltWith';
 import { Button } from '@/shared/ui/Button';
 import { Divider } from '@/shared/ui/Divider';
+import { Modal } from '@/shared/ui/Modal';
 import { Sponsor } from '@/shared/ui/Sponsor';
 
+import { LOCAL_STORAGE_PREFIX_KEY } from '@/config/constants';
 import { BackgroundOverlaySettings } from '../components/BackgroundOverlaySettings';
 import { GreetingSettings } from '../components/GreetingSettings';
 import { SearchBarSettings } from '../components/SearchBarSettings';
@@ -13,9 +16,11 @@ import { UnifiedThemeSettings } from '../components/UnifiedThemeSettings';
 import { ZoomSettings } from '../components/ZoomSettings';
 
 export const SettingsPanelContainer: React.FC = () => {
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
   const handleResetAll = () => {
     // Clear app-specific localStorage keys only
-    const keys = Object.keys(localStorage).filter((k) => k.startsWith('bb-'));
+    const keys = Object.keys(localStorage).filter((k) => k.startsWith(LOCAL_STORAGE_PREFIX_KEY));
     for (const k of keys) {
       localStorage.removeItem(k);
     }
@@ -56,16 +61,31 @@ export const SettingsPanelContainer: React.FC = () => {
         {/* Maintenance */}
         <div className="space-y-3">
           <Divider title="Maintenance" />
-          <Button variant="secondary" className="w-full" onClick={handleResetAll} aria-label="Reset all settings">
+          <Button variant="secondary" className="w-full" onClick={() => setIsConfirmOpen(true)} aria-label="Reset all settings">
             Reset all settings (clears local storage)
           </Button>
         </div>
 
         {/* Footer */}
         <div className="pt-2">
-          <AppFooter />
+          <BuiltWith />
         </div>
       </div>
+      {isConfirmOpen && (
+        <Modal onClose={() => setIsConfirmOpen(false)} title="Reset all settings" size="md">
+          <div data-testid="confirmation-modal-container" className="space-y-4">
+            <p className="text-sm text-fgColor-secondary">This will clear all saved preferences and reload the page. This action cannot be undone.</p>
+            <div className="flex justify-end gap-2">
+              <Button variant="secondary" onClick={() => setIsConfirmOpen(false)} data-testid="settings-reset-cancel-button">
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleResetAll} data-testid="settings-reset-confirm-button">
+                Confirm
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

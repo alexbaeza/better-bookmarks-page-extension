@@ -8,16 +8,19 @@ import { AppProviders } from '@/app/providers/providers';
 import { AppRoutes } from '@/app/routing/routes';
 import { BackgroundOverlay } from '@/shared/ui/BackgroundOverlay';
 
+import { MainLayout } from './layouts/MainLayout';
+
 export const App: React.FC = () => {
   const themeClass = useAtomValue(themeAtom);
   const zoom = useAtomValue(zoomAtom);
+
   return (
     <AppProviders>
-      <div data-testid="container" className={`flex h-screen max-h-screen flex-col overflow-hidden bg-bgColor-primary ${themeClass}`} style={{ zoom }}>
+      <div data-testid="app-container" className={`flex h-screen max-h-screen flex-col overflow-hidden bg-bgColor-primary ${themeClass}`} style={{ zoom }}>
         <BackgroundOverlay />
-        <div className="flex-1 overflow-auto">
+        <MainLayout>
           <AppRoutes />
-        </div>
+        </MainLayout>
         <div id="modal-root" />
         <div id="bookmark-menu-portal" />
       </div>

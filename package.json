@@ -15,7 +15,7 @@
     "test": "pnpm --filter @better-bookmarks/unit-tests test",
     "test:coverage": "pnpm --filter @better-bookmarks/unit-tests test:coverage",
     "test:e2e": "pnpm --filter @better-bookmarks/e2e-tests test",
-    "test:e2e:open": "pnpm --filter @better-bookmarks/e2e-tests test:headed",
+    "test:e2e:open": "pnpm --filter @better-bookmarks/e2e-tests test:open",
     "test:e2e:chrome": "pnpm --filter @better-bookmarks/e2e-tests test:chrome",
     "test:e2e:firefox": "pnpm --filter @better-bookmarks/e2e-tests test:firefox",
     "test:e2e:spec": "pnpm --filter @better-bookmarks/e2e-tests test:spec",
@@ -26,8 +26,10 @@
     "changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0",
     "changelog:all": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s",
     "semantic-release": "semantic-release",
-    "prepare": "husky install",
-    "commit": "./packages/shared-tooling/scripts/conventional-commit.sh"
+    "prepare": "husky install"
+  },
+  "cypress-cucumber-preprocessor": {
+    "stepDefinitions": "step-definitions/**/*.{js,ts}"
   },
   "dependencies": {},
   "devDependencies": {

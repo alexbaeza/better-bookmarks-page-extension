@@ -10,22 +10,12 @@ beforeEach(() => {
   });
 });
 
-// Import commands.js using ES2015 syntax:
-import './commands';
-
 // Global configuration
 Cypress.on('uncaught:exception', (_err, _runnable) => {
   // Prevent Cypress from failing on uncaught exceptions
   // This is useful for browser extension testing
   return false;
 });
-
-// Performance optimizations
-Cypress.config('defaultCommandTimeout', 4000);
-Cypress.config('requestTimeout', 5000);
-Cypress.config('responseTimeout', 5000);
-Cypress.config('animationDistanceThreshold', 0);
-Cypress.config('waitForAnimations', false);
 
 // Disable animations globally for faster tests
 Cypress.on('window:before:load', (win) => {

@@ -12,8 +12,6 @@ interface AppStateProviderProps {
   children?: React.ReactNode;
 }
 
-// Deprecated: previous local layout persistence conflicted with ordering service
-
 export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(appStateReducer, initialAppState);
   const [persistedBookmarks, setPersistedBookmarks] = useAtom(bookmarksAtom);

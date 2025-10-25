@@ -1,3 +1,0 @@
-{
-  "stepDefinitions": ["step-definitions/**/*.{js,ts}"]
-}

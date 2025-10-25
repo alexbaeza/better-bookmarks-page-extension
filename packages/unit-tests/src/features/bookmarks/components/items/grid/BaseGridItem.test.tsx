@@ -33,15 +33,16 @@ describe('BaseGridItem', () => {
     expect(screen.getByTestId('custom-item')).toBeInTheDocument();
   });
 
-  it('renders as link when url is provided', () => {
+  it('renders as clickable button when url is provided', () => {
     render(
       <BaseGridItem icon={<div>Icon</div>} url="http://example.com" onEdit={vi.fn()} onDelete={vi.fn()}>
         Test Item
       </BaseGridItem>
     );
 
-    const link = screen.getByRole('link', { name: /icon/i });
-    expect(link).toHaveAttribute('href', 'http://example.com');
+    const button = screen.getByTestId('grid-item');
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute('role', 'button');
   });
 
   it('renders as button when no url', () => {
@@ -52,8 +53,8 @@ describe('BaseGridItem', () => {
       </BaseGridItem>
     );
 
-    // Find the main button (not the options button)
-    const mainButton = screen.getByTestId('grid-item').querySelector('button:not([data-testid="item-options-button"])');
+    // Click the main button (not the options button)
+    const mainButton = screen.getByTestId('grid-item');
     fireEvent.click(mainButton);
     expect(onClick).toHaveBeenCalled();
   });

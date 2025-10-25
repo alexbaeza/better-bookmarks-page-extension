@@ -20,7 +20,6 @@ describe('BackgroundSettings', () => {
   it('renders correctly', () => {
     render(<BackgroundOverlaySettings />);
     expect(screen.getByText('Add some personality to your background')).toBeInTheDocument();
-    expect(screen.getByAltText('None')).toBeInTheDocument();
     expect(screen.getByAltText('Doodle 1')).toBeInTheDocument();
     expect(screen.getByAltText('Doodle 2')).toBeInTheDocument();
   });

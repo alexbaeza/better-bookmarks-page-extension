@@ -44,7 +44,7 @@ describe('BookmarkContentRenderer', () => {
 
     render(<BookmarkContentRenderer folderContents={mockItems} folderId="folder1" />);
 
-    const container = screen.getByTestId('bookmark-content-container');
+    const container = screen.getByTestId('bookmark-content-container-folder1');
     expect(container).toHaveAttribute('data-folder-id', 'folder1');
     expect(container).toHaveClass('gap-2');
   });
@@ -58,7 +58,7 @@ describe('BookmarkContentRenderer', () => {
 
     render(<BookmarkContentRenderer folderContents={mockItems} folderId="folder1" />);
 
-    const container = screen.getByTestId('bookmark-content-container');
+    const container = screen.getByTestId('bookmark-content-container-folder1');
     expect(container).toHaveClass('grid gap-2 p-4');
   });
 
@@ -71,7 +71,7 @@ describe('BookmarkContentRenderer', () => {
 
     render(<BookmarkContentRenderer folderContents={mockItems} folderId="folder1" />);
 
-    const container = screen.getByTestId('bookmark-content-container');
+    const container = screen.getByTestId('bookmark-content-container-folder1');
     expect(container).toHaveAttribute('data-folder-id', 'folder1');
   });
 });

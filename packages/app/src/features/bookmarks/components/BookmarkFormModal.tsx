@@ -50,7 +50,15 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({ onClose, o
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-fgColor-muted">
               {isFolder ? <Folder size={16} className="text-fgColor-muted" /> : <Bookmark size={16} className="text-fgColor-muted" />}
             </div>
-            <Input id="title" name="title" value={formik.values.title} onChange={formik.handleChange} className="pl-10" placeholder="Enter title" />
+            <Input
+              id="title"
+              name="title"
+              value={formik.values.title}
+              onChange={formik.handleChange}
+              className="pl-10"
+              placeholder="Enter title"
+              data-testid="bookmark-edit-title-input"
+            />
           </div>
           {formik.touched.title && formik.errors.title && <div className="mt-1 text-xs text-fgColor-danger">{formik.errors.title}</div>}
         </div>
@@ -65,7 +73,15 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({ onClose, o
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-fgColor-muted">
                 <Globe size={16} className="text-fgColor-muted" />
               </div>
-              <Input id="url" name="url" value={formik.values.url} onChange={formik.handleChange} className="pl-10" placeholder="https://example.com" />
+              <Input
+                id="url"
+                name="url"
+                value={formik.values.url}
+                onChange={formik.handleChange}
+                className="pl-10"
+                placeholder="https://example.com"
+                data-testid="bookmark-edit-url-input"
+              />
             </div>
             {formik.touched.url && formik.errors.url && <div className="mt-1 text-xs text-fgColor-danger">{formik.errors.url}</div>}
           </div>

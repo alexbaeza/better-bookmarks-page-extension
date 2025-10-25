@@ -1,0 +1,11 @@
+import { When } from '@badeball/cypress-cucumber-preprocessor';
+
+When('I enter {string} as {string}', (value: string, fieldName: string) => {
+  // Use data-testid by default, fallback to id for legacy support
+  const selector = fieldName.startsWith('#') ? fieldName : `[data-testid="${fieldName}"]`;
+  cy.get(selector).clear().type(value);
+});
+
+When('I select color {string} for {string}', (color: string, colorKey: string) => {
+  cy.get(`#color-input-${colorKey}`).invoke('val', color).trigger('change');
+});

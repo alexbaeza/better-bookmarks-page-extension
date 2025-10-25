@@ -34,7 +34,7 @@ export const BookmarkContentRenderer: React.FC<BookmarkContentRendererProps> = (
 
   return (
     <SortableContext items={folderContents.map((item) => item.id)} strategy={isList ? verticalListSortingStrategy : rectSortingStrategy}>
-      <div ref={containerRef} className={layoutClass} style={gridStyle} data-folder-id={folderId} data-testid="bookmark-content-container">
+      <div ref={containerRef} className={layoutClass} style={gridStyle} data-folder-id={folderId} data-testid={`bookmark-content-container-${folderId}`}>
         {folderContents.map((item) => (
           <React.Fragment key={item.id}>
             <DraggableBookmarkItem item={item} isGhost={item.id === activeId} />

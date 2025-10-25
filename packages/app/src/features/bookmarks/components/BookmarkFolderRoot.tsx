@@ -45,7 +45,7 @@ export const BookmarkFolderRoot: React.FC<BookmarkFolderRootProps> = ({ folderId
         </div>
         <span
           className="flex w-8 min-w-8 items-center justify-center rounded-full bg-bgColor-tertiary text-xs font-bold text-fgColor-primary"
-          data-testid="bookmark-count"
+          data-testid={`bookmark-count-${folderId}`}
         >
           {folderContents.length}
         </span>

@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 
-import { greetingEnabledAtom, greetingNameAtom, greetingShownAtom } from '@/app/providers/atoms';
+import { greetingEnabledAtom, greetingNameAtom } from '@/app/providers/atoms';
 
 const getGreeting = () => {
   const hour = new Date().getHours();
@@ -18,17 +18,12 @@ const getGreeting = () => {
 export const Greeting = () => {
   const [greetingEnabled] = useAtom(greetingEnabledAtom);
   const [greetingName] = useAtom(greetingNameAtom);
-  const [greetingShown] = useAtom(greetingShownAtom);
-
-  if (!greetingShown) {
-    return null;
-  }
 
   return (
     <div className="flex px-3 pt-3" data-testid="greeting">
       <div className="flex px-3 pt-3">
         <h1 className="text-title-1 mt-16 pr-3 text-3xl font-bold  text-fgColor-primary md:mb-10" data-testid="greeting-message">
-          {getGreeting() + (greetingEnabled ? `, ${greetingName}` : '')}
+          {getGreeting() + (greetingEnabled && greetingName ? `, ${greetingName}` : '')}
         </h1>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { vi } from 'vitest';
 import { when } from 'vitest-when';
 
 import { Header } from '@/app/layouts/Header';
-import { greetingShownAtom, searchBarEnabledAtom } from '@/app/providers/atoms';
+import { greetingEnabledAtom, searchBarEnabledAtom } from '@/app/providers/atoms';
 import { render, screen } from '../../test-utils';
 
 vi.mock('@/features/greeting/components/Greeting', () => ({
@@ -28,7 +28,7 @@ describe('Header', () => {
   });
 
   it('renders greeting and search when enabled', () => {
-    when(spy).calledWith(greetingShownAtom).thenReturn(true);
+    when(spy).calledWith(greetingEnabledAtom).thenReturn(true);
     when(spy).calledWith(searchBarEnabledAtom).thenReturn(true);
 
     render(<Header />);
@@ -40,7 +40,7 @@ describe('Header', () => {
   });
 
   it('hides greeting and shows search when greeting is disabled', () => {
-    when(spy).calledWith(greetingShownAtom).thenReturn(false);
+    when(spy).calledWith(greetingEnabledAtom).thenReturn(false);
     when(spy).calledWith(searchBarEnabledAtom).thenReturn(true);
 
     render(<Header />);
@@ -49,7 +49,7 @@ describe('Header', () => {
   });
 
   it('hides search when searchBarEnabled is false', () => {
-    when(spy).calledWith(greetingShownAtom).thenReturn(true);
+    when(spy).calledWith(greetingEnabledAtom).thenReturn(true);
     when(spy).calledWith(searchBarEnabledAtom).thenReturn(false);
 
     render(<Header />);

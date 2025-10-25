@@ -39,7 +39,7 @@ describe('App', () => {
 
   it('renders the App container and routes', () => {
     render(<App />);
-    expect(screen.getByTestId('container')).toBeInTheDocument();
+    expect(screen.getByTestId('app-container')).toBeInTheDocument();
     expect(screen.getByTestId('routes')).toBeInTheDocument();
   });
 });

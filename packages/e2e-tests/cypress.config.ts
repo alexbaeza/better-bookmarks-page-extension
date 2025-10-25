@@ -17,6 +17,7 @@ export default defineConfig({
     requestTimeout: 2000,
     responseTimeout: 2000,
     pageLoadTimeout: 2000,
+    scrollBehavior: 'center',
 
     // Disable animations for faster tests
     animationDistanceThreshold: 0,

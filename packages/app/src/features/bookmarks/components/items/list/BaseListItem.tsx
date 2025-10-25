@@ -53,16 +53,22 @@ export const BaseListItem: React.FC<BaseListItemProps> = ({ dataTestId, icon, ch
         hover:bg-fgColor-hover
       "
     >
+      {/* drag handle - outside clickable area */}
+      <div className="bg-bgColor-secondary-contrast flex h-full w-8 flex-none items-center justify-center rounded-l-lg">
+        <div
+          {...dragHandleProps}
+          className={`cursor-grab p-2 min-w-[32px] min-h-[32px] flex items-center justify-center ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}
+          data-testid="drag-handle-button"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <GripVertical size={16} />
+        </div>
+      </div>
+
+      {/* clickable content area */}
       <ContentWrapper href={href} onClick={onClick} className="flex h-full flex-1 items-center focus:outline-none">
-        {/* drag‐handle + icon */}
-        <div className="bg-bgColor-secondary-contrast flex h-full w-16 flex-none items-center justify-center space-x-2 rounded-l-lg">
-          <div
-            {...dragHandleProps}
-            className={`cursor-grab p-1 ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}
-            data-testid="drag-handle-button"
-          >
-            <GripVertical size={16} />
-          </div>
+        {/* icon */}
+        <div className="flex h-full w-12 flex-none items-center justify-center">
           <div className={`${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}>{icon}</div>
         </div>
 

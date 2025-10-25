@@ -24,7 +24,7 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
     }
   };
 
-  const renderImage = (image: string, text: string) => {
+  const renderImage = (image: string, text: string, index: number) => {
     const isSelected = selectedBackground === image;
     const imgClasses = `h-16 w-24 rounded-lg border-2 bg-bgColor-secondary object-cover transition-all ${
       isSelected ? 'border-fgColor-accent shadow-lg scale-105' : 'border-fgColor-active hover:border-fgColor-secondary'
@@ -35,7 +35,13 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
     }`;
 
     return (
-      <button type="button" className={containerClasses} onClick={() => handleImageClick(image)} onKeyDown={(e) => handleKeyDown(e, image)}>
+      <button
+        type="button"
+        data-testid={`background-overlay-option-${index}`}
+        className={containerClasses}
+        onClick={() => handleImageClick(image)}
+        onKeyDown={(e) => handleKeyDown(e, image)}
+      >
         <img className={imgClasses} src={image} alt={text} />
         {isSelected && (
           <div data-testid="background-check-icon-container" className="absolute -top-1 -right-1 p-1 bg-fgColor-accent rounded-full">
@@ -51,6 +57,11 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
     setBackgroundOverlayOpacity(value);
   };
 
+  const overlayOptions = [
+    { image: '/images/doodle1.png', text: 'Doodle 1' },
+    { image: '/images/doodle2.png', text: 'Doodle 2' },
+  ];
+
   return (
     <div data-testid={dataTestId} className="space-y-4">
       <div className="text-sm text-fgColor-secondary">Add some personality to your background</div>
@@ -63,7 +74,20 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
             {selectedBackground !== '/images/transparent.png' ? 'Overlay is enabled' : 'Overlay is disabled'}
           </div>
         </div>
-        <div data-testid="background-overlay-toggle" className="relative inline-flex cursor-pointer items-center">
+        <div
+          data-testid="background-overlay-toggle"
+          className="relative inline-flex cursor-pointer items-center"
+          role="switch"
+          aria-checked={selectedBackground !== '/images/transparent.png'}
+          tabIndex={0}
+          onClick={() => setSelectedBackground(selectedBackground !== '/images/transparent.png' ? '/images/transparent.png' : '/images/doodle1.png')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setSelectedBackground(selectedBackground !== '/images/transparent.png' ? '/images/transparent.png' : '/images/doodle1.png');
+            }
+          }}
+        >
           <input
             type="checkbox"
             checked={selectedBackground !== '/images/transparent.png'}
@@ -74,15 +98,13 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
         </div>
       </div>
 
-      {/* Overlay Selection */}
-      <div className="space-y-4">
-        <div className="text-sm font-medium text-fgColor-primary">Choose an overlay</div>
-        <div className="grid grid-cols-3 gap-4">
-          {renderImage('/images/transparent.png', 'None')}
-          {renderImage('/images/doodle1.png', 'Doodle 1')}
-          {renderImage('/images/doodle2.png', 'Doodle 2')}
+      {/* Overlay Selection - only when overlay is enabled */}
+      {selectedBackground !== '/images/transparent.png' && (
+        <div className="space-y-4">
+          <div className="text-sm font-medium text-fgColor-primary">Choose an overlay</div>
+          <div className="grid grid-cols-3 gap-4">{overlayOptions.map((opt, idx) => renderImage(opt.image, opt.text, idx))}</div>
         </div>
-      </div>
+      )}
 
       {/* Opacity Control */}
       {selectedBackground !== '/images/transparent.png' && (

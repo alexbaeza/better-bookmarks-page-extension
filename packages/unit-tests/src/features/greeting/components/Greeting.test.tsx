@@ -3,7 +3,7 @@ import * as jotai from 'jotai/index';
 import { vi } from 'vitest';
 import { when } from 'vitest-when';
 
-import { greetingEnabledAtom, greetingNameAtom, greetingShownAtom } from '@/app/providers/atoms';
+import { greetingEnabledAtom, greetingNameAtom } from '@/app/providers/atoms';
 import { Greeting } from '@/features/greeting/components/Greeting';
 
 describe('Greeting', () => {
@@ -12,10 +12,7 @@ describe('Greeting', () => {
     vi.restoreAllMocks();
     spy = vi.spyOn(jotai, 'useAtom');
 
-    // Mock greetingShownAtom to true so component renders
-    when(spy)
-      .calledWith(greetingShownAtom)
-      .thenReturn([true, vi.fn() as never]);
+    // Component renders when greetingEnabledAtom is true
     when(spy)
       .calledWith(greetingEnabledAtom)
       .thenReturn([true, vi.fn() as never]);
@@ -59,15 +56,6 @@ describe('Greeting', () => {
 
     render(<Greeting />);
     expect(screen.getByText('Good Evening, Bob')).toBeInTheDocument();
-  });
-
-  it('does not render when greetingShown is false', () => {
-    when(spy)
-      .calledWith(greetingShownAtom)
-      .thenReturn([false, vi.fn() as never]);
-
-    const { container } = render(<Greeting />);
-    expect(container.firstChild).toBeNull();
   });
 
   it('displays greeting without name when greetingEnabled is false', () => {

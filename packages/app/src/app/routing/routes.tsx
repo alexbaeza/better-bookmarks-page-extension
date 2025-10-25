@@ -1,6 +1,5 @@
 import type React from 'react';
 
-import { MainLayout } from '@/app/layouts/MainLayout';
 import { AllPage } from '@/app/routing/All';
 import { FolderPage } from '@/app/routing/Folder';
 import { NotFoundPage } from '@/app/routing/NotFound';
@@ -25,5 +24,5 @@ export const AppRoutes: React.FC = () => {
     }
   };
 
-  return <MainLayout>{renderPage()}</MainLayout>;
+  return renderPage();
 };

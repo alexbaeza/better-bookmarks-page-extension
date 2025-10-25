@@ -76,7 +76,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         <div className="flex w-full items-center justify-between space-x-2 rounded bg-fgColor-danger px-3 py-2 text-fgColor-primary">
           <span className="flex-1 text-sm">{confirmLabel}</span>
           <IconButton
-            dataTestId="confirm-button"
+            dataTestId="bookmark-delete-confirm-button"
             icon={<Check size={16} />}
             className="text-fgColor-primary"
             onClick={() => {
@@ -85,7 +85,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
             }}
           />
           <IconButton
-            dataTestId="cancel-button"
+            dataTestId="bookmark-delete-cancel-button"
             icon={<X size={16} />}
             className="text-fgColor-primary"
             onClick={() => {

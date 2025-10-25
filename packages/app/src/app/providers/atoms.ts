@@ -4,46 +4,120 @@ import { atomWithStorage } from 'jotai/utils';
 import { BookmarkDisplayMode } from '@/shared/types/ui';
 import type { ThemeColors } from '@/styles/themes';
 
+import { LOCAL_STORAGE_PREFIX_KEY } from '@/config/constants.ts';
 import type { BookmarksData } from '@/features/bookmarks/lib/bookmarks';
 
-const settings = {
-  theme: 'bb-theme',
-  background: 'bb-background',
-  backgroundOverlayOpacity: 'bb-backgroundOverlayOpacity',
-  greetingEnabled: 'bb-greetingEnabled',
-  sidebarEnabled: 'bb-sidebarEnabled',
-  greetingName: 'bb-greetingName',
-  viewMode: 'bb-viewMode',
-  customTheme: 'bb-customTheme',
-  searchBarEnabled: 'bb-searchBarEnabled',
+const storageKey = (key: string) => {
+  return `${LOCAL_STORAGE_PREFIX_KEY}${key}`;
 };
-export const themeAtom = atomWithStorage<string>(settings.theme, 'default');
-export const customThemeAtom = atomWithStorage<ThemeColors | null>(settings.customTheme, null);
-export const backgroundOverlayAtom = atomWithStorage<string>(settings.background, '/images/transparent.png');
 
-export const sidebarEnabledAtom = atomWithStorage<boolean>(settings.sidebarEnabled, true);
-export const searchBarEnabledAtom = atomWithStorage<boolean>(settings.searchBarEnabled, true);
+const settings = {
+  state: {
+    bookmarks: storageKey('bookmarks'),
+  },
+  preferences: {
+    ui: {
+      theme: storageKey('theme'),
+      customTheme: storageKey('customTheme'),
+      viewMode: storageKey('viewMode'),
+      sidebarEnabled: storageKey('sidebarEnabled'),
+      searchBarEnabled: storageKey('searchBarEnabled'),
+      zoom: storageKey('zoom'),
+    },
+    background: {
+      image: storageKey('background'),
+      overlayOpacity: storageKey('backgroundOverlayOpacity'),
+    },
+    greeting: {
+      enabled: storageKey('greetingEnabled'),
+      name: storageKey('greetingName'),
+    },
+  },
+};
 
-export const backgroundOverlayOpacityAtom = atomWithStorage<number>(settings.backgroundOverlayOpacity, 10);
-
-export const greetingEnabledAtom = atomWithStorage<boolean>(settings.greetingEnabled, true);
-export const greetingNameAtom = atomWithStorage<string>(settings.greetingName, 'Astronaut 🧑‍🚀');
-// Controls showing any time-based greeting (Good morning, etc.)
-export const greetingShownAtom = atomWithStorage<boolean>('bb-greetingShown', true);
-export const viewModeAtom = atomWithStorage<BookmarkDisplayMode>(settings.viewMode, BookmarkDisplayMode.Grid);
-
-// Persisted normalized + ordered bookmarks snapshot
-export const bookmarksAtom = atomWithStorage<BookmarksData>('bb-bookmarks', {
+// =============================
+// Data: Bookmarks snapshot
+// =============================
+/** normalized + ordered bookmarks snapshot used for instant hydration. */
+export const bookmarksAtom = atomWithStorage<BookmarksData>(settings.state.bookmarks, {
   folders: [],
   uncategorized: undefined,
 });
 
-// Zoom (1.0 = 100%)
-export const zoomAtom = atomWithStorage<number>('bb-zoom', 1);
-export const zoomStep = 0.1;
-export const minZoom = 0.8;
-export const maxZoom = 2.0;
+// =============================
+// Settings: Theme & Appearance
+// =============================
+/**
+ * selected theme key. Defaults to 'default'.
+ * Stored in localStorage under settings.preferences.ui.theme.
+ */
+export const themeAtom = atomWithStorage<string>(settings.preferences.ui.theme, 'default');
+/**
+ * custom theme colors when user selects 'custom' theme.
+ * Null means no custom overrides.
+ */
+export const customThemeAtom = atomWithStorage<ThemeColors | null>(settings.preferences.ui.customTheme, null);
+
+/**
+ * background overlay image path. '/images/transparent.png' disables overlay.
+ */
+export const backgroundOverlayAtom = atomWithStorage<string>(settings.preferences.background.image, '/images/transparent.png');
+
+/** toggle for showing the sidebar. */
+export const sidebarEnabledAtom = atomWithStorage<boolean>(settings.preferences.ui.sidebarEnabled, true);
+/** toggle for showing the header search bar. */
+export const searchBarEnabledAtom = atomWithStorage<boolean>(settings.preferences.ui.searchBarEnabled, true);
+
+/** background overlay opacity percentage (0-100). */
+export const backgroundOverlayOpacityAtom = atomWithStorage<number>(settings.preferences.background.overlayOpacity, 10);
+
+// =============================
+// Preferences: Greeting & View
+// =============================
+/** bookmark view mode (Grid/List). */
+export const viewModeAtom = atomWithStorage<BookmarkDisplayMode>(settings.preferences.ui.viewMode, BookmarkDisplayMode.Grid);
+/** toggle for enabling the greeting block. */
+export const greetingEnabledAtom = atomWithStorage<boolean>(settings.preferences.greeting.enabled, true);
+/** display name used by the greeting block. */
+export const greetingNameAtom = atomWithStorage<string>(settings.preferences.greeting.name, 'Astronaut 🧑‍🚀');
+// Note: whether to show the greeting is controlled by greetingEnabledAtom.
+
+// =============================
+// Preferences: Zoom helpers
+// =============================
+/** Zoom helpers (1.0 = 100%). */
+export const ZOOM_STEP = 0.1;
+export const ZOOM_MIN_VALUE = 0.8;
+export const ZOOM_MAX_VALUE = 2.0;
+
+/** zoom scalar (1.0 = 100%). */
+export const zoomAtom = atomWithStorage<number>(settings.preferences.ui.zoom, 1);
 export const setZoomAtom = atom(null, (get, set, delta: number) => {
-  const next = Math.min(maxZoom, Math.max(minZoom, Number((get(zoomAtom) + delta).toFixed(2))));
+  const next = Math.min(ZOOM_MAX_VALUE, Math.max(ZOOM_MIN_VALUE, Number((get(zoomAtom) + delta).toFixed(2))));
   set(zoomAtom, next);
 });
+
+// Optional grouped exports (non-breaking). Keep using named atoms as before.
+export const SETTINGS = {
+  themeAtom,
+  customThemeAtom,
+  backgroundOverlayAtom,
+  backgroundOverlayOpacityAtom,
+  sidebarEnabledAtom,
+  searchBarEnabledAtom,
+} as const;
+
+export const PREFERENCES = {
+  viewModeAtom,
+  greetingEnabledAtom,
+  greetingNameAtom,
+  zoomAtom,
+  setZoomAtom,
+  ZOOM_STEP,
+  ZOOM_MIN_VALUE,
+  ZOOM_MAX_VALUE,
+} as const;
+
+export const DATA = {
+  bookmarksAtom,
+} as const;

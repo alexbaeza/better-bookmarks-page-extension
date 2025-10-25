@@ -25,7 +25,7 @@ export const ActionsOverlay: React.FC<ActionsOverlayProps> = ({ onMouseEnter, on
       className="
         absolute inset-y-0 right-0 z-20
         flex h-full items-center space-x-1
-        rounded-r-lg p-2
+        rounded-r-lg p-1
       "
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -34,8 +34,11 @@ export const ActionsOverlay: React.FC<ActionsOverlayProps> = ({ onMouseEnter, on
         ref={buttonRef as React.Ref<HTMLButtonElement>}
         dataTestId="item-options-button"
         icon={<MoreVertical size={16} />}
-        className="text-fgColor-secondary hover:text-fgColor-primary"
-        onClick={() => setMenuOpen((o) => !o)}
+        className="text-fgColor-secondary hover:text-fgColor-primary min-w-[32px] min-h-[32px] p-2"
+        onClick={(e) => {
+          e.stopPropagation();
+          setMenuOpen((o) => !o);
+        }}
       />
 
       {menuOpen && (

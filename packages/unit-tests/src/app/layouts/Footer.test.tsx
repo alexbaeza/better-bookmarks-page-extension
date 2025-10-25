@@ -1,20 +1,20 @@
 import { render, screen } from '@testing-library/react';
 
-import { Footer } from '@/app/layouts/Footer';
+import { BuiltWith } from '@/shared/ui/BuiltWith';
 
-describe('Footer', () => {
+describe('BuiltWith', () => {
   it('renders the built with message', () => {
-    render(<Footer />);
+    render(<BuiltWith />);
     expect(screen.getByTestId('built-with')).toBeInTheDocument();
   });
 
   it('renders the heart icon', () => {
-    render(<Footer />);
+    render(<BuiltWith />);
     expect(screen.getByTestId('heart-icon')).toBeInTheDocument();
   });
 
   it('renders the author link', () => {
-    render(<Footer />);
+    render(<BuiltWith />);
     const authorLink = screen.getByRole('link');
     expect(authorLink).toBeInTheDocument();
     // Repo URL comes from constants; ensure it is present

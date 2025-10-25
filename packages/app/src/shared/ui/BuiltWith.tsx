@@ -1,11 +1,7 @@
 import { APP_REPO_URL } from '@/config/constants';
 import { HeartIcon } from 'lucide-react';
 
-export const Footer = ({
-  className = 'justify-end',
-}: {
-  className?: string;
-}) => {
+export const BuiltWith = ({ className = 'justify-end' }: { className?: string }) => {
   return (
     <div data-testid="built-with" className={`flex w-full flex-row text-xs text-fgColor-primary ${className}`}>
       {'Built with '}

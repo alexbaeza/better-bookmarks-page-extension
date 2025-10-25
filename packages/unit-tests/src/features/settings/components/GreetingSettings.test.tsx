@@ -3,7 +3,7 @@ import * as jotai from 'jotai';
 import { vi } from 'vitest';
 import { when } from 'vitest-when';
 
-import { greetingEnabledAtom, greetingNameAtom, greetingShownAtom } from '@/app/providers/atoms';
+import { greetingEnabledAtom, greetingNameAtom } from '@/app/providers/atoms';
 import { GreetingSettings } from '@/features/settings/components/GreetingSettings';
 
 describe('GreetingSettings', () => {
@@ -14,11 +14,8 @@ describe('GreetingSettings', () => {
     spy = vi.spyOn(jotai, 'useAtom');
   });
 
-  describe('When Greeting toggle is disabled', () => {
+  describe('When Greeting is disabled', () => {
     beforeEach(() => {
-      when(spy)
-        .calledWith(greetingShownAtom)
-        .thenReturn([false, vi.fn() as never]);
       when(spy)
         .calledWith(greetingEnabledAtom)
         .thenReturn([false, vi.fn() as never]);
@@ -29,7 +26,7 @@ describe('GreetingSettings', () => {
 
     it('renders the component', () => {
       render(<GreetingSettings />);
-      const greetingToggle = screen.getByTestId('greeting-shown-toggle');
+      const greetingToggle = screen.getByTestId('greeting-enabled-toggle');
       expect(greetingToggle).not.toBeChecked();
 
       // Input should not be visible when greeting is not shown
@@ -42,11 +39,8 @@ describe('GreetingSettings', () => {
     });
   });
 
-  describe('When Greeting toggle is enabled', () => {
+  describe('When Greeting is enabled', () => {
     beforeEach(() => {
-      when(spy)
-        .calledWith(greetingShownAtom)
-        .thenReturn([true, vi.fn() as never]);
       when(spy)
         .calledWith(greetingEnabledAtom)
         .thenReturn([true, vi.fn() as never]);
@@ -57,9 +51,6 @@ describe('GreetingSettings', () => {
 
     it('updates the greeting name state when the input value is changed', () => {
       const setGreetingNameMock = vi.fn();
-      when(spy)
-        .calledWith(greetingShownAtom)
-        .thenReturn([true, vi.fn() as never]);
       when(spy)
         .calledWith(greetingEnabledAtom)
         .thenReturn([true, vi.fn() as never]);
@@ -78,9 +69,6 @@ describe('GreetingSettings', () => {
 
     it('updates the greeting enabled state when the checkbox is clicked', () => {
       const setGreetingEnabledMock = vi.fn();
-      when(spy)
-        .calledWith(greetingShownAtom)
-        .thenReturn([true, vi.fn() as never]);
       when(spy)
         .calledWith(greetingEnabledAtom)
         .thenReturn([true, setGreetingEnabledMock as never]);
@@ -106,10 +94,7 @@ describe('GreetingSettings', () => {
       expect(input).toBeEnabled();
     });
 
-    it('does not render input when greeting is shown but personalization is disabled', () => {
-      when(spy)
-        .calledWith(greetingShownAtom)
-        .thenReturn([true, vi.fn() as never]);
+    it('does not render input when greeting is disabled', () => {
       when(spy)
         .calledWith(greetingEnabledAtom)
         .thenReturn([false, vi.fn() as never]);

@@ -150,8 +150,8 @@ describe('BookmarkItem', () => {
       </AllProviders>
     );
 
-    // Find the folder button (not the options button)
-    const folderButton = screen.getByTestId('bookmark-folder-grid-item').querySelector('button:not([data-testid="item-options-button"])');
+    // Click the main button (not the options button)
+    const folderButton = screen.getByTestId('bookmark-folder-grid-item');
     fireEvent.click(folderButton);
     expect(mockOnClick).toHaveBeenCalledTimes(1);
   });

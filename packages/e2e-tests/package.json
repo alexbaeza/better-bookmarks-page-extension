@@ -5,25 +5,21 @@
   "type": "module",
   "scripts": {
     "test": "cypress run",
-    "test:headed": "cypress open",
+    "test:open": "cypress open",
     "test:chrome": "cypress run --browser chrome",
     "test:firefox": "cypress run --browser firefox",
     "test:spec": "cypress run --spec",
-    "test:debug": "cypress run --headed --no-exit",
-    "install:app": "cd ../app && pnpm install",
-    "build:app": "cd ../app && pnpm run build",
-    "preview:app": "cd ../app && pnpm run preview",
-    "dev:app": "cd ../app && pnpm run start"
+    "test:debug": "cypress run --headed --no-exit"
   },
   "dependencies": {},
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^23.2.1",
-    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.6",
-    "cypress": "^13.15.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.7",
+    "cypress": "^15.5.0",
     "typescript": "^5.9.3"
   },
   "engines": {
-    "node": ">=18.0.0",
+    "node": ">=20.0.0",
     "pnpm": ">=10.0.0"
   }
 }

@@ -1,14 +1,14 @@
 import { useAtomValue } from 'jotai';
 import type React from 'react';
 
-import { greetingShownAtom, searchBarEnabledAtom } from '@/app/providers/atoms';
+import { greetingEnabledAtom, searchBarEnabledAtom } from '@/app/providers/atoms';
 import { ViewModeToggle } from '@/features/bookmarks/containers/ViewModeToggle';
 import { Greeting } from '@/features/greeting/components/Greeting';
 import { SearchBar } from '@/features/search/containers/SearchBar';
 import { SettingsToggle } from '@/features/settings/containers/SettingsToggle';
 
 export const Header: React.FC = () => {
-  const showGreeting = useAtomValue(greetingShownAtom);
+  const showGreeting = useAtomValue(greetingEnabledAtom);
   const showSearch = useAtomValue(searchBarEnabledAtom);
 
   return (

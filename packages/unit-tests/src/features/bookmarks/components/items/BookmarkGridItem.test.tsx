@@ -13,10 +13,11 @@ describe('BookmarkGridItem', () => {
     expect(screen.getByRole('img')).toHaveAttribute('src', 'https://icons.duckduckgo.com/ip3/example.com.ico');
   });
 
-  it('renders the link with the correct href', () => {
+  it('renders as a clickable button for bookmarks', () => {
     renderWithBookmarkProviders(<BookmarkGridItem title={title} url={url} onEdit={vi.fn()} onDelete={vi.fn()} />);
-    const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', url);
+    const button = screen.getByTestId('grid-item');
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute('role', 'button');
   });
 
   it('renders with a custom data-testid if passed', () => {

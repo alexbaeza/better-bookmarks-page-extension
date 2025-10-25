@@ -2,7 +2,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import { MinusIcon, PlusIcon } from 'lucide-react';
 import type React from 'react';
 
-import { maxZoom, minZoom, setZoomAtom, zoomAtom, zoomStep } from '@/app/providers/atoms';
+import { ZOOM_MAX_VALUE, ZOOM_MIN_VALUE, ZOOM_STEP, setZoomAtom, zoomAtom } from '@/app/providers/atoms';
 import { IconButton } from '@/shared/ui/IconButton';
 
 interface ZoomSettingsProps {
@@ -19,9 +19,9 @@ export const ZoomSettings: React.FC<ZoomSettingsProps> = ({ dataTestId }) => {
       <div className="flex items-center gap-2">
         <IconButton
           aria-label="Increase scale"
-          onClick={() => setZoom(zoomStep)}
+          onClick={() => setZoom(ZOOM_STEP)}
           icon={<PlusIcon size={14} />}
-          disabled={zoom >= maxZoom}
+          disabled={zoom >= ZOOM_MAX_VALUE}
           className="disabled:opacity-50"
         />
         <div className="w-12 text-center text-sm tabular-nums text-fgColor-primary" data-testid="zoom-display">
@@ -29,9 +29,9 @@ export const ZoomSettings: React.FC<ZoomSettingsProps> = ({ dataTestId }) => {
         </div>
         <IconButton
           aria-label="Decrease scale"
-          onClick={() => setZoom(-zoomStep)}
+          onClick={() => setZoom(-ZOOM_STEP)}
           icon={<MinusIcon size={14} />}
-          disabled={zoom <= minZoom}
+          disabled={zoom <= ZOOM_MIN_VALUE}
           className="disabled:opacity-50"
         />
       </div>

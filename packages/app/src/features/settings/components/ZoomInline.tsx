@@ -2,7 +2,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import { MinusIcon, PlusIcon } from 'lucide-react';
 import type React from 'react';
 
-import { maxZoom, minZoom, setZoomAtom, zoomAtom, zoomStep } from '@/app/providers/atoms';
+import { ZOOM_MAX_VALUE, ZOOM_MIN_VALUE, ZOOM_STEP, setZoomAtom, zoomAtom } from '@/app/providers/atoms';
 import { IconButton } from '@/shared/ui/IconButton';
 
 export const ZoomInline: React.FC = () => {
@@ -15,17 +15,17 @@ export const ZoomInline: React.FC = () => {
       <div className="flex items-center gap-2">
         <IconButton
           aria-label="Increase scale"
-          onClick={() => setZoom(zoomStep)}
+          onClick={() => setZoom(ZOOM_STEP)}
           icon={<PlusIcon size={12} />}
-          disabled={zoom >= maxZoom}
+          disabled={zoom >= ZOOM_MAX_VALUE}
           className="h-6 w-6 disabled:opacity-50"
         />
         <span className="w-10 text-center text-xs tabular-nums text-fgColor-primary">{Math.round(zoom * 100)}%</span>
         <IconButton
           aria-label="Decrease scale"
-          onClick={() => setZoom(-zoomStep)}
+          onClick={() => setZoom(-ZOOM_STEP)}
           icon={<MinusIcon size={12} />}
-          disabled={zoom <= minZoom}
+          disabled={zoom <= ZOOM_MIN_VALUE}
           className="h-6 w-6 disabled:opacity-50"
         />
       </div>
