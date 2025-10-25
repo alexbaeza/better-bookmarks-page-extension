@@ -1,8 +1,6 @@
 import type React from 'react';
-
-import type { IBookmarkItem } from '@/shared/types/bookmarks';
-
 import { BookmarkFolderRoot } from '@/features/bookmarks/components/BookmarkFolderRoot';
+import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
 export interface RenderFoldersProps {
   folders: IBookmarkItem[];

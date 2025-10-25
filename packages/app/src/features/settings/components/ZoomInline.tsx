@@ -2,7 +2,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import { MinusIcon, PlusIcon } from 'lucide-react';
 import type React from 'react';
 
-import { ZOOM_MAX_VALUE, ZOOM_MIN_VALUE, ZOOM_STEP, setZoomAtom, zoomAtom } from '@/app/providers/atoms';
+import { setZoomAtom, ZOOM_MAX_VALUE, ZOOM_MIN_VALUE, ZOOM_STEP, zoomAtom } from '@/app/providers/atoms';
 import { IconButton } from '@/shared/ui/IconButton';
 
 export const ZoomInline: React.FC = () => {

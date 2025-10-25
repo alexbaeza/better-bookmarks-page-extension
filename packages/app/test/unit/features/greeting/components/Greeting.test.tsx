@@ -28,7 +28,12 @@ describe('Greeting', () => {
 
   it('displays the correct greeting message depending on the current time of day (morning)', () => {
     const mockDateObject = new Date('2023-03-27T09:00:00.000Z');
-    vi.spyOn(global, 'Date').mockImplementation(() => mockDateObject);
+    vi.spyOn(global, 'Date').mockImplementation(function(this: any, ...args: any[]) {
+      if (args.length === 0) {
+        return mockDateObject;
+      }
+      return new (Date as any)(...args);
+    });
 
     render(<Greeting />);
     expect(screen.getByText('Good Morning, Bob')).toBeInTheDocument();
@@ -36,7 +41,12 @@ describe('Greeting', () => {
 
   it('displays the correct greeting message depending on the current time of day (afternoon)', () => {
     const mockDateObject = new Date('2023-03-27T13:00:00.000Z');
-    vi.spyOn(global, 'Date').mockImplementation(() => mockDateObject);
+    vi.spyOn(global, 'Date').mockImplementation(function(this: any, ...args: any[]) {
+      if (args.length === 0) {
+        return mockDateObject;
+      }
+      return new (Date as any)(...args);
+    });
 
     render(<Greeting />);
     expect(screen.getByText('Good Afternoon, Bob')).toBeInTheDocument();
@@ -44,7 +54,12 @@ describe('Greeting', () => {
 
   it('displays the correct greeting message depending on the current time of day (evening)', () => {
     const mockDateObject = new Date('2023-03-27T19:00:00.000Z');
-    vi.spyOn(global, 'Date').mockImplementation(() => mockDateObject);
+    vi.spyOn(global, 'Date').mockImplementation(function(this: any, ...args: any[]) {
+      if (args.length === 0) {
+        return mockDateObject;
+      }
+      return new (Date as any)(...args);
+    });
 
     render(<Greeting />);
     expect(screen.getByText('Good Evening, Bob')).toBeInTheDocument();
@@ -52,7 +67,12 @@ describe('Greeting', () => {
 
   it('displays the correct greeting message and name if the greeting is enabled and a name is provided', () => {
     const mockDateObject = new Date('2023-03-27T19:00:00.000Z');
-    vi.spyOn(global, 'Date').mockImplementation(() => mockDateObject);
+    vi.spyOn(global, 'Date').mockImplementation(function(this: any, ...args: any[]) {
+      if (args.length === 0) {
+        return mockDateObject;
+      }
+      return new (Date as any)(...args);
+    });
 
     render(<Greeting />);
     expect(screen.getByText('Good Evening, Bob')).toBeInTheDocument();
@@ -64,7 +84,12 @@ describe('Greeting', () => {
       .thenReturn([false, vi.fn() as never]);
 
     const mockDateObject = new Date('2023-03-27T19:00:00.000Z');
-    vi.spyOn(global, 'Date').mockImplementation(() => mockDateObject);
+    vi.spyOn(global, 'Date').mockImplementation(function(this: any, ...args: any[]) {
+      if (args.length === 0) {
+        return mockDateObject;
+      }
+      return new (Date as any)(...args);
+    });
 
     render(<Greeting />);
     expect(screen.getByText('Good Evening')).toBeInTheDocument();

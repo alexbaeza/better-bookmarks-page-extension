@@ -11,7 +11,10 @@ import { codecovVitePlugin } from '@codecov/vite-plugin';
 
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      jsxRuntime: 'automatic',
+      jsxImportSource: 'react',
+    }),
     {
       name: 'copy-files',
       writeBundle() {

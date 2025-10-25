@@ -1,9 +1,7 @@
 // src/app/app.tsx
 import { useAtomValue } from 'jotai';
 import type React from 'react';
-
-import { themeAtom } from '@/app/providers/atoms';
-import { zoomAtom } from '@/app/providers/atoms';
+import { themeAtom, zoomAtom } from '@/app/providers/atoms';
 import { AppProviders } from '@/app/providers/providers';
 import { AppRoutes } from '@/app/routing/routes';
 import { BackgroundOverlay } from '@/shared/ui/BackgroundOverlay';

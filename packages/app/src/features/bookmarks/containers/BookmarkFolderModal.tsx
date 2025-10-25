@@ -2,10 +2,9 @@ import { FolderIcon } from 'lucide-react';
 import type React from 'react';
 
 import { useModal } from '@/app/providers/modal-context';
+import { BookmarkContentRenderer } from '@/features/bookmarks/containers/BookmarkContentRenderer';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { Modal } from '@/shared/ui/Modal';
-
-import { BookmarkContentRenderer } from '@/features/bookmarks/containers/BookmarkContentRenderer';
 
 export interface BookmarkFolderModalProps {
   dataTestId?: string;

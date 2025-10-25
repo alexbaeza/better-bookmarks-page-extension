@@ -11,7 +11,7 @@ import {
 } from '@dnd-kit/core';
 import { useAtomValue } from 'jotai';
 import type React from 'react';
-import { type ReactNode, createContext, useContext, useState } from 'react';
+import { createContext, type ReactNode, useContext, useState } from 'react';
 
 import { useAppStateContext } from '@/app/providers/app-state-context';
 import { viewModeAtom } from '@/app/providers/atoms';

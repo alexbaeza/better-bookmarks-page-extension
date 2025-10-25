@@ -2,11 +2,10 @@ import { useDraggable, useDroppable } from '@dnd-kit/core';
 import type React from 'react';
 
 import { DROPPABLE_ROOT_FOLDER_PREFIX } from '@/config/dnd-constants';
+import { BookmarkContentRenderer } from '@/features/bookmarks/containers/BookmarkContentRenderer';
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
 import { highlighter } from '@/features/bookmarks/lib/highlighter';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
-
-import { BookmarkContentRenderer } from '@/features/bookmarks/containers/BookmarkContentRenderer';
 
 export interface BookmarkFolderRootProps {
   folderId: string;

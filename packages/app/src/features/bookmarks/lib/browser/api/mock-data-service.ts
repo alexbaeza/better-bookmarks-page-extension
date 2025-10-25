@@ -36,23 +36,6 @@ class MockDataService {
   }
 
   /**
-   * Count total items in the data structure
-   */
-  private countTotalItems(items: IBookmarkItem[]): number {
-    let count = 0;
-    const countInArray = (arr: IBookmarkItem[]) => {
-      for (const item of arr) {
-        count++;
-        if (item.children) {
-          countInArray(item.children);
-        }
-      }
-    };
-    countInArray(items);
-    return count;
-  }
-
-  /**
    * Get current data with ordering applied
    */
   getData(): IBookmarkItem[] {

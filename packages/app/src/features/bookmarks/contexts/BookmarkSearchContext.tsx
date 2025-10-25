@@ -1,5 +1,5 @@
 import type React from 'react';
-import { type ReactNode, createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, type ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 
 interface SearchContextType {
   searchTerm: string;

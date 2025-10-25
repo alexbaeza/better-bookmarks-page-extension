@@ -1,11 +1,11 @@
 // Set NODE_ENV to test for the browser
 beforeEach(() => {
   cy.window().then((win) => {
-    // @ts-ignore
+    // @ts-expect-error
     win.process = win.process || {};
-    // @ts-ignore
+    // @ts-expect-error
     win.process.env = win.process.env || {};
-    // @ts-ignore
+    // @ts-expect-error
     win.process.env.NODE_ENV = 'test';
   });
 });

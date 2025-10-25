@@ -1,13 +1,11 @@
 import type React from 'react';
 import { useState } from 'react';
-
+import { LOCAL_STORAGE_PREFIX_KEY } from '@/config/constants';
 import { BuiltWith } from '@/shared/ui/BuiltWith';
 import { Button } from '@/shared/ui/Button';
 import { Divider } from '@/shared/ui/Divider';
 import { Modal } from '@/shared/ui/Modal';
 import { Sponsor } from '@/shared/ui/Sponsor';
-
-import { LOCAL_STORAGE_PREFIX_KEY } from '@/config/constants';
 import { BackgroundOverlaySettings } from '../components/BackgroundOverlaySettings';
 import { GreetingSettings } from '../components/GreetingSettings';
 import { SearchBarSettings } from '../components/SearchBarSettings';

@@ -1,9 +1,8 @@
 import { useModal } from '@/app/providers/modal-context';
-import { useBookmarkActions } from '@/features/bookmarks/hooks/useBookmarkActions';
-import type { IBookmarkItem } from '@/shared/types/bookmarks';
-
 import { BookmarkFormModal } from '@/features/bookmarks/components/BookmarkFormModal';
 import { BookmarkFolderModal } from '@/features/bookmarks/containers/BookmarkFolderModal';
+import { useBookmarkActions } from '@/features/bookmarks/hooks/useBookmarkActions';
+import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
 export function useBookmarkModals() {
   const { showModal, hideModal } = useModal();

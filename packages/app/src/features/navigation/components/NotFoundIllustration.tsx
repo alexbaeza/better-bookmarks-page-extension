@@ -1,6 +1,6 @@
 import type React from 'react';
 
-// @ts-ignore
+// @ts-expect-error
 import notFoundSvg from '@/assets/images/not-found.svg';
 
 interface NotFoundIllustrationProps {

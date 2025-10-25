@@ -1,15 +1,14 @@
-import { SortableContext, rectSortingStrategy, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { rectSortingStrategy, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useAtomValue } from 'jotai';
 import React from 'react';
 
 import { viewModeAtom } from '@/app/providers/atoms';
 import { useDragDrop } from '@/app/providers/dragdrop-provider';
+import { DraggableBookmarkItem } from '@/features/bookmarks/components/items/DraggableBookmarkItem';
 import { useContainerWidth } from '@/features/bookmarks/hooks/useContainerWidth';
 import { useOptimalColumns } from '@/features/bookmarks/hooks/useOptimalColumns';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { BookmarkDisplayMode } from '@/shared/types/ui';
-
-import { DraggableBookmarkItem } from '@/features/bookmarks/components/items/DraggableBookmarkItem';
 
 export interface BookmarkContentRendererProps {
   folderContents: IBookmarkItem[];

@@ -1,11 +1,9 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-
-import { BookmarkDisplayMode } from '@/shared/types/ui';
-import type { ThemeColors } from '@/styles/themes';
-
 import { LOCAL_STORAGE_PREFIX_KEY } from '@/config/constants.ts';
 import type { BookmarksData } from '@/features/bookmarks/lib/bookmarks';
+import { BookmarkDisplayMode } from '@/shared/types/ui';
+import type { ThemeColors } from '@/styles/themes';
 
 const storageKey = (key: string) => {
   return `${LOCAL_STORAGE_PREFIX_KEY}${key}`;

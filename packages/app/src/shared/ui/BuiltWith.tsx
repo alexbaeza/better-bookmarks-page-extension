@@ -1,5 +1,5 @@
-import { APP_REPO_URL } from '@/config/constants';
 import { HeartIcon } from 'lucide-react';
+import { APP_REPO_URL } from '@/config/constants';
 
 export const BuiltWith = ({ className = 'justify-end' }: { className?: string }) => {
   return (
