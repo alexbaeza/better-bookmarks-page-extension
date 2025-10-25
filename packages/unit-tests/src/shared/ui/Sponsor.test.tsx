@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
-import { Sponsor } from '@/shared/ui/Sponsor';
 import { APP_DONATION_URL } from '@/config/constants';
+import { Sponsor } from '@/shared/ui/Sponsor';
 
 describe('Sponsor component', () => {
   it('renders the sponsor comment', () => {
