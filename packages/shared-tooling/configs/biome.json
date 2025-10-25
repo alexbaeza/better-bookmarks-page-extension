@@ -22,7 +22,12 @@
         "noAccumulatingSpread": "error"
       },
       "suspicious": {
-        "noUnknownAtRules": "off"
+        "noUnknownAtRules": {
+          "level": "error",
+          "options": {
+            "ignore": ["tailwind", "apply", "plugin", "custom-variant", "theme", "source", "layer"]
+          }
+        }
       }
     }
   },

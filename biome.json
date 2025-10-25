@@ -2,7 +2,13 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["./packages/shared-tooling/configs/biome.json"],
   "files": {
-    "includes": ["packages/app/src/**", "packages/tests-unit/src/**", "packages/tests-e2e/**", "packages/shared-tooling/**"],
+    "includes": [
+      "packages/app/src/**",
+      "packages/tests-unit/src/**",
+      "packages/tests-e2e/**",
+      "packages/shared-tooling/**",
+      "!!packages/app/src/styles/globals.css"
+    ],
     "ignoreUnknown": true
   }
 }
