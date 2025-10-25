@@ -76,6 +76,7 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
         rounded-lg bg-bgColor-secondary p-2 transition
         hover:bg-bgColor-tertiary
       "
+      role="group"
     >
       {/* Top row: Drag handle and options - non-clickable */}
       <div className="flex w-full flex-end justify-between">
@@ -85,6 +86,15 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
           {...dragHandleProps}
           className={`cursor-grab p-2 min-w-[24px] min-h-[24px] flex items-center justify-center text-xs ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Drag handle"
         >
           <GripVertical size={12} />
         </div>

@@ -52,6 +52,7 @@ export const BaseListItem: React.FC<BaseListItemProps> = ({ dataTestId, icon, ch
         bg-bgColor-tertiary transition
         hover:bg-fgColor-hover
       "
+      role="group"
     >
       {/* drag handle - outside clickable area */}
       <div className="bg-bgColor-secondary-contrast flex h-full w-8 flex-none items-center justify-center rounded-l-lg">
@@ -60,6 +61,15 @@ export const BaseListItem: React.FC<BaseListItemProps> = ({ dataTestId, icon, ch
           className={`cursor-grab p-2 min-w-[32px] min-h-[32px] flex items-center justify-center ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}
           data-testid="drag-handle-button"
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Drag handle"
         >
           <GripVertical size={16} />
         </div>

@@ -63,6 +63,8 @@ export const Menu: React.FC<MenuProps> = ({ onMouseEnter, onMouseLeave, onClose,
         zIndex: 1000,
       }}
       className="w-40 rounded bg-bgColor-tertiary p-2 shadow-lg"
+      role="menu"
+      aria-label="Item options menu"
     >
       {children}
     </div>,

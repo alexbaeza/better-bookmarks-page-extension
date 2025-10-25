@@ -40,6 +40,7 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, leve
       aria-selected={isSelected}
       {...(hasKids && { 'aria-expanded': isOpen })}
       className="relative outline-2 outline-offset-2 min-w-0"
+      tabIndex={0}
     >
       {/* Folder Row */}
       <SidebarItem

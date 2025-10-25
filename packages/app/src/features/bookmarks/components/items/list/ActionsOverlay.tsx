@@ -29,6 +29,8 @@ export const ActionsOverlay: React.FC<ActionsOverlayProps> = ({ onMouseEnter, on
       "
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      role="toolbar"
+      aria-label="Item actions"
     >
       <IconButton
         ref={buttonRef as React.Ref<HTMLButtonElement>}
