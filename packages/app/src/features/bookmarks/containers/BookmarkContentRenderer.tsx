@@ -23,14 +23,25 @@ export const BookmarkContentRenderer: React.FC<BookmarkContentRendererProps> = (
   const { containerWidth, containerRef } = useContainerWidth();
   const optimalColumns = useOptimalColumns(containerWidth, isList);
 
-  const layoutClass = isList ? 'flex flex-col gap-2 p-2' : 'grid gap-4 p-4';
+  const layoutClass = isList ? 'flex flex-col gap-2 p-2' : 'grid gap-2 p-4';
 
   const gridStyle = isList
     ? {}
     : {
-        gridTemplateColumns: `repeat(${optimalColumns}, minmax(0, 1fr))`,
-        gap: '1rem',
+        gridTemplateColumns: `repeat(${optimalColumns}, minmax(100px, 1fr))`,
+        gap: '0.5rem',
       };
+
+  // Debug logs
+  console.log('BookmarkContentRenderer debug:', {
+    folderId,
+    folderContentsCount: folderContents.length,
+    viewMode,
+    isList,
+    containerWidth,
+    optimalColumns,
+    gridStyle: isList ? 'N/A (list mode)' : gridStyle,
+  });
 
   return (
     <SortableContext items={folderContents.map((item) => item.id)} strategy={isList ? verticalListSortingStrategy : rectSortingStrategy}>

@@ -35,7 +35,7 @@ export const BookmarkFolderRoot: React.FC<BookmarkFolderRootProps> = ({ folderId
         setNodeRef(node);
         setDragRef(node);
       }}
-      className={`group relative inline-block w-full break-inside-avoid
+      className={`group relative inline-block w-full
        ${isOver && 'rounded-lg outline outline-4 outline-fgColor-accent'}
        ${isDragging && 'opacity-50'}`}
     >

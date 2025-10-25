@@ -20,7 +20,7 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
   const [hovered, setHovered] = useState(false);
   const hideTimeout = useRef<number | undefined>(undefined);
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLButtonElement>(null);
 
   const clearHide = useCallback(() => {
     if (hideTimeout.current) {
@@ -66,7 +66,7 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
       className="
         relative flex w-24 flex-col items-center gap-1
         rounded-lg bg-bgColor-secondary p-2 transition
-        hover:bg-bgColor-tertiary break-inside-avoid
+        hover:bg-bgColor-tertiary
       "
     >
       {/* Top row: Drag handle and options */}

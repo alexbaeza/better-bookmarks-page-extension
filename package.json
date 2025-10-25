@@ -15,7 +15,7 @@
     "test": "pnpm --filter @better-bookmarks/unit-tests test",
     "test:coverage": "pnpm --filter @better-bookmarks/unit-tests test:coverage",
     "test:e2e": "pnpm --filter @better-bookmarks/e2e-tests test",
-    "test:e2e:open": "pnpm --filter @better-bookmarks/e2e-tests test:open",
+    "test:e2e:open": "pnpm --filter @better-bookmarks/e2e-tests test:headed",
     "test:e2e:chrome": "pnpm --filter @better-bookmarks/e2e-tests test:chrome",
     "test:e2e:firefox": "pnpm --filter @better-bookmarks/e2e-tests test:firefox",
     "test:e2e:spec": "pnpm --filter @better-bookmarks/e2e-tests test:spec",
