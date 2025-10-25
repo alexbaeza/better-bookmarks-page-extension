@@ -17,7 +17,8 @@ export default defineConfig({
         'src/setup.ts',
         '**/*.d.ts',
         '**/*.config.*',
-        '**/mocks/**'
+        '**/mocks/**',
+        '**/reportWebVitals.ts'
       ]
     }
   },
@@ -27,8 +28,7 @@ export default defineConfig({
       '@shared': path.resolve(__dirname, '../app/src/shared'),
       '@features': path.resolve(__dirname, '../app/src/features'),
       '@app': path.resolve(__dirname, '../app/src/app'),
-      '~test': path.resolve(__dirname, 'src'),
-      'web-vitals': path.resolve(__dirname, 'src/mocks/web-vitals.ts')
+      '~test': path.resolve(__dirname, 'src')
     }
   }
 });
