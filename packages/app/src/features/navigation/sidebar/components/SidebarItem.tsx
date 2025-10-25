@@ -10,15 +10,7 @@ type SidebarItemProps = {
   'data-testid'?: string;
 };
 
-export const SidebarItem: React.FC<SidebarItemProps> = ({
-  icon,
-  label,
-  badge,
-  isSelected = false,
-  onClick,
-  className = '',
-  'data-testid': dataTestId,
-}) => {
+export const SidebarItem: React.FC<SidebarItemProps> = ({ icon, label, badge, isSelected = false, onClick, className = '', 'data-testid': dataTestId }) => {
   return (
     <button
       type="button"
@@ -34,12 +26,8 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
       <div className="col-[1]">{icon}</div>
       <div className="col-[2] min-w-0 truncate text-left">{label}</div>
       {badge != null && (
-        <span className="col-[3] rounded-full bg-bgColor-tertiary px-2 py-0.5 text-xs text-fgColor-secondary min-w-[1.5rem] text-center">
-          {badge}
-        </span>
+        <span className="col-[3] rounded-full bg-bgColor-tertiary px-2 py-0.5 text-xs text-fgColor-secondary min-w-[1.5rem] text-center">{badge}</span>
       )}
     </button>
   );
 };
-
-

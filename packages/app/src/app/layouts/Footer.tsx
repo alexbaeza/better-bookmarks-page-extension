@@ -1,5 +1,5 @@
-import { HeartIcon } from 'lucide-react';
 import { APP_REPO_URL } from '@/config/constants';
+import { HeartIcon } from 'lucide-react';
 
 export const Footer = ({
   className = 'justify-end',

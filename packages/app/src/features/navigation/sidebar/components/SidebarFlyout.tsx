@@ -5,9 +5,9 @@ import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNav
 import { useFavicon } from '@/features/bookmarks/hooks/useFavicon';
 import { countFolders, countItems, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import { getDefaultFavicon } from '@/features/bookmarks/lib/browser/utils/default-favicon';
+import { SidebarSection } from '@/features/navigation/sidebar/components/SideBarSection';
 // Removed FlyoutFolderNode in favor of direct SidebarItem usage
 import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarItem';
-import { SidebarSection } from '@/features/navigation/sidebar/components/SideBarSection';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { InlineFlyout } from '@/shared/ui/Flyout';
 import { ImageWithFallback } from '@/shared/ui/ImageWithFallback';

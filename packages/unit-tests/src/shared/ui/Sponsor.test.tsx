@@ -1,18 +1,19 @@
 import { render, screen } from '@testing-library/react';
 
 import { Sponsor } from '@/shared/ui/Sponsor';
+import { APP_DONATION_URL } from '@/config/constants';
 
 describe('Sponsor component', () => {
   it('renders the sponsor comment', () => {
     render(<Sponsor />);
     const comment = screen.getByTestId('sponsor-comment');
-    expect(comment).toHaveTextContent(/This app was built with the intentions of it being free to the public as well as open-sourced*/);
+    expect(comment).toHaveTextContent(/Free and open-source*/);
   });
 
   it('renders the sponsor link with the correct URL', () => {
     render(<Sponsor />);
     const link = screen.getByTestId('sponsor-link');
-    expect(link).toHaveAttribute('href', 'https://www.buymeacoffee.com/alexbaeza');
+    expect(link).toHaveAttribute('href', APP_DONATION_URL);
   });
 
   it('renders the sponsor link image with the correct alt text and image', () => {

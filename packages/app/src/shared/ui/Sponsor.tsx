@@ -9,7 +9,7 @@ export const Sponsor = ({ dataTestId }: SponsorProps) => {
       <div data-testid={dataTestId}>
         <div data-testid="sponsor-comment" className="mt-2 flex w-full flex-row justify-end text-xs text-fgColor-primary">
           {
-            'This app was built with the intentions of it being free to the public as well as open-sourced but if you like it and it helps you, you can always buy me a coffee.'
+            'Free and open-source — powered by too much coffee and questionable choices. If it helps you, consider fueling the cycle by buying me a coffee!'
           }
         </div>
         <div className="mt-3 flex justify-center">

@@ -5,10 +5,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
 import { findFolderById, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
-import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarItem';
 import { SidebarSection } from '@/features/navigation/sidebar/components/SideBarSection';
 import { SidebarFlyout } from '@/features/navigation/sidebar/components/SidebarFlyout';
 import { SidebarFolderNode } from '@/features/navigation/sidebar/components/SidebarFolderNode';
+import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarItem';
 import { AppFooter } from '@/shared/ui/AppFooter';
 
 import { APP_VERSION } from '@/config/constants';

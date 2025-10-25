@@ -43,7 +43,10 @@ export const BookmarkFolderRoot: React.FC<BookmarkFolderRootProps> = ({ folderId
         <div className="flex items-center space-x-2 truncate">
           <h2 className="font-base truncate text-sm uppercase leading-6 tracking-wide text-fgColor-primary">{highlighter(name, searchTerm)}</h2>
         </div>
-        <span className="flex w-8 min-w-8 items-center justify-center rounded-full bg-bgColor-tertiary text-xs font-bold text-fgColor-primary" data-testid="bookmark-count">
+        <span
+          className="flex w-8 min-w-8 items-center justify-center rounded-full bg-bgColor-tertiary text-xs font-bold text-fgColor-primary"
+          data-testid="bookmark-count"
+        >
           {folderContents.length}
         </span>
       </div>

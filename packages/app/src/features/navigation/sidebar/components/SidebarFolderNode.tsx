@@ -43,7 +43,7 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, leve
     >
       {/* Folder Row */}
       <SidebarItem
-        icon={hasKids ? (isOpen ? <FolderOpenIcon size={16} /> : <FolderIcon size={16} />) : <FolderDotIcon size={16} />}
+        icon={hasKids ? isOpen ? <FolderOpenIcon size={16} /> : <FolderIcon size={16} /> : <FolderDotIcon size={16} />}
         label={folder.title || 'Untitled'}
         badge={countItems(folder) + countFolders(folder)}
         isSelected={isSelected}

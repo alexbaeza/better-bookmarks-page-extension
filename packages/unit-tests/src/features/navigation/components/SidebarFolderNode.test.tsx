@@ -1,6 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 
 import { SidebarFolderNode } from '@/features/navigation/sidebar/components/SidebarFolderNode';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
@@ -17,14 +16,7 @@ describe('SidebarFolderNode', () => {
   it('renders a folder row', () => {
     render(
       <ul>
-        <SidebarFolderNode
-          folder={makeFolder()}
-          level={0}
-          expandedIds={new Set()}
-          toggleFolder={() => {}}
-          openFolderId={null}
-          clickFolder={() => {}}
-        />
+        <SidebarFolderNode folder={makeFolder()} level={0} expandedIds={new Set()} toggleFolder={() => {}} openFolderId={null} clickFolder={() => {}} />
       </ul>
     );
     expect(screen.getByText('Folder')).toBeInTheDocument();
@@ -35,18 +27,9 @@ describe('SidebarFolderNode', () => {
     const root: IBookmarkItem = makeFolder({ children: [child] });
     render(
       <ul>
-        <SidebarFolderNode
-          folder={root}
-          level={0}
-          expandedIds={new Set([root.id])}
-          toggleFolder={() => {}}
-          openFolderId={null}
-          clickFolder={() => {}}
-        />
+        <SidebarFolderNode folder={root} level={0} expandedIds={new Set([root.id])} toggleFolder={() => {}} openFolderId={null} clickFolder={() => {}} />
       </ul>
     );
     expect(screen.getByText('Child')).toBeInTheDocument();
   });
 });
-
-
