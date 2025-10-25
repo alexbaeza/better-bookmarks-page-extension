@@ -99,6 +99,8 @@ jobs:
 
       - name: Build application
         run: pnpm build
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   tests-e2e-chrome:
     name: E2E Tests (Chrome)

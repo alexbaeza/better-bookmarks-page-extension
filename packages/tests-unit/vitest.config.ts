@@ -13,7 +13,7 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       exclude: [
         'node_modules/',
-        'src/test-utils.tsx',
+        'test-utils.tsx',
         'src/setup.ts',
         '**/*.d.ts',
         '**/*.config.*',
@@ -32,4 +32,3 @@ export default defineConfig({
     }
   }
 });
-

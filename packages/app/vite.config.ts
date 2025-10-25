@@ -7,6 +7,7 @@ import { resolve } from 'path';
 
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { codecovVitePlugin } from '@codecov/vite-plugin';
 
 export default defineConfig({
   plugins: [
@@ -18,6 +19,12 @@ export default defineConfig({
         copyFileSync(resolve(__dirname, 'public/manifest-firefox.json'), resolve(__dirname, 'build/manifest-firefox.json'));
       },
     },
+    // Put the Codecov vite plugin after all other plugins
+    codecovVitePlugin({
+      enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+      bundleName: 'better-bookmarks-page-extension',
+      uploadToken: process.env.CODECOV_TOKEN,
+    }),
   ],
   resolve: {
     alias: {
