@@ -78,7 +78,7 @@ jobs:
   build:
     name: Build Verification
     runs-on: ubuntu-latest
-    needs: [lint-and-format]
+    needs: [lint-and-format, unit-tests]
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -122,10 +122,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Start development server
-        run: |
-          pnpm build
-          pnpm start
+      - name: Start preview server
+        run: pnpm preview &
         env:
           CI: true
 
@@ -136,6 +134,9 @@ jobs:
         run: pnpm test:e2e:chrome
         env:
           CYPRESS_baseUrl: http://localhost:3000
+
+      - name: Stop preview server
+        run: pkill -f "vite preview" || true
 
   e2e-firefox:
     name: E2E Tests (Firefox)
@@ -159,10 +160,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Start development server
-        run: |
-          pnpm build
-          pnpm start
+      - name: Start preview server
+        run: pnpm preview &
         env:
           CI: true
 
@@ -173,3 +172,6 @@ jobs:
         run: pnpm test:e2e:firefox
         env:
           CYPRESS_baseUrl: http://localhost:3000
+
+      - name: Stop preview server
+        run: pkill -f "vite preview" || true
