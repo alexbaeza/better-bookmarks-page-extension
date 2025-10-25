@@ -7,7 +7,7 @@ vi.mock('react-dom', () => ({
   createPortal: vi.fn((children) => children),
 }));
 
-vi.mock('../../../src/components/ui/IconButton', () => ({
+vi.mock('@/shared/ui/IconButton', () => ({
   IconButton: ({ onClick, dataTestId }: { onClick: () => void; dataTestId: string }) => (
     <button type="button" onClick={onClick} data-testid={dataTestId}>
       Close

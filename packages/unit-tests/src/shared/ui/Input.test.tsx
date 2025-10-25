@@ -31,7 +31,8 @@ describe('Input', () => {
   });
 
   it('displays value', () => {
-    render(<Input value="test value" />);
+    const onChange = vi.fn();
+    render(<Input value="test value" onChange={onChange} />);
 
     const input = screen.getByDisplayValue('test value');
     expect(input).toBeInTheDocument();

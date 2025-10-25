@@ -1,5 +1,5 @@
 import * as jotai from 'jotai';
-import { act } from 'react-dom/test-utils';
+import { act } from 'react';
 import { vi } from 'vitest';
 import { when } from 'vitest-when';
 
@@ -8,7 +8,7 @@ import { BookmarkItem } from '@/features/bookmarks/components/items/BookmarkItem
 import { BookmarkDisplayMode } from '@/shared/types/ui';
 import { AllProviders, fireEvent, render, screen } from '~test/test-utils';
 
-vi.mock('../../../../../src/hooks/useBookmarks', () => ({
+vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
   useBookmarks: vi.fn(() => ({
     currentPage: 'All',
     searchTerm: '',

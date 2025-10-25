@@ -3,15 +3,22 @@ import { vi } from 'vitest';
 import { BookmarkFormModal } from '@/features/bookmarks/components/BookmarkFormModal';
 import { fireEvent, render, screen, waitFor } from '~test/test-utils';
 
+// Suppress console.error for act warnings in this test file
+const originalConsoleError = console.error;
+
 describe('BookmarkFormModal', () => {
   beforeEach(() => {
     const portalRoot = document.createElement('div');
     portalRoot.id = 'modal-root';
     document.body.appendChild(portalRoot);
+    // Suppress console.error for act warnings
+    console.error = vi.fn();
   });
 
   afterEach(() => {
     document.body.innerHTML = '';
+    // Restore console.error
+    console.error = originalConsoleError;
   });
   it('renders add bookmark modal', () => {
     const onClose = vi.fn();

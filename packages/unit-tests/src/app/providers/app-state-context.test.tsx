@@ -6,9 +6,19 @@ import { AppStateContext, initialContext, useAppStateContext } from '@/app/provi
 
 const mockUseAppStateContext = vi.mocked(useAppStateContext);
 
+// Suppress console.error for this test since we're intentionally testing error throwing
+const originalConsoleError = console.error;
+
 describe('AppStateContext', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // Suppress console.error for error boundary warnings
+    console.error = vi.fn();
+  });
+
+  afterEach(() => {
+    // Restore console.error
+    console.error = originalConsoleError;
   });
 
   it('throws when used outside provider', () => {
