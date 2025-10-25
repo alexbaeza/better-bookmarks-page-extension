@@ -61,10 +61,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run unit tests
-        run: pnpm test
-
-      - name: Generate coverage report
+      - name: Run unit tests with coverage report
         run: pnpm test:coverage
 
       - name: Upload coverage reports to Codecov
@@ -121,8 +118,7 @@ jobs:
       - name: Start development server
         run: |
           pnpm build
-          pnpm preview --port 3000 --host 0.0.0.0 &
-          sleep 10
+          pnpm start
         env:
           CI: true
 
@@ -158,8 +154,7 @@ jobs:
       - name: Start development server
         run: |
           pnpm build
-          pnpm preview --port 3000 --host 0.0.0.0 &
-          sleep 10
+          pnpm start
         env:
           CI: true
 

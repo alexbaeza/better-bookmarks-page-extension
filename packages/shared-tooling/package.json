@@ -1,0 +1,35 @@
+{
+  "name": "@better-bookmarks/shared-tooling",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shared tooling configuration for Better Bookmarks projects",
+  "main": "index.js",
+  "files": ["configs/", "scripts/", "index.js"],
+  "scripts": {
+    "build": "echo 'No build step required for configs'",
+    "test": "echo 'No tests for tooling configs'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^10.0.0",
+    "@semantic-release/npm": "^11.0.0",
+    "conventional-changelog-cli": "^4.1.0",
+    "husky": "^9.1.6",
+    "semantic-release": "^23.0.0"
+  },
+  "peerDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "husky": "^9.1.6"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=10.0.0"
+  }
+}

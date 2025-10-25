@@ -1,0 +1,6 @@
+packages:
+  - 'packages/app'
+  - 'packages/shared-tooling'
+  - 'packages/unit-tests'
+  - 'packages/e2e-tests'
+  
