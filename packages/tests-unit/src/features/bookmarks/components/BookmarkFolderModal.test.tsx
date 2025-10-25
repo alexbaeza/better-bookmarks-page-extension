@@ -45,7 +45,7 @@ describe('BookmarkFolderModal', () => {
 
     render(<BookmarkFolderModal folderContents={folderContents} folderId="1" folderTitle={name} />);
 
-    const closeButton = screen.getByTestId('modal-close-button');
+    const closeButton = screen.getByTestId('bookmark-folder-modal-close-button');
     fireEvent.click(closeButton);
 
     expect(mockHideModal).toHaveBeenCalled();
