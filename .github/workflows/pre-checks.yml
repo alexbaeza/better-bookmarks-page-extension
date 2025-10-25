@@ -37,6 +37,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+
       - name: Validate commit messages
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
@@ -53,6 +58,5 @@ jobs:
             echo "$COMMIT_MSG" | npx commitlint
           fi
 
-      - name: Run checks
-        run: |
-          pnpm check
+      - name: Run Biome checks
+        run: biome ci .

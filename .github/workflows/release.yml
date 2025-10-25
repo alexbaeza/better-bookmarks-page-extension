@@ -38,6 +38,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Run checks
+        run: |
+          biome ci .
+
       - name: Run tests
         run: |
           pnpm test

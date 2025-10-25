@@ -26,17 +26,23 @@
     "changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0",
     "changelog:all": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s",
     "semantic-release": "semantic-release",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "cypress-cucumber-preprocessor": {
     "stepDefinitions": "step-definitions/**/*.{js,ts}"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
     "@better-bookmarks/shared-tooling": "workspace:*",
+    "@biomejs/biome": "^1.9.4",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
-    "husky": "^9.1.6"
+    "husky": "^9.1.6",
+    "lint-staged": "^16.2.6"
+  },
+  "lint-staged": {
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+      "biome check --write --no-errors-on-unmatched"
+    ]
   }
 }
