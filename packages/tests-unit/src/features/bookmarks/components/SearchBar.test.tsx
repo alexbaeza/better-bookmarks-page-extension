@@ -3,13 +3,13 @@ import { vi } from 'vitest';
 import { SearchBar } from '@/features/search/containers/SearchBar';
 import { fireEvent, render, screen } from '~test/test-utils';
 
-// Mock the useBookmarks hook
 vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
   useBookmarks: vi.fn(),
 }));
 
 describe('SearchBar', () => {
   beforeEach(async () => {
+    vi.clearAllMocks();
     const { useBookmarks } = await import('@/features/bookmarks/hooks/useBookmarks');
     vi.mocked(useBookmarks).mockReturnValue({
       currentPage: 'All',

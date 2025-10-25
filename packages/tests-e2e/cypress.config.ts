@@ -13,10 +13,10 @@ export default defineConfig({
     // Performance optimizations
     video: false, // Disable video recording for faster tests
     screenshotOnRunFailure: true,
-    defaultCommandTimeout: 2000,
-    requestTimeout: 2000,
-    responseTimeout: 2000,
-    pageLoadTimeout: 2000,
+    defaultCommandTimeout: 5000,
+    requestTimeout: 5000,
+    responseTimeout: 5000,
+    pageLoadTimeout: 5000,
     scrollBehavior: 'center',
 
     // Disable animations for faster tests

@@ -115,21 +115,6 @@ importers:
         specifier: ^8.0.1
         version: 8.0.5
 
-  packages/e2e-tests:
-    devDependencies:
-      '@badeball/cypress-cucumber-preprocessor':
-        specifier: ^23.2.1
-        version: 23.2.1(@babel/core@7.28.5)(cypress@15.5.0)(typescript@5.9.3)
-      '@bahmutov/cypress-esbuild-preprocessor':
-        specifier: ^2.2.7
-        version: 2.2.7(esbuild@0.25.11)
-      cypress:
-        specifier: ^15.5.0
-        version: 15.5.0
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-
   packages/shared-tooling:
     devDependencies:
       '@biomejs/biome':
@@ -166,7 +151,22 @@ importers:
         specifier: ^23.0.0
         version: 23.1.1(typescript@5.9.3)
 
-  packages/unit-tests:
+  packages/tests-e2e:
+    devDependencies:
+      '@badeball/cypress-cucumber-preprocessor':
+        specifier: ^23.2.1
+        version: 23.2.1(@babel/core@7.28.5)(cypress@15.5.0)(typescript@5.9.3)
+      '@bahmutov/cypress-esbuild-preprocessor':
+        specifier: ^2.2.7
+        version: 2.2.7(esbuild@0.25.11)
+      cypress:
+        specifier: ^15.5.0
+        version: 15.5.0
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/tests-unit:
     dependencies:
       '@better-bookmarks/app':
         specifier: workspace:*

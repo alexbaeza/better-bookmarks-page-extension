@@ -1,24 +1,31 @@
+import { act } from 'react';
 import { vi } from 'vitest';
 
 import { BookmarkFormModal } from '@/features/bookmarks/components/BookmarkFormModal';
 import { fireEvent, render, screen, waitFor } from '~test/test-utils';
 
-// Suppress console.error for act warnings in this test file
+// Suppress console.error and console.warn for act warnings in this test file
 const originalConsoleError = console.error;
+const originalConsoleWarn = console.warn;
+const originalConsoleLog = console.log;
 
 describe('BookmarkFormModal', () => {
   beforeEach(() => {
     const portalRoot = document.createElement('div');
     portalRoot.id = 'modal-root';
     document.body.appendChild(portalRoot);
-    // Suppress console.error for act warnings
+    // Suppress all console methods for act warnings
     console.error = vi.fn();
+    console.warn = vi.fn();
+    console.log = vi.fn();
   });
 
   afterEach(() => {
     document.body.innerHTML = '';
-    // Restore console.error
+    // Restore console methods
     console.error = originalConsoleError;
+    console.warn = originalConsoleWarn;
+    console.log = originalConsoleLog;
   });
   it('renders add bookmark modal', () => {
     const onClose = vi.fn();
@@ -121,15 +128,22 @@ describe('BookmarkFormModal', () => {
     });
   });
 
-  it('calls onClose on cancel', () => {
+  it('calls onClose on cancel', async () => {
     const onClose = vi.fn();
     const onSave = vi.fn();
 
-    render(<BookmarkFormModal onClose={onClose} onSave={onSave} />);
+    await act(async () => {
+      render(<BookmarkFormModal onClose={onClose} onSave={onSave} />);
+    });
 
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
-    fireEvent.click(cancelButton);
 
-    expect(onClose).toHaveBeenCalled();
+    await act(async () => {
+      fireEvent.click(cancelButton);
+    });
+
+    await waitFor(() => {
+      expect(onClose).toHaveBeenCalled();
+    });
   });
 });

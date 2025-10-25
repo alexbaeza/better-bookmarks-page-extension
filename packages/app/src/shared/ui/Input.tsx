@@ -3,9 +3,10 @@ import type { InputHTMLAttributes } from 'react';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   disabled?: boolean;
+  dataTestId?: string;
 }
 
-export const Input: React.FC<InputProps> = ({ disabled = false, className = '', ...rest }) => {
+export const Input: React.FC<InputProps> = ({ disabled = false, className = '', dataTestId, ...rest }) => {
   const base = `
     w-full rounded-lg px-3 py-2
     text-fgColor-primary placeholder:text-fgColor-secondary
@@ -21,5 +22,5 @@ export const Input: React.FC<InputProps> = ({ disabled = false, className = '', 
     cursor-not-allowed opacity-50
   `;
 
-  return <input {...rest} disabled={disabled} className={`${base} ${disabled ? disabledStyles : enabledStyles} ${className}`} />;
+  return <input {...rest} disabled={disabled} className={`${base} ${disabled ? disabledStyles : enabledStyles} ${className}`} data-testid={dataTestId} />;
 };

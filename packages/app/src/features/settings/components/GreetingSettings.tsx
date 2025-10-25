@@ -38,7 +38,7 @@ export const GreetingSettings = ({ dataTestId }: GreetingSettingsProps) => {
           </label>
           <Input
             id="greeting-settings-input"
-            data-testid="greeting-name-input"
+            dataTestId="greeting-name-input"
             type="text"
             placeholder="Enter your name..."
             onChange={handleGreetingNameChange}

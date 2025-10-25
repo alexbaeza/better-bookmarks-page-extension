@@ -1,5 +1,5 @@
 {
-  "name": "@better-bookmarks/unit-tests",
+  "name": "@better-bookmarks/tests-unit",
   "version": "1.0.0",
   "private": true,
   "type": "module",

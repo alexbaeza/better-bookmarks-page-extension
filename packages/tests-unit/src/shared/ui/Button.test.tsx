@@ -4,32 +4,48 @@ import { Button } from '@/shared/ui/Button';
 import { fireEvent, render, screen } from '~test/test-utils';
 
 describe('Button', () => {
-  it('renders with primary variant by default', () => {
-    render(<Button>Click me</Button>);
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-    const button = screen.getByRole('button', { name: 'Click me' });
+  it('renders with primary variant by default', () => {
+    render(<Button dataTestId="test-button">Click me</Button>);
+
+    const button = screen.getByTestId('test-button');
     expect(button).toHaveClass('bg-bgColor-accent text-fgColor-primary');
   });
 
   it('renders with secondary variant', () => {
-    render(<Button variant="secondary">Click me</Button>);
+    render(
+      <Button variant="secondary" dataTestId="test-button">
+        Click me
+      </Button>
+    );
 
-    const button = screen.getByRole('button', { name: 'Click me' });
+    const button = screen.getByTestId('test-button');
     expect(button).toHaveClass('bg-bgColor-secondary text-fgColor-secondary');
   });
 
   it('renders with custom className', () => {
-    render(<Button className="custom-class">Click me</Button>);
+    render(
+      <Button className="custom-class" dataTestId="test-button">
+        Click me
+      </Button>
+    );
 
-    const button = screen.getByRole('button', { name: 'Click me' });
+    const button = screen.getByTestId('test-button');
     expect(button).toHaveClass('custom-class');
   });
 
   it('handles click events', () => {
     const onClick = vi.fn();
-    render(<Button onClick={onClick}>Click me</Button>);
+    render(
+      <Button onClick={onClick} dataTestId="test-button">
+        Click me
+      </Button>
+    );
 
-    const button = screen.getByRole('button', { name: 'Click me' });
+    const button = screen.getByTestId('test-button');
     fireEvent.click(button);
 
     expect(onClick).toHaveBeenCalled();
@@ -38,12 +54,12 @@ describe('Button', () => {
   it('is disabled when disabled prop is true', () => {
     const onClick = vi.fn();
     render(
-      <Button disabled onClick={onClick}>
+      <Button disabled onClick={onClick} dataTestId="test-button">
         Click me
       </Button>
     );
 
-    const button = screen.getByRole('button', { name: 'Click me' });
+    const button = screen.getByTestId('test-button');
     expect(button).toBeDisabled();
 
     fireEvent.click(button);
@@ -52,30 +68,30 @@ describe('Button', () => {
 
   it('applies disabled styles for primary variant', () => {
     render(
-      <Button variant="primary" disabled>
+      <Button variant="primary" disabled dataTestId="test-button">
         Click me
       </Button>
     );
 
-    const button = screen.getByRole('button', { name: 'Click me' });
+    const button = screen.getByTestId('test-button');
     expect(button).toHaveClass('disabled:bg-bgColor-muted disabled:text-fgColor-secondary');
   });
 
   it('applies disabled styles for secondary variant', () => {
     render(
-      <Button variant="secondary" disabled>
+      <Button variant="secondary" disabled dataTestId="test-button">
         Click me
       </Button>
     );
 
-    const button = screen.getByRole('button', { name: 'Click me' });
+    const button = screen.getByTestId('test-button');
     expect(button).toHaveClass('disabled:text-fgColor-muted disabled:bg-transparent');
   });
 
   it('has base styles', () => {
-    render(<Button>Click me</Button>);
+    render(<Button dataTestId="test-button">Click me</Button>);
 
-    const button = screen.getByRole('button', { name: 'Click me' });
+    const button = screen.getByTestId('test-button');
     expect(button).toHaveClass('px-4 py-2 rounded font-medium focus:outline-none focus:ring-2 focus:ring-fgColor-accent transition-colors');
   });
 });

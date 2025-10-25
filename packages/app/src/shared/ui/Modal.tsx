@@ -9,9 +9,10 @@ export interface ModalProps {
   title?: string;
   children: React.ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  dataTestId?: string;
 }
 
-export const Modal: React.FC<ModalProps> = ({ onClose, title, children, size = 'md' }) => {
+export const Modal: React.FC<ModalProps> = ({ onClose, title, children, size = 'md', dataTestId = 'modal' }) => {
   const modalRoot = document.getElementById('modal-root');
 
   if (!modalRoot) {
@@ -57,7 +58,7 @@ export const Modal: React.FC<ModalProps> = ({ onClose, title, children, size = '
       >
         <div className="mb-4 flex items-center justify-between">
           {title && <h2 className="text-lg font-semibold text-fgColor-primary">{title}</h2>}
-          <IconButton onClick={onClose} icon={<X size={16} />} dataTestId="modal-close-button" />
+          <IconButton onClick={onClose} icon={<X size={16} />} dataTestId={`${dataTestId}-close-button`} />
         </div>
 
         <div>{children}</div>

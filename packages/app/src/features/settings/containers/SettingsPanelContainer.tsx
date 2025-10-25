@@ -72,7 +72,7 @@ export const SettingsPanelContainer: React.FC = () => {
         </div>
       </div>
       {isConfirmOpen && (
-        <Modal onClose={() => setIsConfirmOpen(false)} title="Reset all settings" size="md">
+        <Modal onClose={() => setIsConfirmOpen(false)} title="Reset all settings" size="md" dataTestId="settings-reset-modal">
           <div data-testid="confirmation-modal-container" className="space-y-4">
             <p className="text-sm text-fgColor-secondary">This will clear all saved preferences and reload the page. This action cannot be undone.</p>
             <div className="flex justify-end gap-2">

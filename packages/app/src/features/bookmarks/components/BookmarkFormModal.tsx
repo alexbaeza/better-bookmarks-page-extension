@@ -39,7 +39,11 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({ onClose, o
   }, [initialValues, formik]);
 
   return (
-    <Modal onClose={onClose} title={initialValues.title ? (isFolder ? 'Edit Folder' : 'Edit Bookmark') : isFolder ? 'Add Folder' : 'Add Bookmark'}>
+    <Modal
+      onClose={onClose}
+      title={initialValues.title ? (isFolder ? 'Edit Folder' : 'Edit Bookmark') : isFolder ? 'Add Folder' : 'Add Bookmark'}
+      dataTestId="bookmark-form-modal"
+    >
       <form onSubmit={formik.handleSubmit} className="space-y-6">
         {/* Title Field */}
         <div>
@@ -57,7 +61,7 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({ onClose, o
               onChange={formik.handleChange}
               className="pl-10"
               placeholder="Enter title"
-              data-testid="bookmark-edit-title-input"
+              dataTestId="bookmark-edit-title-input"
             />
           </div>
           {formik.touched.title && formik.errors.title && <div className="mt-1 text-xs text-fgColor-danger">{formik.errors.title}</div>}

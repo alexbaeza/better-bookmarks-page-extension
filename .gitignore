@@ -32,3 +32,4 @@ cypress
 screenshots
 
 /test/e2e/downloads
+.pnpm-store

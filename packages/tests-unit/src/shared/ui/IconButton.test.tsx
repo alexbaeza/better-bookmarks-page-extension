@@ -5,26 +5,30 @@ import { IconButton } from '@/shared/ui/IconButton';
 import { HeartIcon } from '@/shared/ui/Icons/Icons';
 
 describe('IconButton', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('renders without crashing', () => {
     const onClick = vi.fn();
-    render(<IconButton onClick={onClick} icon={<HeartIcon />} />);
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    render(<IconButton onClick={onClick} icon={<HeartIcon />} dataTestId="test-button" />);
+    expect(screen.getByTestId('test-button')).toBeInTheDocument();
   });
 
   it('calls onClick when button is clicked', () => {
     const onClick = vi.fn();
-    render(<IconButton onClick={onClick} icon={<HeartIcon />} />);
+    render(<IconButton onClick={onClick} icon={<HeartIcon />} dataTestId="test-button" />);
 
-    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByTestId('test-button'));
 
     expect(onClick).toHaveBeenCalled();
   });
 
   it('renders with custom className', () => {
     const onClick = vi.fn();
-    render(<IconButton onClick={onClick} icon={<HeartIcon />} className="custom-class" />);
+    render(<IconButton onClick={onClick} icon={<HeartIcon />} className="custom-class" dataTestId="test-button" />);
 
-    expect(screen.getByRole('button')).toHaveClass('custom-class');
+    expect(screen.getByTestId('test-button')).toHaveClass('custom-class');
   });
 
   it('renders with data-testid attribute', () => {
@@ -36,18 +40,18 @@ describe('IconButton', () => {
 
   it('renders with default class names', () => {
     const onClick = vi.fn();
-    render(<IconButton onClick={onClick} icon={<HeartIcon />} />);
+    render(<IconButton onClick={onClick} icon={<HeartIcon />} dataTestId="test-button" />);
 
-    expect(screen.getByRole('button')).toHaveClass(
+    expect(screen.getByTestId('test-button')).toHaveClass(
       'inline-flex items-center rounded-lg bg-bgColor-secondary p-1.5 text-sm text-fgColor-primary hover:bg-fgColor-hover hover:text-white disabled:opacity-50'
     );
   });
 
   it('renders with custom class names', () => {
     const onClick = vi.fn();
-    render(<IconButton onClick={onClick} icon={<HeartIcon />} className="bg-red-500 text-white" />);
+    render(<IconButton onClick={onClick} icon={<HeartIcon />} className="bg-red-500 text-white" dataTestId="test-button" />);
 
-    expect(screen.getByRole('button')).toHaveClass(
+    expect(screen.getByTestId('test-button')).toHaveClass(
       'inline-flex items-center rounded-lg bg-bgColor-secondary p-1.5 text-sm text-fgColor-primary hover:bg-fgColor-hover hover:text-white disabled:opacity-50 bg-red-500 text-white'
     );
   });

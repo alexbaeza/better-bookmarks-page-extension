@@ -5,9 +5,10 @@ export type ButtonVariant = 'primary' | 'secondary';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
+  dataTestId?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({ variant = 'primary', disabled = false, className = '', children, ...rest }) => {
+export const Button: React.FC<ButtonProps> = ({ variant = 'primary', disabled = false, className = '', dataTestId, children, ...rest }) => {
   const base = `
     px-4 py-2 rounded
     font-medium focus:outline-none focus:ring-2 focus:ring-fgColor-accent
@@ -28,7 +29,7 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', disabled = 
   };
 
   return (
-    <button disabled={disabled} className={`${base} ${variants[variant]} ${className}`} {...rest}>
+    <button disabled={disabled} className={`${base} ${variants[variant]} ${className}`} data-testid={dataTestId} {...rest}>
       {children}
     </button>
   );

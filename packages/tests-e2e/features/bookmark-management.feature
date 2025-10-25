@@ -32,15 +32,16 @@ Feature: Bookmark Management
     Given I can see bookmarks
     When I click the first "item-options-button"
     And I click the "Edit" button
-    Then I should see "modal-close-button"
-    When I click "modal-close-button"
+    Then I should see "bookmark-form-modal-close-button"
+    When I click "bookmark-form-modal-close-button"
     Then I should see my bookmarks displayed
 
   Scenario: Edit bookmark title
     Given I can see bookmarks
     When I click the first "item-options-button"
     And I click the "Edit" button
-    Then I should see "modal-close-button"
+    Then I should see "bookmark-form-modal-close-button"
+    And the "bookmark-edit-title-input" input should be ready
     And I enter "Updated Bookmark Title" as "bookmark-edit-title-input"
     And I click the "Save" button
     Then I should see my bookmarks displayed
