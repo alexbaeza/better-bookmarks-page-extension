@@ -26,7 +26,7 @@
     "changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0",
     "changelog:all": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s",
     "semantic-release": "semantic-release",
-    "prepare": "husky install",
+    "prepare": "husky",
     "lint-staged": "lint-staged"
   },
   "cypress-cucumber-preprocessor": {

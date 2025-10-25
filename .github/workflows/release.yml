@@ -40,7 +40,7 @@ jobs:
 
       - name: Run checks
         run: |
-          biome ci .
+          pnpm biome ci .
 
       - name: Run tests
         run: |

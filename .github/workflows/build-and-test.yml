@@ -40,7 +40,7 @@ jobs:
         run: pnpm install
 
       - name: Check lint & formatting
-        run: biome ci .
+        run: pnpm biome ci .
 
 
   # Unit tests
