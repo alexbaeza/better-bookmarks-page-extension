@@ -41,8 +41,8 @@ describe('MenuItem', () => {
     fireEvent.click(button);
 
     expect(screen.getByText('Are you sure?')).toBeInTheDocument();
-    expect(screen.getByTestId('confirm-button')).toBeInTheDocument();
-    expect(screen.getByTestId('cancel-button')).toBeInTheDocument();
+    expect(screen.getByTestId('bookmark-delete-confirm-button')).toBeInTheDocument();
+    expect(screen.getByTestId('bookmark-delete-cancel-button')).toBeInTheDocument();
   });
 
   it('calls onConfirm when confirm button is clicked', () => {
@@ -53,7 +53,7 @@ describe('MenuItem', () => {
     const button = screen.getByRole('button', { name: /delete item/i });
     fireEvent.click(button);
 
-    const confirmButton = screen.getByTestId('confirm-button');
+    const confirmButton = screen.getByTestId('bookmark-delete-confirm-button');
     fireEvent.click(confirmButton);
 
     expect(onConfirm).toHaveBeenCalled();
@@ -71,7 +71,7 @@ describe('MenuItem', () => {
     const button = screen.getByRole('button', { name: /delete item/i });
     fireEvent.click(button);
 
-    const cancelButton = screen.getByTestId('cancel-button');
+    const cancelButton = screen.getByTestId('bookmark-delete-cancel-button');
     fireEvent.click(cancelButton);
 
     expect(onCancel).toHaveBeenCalled();

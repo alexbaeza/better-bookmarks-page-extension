@@ -40,7 +40,7 @@ describe('BaseGridItem', () => {
       </BaseGridItem>
     );
 
-    const button = screen.getByTestId('grid-item');
+    const button = screen.getByRole('button', { name: /test item/i });
     expect(button).toBeInTheDocument();
     expect(button).toHaveAttribute('role', 'button');
   });
@@ -53,8 +53,8 @@ describe('BaseGridItem', () => {
       </BaseGridItem>
     );
 
-    // Click the main button (not the options button)
-    const mainButton = screen.getByTestId('grid-item');
+    // Click the main clickable area (not the options button)
+    const mainButton = screen.getByRole('button', { name: /test item/i });
     fireEvent.click(mainButton);
     expect(onClick).toHaveBeenCalled();
   });
@@ -110,7 +110,7 @@ describe('BaseGridItem', () => {
       expect(screen.getByText('Confirm delete?')).toBeInTheDocument();
     });
 
-    const confirmButton = screen.getByTestId('confirm-button');
+    const confirmButton = screen.getByTestId('bookmark-delete-confirm-button');
     fireEvent.click(confirmButton);
 
     expect(onDelete).toHaveBeenCalled();

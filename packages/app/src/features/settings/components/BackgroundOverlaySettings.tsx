@@ -102,7 +102,11 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
       {selectedBackground !== '/images/transparent.png' && (
         <div className="space-y-4">
           <div className="text-sm font-medium text-fgColor-primary">Choose an overlay</div>
-          <div className="grid grid-cols-3 gap-4">{overlayOptions.map((opt, idx) => renderImage(opt.image, opt.text, idx))}</div>
+          <div className="grid grid-cols-3 gap-4">
+            {overlayOptions.map((opt, idx) => (
+              <div key={opt.image}>{renderImage(opt.image, opt.text, idx)}</div>
+            ))}
+          </div>
         </div>
       )}
 

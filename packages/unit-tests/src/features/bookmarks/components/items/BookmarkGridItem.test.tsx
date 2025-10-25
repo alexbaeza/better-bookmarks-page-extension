@@ -15,7 +15,7 @@ describe('BookmarkGridItem', () => {
 
   it('renders as a clickable button for bookmarks', () => {
     renderWithBookmarkProviders(<BookmarkGridItem title={title} url={url} onEdit={vi.fn()} onDelete={vi.fn()} />);
-    const button = screen.getByTestId('grid-item');
+    const button = screen.getByRole('button', { name: /example bookmark/i });
     expect(button).toBeInTheDocument();
     expect(button).toHaveAttribute('role', 'button');
   });

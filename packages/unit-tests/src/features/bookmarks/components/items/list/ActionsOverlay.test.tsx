@@ -64,7 +64,7 @@ describe('ActionsOverlay', () => {
       expect(screen.getByText('Confirm delete?')).toBeInTheDocument();
     });
 
-    const confirmButton = screen.getByTestId('confirm-button');
+    const confirmButton = screen.getByTestId('bookmark-delete-confirm-button');
     fireEvent.click(confirmButton);
 
     expect(onDelete).toHaveBeenCalled();

@@ -150,8 +150,8 @@ describe('BookmarkItem', () => {
       </AllProviders>
     );
 
-    // Click the main button (not the options button)
-    const folderButton = screen.getByTestId('bookmark-folder-grid-item');
+    // Click the main clickable area (not the options button)
+    const folderButton = screen.getByRole('button', { name: /test folder/i });
     fireEvent.click(folderButton);
     expect(mockOnClick).toHaveBeenCalledTimes(1);
   });

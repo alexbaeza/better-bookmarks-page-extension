@@ -40,12 +40,13 @@ export const Modal: React.FC<ModalProps> = ({ onClose, title, children, size = '
   };
 
   return createPortal(
-    <button
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       onClick={onClose}
       onKeyDown={handleBackdropKeyDown}
+      role="button"
+      tabIndex={0}
       aria-label="Close modal"
-      type="button"
     >
       <dialog
         open
@@ -61,7 +62,7 @@ export const Modal: React.FC<ModalProps> = ({ onClose, title, children, size = '
 
         <div>{children}</div>
       </dialog>
-    </button>,
+    </div>,
     modalRoot
   );
 };
