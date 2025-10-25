@@ -1,3 +1,5 @@
+import { APP_DONATION_URL } from '@/config/constants';
+
 interface SponsorProps {
   dataTestId?: string;
 }
@@ -11,7 +13,7 @@ export const Sponsor = ({ dataTestId }: SponsorProps) => {
           }
         </div>
         <div className="mt-3 flex justify-center">
-          <a data-testid="sponsor-link" href={'https://www.buymeacoffee.com/alexbaeza'}>
+          <a data-testid="sponsor-link" href={APP_DONATION_URL}>
             <img data-testid="sponsor-link-image" className="w-32" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt={'Buy me a coffee'} />
           </a>
         </div>

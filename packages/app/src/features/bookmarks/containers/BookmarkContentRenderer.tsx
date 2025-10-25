@@ -32,17 +32,6 @@ export const BookmarkContentRenderer: React.FC<BookmarkContentRendererProps> = (
         gap: '0.5rem',
       };
 
-  // Debug logs
-  console.log('BookmarkContentRenderer debug:', {
-    folderId,
-    folderContentsCount: folderContents.length,
-    viewMode,
-    isList,
-    containerWidth,
-    optimalColumns,
-    gridStyle: isList ? 'N/A (list mode)' : gridStyle,
-  });
-
   return (
     <SortableContext items={folderContents.map((item) => item.id)} strategy={isList ? verticalListSortingStrategy : rectSortingStrategy}>
       <div ref={containerRef} className={layoutClass} style={gridStyle} data-folder-id={folderId} data-testid="bookmark-content-container">

@@ -1,4 +1,5 @@
 import { HeartIcon } from 'lucide-react';
+import { APP_REPO_URL } from '@/config/constants';
 
 export const Footer = ({
   className = 'justify-end',
@@ -12,7 +13,7 @@ export const Footer = ({
         <HeartIcon size={16} />
       </span>
       {'by'}
-      <a data-testid="author-link" className="text-fgColor-primary ml-1 font-bold" href={'https://github.com/alexbaeza/better-bookmarks-page-extension'}>
+      <a data-testid="author-link" className="text-fgColor-primary ml-1 font-bold" href={APP_REPO_URL}>
         alexbaeza.
       </a>
     </div>

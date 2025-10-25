@@ -17,6 +17,7 @@ describe('Footer', () => {
     render(<Footer />);
     const authorLink = screen.getByRole('link');
     expect(authorLink).toBeInTheDocument();
-    expect(authorLink).toHaveAttribute('href', 'https://github.com/alexbaeza/better-bookmarks-page-extension');
+    // Repo URL comes from constants; ensure it is present
+    expect(authorLink?.getAttribute('href')).toMatch('github.com/alexbaeza/better-bookmarks-page-extension');
   });
 });

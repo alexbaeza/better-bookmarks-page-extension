@@ -27,7 +27,7 @@ Then('I should see folder structures', () => {
 
 Then('I should see bookmark counts', () => {
   // Check that folders show bookmark counts
-  cy.get('[data-testid="bookmark-folder-item"]').each(($folder) => {
+  cy.get('[data-testid^="bookmark-folder-item-"]').each(($folder) => {
     cy.wrap($folder).find('[data-testid="bookmark-count"]').should('be.visible');
   });
 });
@@ -37,7 +37,7 @@ Given('I can see bookmark folders', () => {
 });
 
 When('I click on a folder', () => {
-  cy.get('[data-testid="bookmark-folder-item"]').first().click();
+  cy.get('[data-testid^="bookmark-folder-item-"]').first().click();
   cy.wait(500);
 });
 
@@ -68,11 +68,11 @@ Given('I can see bookmarks and folders', () => {
 
 When('I drag a bookmark to a folder', () => {
   // Get the first bookmark and first folder for the test
-  cy.get('[data-testid="bookmark-item"]')
+  cy.get('[data-testid^="bookmark-item-"]')
     .first()
     .then(($bookmark) => {
       const bookmarkTitle = $bookmark.text().trim();
-      cy.get('[data-testid="bookmark-folder-item"]')
+      cy.get('[data-testid^="bookmark-folder-item-"]')
         .first()
         .then(($folder) => {
           const folderTitle = $folder.text().trim();
@@ -100,7 +100,7 @@ Then('the folder should show updated bookmark count', () => {
   cy.wait(500);
 
   // Check that folders still show counts
-  cy.get('[data-testid="bookmark-folder-item"]').each(($folder) => {
+  cy.get('[data-testid^="bookmark-folder-item-"]').each(($folder) => {
     cy.wrap($folder).find('[data-testid="bookmark-count"]').should('be.visible');
   });
 });
@@ -119,8 +119,8 @@ Given('I can see multiple bookmarks in a folder', () => {
 
 When('I drag a bookmark to a new position', () => {
   // Reorder the first bookmark to the second position
-  cy.get('[data-testid="bookmark-item"]').first().trigger('mousedown', { which: 1 });
-  cy.get('[data-testid="bookmark-item"]').eq(1).trigger('mousemove').trigger('mouseup');
+  cy.get('[data-testid^="bookmark-item-"]').first().trigger('mousedown', { which: 1 });
+  cy.get('[data-testid^="bookmark-item-"]').eq(1).trigger('mousemove').trigger('mouseup');
   cy.wait(1000);
 });
 
@@ -154,8 +154,8 @@ Given('I can see multiple folders', () => {
 
 When('I drag a folder to another folder', () => {
   // Drag first folder to second folder
-  cy.get('[data-testid="bookmark-folder-item"]').first().trigger('mousedown', { which: 1 });
-  cy.get('[data-testid="bookmark-folder-item"]').eq(1).trigger('mousemove').trigger('mouseup');
+  cy.get('[data-testid^="bookmark-folder-item-"]').first().trigger('mousedown', { which: 1 });
+  cy.get('[data-testid^="bookmark-folder-item-"]').eq(1).trigger('mousemove').trigger('mouseup');
   cy.wait(1000);
 });
 
@@ -175,7 +175,7 @@ Then('it should become a subfolder', () => {
 
 Then('the parent folder should show updated folder count', () => {
   // Check that folder counts are still displayed
-  cy.get('[data-testid="bookmark-folder-item"]').each(($folder) => {
+  cy.get('[data-testid^="bookmark-folder-item-"]').each(($folder) => {
     cy.wrap($folder).find('[data-testid="bookmark-count"]').should('be.visible');
   });
 });
@@ -241,7 +241,7 @@ Given('I have an empty folder', () => {
 });
 
 When('I click on the empty folder', () => {
-  cy.get('[data-testid="bookmark-folder-item"]').first().click();
+  cy.get('[data-testid^="bookmark-folder-item-"]').first().click();
   cy.wait(500);
 });
 
@@ -275,7 +275,7 @@ Then('bookmarks should remain accessible', () => {
 
 // Additional drag and drop specific steps
 When('I start dragging a bookmark', () => {
-  cy.get('[data-testid="bookmark-item"]').first().trigger('mousedown', { which: 1 });
+  cy.get('[data-testid^="bookmark-item-"]').first().trigger('mousedown', { which: 1 });
   cy.wait(200);
 });
 
@@ -314,9 +314,9 @@ When('I perform multiple drag operations', () => {
         // Perform a few drag operations
         const operations = Math.min(2, bookmarkCount, folderCount);
         for (let i = 0; i < operations; i++) {
-          cy.get('[data-testid="bookmark-item"]').eq(i).trigger('mousedown', { which: 1 });
+          cy.get('[data-testid^="bookmark-item-"]').eq(i).trigger('mousedown', { which: 1 });
           cy.wait(100);
-          cy.get('[data-testid="bookmark-folder-item"]').eq(i).trigger('mousemove').trigger('mouseup');
+          cy.get('[data-testid^="bookmark-folder-item-"]').eq(i).trigger('mousemove').trigger('mouseup');
           cy.wait(500);
         }
       }

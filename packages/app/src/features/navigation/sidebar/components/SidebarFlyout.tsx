@@ -5,8 +5,8 @@ import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNav
 import { useFavicon } from '@/features/bookmarks/hooks/useFavicon';
 import { countFolders, countItems, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import { getDefaultFavicon } from '@/features/bookmarks/lib/browser/utils/default-favicon';
-import { FlyoutFolderNode } from '@/features/navigation/sidebar/components/FlyOutFolderNode';
-import { SidebarLeaf } from '@/features/navigation/sidebar/components/SideBarLeaf';
+// Removed FlyoutFolderNode in favor of direct SidebarItem usage
+import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarItem';
 import { SidebarSection } from '@/features/navigation/sidebar/components/SideBarSection';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { InlineFlyout } from '@/shared/ui/Flyout';
@@ -26,9 +26,7 @@ const BookmarkLeaf: React.FC<{
   const faviconUrl = useFavicon(leaf.url || '');
 
   return (
-    <SidebarLeaf
-      key={leaf.id}
-      id={leaf.id}
+    <SidebarItem
       icon={<ImageWithFallback className="size-6 rounded-sm border border-none" src={faviconUrl} fallback={getDefaultFavicon()} alt={leaf.title} />}
       label={leaf.title || 'Untitled'}
       isSelected={currentPage === leaf.id}
@@ -57,7 +55,16 @@ export const SidebarFlyout: React.FC<SidebarFlyoutProps> = ({ folder, onClose, c
         {/* Nested Folders */}
         <SidebarSection title={`Folders (${countFolders(folder)})`} icon={<FolderIcon size={14} />}>
           {folder.children?.filter(onlyFolders).map((sub: IBookmarkItem) => (
-            <FlyoutFolderNode key={sub.id} folder={sub} isSelected={currentPage === sub.id} clickFolder={clickFolder} />
+            <li key={sub.id}>
+              <SidebarItem
+                icon={<FolderIcon size={16} />}
+                label={sub.title || 'Untitled'}
+                badge={countFolders(sub) + countItems(sub)}
+                isSelected={currentPage === sub.id}
+                onClick={() => clickFolder(sub.id)}
+                className="cursor-pointer"
+              />
+            </li>
           ))}
         </SidebarSection>
 

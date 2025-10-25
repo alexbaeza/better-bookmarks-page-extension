@@ -58,7 +58,6 @@ class MockDataService {
   getData(): IBookmarkItem[] {
     // Apply ordering to the raw data
     const orderedData = orderingService.applyOrdering(this.data);
-
     return orderedData;
   }
 

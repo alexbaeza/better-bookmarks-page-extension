@@ -25,7 +25,6 @@ export function createBookmarkAPI(): BrowserBookmarkAPI {
 
   // In test environment or when browser APIs are not available, use mock API
   if (isTest || isCypressTest || (!hasChromeAPI && !hasBrowserAPI)) {
-    console.log('Using mock API for test environment or missing browser APIs');
     return new MockBrowserAPI();
   }
 

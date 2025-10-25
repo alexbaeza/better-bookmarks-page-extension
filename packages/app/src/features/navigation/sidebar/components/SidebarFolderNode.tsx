@@ -7,7 +7,8 @@ import { DROPPABLE_SIDEBAR_FOLDER_PREFIX } from '@/config/dnd-constants';
 import { countFolders, countItems, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
-import { SidebarLeaf } from './SideBarLeaf';
+import { SidebarItem } from './SidebarItem';
+import { TreeElbowItem } from './TreeElbowItem';
 
 type FolderNodeProps = {
   folder: IBookmarkItem;
@@ -38,17 +39,15 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, leve
       aria-level={level + 1}
       aria-selected={isSelected}
       {...(hasKids && { 'aria-expanded': isOpen })}
-      className="relative outline-2 outline-offset-2"
+      className="relative outline-2 outline-offset-2 min-w-0"
     >
-      {/* Folder Row - unified with SidebarLeaf (icon inside) */}
-      <SidebarLeaf
-        id={folder.id}
-        icon={hasKids ? isOpen ? <FolderOpenIcon size={16} /> : <FolderIcon size={16} /> : <FolderDotIcon size={16} />}
+      {/* Folder Row */}
+      <SidebarItem
+        icon={hasKids ? (isOpen ? <FolderOpenIcon size={16} /> : <FolderIcon size={16} />) : <FolderDotIcon size={16} />}
         label={folder.title || 'Untitled'}
         badge={countItems(folder) + countFolders(folder)}
         isSelected={isSelected}
         onClick={() => {
-          // Toggle tree and open flyout
           if (hasKids) toggleFolder(folder.id);
           clickFolder(folder.id);
         }}
@@ -57,21 +56,12 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, leve
 
       {/* Nested Children */}
       {isOpen && hasKids && folder.children && (
-        <fieldset aria-label={`Subfolders of ${folder.title || 'Untitled'}`} className="relative ml-3">
-          {/* Vertical Line */}
-          <div className="absolute top-0 bottom-0 w-px bg-gray-600" style={{ left: '0px' }} />
+        <fieldset aria-label={`Subfolders of ${folder.title || 'Untitled'}`} className="relative ml-3 pl-1 overflow-visible min-w-0">
+          {/* Vertical spine for this branch */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-px bg-gray-600" />
 
           {folder.children.filter(onlyFolders).map((child: IBookmarkItem) => (
-            <li key={child.id} className="relative ml-4">
-              {/* Horizontal Connector */}
-              <div
-                className="absolute h-px bg-gray-600"
-                style={{
-                  left: '-16px',
-                  width: '16px',
-                  top: '16px',
-                }}
-              />
+            <TreeElbowItem key={child.id}>
               <SidebarFolderNode
                 folder={child}
                 level={level + 1}
@@ -80,7 +70,7 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, leve
                 openFolderId={openFolderId}
                 clickFolder={clickFolder}
               />
-            </li>
+            </TreeElbowItem>
           ))}
         </fieldset>
       )}
