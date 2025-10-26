@@ -1,4 +1,3 @@
-// biome-ignore lint/correctness/noUnusedImports: required for mocking
 import { useSortable } from '@dnd-kit/sortable';
 import { viewModeAtom } from '@/app/providers/atoms';
 import { DraggableBookmarkItem } from '@/features/bookmarks/components/items/DraggableBookmarkItem';

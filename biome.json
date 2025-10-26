@@ -3,6 +3,6 @@
   "extends": ["./packages/shared-tooling/configs/biome.json"],
   "files": {
     "ignoreUnknown": true,
-    "includes": ["packages/**", "!!packages/app/src/styles/globals.css", "!**/.releaserc.cjs"]
+    "includes": ["packages/**", "!!packages/app/src/styles/globals.css", "!!packages/shared-tooling/configs/.releaserc.cjs"]
   }
 }
