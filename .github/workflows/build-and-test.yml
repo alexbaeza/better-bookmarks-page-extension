@@ -124,27 +124,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Cache Cypress
-        uses: actions/cache@v4
+      - name: Run Cypress Tests (Chrome)
+        uses: cypress-io/github-action@v6
         with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-
-      - name: Install Cypress binary
-        run: pnpm --filter @better-bookmarks/tests-e2e exec cypress install
-
-      - name: Start preview server
-        run: pnpm preview &
+          start: pnpm preview
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 60
+          browser: chrome
+          working-directory: packages/tests-e2e
         env:
           CI: true
-
-      - name: Run E2E tests (Chrome)
-        run: pnpm test:e2e:chrome
-        env:
-          CYPRESS_baseUrl: http://localhost:3000
-
-      - name: Stop preview server
-        run: pkill -f "vite preview" || true
 
   tests-e2e-firefox:
     name: E2E Tests (Firefox)
@@ -168,24 +157,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Cache Cypress
-        uses: actions/cache@v4
+      - name: Run Cypress Tests (Firefox)
+        uses: cypress-io/github-action@v6
         with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-
-      - name: Install Cypress binary
-        run: pnpm --filter @better-bookmarks/tests-e2e exec cypress install
-
-      - name: Start preview server
-        run: pnpm preview &
+          start: pnpm preview
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 60
+          browser: firefox
+          working-directory: packages/tests-e2e
         env:
           CI: true
-
-      - name: Run E2E tests (Firefox)
-        run: pnpm test:e2e:firefox
-        env:
-          CYPRESS_baseUrl: http://localhost:3000
-
-      - name: Stop preview server
-        run: pkill -f "vite preview" || true
