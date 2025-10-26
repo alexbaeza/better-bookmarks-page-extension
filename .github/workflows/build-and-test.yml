@@ -124,6 +124,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Cache Cypress
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install Cypress binary
+        run: pnpm --filter @better-bookmarks/tests-e2e exec cypress install
+
       - name: Start preview server
         run: pnpm preview &
         env:
@@ -158,6 +167,15 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Cache Cypress
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install Cypress binary
+        run: pnpm --filter @better-bookmarks/tests-e2e exec cypress install
 
       - name: Start preview server
         run: pnpm preview &
