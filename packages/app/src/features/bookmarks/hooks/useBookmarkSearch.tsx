@@ -68,5 +68,5 @@ export function useBookmarkSearch({ rawFolders, rawUncategorized }: BookmarkData
     return { all, uncategorized: unc };
   }, [rawFolders, rawUncategorized, filterChildren]);
 
-  return { searchTerm, setSearchTerm, pageContainers, items, counts };
+  return { counts, items, pageContainers, searchTerm, setSearchTerm };
 }

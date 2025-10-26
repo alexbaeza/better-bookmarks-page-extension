@@ -1,13 +1,7 @@
-import { vi } from 'vitest';
-
 import { SettingsFlyoutContainer } from '@/features/settings/containers/SettingsFlyoutContainer';
 import { fireEvent, render, screen } from '~test/test-utils';
 
 describe('SettingsFlyoutContainer', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('renders toggle button', () => {
     render(
       <SettingsFlyoutContainer>

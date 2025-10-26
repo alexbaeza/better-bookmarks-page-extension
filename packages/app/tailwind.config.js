@@ -1,8 +1,8 @@
 const { themes } = require('./src/styles/themes');
 
 module.exports = {
-  darkMode: 'class',
   content: ['./src/**/*.{js,jsx,ts,tsx,css}'],
+  darkMode: 'class',
   plugins: [
     require('tailwindcss-themer')({
       // pick any theme as default (here “dark”)
@@ -10,8 +10,8 @@ module.exports = {
         extend: { colors: themes.default },
       },
       themes: Object.entries(themes).map(([name, colors]) => ({
-        name,
         extend: { colors },
+        name,
       })),
     }),
   ],

@@ -4,16 +4,16 @@ import type { IBookmarkItem } from '@/shared/types/bookmarks';
 describe('bookmark-tree-utils', () => {
   const tree: IBookmarkItem[] = [
     {
-      id: '1',
-      title: 'Root1',
       children: [
         { id: '2', title: 'Child1' },
         {
+          children: [{ id: '4', title: 'Grandchild' }],
           id: '3',
           title: 'Child2',
-          children: [{ id: '4', title: 'Grandchild' }],
         },
       ],
+      id: '1',
+      title: 'Root1',
     },
     { id: '5', title: 'Root2' },
   ];
@@ -61,18 +61,18 @@ describe('bookmark-tree-utils', () => {
     it('updates children of root item', () => {
       const newChildren = [{ id: '6', title: 'New Child' }];
       const result = updateChildrenInTree(tree, '1', newChildren);
-      expect(result[0].children).toEqual(newChildren);
+      expect(result[0].children).toStrictEqual(newChildren);
     });
 
     it('updates children of nested item', () => {
       const newChildren = [{ id: '7', title: 'New Grandchild' }];
       const result = updateChildrenInTree(tree, '3', newChildren);
-      expect(result[0].children?.[1]?.children).toEqual(newChildren);
+      expect(result[0].children?.[1]?.children).toStrictEqual(newChildren);
     });
 
     it('returns unchanged tree if id not found', () => {
       const result = updateChildrenInTree(tree, '999', []);
-      expect(result).toEqual(tree);
+      expect(result).toStrictEqual(tree);
     });
   });
 

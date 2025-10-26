@@ -17,7 +17,7 @@ export const BookmarkFolderModal: React.FC<BookmarkFolderModalProps> = ({ folder
   const { hideModal } = useModal();
 
   return (
-    <Modal title={folderTitle} onClose={hideModal} dataTestId="bookmark-folder-modal">
+    <Modal dataTestId="bookmark-folder-modal" onClose={hideModal} title={folderTitle}>
       <div className="p-4">
         <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-lg bg-bgColor-secondary p-2 text-fgColor-primary">
           <FolderIcon size={24} />

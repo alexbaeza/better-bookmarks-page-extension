@@ -10,12 +10,6 @@ describe('getDefaultFavicon', () => {
 });
 
 describe('getFaviconUrl', () => {
-  beforeEach(() => {
-    // Reset global objects
-    (global as typeof global & { chrome?: unknown }).chrome = undefined;
-    (global as typeof global & { browser?: unknown }).browser = undefined;
-  });
-
   it('returns DuckDuckGo favicon URL in Chrome extension context', () => {
     (global as typeof global & { chrome?: { runtime: { id: string } } }).chrome = {
       runtime: { id: 'test-extension-id' },

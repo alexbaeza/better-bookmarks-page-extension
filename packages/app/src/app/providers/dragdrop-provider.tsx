@@ -175,8 +175,8 @@ export const DragDropProvider: React.FC<{ children: ReactNode }> = ({ children }
     return pointerWithin({
       active,
       collisionRect,
-      droppableRects,
       droppableContainers: allowedContainers,
+      droppableRects,
       pointerCoordinates,
     });
   };
@@ -184,11 +184,11 @@ export const DragDropProvider: React.FC<{ children: ReactNode }> = ({ children }
   return (
     <DragDropContext.Provider value={{ activeId }}>
       <DndContext
-        sensors={sensors}
         collisionDetection={constrainedCollisionDetection}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
         onDragCancel={() => setActiveId(null)}
+        onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart}
+        sensors={sensors}
       >
         {children}
         <DragOverlay>

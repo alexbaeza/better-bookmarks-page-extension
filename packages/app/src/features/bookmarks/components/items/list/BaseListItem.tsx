@@ -40,24 +40,25 @@ export const BaseListItem: React.FC<BaseListItemProps> = ({ dataTestId, icon, ch
 
   return (
     <div
-      data-testid={dataTestId}
-      onMouseEnter={() => {
-        clearHide();
-        setHovered(true);
-      }}
-      onMouseLeave={scheduleHide}
       className="
         relative flex h-12 w-full
         overflow-visible rounded-lg
         bg-bgColor-tertiary transition
         hover:bg-fgColor-hover
       "
+      data-testid={dataTestId}
+      onMouseEnter={() => {
+        clearHide();
+        setHovered(true);
+      }}
+      onMouseLeave={scheduleHide}
       role="group"
     >
       {/* drag handle - outside clickable area */}
       <div className="bg-bgColor-secondary-contrast flex h-full w-8 flex-none items-center justify-center rounded-l-lg">
         <div
           {...dragHandleProps}
+          aria-label="Drag handle"
           className={`cursor-grab p-2 min-w-[32px] min-h-[32px] flex items-center justify-center ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}
           data-testid="drag-handle-button"
           onClick={(e) => e.stopPropagation()}
@@ -69,14 +70,18 @@ export const BaseListItem: React.FC<BaseListItemProps> = ({ dataTestId, icon, ch
           }}
           role="button"
           tabIndex={0}
-          aria-label="Drag handle"
         >
           <GripVertical size={16} />
         </div>
       </div>
 
       {/* clickable content area */}
-      <ContentWrapper href={href} onClick={onClick} className="flex h-full flex-1 items-center focus:outline-none">
+      <ContentWrapper
+        className="flex h-full flex-1 items-center focus:outline-none"
+        data-testid={href ? 'list-item-link' : 'list-item-button'}
+        href={href}
+        onClick={onClick}
+      >
         {/* icon */}
         <div className="flex h-full w-12 flex-none items-center justify-center">
           <div className={`${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}>{icon}</div>
@@ -95,7 +100,7 @@ export const BaseListItem: React.FC<BaseListItemProps> = ({ dataTestId, icon, ch
       </ContentWrapper>
 
       {/* edit/delete overlay */}
-      <ActionsOverlay visible={hovered} onEdit={onEdit} onDelete={onDelete} onMouseEnter={clearHide} onMouseLeave={scheduleHide} />
+      <ActionsOverlay onDelete={onDelete} onEdit={onEdit} onMouseEnter={clearHide} onMouseLeave={scheduleHide} visible={hovered} />
     </div>
   );
 };

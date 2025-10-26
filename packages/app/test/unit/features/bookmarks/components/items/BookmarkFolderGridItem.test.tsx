@@ -18,4 +18,25 @@ describe('BookmarkFolderGridItem', () => {
     fireEvent.click(screen.getByTestId('folder-icon'));
     expect(onClickMock).toHaveBeenCalledTimes(1);
   });
+
+  it('calls the onClick function when Enter key is pressed', () => {
+    render(<BookmarkFolderGridItem onClick={onClickMock} title={title} />);
+    const button = screen.getByTestId('bookmark-folder-grid-item');
+    fireEvent.keyDown(button, { key: 'Enter' });
+    expect(onClickMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls the onClick function when Space key is pressed', () => {
+    render(<BookmarkFolderGridItem onClick={onClickMock} title={title} />);
+    const button = screen.getByTestId('bookmark-folder-grid-item');
+    fireEvent.keyDown(button, { key: ' ' });
+    expect(onClickMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not call onClick when other keys are pressed', () => {
+    render(<BookmarkFolderGridItem onClick={onClickMock} title={title} />);
+    const button = screen.getByTestId('bookmark-folder-grid-item');
+    fireEvent.keyDown(button, { key: 'Escape' });
+    expect(onClickMock).not.toHaveBeenCalled();
+  });
 });

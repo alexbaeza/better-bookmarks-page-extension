@@ -62,13 +62,13 @@ describe('Icons', () => {
   });
 
   it.each(allIconsToTest)('%s: renders with custom class name', (_name, Icon) => {
-    const { getByTestId } = render(<Icon dataTestId="check-icon" className="custom-class" />);
+    const { getByTestId } = render(<Icon className="custom-class" dataTestId="check-icon" />);
     const checkIcon = getByTestId('check-icon');
     expect(checkIcon).toHaveClass('w-4 h-4 custom-class');
   });
 
   it.each(allIconsToTest)('%s: renders with custom size and class name', (_name, Icon) => {
-    const { getByTestId } = render(<Icon dataTestId="check-icon" size="lg" className="custom-class" />);
+    const { getByTestId } = render(<Icon className="custom-class" dataTestId="check-icon" size="lg" />);
     const checkIcon = getByTestId('check-icon');
     expect(checkIcon).toHaveClass('w-24 h-24 custom-class');
   });

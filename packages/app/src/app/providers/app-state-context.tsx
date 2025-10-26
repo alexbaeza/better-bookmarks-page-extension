@@ -18,8 +18,8 @@ const stub = (): never => {
 
 export const initialContext: AppStateContextProps = {
   bookmarks: initialAppState.bookmarks,
-  isLoading: initialAppState.isLoading,
   error: initialAppState.error,
+  isLoading: initialAppState.isLoading,
   providerInitialised: initialAppState.providerInitialised,
   refreshBookmarks: stub,
 };

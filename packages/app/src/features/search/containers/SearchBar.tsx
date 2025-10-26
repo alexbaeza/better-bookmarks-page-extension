@@ -18,7 +18,7 @@ export const SearchBar: React.FC = () => {
 
   return (
     <div className="mt-4 w-full">
-      <SearchInput value={searchTerm} onChange={setSearchTerm} placeholder={placeholder} data-testid="search-input" />
+      <SearchInput data-testid="search-input" onChange={setSearchTerm} placeholder={placeholder} value={searchTerm} />
     </div>
   );
 };

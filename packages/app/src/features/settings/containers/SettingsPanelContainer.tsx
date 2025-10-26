@@ -59,7 +59,13 @@ export const SettingsPanelContainer: React.FC = () => {
         {/* Maintenance */}
         <div className="space-y-3">
           <Divider title="Maintenance" />
-          <Button variant="secondary" className="w-full" onClick={() => setIsConfirmOpen(true)} aria-label="Reset all settings">
+          <Button
+            aria-label="Reset all settings"
+            className="w-full"
+            data-testid="settings-reset-open-button"
+            onClick={() => setIsConfirmOpen(true)}
+            variant="secondary"
+          >
             Reset all settings (clears local storage)
           </Button>
         </div>
@@ -70,14 +76,14 @@ export const SettingsPanelContainer: React.FC = () => {
         </div>
       </div>
       {isConfirmOpen && (
-        <Modal onClose={() => setIsConfirmOpen(false)} title="Reset all settings" size="md" dataTestId="settings-reset-modal">
-          <div data-testid="confirmation-modal-container" className="space-y-4">
+        <Modal dataTestId="settings-reset-modal" onClose={() => setIsConfirmOpen(false)} size="md" title="Reset all settings">
+          <div className="space-y-4" data-testid="confirmation-modal-container">
             <p className="text-sm text-fgColor-secondary">This will clear all saved preferences and reload the page. This action cannot be undone.</p>
             <div className="flex justify-end gap-2">
-              <Button variant="secondary" onClick={() => setIsConfirmOpen(false)} data-testid="settings-reset-cancel-button">
+              <Button data-testid="settings-reset-cancel-button" onClick={() => setIsConfirmOpen(false)} variant="secondary">
                 Cancel
               </Button>
-              <Button variant="primary" onClick={handleResetAll} data-testid="settings-reset-confirm-button">
+              <Button data-testid="settings-reset-confirm-button" onClick={handleResetAll} variant="primary">
                 Confirm
               </Button>
             </div>

@@ -16,7 +16,7 @@ export const BookmarkSearchProvider: React.FC<{ children: ReactNode }> = ({ chil
     setSearchTerm('');
   }, []);
 
-  const value = useMemo(() => ({ searchTerm, setSearchTerm, resetSearch }), [searchTerm, resetSearch]);
+  const value = useMemo(() => ({ resetSearch, searchTerm, setSearchTerm }), [searchTerm, resetSearch]);
 
   return <BookmarkSearchContext.Provider value={value}>{children}</BookmarkSearchContext.Provider>;
 };

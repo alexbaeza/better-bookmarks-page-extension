@@ -1,8 +1,6 @@
 import { createRoot } from 'react-dom/client';
 
-import { App } from '@/app/app';
-
-import reportWebVitals from './reportWebVitals';
+import { App } from './app';
 
 import '@/styles/globals.css';
 
@@ -12,5 +10,3 @@ if (!container) {
 }
 const root = createRoot(container);
 root.render(<App />);
-
-reportWebVitals();

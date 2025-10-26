@@ -25,25 +25,25 @@ export const BookmarkListItem: React.FC<UnifiedListItemProps> = ({ dataTestId = 
 
   const icon = url ? (
     <ImageWithFallback
-      data-testid="favicon"
-      className="size-6 rounded-sm border border-none"
-      src={faviconUrl}
-      fallback={getDefaultFavicon()}
       alt={`favicon for ${title}`}
+      className="size-6 rounded-sm border border-none"
+      data-testid="favicon"
+      fallback={getDefaultFavicon()}
+      src={faviconUrl}
     />
   ) : (
-    <Folder size={16} className="text-fgColor-secondary" />
+    <Folder className="text-fgColor-secondary" size={16} />
   );
 
   return (
     <BaseListItem
       dataTestId={dataTestId}
-      href={url}
-      onClick={url ? undefined : onClick}
       dragHandleProps={dragHandleProps}
-      onEdit={onEdit}
-      onDelete={onDelete}
+      href={url}
       icon={icon}
+      onClick={url ? undefined : onClick}
+      onDelete={onDelete}
+      onEdit={onEdit}
     >
       <p className="line-clamp-2 break-words text-xs text-fgColor-secondary">{highlighter(title, searchTerm)}</p>
     </BaseListItem>

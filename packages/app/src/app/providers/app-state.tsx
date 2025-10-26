@@ -11,9 +11,9 @@ export interface AppState {
 }
 
 export const initialAppState: AppState = {
-  currentPage: 'All',
-  providerInitialised: false,
   bookmarks: { folders: [], uncategorized: undefined },
+  currentPage: 'All',
   filteredData: [],
   isLoading: false,
+  providerInitialised: false,
 };

@@ -53,18 +53,18 @@ export const Menu: React.FC<MenuProps> = ({ onMouseEnter, onMouseLeave, onClose,
 
   return createPortal(
     <div
-      ref={menuRef}
+      aria-label="Item options menu"
+      className="w-40 rounded bg-bgColor-tertiary p-2 shadow-lg"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      ref={menuRef}
+      role="menu"
       style={{
-        position: 'absolute',
         left: actualPos.left,
+        position: 'absolute',
         top: actualPos.top,
         zIndex: 1000,
       }}
-      className="w-40 rounded bg-bgColor-tertiary p-2 shadow-lg"
-      role="menu"
-      aria-label="Item options menu"
     >
       {children}
     </div>,

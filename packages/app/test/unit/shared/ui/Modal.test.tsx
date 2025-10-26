@@ -9,7 +9,7 @@ vi.mock('react-dom', () => ({
 
 vi.mock('@/shared/ui/IconButton', () => ({
   IconButton: ({ onClick, dataTestId }: { onClick: () => void; dataTestId: string }) => (
-    <button type="button" onClick={onClick} data-testid={dataTestId}>
+    <button data-testid={dataTestId} onClick={onClick} type="button">
       Close
     </button>
   ),
@@ -19,24 +19,19 @@ describe('Modal', () => {
   let modalRoot: HTMLElement;
 
   beforeEach(() => {
+    // Create new modal-root
     modalRoot = document.createElement('div');
     modalRoot.id = 'modal-root';
     document.body.appendChild(modalRoot);
-
-    const originalGetElementById = document.getElementById;
-    document.getElementById = vi.fn((id) => {
-      if (id === 'modal-root') return modalRoot;
-      return originalGetElementById.call(document, id);
-    });
   });
 
   afterEach(() => {
-    document.body.removeChild(modalRoot);
+    document.body.innerHTML = '';
   });
 
   it('renders with title', () => {
     render(
-      <Modal title="Test Modal" onClose={() => {}}>
+      <Modal onClose={() => {}} title="Test Modal">
         Content
       </Modal>
     );
@@ -48,7 +43,7 @@ describe('Modal', () => {
   it('renders without title', () => {
     render(<Modal onClose={() => {}}>Content</Modal>);
 
-    expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('modal-title')).not.toBeInTheDocument();
     expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
@@ -56,8 +51,8 @@ describe('Modal', () => {
     const onClose = vi.fn();
     render(<Modal onClose={onClose}>Content</Modal>);
 
-    const backdrop = screen.getByRole('button', { name: 'Close modal' });
-    expect(backdrop).toBeTruthy();
+    const backdrop = screen.getByTestId('modal-backdrop');
+    expect(backdrop).toBeInTheDocument();
     fireEvent.click(backdrop);
 
     expect(onClose).toHaveBeenCalled();
@@ -73,9 +68,29 @@ describe('Modal', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
+  it('calls onClose when Escape key is pressed on backdrop', () => {
+    const onClose = vi.fn();
+    render(<Modal onClose={onClose}>Content</Modal>);
+
+    const backdrop = screen.getByTestId('modal-backdrop');
+    backdrop.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Escape' }));
+
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('calls onClose when Escape key is pressed inside dialog', () => {
+    const onClose = vi.fn();
+    render(<Modal onClose={onClose}>Content</Modal>);
+
+    const dialog = screen.getByTestId('modal');
+    dialog.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Escape' }));
+
+    expect(onClose).toHaveBeenCalled();
+  });
+
   it('applies correct size classes', () => {
     render(
-      <Modal size="lg" onClose={() => {}}>
+      <Modal onClose={() => {}} size="lg">
         Content
       </Modal>
     );
@@ -93,12 +108,33 @@ describe('Modal', () => {
 
   it('has correct structure', () => {
     render(
-      <Modal title="Test" onClose={() => {}}>
+      <Modal onClose={() => {}} title="Test">
         Content
       </Modal>
     );
 
-    expect(screen.getByText('Test')).toBeInTheDocument();
+    expect(screen.getByTestId('modal-title')).toBeInTheDocument();
     expect(screen.getByText('Content')).toBeInTheDocument();
+  });
+
+  it('returns null when modal-root does not exist', () => {
+    const modalRootElement = document.getElementById('modal-root');
+    if (modalRootElement) {
+      document.body.removeChild(modalRootElement);
+    }
+
+    document.getElementById = vi.fn(() => null);
+
+    const { container } = render(<Modal onClose={() => {}}>Content</Modal>);
+
+    expect(container.querySelector('[data-testid="modal"]')).not.toBeInTheDocument();
+
+    modalRoot = document.createElement('div');
+    modalRoot.id = 'modal-root';
+    document.body.appendChild(modalRoot);
+    document.getElementById = vi.fn((id) => {
+      if (id === 'modal-root') return modalRoot;
+      return null;
+    });
   });
 });

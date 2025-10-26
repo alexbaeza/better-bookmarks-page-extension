@@ -16,11 +16,11 @@ export const SkeletonBookmarkItem: React.FC<SkeletonBookmarkItemProps> = ({ data
   if (viewMode === BookmarkDisplayMode.List) {
     return (
       <div
-        data-testid={dataTestId}
         className="
           relative flex h-12 w-full animate-pulse
           overflow-visible rounded-lg bg-bgColor-secondary
         "
+        data-testid={dataTestId}
       >
         {/* Icon panel skeleton */}
         <div
@@ -43,12 +43,12 @@ export const SkeletonBookmarkItem: React.FC<SkeletonBookmarkItemProps> = ({ data
 
   return (
     <div
-      data-testid={dataTestId}
       className="
           relative flex w-24 animate-pulse flex-col
           items-center gap-1 rounded-lg
           bg-bgColor-secondary p-2 break-inside-avoid
         "
+      data-testid={dataTestId}
     >
       {/* Top row: Drag handle and options skeleton */}
       <div className="flex w-full justify-between">

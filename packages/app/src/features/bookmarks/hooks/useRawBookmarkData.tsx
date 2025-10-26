@@ -12,10 +12,10 @@ export function useRawBookmarkData() {
   }, [providerInitialised, refreshBookmarks]);
 
   return {
+    error,
+    isLoading,
     rawFolders: bookmarks.folders,
     rawUncategorized: bookmarks.uncategorized,
-    isLoading,
-    error,
     refresh: refreshBookmarks,
   };
 }

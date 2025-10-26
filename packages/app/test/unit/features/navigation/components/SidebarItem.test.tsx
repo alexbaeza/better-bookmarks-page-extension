@@ -5,7 +5,7 @@ import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarIte
 
 describe('SidebarItem', () => {
   it('renders icon, label and badge', () => {
-    render(<SidebarItem icon={<span data-testid="icon" />} label="Label" badge={3} onClick={() => {}} />);
+    render(<SidebarItem badge={3} icon={<span data-testid="icon" />} label="Label" onClick={() => {}} />);
     expect(screen.getByText('Label')).toBeInTheDocument();
     expect(screen.getByTestId('icon')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
@@ -19,7 +19,7 @@ describe('SidebarItem', () => {
   });
 
   it('applies selected styles when isSelected', () => {
-    render(<SidebarItem icon={<span />} label="Selected" isSelected onClick={() => {}} />);
+    render(<SidebarItem icon={<span />} isSelected label="Selected" onClick={() => {}} />);
     expect(screen.getByText('Selected').closest('button')).toHaveClass('bg-fgColor-hover');
   });
 });

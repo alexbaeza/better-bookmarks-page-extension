@@ -27,11 +27,11 @@ const BookmarkLeaf: React.FC<{
 
   return (
     <SidebarItem
-      icon={<ImageWithFallback className="size-6 rounded-sm border border-none" src={faviconUrl} fallback={getDefaultFavicon()} alt={leaf.title} />}
-      label={leaf.title || 'Untitled'}
-      isSelected={currentPage === leaf.id}
-      onClick={() => clickFolder(leaf.id)}
       className="cursor-pointer"
+      icon={<ImageWithFallback alt={leaf.title} className="size-6 rounded-sm border border-none" fallback={getDefaultFavicon()} src={faviconUrl} />}
+      isSelected={currentPage === leaf.id}
+      label={leaf.title || 'Untitled'}
+      onClick={() => clickFolder(leaf.id)}
     />
   );
 };
@@ -43,26 +43,28 @@ export const SidebarFlyout: React.FC<SidebarFlyoutProps> = ({ folder, onClose, c
     <InlineFlyout widthClass="w-64">
       {/* Close button */}
       <div className="mb-2 flex justify-end">
-        <button type="button" onClick={onClose} className="rounded p-1 text-fgColor-secondary hover:text-fgColor-primary">
+        <button className="rounded p-1 text-fgColor-secondary hover:text-fgColor-primary" data-testid="flyout-close-button" onClick={onClose} type="button">
           <CloseIcon size={16} />
         </button>
       </div>
 
       {/* Folder title */}
-      <h3 className="mb-2 text-lg font-semibold text-fgColor-primary">{folder.title}</h3>
+      <h3 className="mb-2 text-lg font-semibold text-fgColor-primary" data-testid="flyout-title">
+        {folder.title}
+      </h3>
 
       <div className="flex-1 overflow-y-auto">
         {/* Nested Folders */}
-        <SidebarSection title={`Folders (${countFolders(folder)})`} icon={<FolderIcon size={14} />}>
+        <SidebarSection icon={<FolderIcon size={14} />} title={`Folders (${countFolders(folder)})`}>
           {folder.children?.filter(onlyFolders).map((sub: IBookmarkItem) => (
             <li key={sub.id}>
               <SidebarItem
-                icon={<FolderIcon size={16} />}
-                label={sub.title || 'Untitled'}
                 badge={countFolders(sub) + countItems(sub)}
-                isSelected={currentPage === sub.id}
-                onClick={() => clickFolder(sub.id)}
                 className="cursor-pointer"
+                icon={<FolderIcon size={16} />}
+                isSelected={currentPage === sub.id}
+                label={sub.title || 'Untitled'}
+                onClick={() => clickFolder(sub.id)}
               />
             </li>
           ))}
@@ -74,11 +76,11 @@ export const SidebarFlyout: React.FC<SidebarFlyoutProps> = ({ folder, onClose, c
         </div>
 
         {/* Nested Items */}
-        <SidebarSection title={`Items (${countItems(folder)})`} icon={<BookmarkIcon size={14} />}>
+        <SidebarSection icon={<BookmarkIcon size={14} />} title={`Items (${countItems(folder)})`}>
           {folder.children
             ?.filter((c: IBookmarkItem) => !Array.isArray(c.children))
             .map((leaf: IBookmarkItem) => (
-              <BookmarkLeaf key={leaf.id} leaf={leaf} currentPage={currentPage} clickFolder={clickFolder} />
+              <BookmarkLeaf clickFolder={clickFolder} currentPage={currentPage} key={leaf.id} leaf={leaf} />
             ))}
         </SidebarSection>
       </div>

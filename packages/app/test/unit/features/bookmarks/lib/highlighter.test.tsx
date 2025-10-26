@@ -9,7 +9,7 @@ describe('highlighter', () => {
 
   it('returns text unchanged when query is not found', () => {
     const result = highlighter('Hello World', 'xyz');
-    expect(result).toEqual(['Hello World']);
+    expect(result).toStrictEqual(['Hello World']);
   });
 
   it('highlights matching text case-insensitively', () => {

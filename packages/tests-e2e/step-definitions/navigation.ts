@@ -50,30 +50,21 @@ When('I click on a sidebar folder', () => {
 });
 
 Then('I should see the sidebar flyout', () => {
-  cy.get('[data-testid="sidebar"]').within(() => {
-    cy.get('aside').should('be.visible');
-  });
+  cy.get('[data-testid="sidebar-flyout"]').should('be.visible');
 });
 
 Then('I should see folder contents in flyout', () => {
-  cy.get('[data-testid="sidebar"]').within(() => {
-    cy.get('aside').within(() => {
-      cy.get('h3').should('be.visible');
-      cy.get('button').should('have.length.greaterThan', 0);
-    });
+  cy.get('[data-testid="flyout-title"]').should('be.visible');
+  cy.get('[data-testid="sidebar-flyout"]').within(() => {
+    // Check that there are interactive elements in the flyout
+    cy.get('button').should('have.length.greaterThan', 0);
   });
 });
 
 When('I close the sidebar flyout', () => {
-  cy.get('[data-testid="sidebar"]').within(() => {
-    cy.get('aside').within(() => {
-      cy.get('button').first().click(); // Close button is the first button
-    });
-  });
+  cy.get('[data-testid="flyout-close-button"]').click();
 });
 
 Then('I should not see the sidebar flyout', () => {
-  cy.get('[data-testid="sidebar"]').within(() => {
-    cy.get('aside').should('not.exist');
-  });
+  cy.get('[data-testid="sidebar-flyout"]').should('not.exist');
 });

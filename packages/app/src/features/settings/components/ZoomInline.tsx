@@ -15,18 +15,18 @@ export const ZoomInline: React.FC = () => {
       <div className="flex items-center gap-2">
         <IconButton
           aria-label="Increase scale"
-          onClick={() => setZoom(ZOOM_STEP)}
-          icon={<PlusIcon size={12} />}
-          disabled={zoom >= ZOOM_MAX_VALUE}
           className="h-6 w-6 disabled:opacity-50"
+          disabled={zoom >= ZOOM_MAX_VALUE}
+          icon={<PlusIcon size={12} />}
+          onClick={() => setZoom(ZOOM_STEP)}
         />
         <span className="w-10 text-center text-xs tabular-nums text-fgColor-primary">{Math.round(zoom * 100)}%</span>
         <IconButton
           aria-label="Decrease scale"
-          onClick={() => setZoom(-ZOOM_STEP)}
-          icon={<MinusIcon size={12} />}
-          disabled={zoom <= ZOOM_MIN_VALUE}
           className="h-6 w-6 disabled:opacity-50"
+          disabled={zoom <= ZOOM_MIN_VALUE}
+          icon={<MinusIcon size={12} />}
+          onClick={() => setZoom(-ZOOM_STEP)}
         />
       </div>
     </div>

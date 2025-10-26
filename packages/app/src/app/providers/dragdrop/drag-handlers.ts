@@ -42,7 +42,7 @@ export const createDragHandlers = (rawFolders: IBookmarkItem[], refreshBookmarks
         const fromFolderId = srcParent?.id || 'root';
         if (destFolderId !== fromFolderId) {
           await moveItem(fromId, fromFolderId, destFolderId, 0);
-          refreshBookmarks();
+          await refreshBookmarks();
           return;
         }
         // Same-folder container drop: prevent this operation
@@ -63,7 +63,7 @@ export const createDragHandlers = (rawFolders: IBookmarkItem[], refreshBookmarks
           // Only reorder if the position actually changes
           if (fromIndex !== toIndex) {
             await reorderItems(srcParent.id, fromIndex, toIndex);
-            refreshBookmarks();
+            await refreshBookmarks();
           }
         }
       }
@@ -83,7 +83,7 @@ export const createDragHandlers = (rawFolders: IBookmarkItem[], refreshBookmarks
         const fromFolderId = srcParent?.id || 'root';
         if (destFolderId !== fromFolderId) {
           await moveItem(fromId, fromFolderId, destFolderId, 0);
-          refreshBookmarks();
+          await refreshBookmarks();
           return;
         }
         // Same-folder container drop: prevent this operation
@@ -104,12 +104,12 @@ export const createDragHandlers = (rawFolders: IBookmarkItem[], refreshBookmarks
           // Only reorder if the position actually changes
           if (fromIndex !== toIndex) {
             await reorderItems(srcParent.id, fromIndex, toIndex);
-            refreshBookmarks();
+            await refreshBookmarks();
           }
         }
       }
     }
   };
 
-  return { handleDragStart, handleDragEnd };
+  return { handleDragEnd, handleDragStart };
 };

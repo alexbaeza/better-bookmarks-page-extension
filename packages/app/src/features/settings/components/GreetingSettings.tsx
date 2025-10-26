@@ -18,7 +18,7 @@ export const GreetingSettings = ({ dataTestId }: GreetingSettingsProps) => {
   };
 
   return (
-    <div data-testid={dataTestId} className="space-y-4">
+    <div className="space-y-4" data-testid={dataTestId}>
       <div className="text-sm text-fgColor-secondary">Add a personal touch to your bookmark experience</div>
 
       {/* Enable/Disable Greeting (single toggle controls visibility & personalization) */}
@@ -27,21 +27,21 @@ export const GreetingSettings = ({ dataTestId }: GreetingSettingsProps) => {
           <div className="text-sm font-medium text-fgColor-primary mb-1">Enable Greeting</div>
           <div className="text-xs text-fgColor-secondary">{greetingEnabled ? 'Greeting is enabled' : 'Greeting is hidden'}</div>
         </div>
-        <Toggle data-testid="greeting-enabled-toggle" checked={greetingEnabled} onChange={(val) => setGreetingEnabled(val)} />
+        <Toggle checked={greetingEnabled} data-testid="greeting-enabled-toggle" onChange={(val) => setGreetingEnabled(val)} />
       </div>
 
       {/* Name Input (only if greeting shown and personalized) */}
       {greetingEnabled && (
         <div className="space-y-3">
-          <label htmlFor="greeting-settings-input" data-testid="greeting-settings-title" className="block text-sm font-medium text-fgColor-primary">
+          <label className="block text-sm font-medium text-fgColor-primary" data-testid="greeting-settings-title" htmlFor="greeting-settings-input">
             What should we call you?
           </label>
           <Input
-            id="greeting-settings-input"
             dataTestId="greeting-name-input"
-            type="text"
-            placeholder="Enter your name..."
+            id="greeting-settings-input"
             onChange={handleGreetingNameChange}
+            placeholder="Enter your name..."
+            type="text"
             value={greetingName}
           />
           {greetingName && <div className="text-xs text-fgColor-secondary">Preview: "Hello, {greetingName}! 👋"</div>}

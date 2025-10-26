@@ -8,13 +8,13 @@ import { mockDataService } from './mock-data-service';
  */
 function normalizeBookmarkItem(item: IBookmarkItem): NormalizedBookmarkItem {
   return {
+    children: item.children?.map(normalizeBookmarkItem),
+    dateAdded: item.dateAdded,
+    dateGroupModified: item.dateGroupModified,
     id: item.id,
     parentId: item.parentId,
     title: item.title,
     url: item.url,
-    children: item.children?.map(normalizeBookmarkItem),
-    dateAdded: item.dateAdded,
-    dateGroupModified: item.dateGroupModified,
   };
 }
 
@@ -74,9 +74,9 @@ function normalizeBookmarkTree(items: IBookmarkItem[]): NormalizedBookmarkTree {
     uncategorized:
       allBookmarks.length > 0
         ? {
+            children: allBookmarks,
             id: 'uncategorized',
             title: 'Uncategorized',
-            children: allBookmarks,
           }
         : undefined,
   };

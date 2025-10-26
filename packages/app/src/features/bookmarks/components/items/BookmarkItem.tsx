@@ -13,6 +13,7 @@ export interface BookmarkNodeProps {
   dataTestId?: string;
   item: IBookmarkItem;
   onFolderClick?: (item: IBookmarkItem) => void;
+  onAddChild?: (parentId: string) => void;
   dragHandleProps?: React.HTMLAttributes<HTMLElement>;
 }
 
@@ -24,12 +25,16 @@ export const BookmarkItem: React.FC<BookmarkNodeProps> = (props) => {
     openEditModal(props.item);
   };
 
-  const handleDelete = (): Promise<void> => {
+  const handleDelete = async (): Promise<void> => {
     return remove(props.item.id);
   };
 
   const handleAddChild = (): void => {
-    openCreateModal(props.item.id);
+    if (props.onAddChild && props.item.id) {
+      props.onAddChild(props.item.id);
+    } else if (props.item.id) {
+      openCreateModal(props.item.id);
+    }
   };
 
   if (props.item.children) {
@@ -49,22 +54,22 @@ export const BookmarkItem: React.FC<BookmarkNodeProps> = (props) => {
       return (
         <BookmarkGridItem
           dataTestId={props.dataTestId}
-          title={props.item.title}
-          onClick={clickHandler}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
           dragHandleProps={props.dragHandleProps}
+          onClick={clickHandler}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+          title={props.item.title}
         />
       );
     }
     return (
       <BookmarkListItem
         dataTestId={props.dataTestId}
-        title={props.item.title}
-        onClick={clickHandler}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
         dragHandleProps={props.dragHandleProps}
+        onClick={clickHandler}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+        title={props.item.title}
       />
     );
   }
@@ -73,22 +78,22 @@ export const BookmarkItem: React.FC<BookmarkNodeProps> = (props) => {
     return (
       <BookmarkGridItem
         dataTestId={props.dataTestId}
+        dragHandleProps={props.dragHandleProps}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
         title={props.item.title}
         url={props.item.url}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        dragHandleProps={props.dragHandleProps}
       />
     );
   }
   return (
     <BookmarkListItem
       dataTestId={props.dataTestId}
+      dragHandleProps={props.dragHandleProps}
+      onDelete={handleDelete}
+      onEdit={handleEdit}
       title={props.item.title}
       url={props.item.url}
-      onEdit={handleEdit}
-      onDelete={handleDelete}
-      dragHandleProps={props.dragHandleProps}
     />
   );
 };

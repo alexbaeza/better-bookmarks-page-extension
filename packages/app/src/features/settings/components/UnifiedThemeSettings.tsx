@@ -71,15 +71,15 @@ export const UnifiedThemeSettings: React.FC = () => {
           <div className="grid grid-cols-2 gap-3">
             {Object.keys(themes).map((themeKey) => (
               <button
-                type="button"
-                key={themeKey}
-                data-testid={`theme-${themeKey}`}
-                onClick={() => handleThemeChange(themeKey)}
                 className={`p-3 rounded-lg border text-sm font-medium transition-colors ${
                   theme === themeKey
                     ? 'border-fgColor-accent bg-fgColor-accent/10 text-fgColor-accent'
                     : 'border-fgColor-active bg-bgColor-secondary text-fgColor-primary hover:bg-bgColor-tertiary'
                 }`}
+                data-testid={`theme-${themeKey}`}
+                key={themeKey}
+                onClick={() => handleThemeChange(themeKey)}
+                type="button"
               >
                 {themeKey.charAt(0).toUpperCase() + themeKey.slice(1)}
               </button>
@@ -99,27 +99,27 @@ export const UnifiedThemeSettings: React.FC = () => {
                     Try building your own theme
                   </div>
                 </div>
-                <ArrowRight size={16} className="text-fgColor-accent" />
+                <ArrowRight className="text-fgColor-accent" size={16} />
               </div>
             )}
 
             {/* Custom Theme Button */}
             <div className="flex-1">
               <button
-                type="button"
-                data-testid="theme-custom"
-                onClick={() => handleThemeChange('custom')}
                 className={`relative p-3 rounded-lg border text-sm font-medium transition-all duration-300 w-full ${
                   theme === 'custom'
                     ? 'border-fgColor-accent bg-fgColor-accent/10 text-fgColor-accent'
                     : 'border-fgColor-active bg-bgColor-secondary text-fgColor-primary hover:bg-bgColor-tertiary'
                 }`}
+                data-testid="theme-custom"
+                onClick={() => handleThemeChange('custom')}
                 style={{
                   borderImage: theme === 'custom' ? undefined : 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3) 1',
                 }}
+                type="button"
               >
                 <div className="flex items-center justify-center gap-2">
-                  <Star size={14} className={theme === 'custom' ? 'text-fgColor-accent' : 'text-fgColor-primary'} />
+                  <Star className={theme === 'custom' ? 'text-fgColor-accent' : 'text-fgColor-primary'} size={14} />
                   <span className={theme === 'custom' ? 'text-fgColor-accent' : 'text-fgColor-primary font-semibold'}>Custom Theme</span>
                 </div>
               </button>
@@ -140,20 +140,20 @@ export const UnifiedThemeSettings: React.FC = () => {
                 Adjust colors below to create your perfect theme. Changes are applied instantly and saved automatically.
               </p>
               <div className="flex gap-2">
-                <Button onClick={resetToDefault} variant="secondary">
+                <Button dataTestId="theme-reset-all-colors" onClick={resetToDefault} variant="secondary">
                   Reset All Colors
                 </Button>
               </div>
             </div>
 
             {Object.entries(colorGroups).map(([groupName, keys]) => (
-              <div key={groupName} className="space-y-3">
+              <div className="space-y-3" key={groupName}>
                 <h5 className="text-xs font-medium text-fgColor-secondary uppercase tracking-wide">{groupName}</h5>
                 <div className="grid grid-cols-1 gap-3">
                   {keys.map((key) => (
-                    <div key={key} className="flex items-center justify-between gap-3">
+                    <div className="flex items-center justify-between gap-3" key={key}>
                       <div className="flex-1">
-                        <label htmlFor={`color-input-${key}`} className="text-sm font-medium text-fgColor-primary">
+                        <label className="text-sm font-medium text-fgColor-primary" htmlFor={`color-input-${key}`}>
                           {formatKey(key)}
                         </label>
                         <div className="text-xs text-fgColor-secondary font-mono">{activeTheme[key]}</div>
@@ -161,12 +161,12 @@ export const UnifiedThemeSettings: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded border border-fgColor-active" style={{ backgroundColor: activeTheme[key] }} />
                         <input
+                          aria-label={`${formatKey(key)} color picker`}
+                          className="w-12 h-8 rounded border border-fgColor-active cursor-pointer"
                           id={`color-input-${key}`}
+                          onChange={(e) => handleColorChange(key, e.target.value)}
                           type="color"
                           value={activeTheme[key]}
-                          onChange={(e) => handleColorChange(key, e.target.value)}
-                          className="w-12 h-8 rounded border border-fgColor-active cursor-pointer"
-                          aria-label={`${formatKey(key)} color picker`}
                         />
                       </div>
                     </div>

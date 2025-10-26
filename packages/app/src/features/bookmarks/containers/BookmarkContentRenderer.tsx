@@ -27,16 +27,23 @@ export const BookmarkContentRenderer: React.FC<BookmarkContentRendererProps> = (
   const gridStyle = isList
     ? {}
     : {
-        gridTemplateColumns: `repeat(${optimalColumns}, minmax(100px, 1fr))`,
         gap: '0.5rem',
+        gridTemplateColumns: `repeat(${optimalColumns}, minmax(100px, 1fr))`,
       };
 
   return (
     <SortableContext items={folderContents.map((item) => item.id)} strategy={isList ? verticalListSortingStrategy : rectSortingStrategy}>
-      <div ref={containerRef} className={layoutClass} style={gridStyle} data-folder-id={folderId} data-testid={`bookmark-content-container-${folderId}`}>
+      <div
+        className={layoutClass}
+        data-folder-id={folderId}
+        data-testid={`bookmark-content-container-${folderId}`}
+        data-view-mode={viewMode}
+        ref={containerRef}
+        style={gridStyle}
+      >
         {folderContents.map((item) => (
           <React.Fragment key={item.id}>
-            <DraggableBookmarkItem item={item} isGhost={item.id === activeId} />
+            <DraggableBookmarkItem isGhost={item.id === activeId} item={item} />
           </React.Fragment>
         ))}
       </div>

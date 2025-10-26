@@ -6,29 +6,11 @@ import { Menu } from '@/features/bookmarks/components/items/options/Menu';
 
 describe('Menu', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-
-    const portalRoot = document.createElement('div');
-    portalRoot.id = 'bookmark-menu-portal';
-    document.body.appendChild(portalRoot);
-
-    Element.prototype.getBoundingClientRect = vi.fn(
-      () =>
-        ({
-          bottom: 100,
-          right: 100,
-          width: 50,
-          height: 50,
-          top: 50,
-          left: 50,
-          x: 50,
-          y: 50,
-          toJSON: () => ({}),
-        }) as DOMRect
-    );
-
-    Object.defineProperty(HTMLElement.prototype, 'offsetWidth', { value: 160 });
-    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', { value: 100 });
+    if (!document.getElementById('bookmark-menu-portal')) {
+      const portal = document.createElement('div');
+      portal.setAttribute('id', 'bookmark-menu-portal');
+      document.body.appendChild(portal);
+    }
   });
 
   afterEach(() => {
@@ -66,7 +48,7 @@ describe('Menu', () => {
     outsideElement.setAttribute('data-testid', 'outside-element');
     document.body.appendChild(outsideElement);
 
-    act(() => {
+    await act(() => {
       fireEvent.mouseDown(outsideElement);
     });
 
@@ -88,7 +70,7 @@ describe('Menu', () => {
     );
 
     const menu = screen.getByText('Test Menu Item').parentElement;
-    expect(menu).toBeTruthy();
+    expect(menu).not.toBeNull();
     fireEvent.mouseEnter(menu as HTMLElement);
     fireEvent.mouseLeave(menu as HTMLElement);
 
@@ -108,5 +90,22 @@ describe('Menu', () => {
     );
 
     expect(screen.queryByText('Test Menu Item')).not.toBeInTheDocument();
+  });
+
+  it('calls onClose when escape key is pressed', () => {
+    const anchorRef = { current: document.createElement('button') };
+    const onClose = vi.fn();
+
+    render(
+      <Menu anchorRef={anchorRef} onClose={onClose}>
+        <div>Test Menu Item</div>
+      </Menu>
+    );
+
+    expect(screen.getByText('Test Menu Item')).toBeInTheDocument();
+
+    fireEvent.keyDown(document, { code: 'Escape', key: 'Escape' });
+
+    expect(onClose).toHaveBeenCalled();
   });
 });

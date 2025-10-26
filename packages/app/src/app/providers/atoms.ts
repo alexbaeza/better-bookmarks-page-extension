@@ -10,18 +10,7 @@ const storageKey = (key: string) => {
 };
 
 const settings = {
-  state: {
-    bookmarks: storageKey('bookmarks'),
-  },
   preferences: {
-    ui: {
-      theme: storageKey('theme'),
-      customTheme: storageKey('customTheme'),
-      viewMode: storageKey('viewMode'),
-      sidebarEnabled: storageKey('sidebarEnabled'),
-      searchBarEnabled: storageKey('searchBarEnabled'),
-      zoom: storageKey('zoom'),
-    },
     background: {
       image: storageKey('background'),
       overlayOpacity: storageKey('backgroundOverlayOpacity'),
@@ -30,6 +19,17 @@ const settings = {
       enabled: storageKey('greetingEnabled'),
       name: storageKey('greetingName'),
     },
+    ui: {
+      customTheme: storageKey('customTheme'),
+      searchBarEnabled: storageKey('searchBarEnabled'),
+      sidebarEnabled: storageKey('sidebarEnabled'),
+      theme: storageKey('theme'),
+      viewMode: storageKey('viewMode'),
+      zoom: storageKey('zoom'),
+    },
+  },
+  state: {
+    bookmarks: storageKey('bookmarks'),
   },
 };
 
@@ -97,23 +97,23 @@ export const setZoomAtom = atom(null, (get, set, delta: number) => {
 
 // Optional grouped exports (non-breaking). Keep using named atoms as before.
 export const SETTINGS = {
-  themeAtom,
-  customThemeAtom,
   backgroundOverlayAtom,
   backgroundOverlayOpacityAtom,
-  sidebarEnabledAtom,
+  customThemeAtom,
   searchBarEnabledAtom,
+  sidebarEnabledAtom,
+  themeAtom,
 } as const;
 
 export const PREFERENCES = {
-  viewModeAtom,
   greetingEnabledAtom,
   greetingNameAtom,
-  zoomAtom,
   setZoomAtom,
-  ZOOM_STEP,
-  ZOOM_MIN_VALUE,
+  viewModeAtom,
   ZOOM_MAX_VALUE,
+  ZOOM_MIN_VALUE,
+  ZOOM_STEP,
+  zoomAtom,
 } as const;
 
 export const DATA = {

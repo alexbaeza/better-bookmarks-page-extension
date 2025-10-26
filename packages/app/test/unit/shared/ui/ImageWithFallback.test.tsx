@@ -8,14 +8,14 @@ describe('ImageWithFallback', () => {
   const fallbackSrc = 'data:image/png;base64';
 
   it('renders the image with original src', () => {
-    render(<ImageWithFallback src={originalSrc} alt={altText} />);
+    render(<ImageWithFallback alt={altText} src={originalSrc} />);
     const image = screen.getByAltText(altText);
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('src', originalSrc);
   });
 
   it('renders the fallback image when the original src fails', () => {
-    render(<ImageWithFallback src="invalid-src" fallback={fallbackSrc} alt={altText} />);
+    render(<ImageWithFallback alt={altText} fallback={fallbackSrc} src="invalid-src" />);
 
     const image = screen.getByAltText(altText);
 
@@ -25,9 +25,25 @@ describe('ImageWithFallback', () => {
   });
 
   it('passes through additional props', () => {
-    render(<ImageWithFallback src={originalSrc} alt={altText} className="custom-class" data-testid="test-image" />);
+    render(<ImageWithFallback alt={altText} className="custom-class" data-testid="test-image" src={originalSrc} />);
     const image = screen.getByTestId('test-image');
     expect(image).toBeInTheDocument();
     expect(image).toHaveClass('custom-class');
+  });
+
+  it('handles image load event', () => {
+    render(<ImageWithFallback alt={altText} src={originalSrc} />);
+    const image = screen.getByAltText(altText);
+
+    fireEvent.load(image);
+
+    expect(image).toHaveClass('opacity-100');
+  });
+
+  it('shows loading state initially', () => {
+    render(<ImageWithFallback alt={altText} src={originalSrc} />);
+    const image = screen.getByAltText(altText);
+
+    expect(image).toHaveClass('opacity-50');
   });
 });

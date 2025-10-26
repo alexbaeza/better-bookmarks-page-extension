@@ -14,16 +14,16 @@ export function useBookmarks() {
   const actions = useBookmarkActions();
 
   return {
-    rawFolders: data.rawFolders,
-    isLoading: data.isLoading,
-    error: data.error,
-    currentPage,
-    setCurrentPage,
-    searchTerm,
-    setSearchTerm,
-    items,
     counts,
+    currentPage,
+    error: data.error,
+    isLoading: data.isLoading,
+    items,
     pageContainers,
+    rawFolders: data.rawFolders,
+    searchTerm,
+    setCurrentPage,
+    setSearchTerm,
     ...actions,
   };
 }

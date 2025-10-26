@@ -25,10 +25,10 @@ export const ImageWithFallback = ({ fallback = getDefaultFavicon(), src, alt, cl
     <img
       {...props}
       alt={alt}
-      src={hasError ? fallback : src}
-      onLoad={handleLoad}
-      onError={handleError}
       className={`${className} ${isLoading ? 'opacity-50' : 'opacity-100'} transition-opacity duration-200`}
+      onError={handleError}
+      onLoad={handleLoad}
+      src={hasError ? fallback : src}
     />
   );
 };

@@ -1,41 +1,68 @@
 import { renderHook } from '@testing-library/react';
-import { vi } from 'vitest';
-import { when } from 'vitest-when';
+import type React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
-import { useBookmarkSearchTerm } from '@/features/bookmarks/contexts/BookmarkSearchContext';
+import { BookmarkNavigationProvider } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
+import { BookmarkSearchProvider } from '@/features/bookmarks/contexts/BookmarkSearchContext';
 import { useBookmarkSearch } from '@/features/bookmarks/hooks/useBookmarkSearch';
 
-vi.mock('@/features/bookmarks/contexts/BookmarkSearchContext');
-vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext');
+vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', async () => {
+  const actual = await vi.importActual('@/features/bookmarks/contexts/BookmarkNavigationContext');
+  return actual;
+});
+
+vi.mock('@/features/bookmarks/contexts/BookmarkSearchContext', async () => {
+  const actual = await vi.importActual('@/features/bookmarks/contexts/BookmarkSearchContext');
+  return actual;
+});
 
 describe('useBookmarkSearch', () => {
-  let mockSearchTerm: vi.MockedFunction<typeof useBookmarkSearchTerm>;
-  let mockNavigation: vi.MockedFunction<typeof useBookmarkNavigation>;
-
   beforeEach(() => {
     vi.clearAllMocks();
-    mockSearchTerm = vi.mocked(useBookmarkSearchTerm);
-    mockNavigation = vi.mocked(useBookmarkNavigation);
   });
 
-  it('returns basic properties from hooks', () => {
-    when(mockSearchTerm).calledWith().thenReturn({
-      searchTerm: '',
-      setSearchTerm: vi.fn(),
-      resetSearch: vi.fn(),
-    });
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
-    when(mockNavigation).calledWith().thenReturn({
-      currentPage: 'All',
-    });
+  const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <BookmarkSearchProvider>
+      <BookmarkNavigationProvider>{children}</BookmarkNavigationProvider>
+    </BookmarkSearchProvider>
+  );
 
-    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: [], rawUncategorized: undefined }));
+  it('returns all required properties', () => {
+    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: [], rawUncategorized: undefined }), { wrapper });
 
-    expect(result.current).toHaveProperty('searchTerm');
-    expect(result.current).toHaveProperty('setSearchTerm');
-    expect(result.current).toHaveProperty('pageContainers');
-    expect(result.current).toHaveProperty('items');
-    expect(result.current).toHaveProperty('counts');
+    expect(result.current.counts).toBeDefined();
+    expect(result.current.items).toBeDefined();
+    expect(result.current.pageContainers).toBeDefined();
+    expect(result.current.searchTerm).toBeDefined();
+    expect(result.current.setSearchTerm).toBeDefined();
+  });
+
+  it('returns empty pageContainers when no folders provided', () => {
+    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: [], rawUncategorized: undefined }), { wrapper });
+
+    expect(result.current.pageContainers).toHaveLength(0);
+  });
+
+  it('returns counts object', () => {
+    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: [], rawUncategorized: undefined }), { wrapper });
+
+    expect(result.current.counts).toBeDefined();
+    expect(typeof result.current.counts).toBe('object');
+  });
+
+  it('returns empty array for items when on All page', () => {
+    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: [], rawUncategorized: undefined }), { wrapper });
+
+    expect(result.current.items).toEqual([]);
+  });
+
+  it('has setSearchTerm function', () => {
+    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: [], rawUncategorized: undefined }), { wrapper });
+
+    expect(typeof result.current.setSearchTerm).toBe('function');
   });
 });

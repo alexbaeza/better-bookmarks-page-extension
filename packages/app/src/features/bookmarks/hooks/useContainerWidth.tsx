@@ -23,5 +23,5 @@ export function useContainerWidth() {
     };
   }, [updateWidth]);
 
-  return { containerWidth, containerRef };
+  return { containerRef, containerWidth };
 }

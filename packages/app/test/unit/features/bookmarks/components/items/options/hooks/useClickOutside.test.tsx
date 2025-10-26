@@ -11,7 +11,7 @@ const TestComponent: React.FC<{ onOutsideClick: () => void }> = ({ onOutsideClic
 
   return (
     <div>
-      <div ref={ref} data-testid="inside">
+      <div data-testid="inside" ref={ref}>
         Inside
       </div>
       <div data-testid="outside">Outside</div>

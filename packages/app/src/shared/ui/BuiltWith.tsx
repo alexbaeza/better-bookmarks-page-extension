@@ -3,13 +3,13 @@ import { APP_REPO_URL } from '@/config/constants';
 
 export const BuiltWith = ({ className = 'justify-end' }: { className?: string }) => {
   return (
-    <div data-testid="built-with" className={`flex w-full flex-row text-xs text-fgColor-primary ${className}`}>
+    <div className={`flex w-full flex-row text-xs text-fgColor-primary ${className}`} data-testid="built-with">
       {'Built with '}
-      <span data-testid="heart-icon" className="mx-1 text-red-600">
+      <span className="mx-1 text-red-600" data-testid="heart-icon">
         <HeartIcon size={16} />
       </span>
       {'by'}
-      <a data-testid="author-link" className="text-fgColor-primary ml-1 font-bold" href={APP_REPO_URL}>
+      <a className="text-fgColor-primary ml-1 font-bold" data-testid="author-link" href={APP_REPO_URL}>
         alexbaeza.
       </a>
     </div>

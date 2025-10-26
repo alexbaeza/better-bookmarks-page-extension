@@ -8,5 +8,5 @@ interface NotFoundIllustrationProps {
 }
 
 export const NotFoundIllustration: React.FC<NotFoundIllustrationProps> = ({ className = '' }) => {
-  return <img src={notFoundSvg} alt="Page not found illustration" className={`mb-6 opacity-20 ${className}`} />;
+  return <img alt="Page not found illustration" className={`mb-6 opacity-20 ${className}`} src={notFoundSvg} />;
 };

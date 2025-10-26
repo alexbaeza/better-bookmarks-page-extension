@@ -4,16 +4,12 @@ import { vi } from 'vitest';
 import { MenuItem } from '@/features/bookmarks/components/items/options/MenuItem';
 
 describe('MenuItem', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('renders simple menu item', () => {
     const onClick = vi.fn();
 
     render(<MenuItem onClick={onClick}>Test Item</MenuItem>);
 
-    const button = screen.getByRole('button', { name: /test item/i });
+    const button = screen.getByTestId('menu-item');
     expect(button).toBeInTheDocument();
     fireEvent.click(button);
     expect(onClick).toHaveBeenCalled();
@@ -37,7 +33,7 @@ describe('MenuItem', () => {
 
     render(<MenuItem onConfirm={onConfirm}>Delete Item</MenuItem>);
 
-    const button = screen.getByRole('button', { name: /delete item/i });
+    const button = screen.getByTestId('menu-item');
     fireEvent.click(button);
 
     expect(screen.getByText('Are you sure?')).toBeInTheDocument();
@@ -50,7 +46,7 @@ describe('MenuItem', () => {
 
     render(<MenuItem onConfirm={onConfirm}>Delete Item</MenuItem>);
 
-    const button = screen.getByRole('button', { name: /delete item/i });
+    const button = screen.getByTestId('menu-item');
     fireEvent.click(button);
 
     const confirmButton = screen.getByTestId('bookmark-delete-confirm-button');
@@ -63,12 +59,12 @@ describe('MenuItem', () => {
     const onCancel = vi.fn();
 
     render(
-      <MenuItem onConfirm={vi.fn()} onCancel={onCancel}>
+      <MenuItem onCancel={onCancel} onConfirm={vi.fn()}>
         Delete Item
       </MenuItem>
     );
 
-    const button = screen.getByRole('button', { name: /delete item/i });
+    const button = screen.getByTestId('menu-item');
     fireEvent.click(button);
 
     const cancelButton = screen.getByTestId('bookmark-delete-cancel-button');
@@ -80,7 +76,7 @@ describe('MenuItem', () => {
   it('closes confirm on outside click', () => {
     render(<MenuItem onConfirm={vi.fn()}>Delete Item</MenuItem>);
 
-    const button = screen.getByRole('button', { name: /delete item/i });
+    const button = screen.getByTestId('menu-item');
     fireEvent.click(button);
 
     expect(screen.getByText('Are you sure?')).toBeInTheDocument();
@@ -92,12 +88,12 @@ describe('MenuItem', () => {
 
   it('uses custom confirm label', () => {
     render(
-      <MenuItem onConfirm={vi.fn()} confirmLabel="Really delete?">
+      <MenuItem confirmLabel="Really delete?" onConfirm={vi.fn()}>
         Delete Item
       </MenuItem>
     );
 
-    const button = screen.getByRole('button', { name: /delete item/i });
+    const button = screen.getByTestId('menu-item');
     fireEvent.click(button);
 
     expect(screen.getByText('Really delete?')).toBeInTheDocument();

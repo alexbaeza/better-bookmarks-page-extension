@@ -4,7 +4,6 @@ import { BookmarkFolderModal } from '@/features/bookmarks/containers/BookmarkFol
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { fireEvent, render, screen } from '~test/test-utils';
 
-// Mock the modal context using importOriginal
 const mockHideModal = vi.fn();
 vi.mock('@/app/providers/modal-context', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/app/providers/modal-context')>();
@@ -18,7 +17,11 @@ vi.mock('@/app/providers/modal-context', async (importOriginal) => {
 
 describe('BookmarkFolderModal', () => {
   beforeEach(() => {
-    mockHideModal.mockClear();
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('renders the folder name', () => {
@@ -57,7 +60,6 @@ describe('BookmarkFolderModal', () => {
 
     render(<BookmarkFolderModal folderContents={folderContents} folderId="1" folderTitle={name} />);
 
-    // Items without URL or children should still render their title
     expect(screen.getByText('Empty Item')).toBeInTheDocument();
   });
 });

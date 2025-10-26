@@ -22,6 +22,7 @@ export const ActionsOverlay: React.FC<ActionsOverlayProps> = ({ onMouseEnter, on
 
   return (
     <div
+      aria-label="Item actions"
       className="
         absolute inset-y-0 right-0 z-20
         flex h-full items-center space-x-1
@@ -30,17 +31,16 @@ export const ActionsOverlay: React.FC<ActionsOverlayProps> = ({ onMouseEnter, on
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       role="toolbar"
-      aria-label="Item actions"
     >
       <IconButton
-        ref={buttonRef as React.Ref<HTMLButtonElement>}
+        className="text-fgColor-secondary hover:text-fgColor-primary min-w-[32px] min-h-[32px] p-2"
         dataTestId="item-options-button"
         icon={<MoreVertical size={16} />}
-        className="text-fgColor-secondary hover:text-fgColor-primary min-w-[32px] min-h-[32px] p-2"
         onClick={(e) => {
           e.stopPropagation();
           setMenuOpen((o) => !o);
         }}
+        ref={buttonRef as React.Ref<HTMLButtonElement>}
       />
 
       {menuOpen && (
@@ -55,8 +55,8 @@ export const ActionsOverlay: React.FC<ActionsOverlayProps> = ({ onMouseEnter, on
             Edit
           </MenuItem>
           <MenuItem
-            icon={<Trash2 size={14} />}
             confirmLabel="Confirm delete?"
+            icon={<Trash2 size={14} />}
             onConfirm={() => {
               setMenuOpen(false);
               onDelete?.();

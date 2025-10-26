@@ -1,6 +1,4 @@
-import * as jotai from 'jotai';
 import { vi } from 'vitest';
-import { when } from 'vitest-when';
 
 import { viewModeAtom } from '@/app/providers/atoms';
 import { useDragDrop } from '@/app/providers/dragdrop-provider';
@@ -12,37 +10,23 @@ vi.mock('@/app/providers/dragdrop-provider', () => ({
   useDragDrop: vi.fn(),
 }));
 
-vi.mock('jotai', async () => {
-  const actual = await vi.importActual('jotai');
-  return {
-    ...actual,
-    useAtomValue: vi.fn(),
-  };
-});
-
 describe('BookmarkContentRenderer', () => {
-  let spy: vi.SpyInstance;
-
   beforeEach(() => {
     vi.clearAllMocks();
-    spy = vi.spyOn(jotai, 'useAtomValue');
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
+    const _mockUseDragDrop = vi.mocked(useDragDrop);
   });
 
   it('renders in list mode', () => {
-    when(spy).calledWith(viewModeAtom).thenReturn(BookmarkDisplayMode.List);
-
     const mockItems = [
       { id: '1', title: 'Item 1', url: 'http://example.com' },
       { id: '2', title: 'Item 2', url: 'http://example2.com' },
     ];
 
-    when(vi.mocked(useDragDrop)).calledWith().thenReturn({ activeId: null });
+    vi.mocked(useDragDrop).mockReturnValue({ activeId: null });
 
-    render(<BookmarkContentRenderer folderContents={mockItems} folderId="folder1" />);
+    render(<BookmarkContentRenderer folderContents={mockItems} folderId="folder1" />, {
+      initialValues: [[viewModeAtom, BookmarkDisplayMode.List]],
+    });
 
     const container = screen.getByTestId('bookmark-content-container-folder1');
     expect(container).toHaveAttribute('data-folder-id', 'folder1');
@@ -50,26 +34,26 @@ describe('BookmarkContentRenderer', () => {
   });
 
   it('renders in grid mode', () => {
-    when(spy).calledWith(viewModeAtom).thenReturn(BookmarkDisplayMode.Grid);
-
     const mockItems = [{ id: '1', title: 'Item 1', url: 'http://example.com' }];
 
-    when(vi.mocked(useDragDrop)).calledWith().thenReturn({ activeId: null });
+    vi.mocked(useDragDrop).mockReturnValue({ activeId: null });
 
-    render(<BookmarkContentRenderer folderContents={mockItems} folderId="folder1" />);
+    render(<BookmarkContentRenderer folderContents={mockItems} folderId="folder1" />, {
+      initialValues: [[viewModeAtom, BookmarkDisplayMode.Grid]],
+    });
 
     const container = screen.getByTestId('bookmark-content-container-folder1');
     expect(container).toHaveClass('grid gap-2 p-4');
   });
 
   it('passes isGhost to DraggableBookmarkItem when item is active', () => {
-    when(spy).calledWith(viewModeAtom).thenReturn(BookmarkDisplayMode.List);
-
     const mockItems = [{ id: '1', title: 'Item 1', url: 'http://example.com' }];
 
-    when(vi.mocked(useDragDrop)).calledWith().thenReturn({ activeId: '1' });
+    vi.mocked(useDragDrop).mockReturnValue({ activeId: '1' });
 
-    render(<BookmarkContentRenderer folderContents={mockItems} folderId="folder1" />);
+    render(<BookmarkContentRenderer folderContents={mockItems} folderId="folder1" />, {
+      initialValues: [[viewModeAtom, BookmarkDisplayMode.List]],
+    });
 
     const container = screen.getByTestId('bookmark-content-container-folder1');
     expect(container).toHaveAttribute('data-folder-id', 'folder1');

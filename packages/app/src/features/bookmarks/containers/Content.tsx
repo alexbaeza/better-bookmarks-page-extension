@@ -10,9 +10,11 @@ export const Content: React.FC = () => {
 
   if (pageContainers.length === 0 || (pageContainers.length === 1 && (pageContainers[0].children?.length ?? 0) === 0)) {
     return (
-      <div className="flex w-full items-center justify-center p-2">
+      <div className="flex w-full items-center justify-center p-2" data-testid="empty-state-container">
         <div className="flex flex-col items-center">
-          <p className="text-center text-sm italic text-fgColor-primary">Looks like you don’t have any Bookmarks, add some to see the magic! 🪄✨</p>
+          <p className="text-center text-sm italic text-fgColor-primary" data-testid="empty-state-message">
+            Looks like you don't have any Bookmarks, add some to see the magic! 🪄✨
+          </p>
           <NotFoundIllustration className="mb-4 text-bgColor-tertiary" />
         </div>
       </div>

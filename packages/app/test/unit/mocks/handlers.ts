@@ -1,17 +1,17 @@
-import { http, HttpResponse } from 'msw';
+import { HttpResponse, http } from 'msw';
 
 const mockBookmarks = [
   {
-    id: '1',
-    title: 'Test Folder',
     children: [
       {
+        dateAdded: Date.now(),
         id: '2',
         title: 'Test Bookmark',
         url: 'https://example.com',
-        dateAdded: Date.now(),
       },
     ],
+    id: '1',
+    title: 'Test Folder',
   },
 ];
 
@@ -32,5 +32,3 @@ export const handlers = [
     return HttpResponse.json({ message: 'Mocked response' });
   }),
 ];
-
-

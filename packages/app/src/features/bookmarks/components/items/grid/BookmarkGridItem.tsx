@@ -25,13 +25,13 @@ export const BookmarkGridItem: React.FC<GridItemProps> = (props) => {
   const faviconUrl = useFavicon(url);
 
   const icon = url ? (
-    <ImageWithFallback className="size-8 rounded-sm" src={faviconUrl} fallback={getDefaultFavicon()} alt={title} />
+    <ImageWithFallback alt={title} className="size-8 rounded-sm" fallback={getDefaultFavicon()} src={faviconUrl} />
   ) : (
-    <Folder size={28} fill="currentColor" className="text-fgColor-secondary hover:text-fgColor-primary" />
+    <Folder className="text-fgColor-secondary hover:text-fgColor-primary" fill="currentColor" size={28} />
   );
 
   return (
-    <BaseGridItem dataTestId={dataTestId} url={url} onClick={onClick} onEdit={onEdit} onDelete={onDelete} dragHandleProps={dragHandleProps} icon={icon}>
+    <BaseGridItem dataTestId={dataTestId} dragHandleProps={dragHandleProps} icon={icon} onClick={onClick} onDelete={onDelete} onEdit={onEdit} url={url}>
       {highlighter(title, searchTerm)}
     </BaseGridItem>
   );

@@ -64,9 +64,9 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
       uncategorized:
         allBookmarks.length > 0
           ? {
+              children: allBookmarks,
               id: 'uncategorized',
               title: 'Uncategorized',
-              children: allBookmarks,
             }
           : undefined,
     };
@@ -84,10 +84,10 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
     // Show notification if added to Uncategorized
     if (targetParent === 'Uncategorized' && this.browser.notifications) {
       this.browser.notifications.create({
-        type: 'basic',
         iconUrl: 'icons/logo48.png',
-        title: 'Bookmark Added',
         message: 'Your bookmark was added to Uncategorized',
+        title: 'Bookmark Added',
+        type: 'basic',
       });
     }
 
@@ -148,13 +148,13 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
    */
   private normalizeBookmarkItem = (item: browser.bookmarks.BookmarkTreeNode): NormalizedBookmarkItem => {
     return {
+      children: item.children?.map(this.normalizeBookmarkItem),
+      dateAdded: item.dateAdded,
+      dateGroupModified: item.dateGroupModified,
       id: item.id,
       parentId: item.parentId,
       title: item.title,
       url: item.url,
-      children: item.children?.map(this.normalizeBookmarkItem),
-      dateAdded: item.dateAdded,
-      dateGroupModified: item.dateGroupModified,
     };
   };
 }

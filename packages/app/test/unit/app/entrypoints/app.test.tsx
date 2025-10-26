@@ -1,13 +1,9 @@
-import * as jotai from 'jotai';
 import type React from 'react';
 import { vi } from 'vitest';
-import { when } from 'vitest-when';
 
-import { App } from '@/app/app';
-import { sidebarEnabledAtom, themeAtom } from '@/app/providers/atoms';
+import { App } from '@/app/entrypoints/app';
 import { render, screen } from '~test/test-utils';
 
-// Mock child components
 vi.mock('@/features/navigation/sidebar/containers/Sidebar', () => ({
   Sidebar: () => <div data-testid="sidebar">Sidebar</div>,
 }));
@@ -28,15 +24,6 @@ vi.mock('@/features/bookmarks/containers/Content', () => ({
 }));
 
 describe('App', () => {
-  let useAtomValueSpy: vi.SpyInstance;
-
-  beforeEach(() => {
-    vi.resetAllMocks();
-    useAtomValueSpy = vi.spyOn(jotai, 'useAtomValue');
-    when(useAtomValueSpy).calledWith(themeAtom).thenReturn('dark-theme');
-    when(useAtomValueSpy).calledWith(sidebarEnabledAtom).thenReturn(true);
-  });
-
   it('renders the App container and routes', () => {
     render(<App />);
     expect(screen.getByTestId('app-container')).toBeInTheDocument();

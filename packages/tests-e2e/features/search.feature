@@ -8,12 +8,12 @@ Feature: Search
 
   Scenario: Search yields results
     Given I can see bookmarks
-    When I type in the "Mozilla" search bar
+    When I type "Mozilla" in the "search-input" field
     Then only results matching "Mozilla" should be displayed
 
   Scenario: Search yields no results
     Given I can see bookmarks
-    When I type in the "Non-existent-results" search bar
+    When I type "Non-existent-results" in the "search-input" field
     Then no results should match
 
 

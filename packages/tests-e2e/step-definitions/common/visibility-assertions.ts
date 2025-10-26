@@ -49,11 +49,6 @@ Then('I should see {string} in the app', (text: string) => {
   cy.contains(text).should('be.visible');
 });
 
-Then('the modal should be visible', () => {
-  // This is now deprecated - use specific modal test IDs instead
-  cy.get('[data-testid="bookmark-form-modal-close-button"]').should('be.visible');
-});
-
 Then('the {string} input should be ready', (inputTestId: string) => {
   cy.get(`[data-testid="${inputTestId}"]`).should('be.visible').should('be.enabled');
 });

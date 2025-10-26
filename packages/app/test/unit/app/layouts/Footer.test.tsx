@@ -15,9 +15,8 @@ describe('BuiltWith', () => {
 
   it('renders the author link', () => {
     render(<BuiltWith />);
-    const authorLink = screen.getByRole('link');
+    const authorLink = screen.getByTestId('author-link');
     expect(authorLink).toBeInTheDocument();
-    // Repo URL comes from constants; ensure it is present
     expect(authorLink?.getAttribute('href')).toMatch('github.com/alexbaeza/better-bookmarks-page-extension');
   });
 });

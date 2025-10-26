@@ -20,7 +20,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   const hideModal = () => setContent(null);
 
   return (
-    <ModalContext.Provider value={{ showModal, hideModal }}>
+    <ModalContext.Provider value={{ hideModal, showModal }}>
       {children}
       {content}
     </ModalContext.Provider>

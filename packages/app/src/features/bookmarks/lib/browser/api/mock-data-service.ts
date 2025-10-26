@@ -77,13 +77,13 @@ class MockDataService {
    */
   async createBookmark(parentId: string | null, details: { title: string; url?: string }): Promise<IBookmarkItem> {
     const newBookmark: IBookmarkItem = {
+      children: details.url ? undefined : [],
+      dateAdded: Date.now(),
+      dateGroupModified: Date.now(),
       id: `mock-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       parentId: parentId || undefined,
       title: details.title,
       url: details.url,
-      children: details.url ? undefined : [],
-      dateAdded: Date.now(),
-      dateGroupModified: Date.now(),
     };
 
     if (parentId) {

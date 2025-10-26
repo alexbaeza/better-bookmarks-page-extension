@@ -65,17 +65,17 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
 
   return (
     <div
+      className="
+        relative flex w-24 flex-col items-center gap-1
+        rounded-lg bg-bgColor-secondary p-2 transition
+        hover:bg-bgColor-tertiary
+      "
       data-testid={dataTestId}
       onMouseEnter={() => {
         clearHide();
         setHovered(true);
       }}
       onMouseLeave={scheduleHide}
-      className="
-        relative flex w-24 flex-col items-center gap-1
-        rounded-lg bg-bgColor-secondary p-2 transition
-        hover:bg-bgColor-tertiary
-      "
       role="group"
     >
       {/* Top row: Drag handle and options - non-clickable */}
@@ -84,6 +84,7 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
         <div
           data-testid="drag-handle-button"
           {...dragHandleProps}
+          aria-label="Drag handle"
           className={`cursor-grab p-2 min-w-[24px] min-h-[24px] flex items-center justify-center text-xs ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => {
@@ -94,22 +95,21 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
           }}
           role="button"
           tabIndex={0}
-          aria-label="Drag handle"
         >
           <GripVertical size={12} />
         </div>
 
         {/* Options button - aligned to right */}
         <button
-          ref={menuRef}
-          data-testid="item-options-button"
-          type="button"
           className="p-2 min-w-[24px] min-h-[24px] flex items-center justify-center text-fgColor-secondary hover:text-fgColor-primary cursor-pointer"
+          data-testid="item-options-button"
           onClick={(e) => {
             e.stopPropagation();
             setMenuOpen((o) => !o);
           }}
           onKeyDown={handleOptionsKeyDown}
+          ref={menuRef}
+          type="button"
         >
           <MoreVertical size={12} />
         </button>
@@ -126,8 +126,8 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
               Edit
             </MenuItem>
             <MenuItem
-              icon={<Trash2 size={14} />}
               confirmLabel="Confirm delete?"
+              icon={<Trash2 size={14} />}
               onConfirm={() => {
                 setMenuOpen(false);
                 onDelete?.();
@@ -142,10 +142,11 @@ export const BaseGridItem: React.FC<BaseGridItemProps> = ({ dataTestId = 'grid-i
       {/* Clickable main content area */}
       <div
         className="z-0 -mt-4 flex flex-col items-center cursor-pointer flex-1 w-full"
+        data-testid="grid-item-main-button"
         onClick={handleTileClick}
         onKeyDown={handleKeyDown}
-        tabIndex={0}
         role="button"
+        tabIndex={0}
       >
         {/* Main icon */}
         <div>

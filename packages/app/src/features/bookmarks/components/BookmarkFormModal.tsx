@@ -19,14 +19,14 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({ onClose, o
 
   const formik = useFormik({
     initialValues,
-    validationSchema: Yup.object({
-      title: Yup.string().required('Required'),
-      url: isFolder ? Yup.mixed().notRequired() : Yup.string().url('Invalid URL').nullable(),
-    }),
     onSubmit: (values) => {
       onSave(values);
       onClose();
     },
+    validationSchema: Yup.object({
+      title: Yup.string().required('Required'),
+      url: isFolder ? Yup.mixed().notRequired() : Yup.string().url('Invalid URL').nullable(),
+    }),
   });
 
   const prevInit = useRef(initialValues);
@@ -40,28 +40,28 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({ onClose, o
 
   return (
     <Modal
+      dataTestId="bookmark-form-modal"
       onClose={onClose}
       title={initialValues.title ? (isFolder ? 'Edit Folder' : 'Edit Bookmark') : isFolder ? 'Add Folder' : 'Add Bookmark'}
-      dataTestId="bookmark-form-modal"
     >
-      <form onSubmit={formik.handleSubmit} className="space-y-6">
+      <form className="space-y-6" onSubmit={formik.handleSubmit}>
         {/* Title Field */}
         <div>
-          <label htmlFor="title" className="block text-sm text-fgColor-primary">
+          <label className="block text-sm text-fgColor-primary" htmlFor="title">
             Title
           </label>
           <div className="relative mt-1">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-fgColor-muted">
-              {isFolder ? <Folder size={16} className="text-fgColor-muted" /> : <Bookmark size={16} className="text-fgColor-muted" />}
+              {isFolder ? <Folder className="text-fgColor-muted" size={16} /> : <Bookmark className="text-fgColor-muted" size={16} />}
             </div>
             <Input
+              className="pl-10"
+              dataTestId="bookmark-edit-title-input"
               id="title"
               name="title"
-              value={formik.values.title}
               onChange={formik.handleChange}
-              className="pl-10"
               placeholder="Enter title"
-              dataTestId="bookmark-edit-title-input"
+              value={formik.values.title}
             />
           </div>
           {formik.touched.title && formik.errors.title && <div className="mt-1 text-xs text-fgColor-danger">{formik.errors.title}</div>}
@@ -70,21 +70,21 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({ onClose, o
         {/* URL Field (only in bookmark mode) */}
         {!isFolder && (
           <div>
-            <label htmlFor="url" className="block text-sm text-fgColor-primary">
+            <label className="block text-sm text-fgColor-primary" htmlFor="url">
               URL
             </label>
             <div className="relative mt-1">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-fgColor-muted">
-                <Globe size={16} className="text-fgColor-muted" />
+                <Globe className="text-fgColor-muted" size={16} />
               </div>
               <Input
+                className="pl-10"
+                data-testid="bookmark-edit-url-input"
                 id="url"
                 name="url"
-                value={formik.values.url}
                 onChange={formik.handleChange}
-                className="pl-10"
                 placeholder="https://example.com"
-                data-testid="bookmark-edit-url-input"
+                value={formik.values.url}
               />
             </div>
             {formik.touched.url && formik.errors.url && <div className="mt-1 text-xs text-fgColor-danger">{formik.errors.url}</div>}
@@ -93,7 +93,7 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({ onClose, o
 
         {/* Actions */}
         <div className="flex justify-end space-x-3">
-          <Button variant="secondary" onClick={onClose}>
+          <Button onClick={onClose} variant="secondary">
             Cancel
           </Button>
           <Button type="submit">Save</Button>

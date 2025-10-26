@@ -13,9 +13,18 @@ vi.mock('@/features/bookmarks/containers/Content', () => ({
 
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 
-const mockUseBookmarkNavigation = vi.mocked(useBookmarkNavigation);
-
 describe('FolderPage', () => {
+  let mockUseBookmarkNavigation: ReturnType<typeof vi.mocked<typeof useBookmarkNavigation>>;
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockUseBookmarkNavigation = vi.mocked(useBookmarkNavigation);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('calls setCurrentPage with folderId on mount', () => {
     const setCurrentPage = vi.fn();
     when(mockUseBookmarkNavigation).calledWith().thenReturn({

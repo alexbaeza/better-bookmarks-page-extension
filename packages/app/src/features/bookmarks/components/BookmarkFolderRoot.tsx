@@ -24,19 +24,19 @@ export const BookmarkFolderRoot: React.FC<BookmarkFolderRootProps> = ({ folderId
   });
 
   const { setNodeRef: setDragRef, isDragging } = useDraggable({
-    id: folderId,
     disabled: isSystemFolder,
+    id: folderId,
   });
 
   return (
     <div
+      className={`group relative inline-block w-full
+       ${isOver && 'rounded-lg outline outline-4 outline-fgColor-accent'}
+       ${isDragging && 'opacity-50'}`}
       ref={(node) => {
         setNodeRef(node);
         setDragRef(node);
       }}
-      className={`group relative inline-block w-full
-       ${isOver && 'rounded-lg outline outline-4 outline-fgColor-accent'}
-       ${isDragging && 'opacity-50'}`}
     >
       <div className="mb-2 mt-3 flex items-center justify-between space-x-2">
         <div className="flex items-center space-x-2 truncate">

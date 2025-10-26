@@ -11,7 +11,7 @@ export const RenderFolders: React.FC<RenderFoldersProps> = ({ folders }) => {
   return (
     <div className={layoutClass}>
       {folders.map((folder) => (
-        <BookmarkFolderRoot key={folder.id} folderId={folder.id} name={folder.title} folderContents={folder.children ?? []} />
+        <BookmarkFolderRoot folderContents={folder.children ?? []} folderId={folder.id} key={folder.id} name={folder.title} />
       ))}
     </div>
   );

@@ -37,8 +37,8 @@ export function useBookmarkActions() {
 
   return {
     create: createBookmark,
-    update: updateBookmark,
-    remove: removeBookmark,
     move: moveBookmark,
+    remove: removeBookmark,
+    update: updateBookmark,
   };
 }

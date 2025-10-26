@@ -27,12 +27,16 @@ describe('useBookmarks', () => {
     mockUseBookmarkActions = vi.mocked(useBookmarkActions);
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('returns all required properties', () => {
     when(mockUseRawBookmarkData).calledWith().thenReturn({
+      error: null,
+      isLoading: false,
       rawFolders: [],
       rawUncategorized: undefined,
-      isLoading: false,
-      error: null,
       refresh: vi.fn(),
     });
 
@@ -44,24 +48,23 @@ describe('useBookmarks', () => {
     when(mockUseBookmarkSearch)
       .calledWith()
       .thenReturn({
+        counts: { all: 0, uncategorized: 0 },
+        items: [],
+        pageContainers: [],
         searchTerm: '',
         setSearchTerm: vi.fn(),
-        pageContainers: [],
-        items: [],
-        counts: { all: 0, uncategorized: 0 },
       });
 
     when(mockUseBookmarkActions).calledWith().thenReturn({
       create: vi.fn(),
-      update: vi.fn(),
-      remove: vi.fn(),
       move: vi.fn(),
+      remove: vi.fn(),
+      update: vi.fn(),
       updateLayout: vi.fn(),
     });
 
     const { result } = renderHook(() => useBookmarks());
 
-    // Check that all expected properties are present
     expect(result.current).toHaveProperty('rawFolders');
     expect(result.current).toHaveProperty('isLoading');
     expect(result.current).toHaveProperty('error');

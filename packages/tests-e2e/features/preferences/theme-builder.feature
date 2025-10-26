@@ -12,55 +12,23 @@ Feature: Theme Builder
     When I click "theme-custom"
     Then the app should have custom theme with "bgColor-primary" color
 
-  Scenario: Change primary background color
+  Scenario Outline: Change color in custom theme
     When I click "settings-toggle"
     Then I should see the "theme-settings" section
     When I click "theme-custom"
-    Then the app should have custom theme with "bgColor-primary" color
-    And the "bgColor-primary" color should be "#1F1E25"
-    When I select color "#FF0000" for "bgColor-primary"
-    Then the app should have custom theme with "bgColor-primary" color
-    And the "bgColor-primary" color should be "#FF0000"
+    Then the app should have custom theme with "<colorKey>" color
+    And the "<colorKey>" color should be "<defaultColor>"
+    When I select color "<newColor>" for "<colorKey>"
+    Then the app should have custom theme with "<colorKey>" color
+    And the "<colorKey>" color should be "<newColor>"
 
-  Scenario: Change secondary background color
-    When I click "settings-toggle"
-    Then I should see the "theme-settings" section
-    When I click "theme-custom"
-    Then the app should have custom theme with "bgColor-secondary" color
-    And the "bgColor-secondary" color should be "#1C1B22"
-    When I select color "#00FF00" for "bgColor-secondary"
-    Then the app should have custom theme with "bgColor-secondary" color
-    And the "bgColor-secondary" color should be "#00FF00"
-
-  Scenario: Change accent color
-    When I click "settings-toggle"
-    Then I should see the "theme-settings" section
-    When I click "theme-custom"
-    Then the app should have custom theme with "bgColor-accent" color
-    And the "bgColor-accent" color should be "#007AFF"
-    When I select color "#0000FF" for "bgColor-accent"
-    Then the app should have custom theme with "bgColor-accent" color
-    And the "bgColor-accent" color should be "#0000FF"
-
-  Scenario: Change primary foreground color
-    When I click "settings-toggle"
-    Then I should see the "theme-settings" section
-    When I click "theme-custom"
-    Then the app should have custom theme with "fgColor-primary" color
-    And the "fgColor-primary" color should be "#F9F9FA"
-    When I select color "#FFFFFF" for "fgColor-primary"
-    Then the app should have custom theme with "fgColor-primary" color
-    And the "fgColor-primary" color should be "#FFFFFF"
-
-  Scenario: Change danger color
-    When I click "settings-toggle"
-    Then I should see the "theme-settings" section
-    When I click "theme-custom"
-    Then the app should have custom theme with "fgColor-danger" color
-    And the "fgColor-danger" color should be "#E03C31"
-    When I select color "#FF4444" for "fgColor-danger"
-    Then the app should have custom theme with "fgColor-danger" color
-    And the "fgColor-danger" color should be "#FF4444"
+    Examples:
+      | colorKey           | defaultColor | newColor |
+      | bgColor-primary    | #1F1E25      | #FF0000  |
+      | bgColor-secondary  | #1C1B22      | #00FF00  |
+      | bgColor-accent     | #007AFF      | #0000FF  |
+      | fgColor-primary     | #F9F9FA      | #FFFFFF  |
+      | fgColor-danger     | #E03C31      | #FF4444  |
 
   Scenario: Switch from custom theme to preset theme
     When I click "settings-toggle"

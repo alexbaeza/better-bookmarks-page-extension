@@ -4,25 +4,31 @@ import { vi } from 'vitest';
 import { BookmarkFormModal } from '@/features/bookmarks/components/BookmarkFormModal';
 import { fireEvent, render, screen, waitFor } from '~test/test-utils';
 
-// Suppress console.error and console.warn for act warnings in this test file
 const originalConsoleError = console.error;
 const originalConsoleWarn = console.warn;
 const originalConsoleLog = console.log;
 
 describe('BookmarkFormModal', () => {
+  let modalRoot: HTMLElement;
+
   beforeEach(() => {
-    const portalRoot = document.createElement('div');
-    portalRoot.id = 'modal-root';
-    document.body.appendChild(portalRoot);
-    // Suppress all console methods for act warnings
-    console.error = vi.fn();
-    console.warn = vi.fn();
-    console.log = vi.fn();
+    // Remove any existing modal-root
+    const existingRoot = document.getElementById('modal-root');
+    if (existingRoot) {
+      document.body.removeChild(existingRoot);
+    }
+
+    // Create new modal-root
+    modalRoot = document.createElement('div');
+    modalRoot.id = 'modal-root';
+    document.body.appendChild(modalRoot);
   });
 
   afterEach(() => {
+    if (modalRoot && document.body.contains(modalRoot)) {
+      document.body.removeChild(modalRoot);
+    }
     document.body.innerHTML = '';
-    // Restore console methods
     console.error = originalConsoleError;
     console.warn = originalConsoleWarn;
     console.log = originalConsoleLog;
@@ -42,7 +48,7 @@ describe('BookmarkFormModal', () => {
     const onClose = vi.fn();
     const onSave = vi.fn();
 
-    render(<BookmarkFormModal onClose={onClose} onSave={onSave} initialValues={{ title: '', url: undefined }} />);
+    render(<BookmarkFormModal initialValues={{ title: '', url: undefined }} onClose={onClose} onSave={onSave} />);
 
     expect(screen.getByText('Add Folder')).toBeInTheDocument();
     expect(screen.getByLabelText('Title')).toBeInTheDocument();
@@ -53,7 +59,7 @@ describe('BookmarkFormModal', () => {
     const onClose = vi.fn();
     const onSave = vi.fn();
 
-    render(<BookmarkFormModal onClose={onClose} onSave={onSave} initialValues={{ title: 'Existing', url: 'http://example.com' }} />);
+    render(<BookmarkFormModal initialValues={{ title: 'Existing', url: 'http://example.com' }} onClose={onClose} onSave={onSave} />);
 
     expect(screen.getByText('Edit Bookmark')).toBeInTheDocument();
     expect(screen.getByDisplayValue('Existing')).toBeInTheDocument();
@@ -64,7 +70,7 @@ describe('BookmarkFormModal', () => {
     const onClose = vi.fn();
     const onSave = vi.fn();
 
-    render(<BookmarkFormModal onClose={onClose} onSave={onSave} initialValues={{ title: 'Existing Folder', url: undefined }} />);
+    render(<BookmarkFormModal initialValues={{ title: 'Existing Folder', url: undefined }} onClose={onClose} onSave={onSave} />);
 
     expect(screen.getByText('Edit Folder')).toBeInTheDocument();
     expect(screen.getByDisplayValue('Existing Folder')).toBeInTheDocument();
@@ -76,7 +82,7 @@ describe('BookmarkFormModal', () => {
 
     render(<BookmarkFormModal onClose={onClose} onSave={onSave} />);
 
-    const submitButton = screen.getByRole('button', { name: 'Save' });
+    const submitButton = screen.getByTestId('bookmark-form-modal').querySelector('button[type="submit"]') as HTMLButtonElement;
     fireEvent.click(submitButton);
 
     await waitFor(() => {
@@ -96,7 +102,7 @@ describe('BookmarkFormModal', () => {
     fireEvent.change(titleInput, { target: { value: 'Test' } });
     fireEvent.change(urlInput, { target: { value: 'invalid-url' } });
 
-    const submitButton = screen.getByRole('button', { name: 'Save' });
+    const submitButton = screen.getByTestId('bookmark-form-modal').querySelector('button[type="submit"]') as HTMLButtonElement;
     fireEvent.click(submitButton);
 
     await waitFor(() => {
@@ -116,7 +122,7 @@ describe('BookmarkFormModal', () => {
     fireEvent.change(titleInput, { target: { value: 'Test Bookmark' } });
     fireEvent.change(urlInput, { target: { value: 'https://example.com' } });
 
-    const submitButton = screen.getByRole('button', { name: 'Save' });
+    const submitButton = screen.getByTestId('bookmark-form-modal').querySelector('button[type="submit"]') as HTMLButtonElement;
     fireEvent.click(submitButton);
 
     await waitFor(() => {
@@ -136,7 +142,7 @@ describe('BookmarkFormModal', () => {
       render(<BookmarkFormModal onClose={onClose} onSave={onSave} />);
     });
 
-    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+    const cancelButton = screen.getByTestId('bookmark-form-modal-close-button');
 
     await act(async () => {
       fireEvent.click(cancelButton);

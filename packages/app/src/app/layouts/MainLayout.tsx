@@ -12,7 +12,7 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({ children 
 
   return (
     <div className="flex flex-1 overflow-hidden">
-      {sidebarEnabled && <Sidebar title="Better Bookmarks" footer={<SidebarFooter />} />}
+      {sidebarEnabled && <Sidebar footer={<SidebarFooter />} title="Better Bookmarks" />}
       <MainContent>{children}</MainContent>
     </div>
   );

@@ -21,7 +21,7 @@ module.exports = {
       '@semantic-release/git',
       {
         assets: ['CHANGELOG.md', 'package.json'],
-        message: `chore(release): \${nextRelease.version} [skip ci]\n\n\${nextRelease.notes}`,
+        message: 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
       },
     ],
     [
@@ -29,12 +29,12 @@ module.exports = {
       {
         assets: [
           {
-            path: 'release/extension-chrome-*.zip',
             label: 'Chrome Extension',
+            path: 'release/extension-chrome-*.zip',
           },
           {
-            path: 'release/extension-firefox-*.zip',
             label: 'Firefox Extension',
+            path: 'release/extension-firefox-*.zip',
           },
         ],
       },
@@ -42,16 +42,16 @@ module.exports = {
   ],
   preset: 'conventionalcommits',
   releaseRules: [
-    { type: 'feat', release: 'minor' },
-    { type: 'fix', release: 'patch' },
-    { type: 'perf', release: 'patch' },
-    { type: 'revert', release: 'patch' },
-    { type: 'docs', release: false },
-    { type: 'style', release: false },
-    { type: 'chore', release: false },
-    { type: 'refactor', release: 'patch' },
-    { type: 'test', release: false },
-    { type: 'build', release: false },
-    { type: 'ci', release: false },
+    { release: 'minor', type: 'feat' },
+    { release: 'patch', type: 'fix' },
+    { release: 'patch', type: 'perf' },
+    { release: 'patch', type: 'revert' },
+    { release: false, type: 'docs' },
+    { release: false, type: 'style' },
+    { release: false, type: 'chore' },
+    { release: 'patch', type: 'refactor' },
+    { release: false, type: 'test' },
+    { release: false, type: 'build' },
+    { release: false, type: 'ci' },
   ],
 };

@@ -15,34 +15,31 @@ vi.mock('@/features/bookmarks/components/BookmarkFolderRoot', () => ({
 
 describe('RenderFolders', () => {
   it('renders single folder with w-full class', () => {
-    const folders: IBookmarkItem[] = [{ id: '1', title: 'Folder 1', children: [] } as IBookmarkItem];
+    const folders: IBookmarkItem[] = [{ children: [], id: '1', title: 'Folder 1' } as IBookmarkItem];
 
     render(<RenderFolders folders={folders} />);
 
-    // Find the container div that wraps the folders
     const container = screen.getByTestId('folder-root').parentElement;
     expect(container).toHaveClass('w-full');
   });
 
   it('renders multiple folders with columns class', () => {
     const folders: IBookmarkItem[] = [
-      { id: '1', title: 'Folder 1', children: [] } as IBookmarkItem,
-      { id: '2', title: 'Folder 2', children: [] } as IBookmarkItem,
+      { children: [], id: '1', title: 'Folder 1' } as IBookmarkItem,
+      { children: [], id: '2', title: 'Folder 2' } as IBookmarkItem,
     ];
 
     render(<RenderFolders folders={folders} />);
 
-    // Use getAllByTestId to handle multiple elements
     const folderRoots = screen.getAllByTestId('folder-root');
     expect(folderRoots).toHaveLength(2);
 
-    // Check the container has columns class
     const container = folderRoots[0].parentElement;
     expect(container?.className).toMatch(/columns-1/);
   });
 
   it('passes correct props to BookmarkFolderRoot', () => {
-    const folders: IBookmarkItem[] = [{ id: '1', title: 'Folder 1', children: [{ id: 'a', title: 'A' } as IBookmarkItem] } as IBookmarkItem];
+    const folders: IBookmarkItem[] = [{ children: [{ id: 'a', title: 'A' } as IBookmarkItem], id: '1', title: 'Folder 1' } as IBookmarkItem];
 
     render(<RenderFolders folders={folders} />);
 

@@ -13,13 +13,13 @@ const browserAPI: BrowserBookmarkAPI = createBookmarkAPI();
  */
 function normalizeToAppFormat(item: NormalizedBookmarkItem): IBookmarkItem {
   return {
+    children: item.children?.map(normalizeToAppFormat),
+    dateAdded: item.dateAdded,
+    dateGroupModified: item.dateGroupModified,
     id: item.id,
     parentId: item.parentId,
     title: item.title,
     url: item.url,
-    children: item.children?.map(normalizeToAppFormat),
-    dateAdded: item.dateAdded,
-    dateGroupModified: item.dateGroupModified,
   };
 }
 

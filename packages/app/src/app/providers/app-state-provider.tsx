@@ -20,7 +20,7 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
     dispatch({ type: 'PROVIDER_INITIALISED' });
     // Hydrate initial state from persisted atom for instant UI
     if (persistedBookmarks?.folders?.length || persistedBookmarks?.uncategorized) {
-      dispatch({ type: 'LOAD_BOOKMARKS_DATA_SUCCESS', data: persistedBookmarks });
+      dispatch({ data: persistedBookmarks, type: 'LOAD_BOOKMARKS_DATA_SUCCESS' });
     }
   }, [persistedBookmarks]);
 
@@ -30,31 +30,31 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
       try {
         const data = await getBookmarksData();
         setPersistedBookmarks(data);
-        dispatch({ type: 'LOAD_BOOKMARKS_DATA_SUCCESS', data });
+        dispatch({ data, type: 'LOAD_BOOKMARKS_DATA_SUCCESS' });
       } catch (err: unknown) {
-        dispatch({ type: 'ERROR', error: err });
+        dispatch({ error: err, type: 'ERROR' });
       } finally {
         dispatch({ type: 'LOAD_BOOKMARKS_DATA_FINISHED' });
       }
     };
 
-    fetchData();
+    void fetchData();
   }, [setPersistedBookmarks]);
 
   const contextValues = useMemo(
     () => ({
       bookmarks: state.bookmarks,
-      isLoading: state.isLoading,
       error: state.error,
+      isLoading: state.isLoading,
       providerInitialised: state.providerInitialised,
       refreshBookmarks: async () => {
         dispatch({ type: 'LOAD_BOOKMARKS_DATA_START' });
         try {
           const data = await getBookmarksData();
           setPersistedBookmarks(data);
-          dispatch({ type: 'LOAD_BOOKMARKS_DATA_SUCCESS', data });
+          dispatch({ data, type: 'LOAD_BOOKMARKS_DATA_SUCCESS' });
         } catch (err: unknown) {
-          dispatch({ type: 'ERROR', error: err });
+          dispatch({ error: err, type: 'ERROR' });
         } finally {
           dispatch({ type: 'LOAD_BOOKMARKS_DATA_FINISHED' });
         }

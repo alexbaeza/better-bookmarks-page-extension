@@ -4,10 +4,6 @@ import { Input } from '@/shared/ui/Input';
 import { fireEvent, render, screen } from '~test/test-utils';
 
 describe('Input', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('renders with default props', () => {
     render(<Input dataTestId="test-input" />);
 
@@ -26,7 +22,7 @@ describe('Input', () => {
 
   it('handles value changes', () => {
     const onChange = vi.fn();
-    render(<Input onChange={onChange} dataTestId="test-input" />);
+    render(<Input dataTestId="test-input" onChange={onChange} />);
 
     const input = screen.getByTestId('test-input');
     fireEvent.change(input, { target: { value: 'test' } });
@@ -36,21 +32,21 @@ describe('Input', () => {
 
   it('displays value', () => {
     const onChange = vi.fn();
-    render(<Input value="test value" onChange={onChange} dataTestId="test-input" />);
+    render(<Input dataTestId="test-input" onChange={onChange} value="test value" />);
 
     const input = screen.getByTestId('test-input');
     expect(input).toHaveValue('test value');
   });
 
   it('shows placeholder', () => {
-    render(<Input placeholder="Enter text" dataTestId="test-input" />);
+    render(<Input dataTestId="test-input" placeholder="Enter text" />);
 
     const input = screen.getByTestId('test-input');
     expect(input).toHaveAttribute('placeholder', 'Enter text');
   });
 
   it('is disabled when disabled prop is true', () => {
-    render(<Input disabled dataTestId="test-input" />);
+    render(<Input dataTestId="test-input" disabled />);
 
     const input = screen.getByTestId('test-input');
     expect(input).toBeDisabled();
@@ -66,7 +62,7 @@ describe('Input', () => {
   });
 
   it('forwards other props', () => {
-    render(<Input type="email" name="email" dataTestId="test-input" />);
+    render(<Input dataTestId="test-input" name="email" type="email" />);
 
     const input = screen.getByTestId('test-input');
     expect(input).toHaveAttribute('type', 'email');

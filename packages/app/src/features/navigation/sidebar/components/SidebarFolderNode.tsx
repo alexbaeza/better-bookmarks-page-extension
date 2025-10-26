@@ -20,8 +20,8 @@ type FolderNodeProps = {
 };
 export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, level, expandedIds, toggleFolder, openFolderId, clickFolder }) => {
   const { setNodeRef, isOver } = useDroppable({
-    id: `${DROPPABLE_SIDEBAR_FOLDER_PREFIX}${folder.id}`,
     disabled: false,
+    id: `${DROPPABLE_SIDEBAR_FOLDER_PREFIX}${folder.id}`,
   });
 
   if (!folder) {
@@ -34,26 +34,26 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, leve
 
   return (
     <li
-      ref={setNodeRef}
-      role="treeitem"
       aria-level={level + 1}
       aria-selected={isSelected}
+      ref={setNodeRef}
+      role="treeitem"
       {...(hasKids && { 'aria-expanded': isOpen })}
       className="relative outline-2 outline-offset-2 min-w-0"
       tabIndex={0}
     >
       {/* Folder Row */}
       <SidebarItem
-        icon={hasKids ? isOpen ? <FolderOpenIcon size={16} /> : <FolderIcon size={16} /> : <FolderDotIcon size={16} />}
-        label={folder.title || 'Untitled'}
         badge={countItems(folder) + countFolders(folder)}
-        isSelected={isSelected}
+        className={`cursor-pointer ${isOver ? 'ring-2 ring-offset-1 ring-fgColor-accent' : ''}`}
         data-testid={`sidebar-folder-item-${folder.id}`}
+        icon={hasKids ? isOpen ? <FolderOpenIcon size={16} /> : <FolderIcon size={16} /> : <FolderDotIcon size={16} />}
+        isSelected={isSelected}
+        label={folder.title || 'Untitled'}
         onClick={() => {
           if (hasKids) toggleFolder(folder.id);
           clickFolder(folder.id);
         }}
-        className={`cursor-pointer ${isOver ? 'ring-2 ring-offset-1 ring-fgColor-accent' : ''}`}
       />
 
       {/* Nested Children */}
@@ -65,12 +65,12 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, leve
           {folder.children.filter(onlyFolders).map((child: IBookmarkItem) => (
             <TreeElbowItem key={child.id}>
               <SidebarFolderNode
+                clickFolder={clickFolder}
+                expandedIds={expandedIds}
                 folder={child}
                 level={level + 1}
-                expandedIds={expandedIds}
-                toggleFolder={toggleFolder}
                 openFolderId={openFolderId}
-                clickFolder={clickFolder}
+                toggleFolder={toggleFolder}
               />
             </TreeElbowItem>
           ))}

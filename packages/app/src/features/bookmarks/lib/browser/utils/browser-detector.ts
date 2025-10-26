@@ -16,16 +16,16 @@ export function detectBrowser(): BrowserInfo {
 
   if (isFirefox) {
     return {
-      type: 'firefox',
       isExtension: isExtension || isDev,
+      type: 'firefox',
       version: extractVersion(ua, 'Firefox'),
     };
   }
 
   if (isChrome) {
     return {
-      type: 'chrome',
       isExtension: isExtension || isDev,
+      type: 'chrome',
       version: extractVersion(ua, 'Chrome'),
     };
   }
@@ -33,15 +33,15 @@ export function detectBrowser(): BrowserInfo {
   // Fallback for development - assume Chrome if we can't detect
   if (isDev) {
     return {
-      type: 'chrome',
       isExtension: false,
+      type: 'chrome',
       version: 'dev',
     };
   }
 
   return {
-    type: 'unknown',
     isExtension: false,
+    type: 'unknown',
   };
 }
 

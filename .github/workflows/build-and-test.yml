@@ -129,9 +129,6 @@ jobs:
         env:
           CI: true
 
-      - name: Wait for server
-        run: pnpm wait-on http://localhost:3000 --timeout 30000
-
       - name: Run E2E tests (Chrome)
         run: pnpm test:e2e:chrome
         env:
@@ -166,9 +163,6 @@ jobs:
         run: pnpm preview &
         env:
           CI: true
-
-      - name: Wait for server
-        run: pnpm wait-on http://localhost:3000 --timeout 30000
 
       - name: Run E2E tests (Firefox)
         run: pnpm test:e2e:firefox

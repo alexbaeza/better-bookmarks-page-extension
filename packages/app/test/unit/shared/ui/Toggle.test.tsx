@@ -7,14 +7,14 @@ describe('Toggle', () => {
   it('renders unchecked by default', () => {
     render(<Toggle checked={false} onChange={() => {}} />);
 
-    const input = screen.getByRole('checkbox');
+    const input = screen.getByTestId('toggle-input');
     expect(input).not.toBeChecked();
   });
 
   it('renders checked when checked prop is true', () => {
     render(<Toggle checked onChange={() => {}} />);
 
-    const input = screen.getByRole('checkbox');
+    const input = screen.getByTestId('toggle-input');
     expect(input).toBeChecked();
   });
 
@@ -22,9 +22,9 @@ describe('Toggle', () => {
     const onChange = vi.fn();
     render(<Toggle checked={false} onChange={onChange} />);
 
-    const checkbox = screen.getByRole('checkbox');
+    const checkbox = screen.getByTestId('toggle-input');
     const label = checkbox.parentElement;
-    expect(label).toBeTruthy();
+    expect(label).not.toBeNull();
     fireEvent.click(label as HTMLElement);
 
     expect(onChange).toHaveBeenCalledWith(true);
@@ -34,54 +34,54 @@ describe('Toggle', () => {
     const onChange = vi.fn();
     render(<Toggle checked onChange={onChange} />);
 
-    const checkbox = screen.getByRole('checkbox');
+    const checkbox = screen.getByTestId('toggle-input');
     const label = checkbox.parentElement;
-    expect(label).toBeTruthy();
+    expect(label).not.toBeNull();
     fireEvent.click(label as HTMLElement);
 
     expect(onChange).toHaveBeenCalledWith(false);
   });
 
   it('applies custom className', () => {
-    render(<Toggle checked={false} onChange={() => {}} className="custom-class" />);
+    render(<Toggle checked={false} className="custom-class" onChange={() => {}} />);
 
-    const checkbox = screen.getByRole('checkbox');
+    const checkbox = screen.getByTestId('toggle-input');
     const label = checkbox.parentElement;
-    expect(label).toBeTruthy();
+    expect(label).not.toBeNull();
     expect(label).toHaveClass('custom-class');
   });
 
   it('has correct base classes', () => {
     render(<Toggle checked={false} onChange={() => {}} />);
 
-    const checkbox = screen.getByRole('checkbox');
+    const checkbox = screen.getByTestId('toggle-input');
     const label = checkbox.parentElement;
-    expect(label).toBeTruthy();
+    expect(label).not.toBeNull();
     expect(label).toHaveClass('relative inline-flex cursor-pointer items-center');
   });
 
   it('has correct toggle classes when unchecked', () => {
     render(<Toggle checked={false} onChange={() => {}} />);
 
-    const checkbox = screen.getByRole('checkbox');
+    const checkbox = screen.getByTestId('toggle-input');
     const toggle = checkbox.nextElementSibling;
-    expect(toggle).toBeTruthy();
+    expect(toggle).not.toBeNull();
     expect(toggle).toHaveClass('peer h-6 w-11 rounded-full bg-bgColor-tertiary');
   });
 
   it('has correct toggle classes when checked', () => {
     render(<Toggle checked onChange={() => {}} />);
 
-    const checkbox = screen.getByRole('checkbox');
+    const checkbox = screen.getByTestId('toggle-input');
     const toggle = checkbox.nextElementSibling;
-    expect(toggle).toBeTruthy();
+    expect(toggle).not.toBeNull();
     expect(toggle).toHaveClass('peer h-6 w-11 rounded-full bg-bgColor-tertiary peer-checked:bg-bgColor-accent');
   });
 
   it('forwards other props to input', () => {
-    render(<Toggle checked={false} onChange={() => {}} disabled />);
+    render(<Toggle checked={false} disabled onChange={() => {}} />);
 
-    const input = screen.getByRole('checkbox');
+    const input = screen.getByTestId('toggle-input');
     expect(input).toBeDisabled();
   });
 });

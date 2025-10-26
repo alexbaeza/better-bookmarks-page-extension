@@ -11,12 +11,12 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   ({ dataTestId, className, onClick, icon, disabled, positionClassName = '', type = 'button', ...rest }, ref) => {
     return (
       <button
-        ref={ref}
-        data-testid={dataTestId}
-        type={type}
         className={`${positionClassName} inline-flex items-center rounded-lg bg-bgColor-secondary p-1.5 text-sm text-fgColor-primary hover:bg-fgColor-hover hover:text-white disabled:opacity-50 ${className || ''}`}
+        data-testid={dataTestId}
         disabled={disabled}
         onClick={onClick}
+        ref={ref}
+        type={type}
         {...rest}
       >
         {icon}

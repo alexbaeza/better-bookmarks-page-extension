@@ -57,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
   if (isLoading) {
     return (
       <div className="flex h-screen" data-testid="sidebar">
-        <nav className="w-64 shrink-0 bg-bgColor-secondary p-4" aria-label="Bookmarks navigation">
+        <nav aria-label="Bookmarks navigation" className="w-64 shrink-0 bg-bgColor-secondary p-4">
           <h2 className="mb-4 flex items-center text-lg font-bold text-fgColor-primary">{title}</h2>
           <div className="h-[calc(100vh-4rem)] overflow-y-auto px-2">
             <div className="animate-pulse space-y-4">
@@ -74,26 +74,26 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
   return (
     <div className="flex h-screen" data-testid="sidebar">
       {/* Main tree */}
-      <nav className="w-64 min-w-64 max-w-64 shrink-0 bg-bgColor-secondary flex h-full flex-col overflow-hidden" aria-label="Bookmarks navigation">
+      <nav aria-label="Bookmarks navigation" className="w-64 min-w-64 max-w-64 shrink-0 bg-bgColor-secondary flex h-full flex-col overflow-hidden">
         <h2 className="p-2 mb-4 flex items-center text-lg font-bold text-fgColor-primary">{title}</h2>
-        <div className="flex-1 overflow-y-auto px-2 min-w-0" role="tree" aria-label="Bookmark folders">
+        <div aria-label="Bookmark folders" className="flex-1 overflow-y-auto px-2 min-w-0" role="tree">
           {/* Pages */}
           <SidebarSection title="Pages">
             <SidebarItem
-              icon={<BookmarkIcon size={16} />}
-              label="All Items"
               badge={counts.all}
-              isSelected={isAll}
-              onClick={handleClickAll}
               className="cursor-pointer"
+              icon={<BookmarkIcon size={16} />}
+              isSelected={isAll}
+              label="All Items"
+              onClick={handleClickAll}
             />
             <SidebarItem
-              icon={<BookmarkIcon size={16} />}
-              label="Uncategorized"
               badge={counts.uncategorized}
-              isSelected={isUncat}
-              onClick={handleClickUncategorized}
               className="cursor-pointer"
+              icon={<BookmarkIcon size={16} />}
+              isSelected={isUncat}
+              label="Uncategorized"
+              onClick={handleClickUncategorized}
             />
           </SidebarSection>
 
@@ -104,13 +104,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
             <div className="space-y-1 min-w-0 overflow-hidden">
               {roots.map((f) => (
                 <SidebarFolderNode
-                  key={f.id}
-                  folder={f}
-                  level={0}
-                  expandedIds={expandedIds}
-                  toggleFolder={toggleFolder}
-                  openFolderId={openFolderId}
                   clickFolder={clickFolder}
+                  expandedIds={expandedIds}
+                  folder={f}
+                  key={f.id}
+                  level={0}
+                  openFolderId={openFolderId}
+                  toggleFolder={toggleFolder}
                 />
               ))}
             </div>
@@ -119,7 +119,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
         {footer && footer}
       </nav>
 
-      {openFolderId && selectedFolder && <SidebarFlyout folder={selectedFolder} onClose={() => setOpenFolderId(null)} clickFolder={clickFolder} />}
+      {openFolderId && selectedFolder && <SidebarFlyout clickFolder={clickFolder} folder={selectedFolder} onClose={() => setOpenFolderId(null)} />}
     </div>
   );
 };

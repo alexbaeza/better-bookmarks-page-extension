@@ -15,10 +15,10 @@ When('I drag a bookmark to a folder', () => {
           // Use proper drag and drop events for @dnd-kit
           cy.get(`[data-testid="${bookmarkId}"]`)
             .should('exist')
-            .trigger('pointerdown', { which: 1, button: 0 })
-            .trigger('pointermove', { which: 1, button: 0, movementX: 5, movementY: 5 });
+            .trigger('pointerdown', { button: 0, which: 1 })
+            .trigger('pointermove', { button: 0, movementX: 5, movementY: 5, which: 1 });
 
-          cy.get(`[data-testid="${folderId}"]`).should('exist').trigger('pointermove', { which: 1, button: 0 }).trigger('pointerup', { which: 1, button: 0 });
+          cy.get(`[data-testid="${folderId}"]`).should('exist').trigger('pointermove', { button: 0, which: 1 }).trigger('pointerup', { button: 0, which: 1 });
         });
     });
 });
@@ -37,13 +37,13 @@ When('I drag the first bookmark to the second position', () => {
           // Use proper drag and drop events for @dnd-kit
           cy.get(`[data-testid="${firstBookmarkId}"]`)
             .should('exist')
-            .trigger('pointerdown', { which: 1, button: 0 })
-            .trigger('pointermove', { which: 1, button: 0, movementX: 5, movementY: 5 });
+            .trigger('pointerdown', { button: 0, which: 1 })
+            .trigger('pointermove', { button: 0, movementX: 5, movementY: 5, which: 1 });
 
           cy.get(`[data-testid="${secondBookmarkId}"]`)
             .should('exist')
-            .trigger('pointermove', { which: 1, button: 0 })
-            .trigger('pointerup', { which: 1, button: 0 });
+            .trigger('pointermove', { button: 0, which: 1 })
+            .trigger('pointerup', { button: 0, which: 1 });
         });
     });
 });

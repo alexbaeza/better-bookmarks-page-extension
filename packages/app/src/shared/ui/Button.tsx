@@ -29,7 +29,7 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', disabled = 
   };
 
   return (
-    <button disabled={disabled} className={`${base} ${variants[variant]} ${className}`} data-testid={dataTestId} {...rest}>
+    <button className={`${base} ${variants[variant]} ${className}`} data-testid={dataTestId} disabled={disabled} {...rest}>
       {children}
     </button>
   );

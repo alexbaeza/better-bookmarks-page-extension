@@ -14,11 +14,12 @@ export const BackgroundOverlay: React.FC = () => {
   return (
     <div
       className="fixed inset-0 pointer-events-none z-0"
+      data-testid="background-overlay"
       style={{
         backgroundImage: `url(${backgroundOverlay})`,
-        backgroundSize: 'auto',
         backgroundPosition: 'top left',
         backgroundRepeat: 'repeat',
+        backgroundSize: 'auto',
         opacity: backgroundOverlayOpacity / 100,
       }}
     />

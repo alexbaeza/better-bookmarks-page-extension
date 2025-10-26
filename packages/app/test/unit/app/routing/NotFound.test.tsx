@@ -5,7 +5,7 @@ import { render, screen } from '~test/test-utils';
 
 vi.mock('@/features/navigation/components/NotFoundIllustration', () => ({
   NotFoundIllustration: ({ className }: { className?: string }) => (
-    <div data-testid="not-found-illustration" className={className}>
+    <div className={className} data-testid="not-found-illustration">
       Illustration
     </div>
   ),

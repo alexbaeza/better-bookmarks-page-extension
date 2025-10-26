@@ -13,15 +13,15 @@ type SidebarItemProps = {
 export const SidebarItem: React.FC<SidebarItemProps> = ({ icon, label, badge, isSelected = false, onClick, className = '', 'data-testid': dataTestId }) => {
   return (
     <button
-      type="button"
-      onClick={onClick}
-      data-testid={dataTestId}
       className={`
         grid w-full grid-cols-[auto,1fr,auto] items-center gap-2 min-w-0
         rounded-lg p-2 text-sm font-medium
         ${isSelected ? 'bg-fgColor-hover text-fgColor-primary' : 'text-fgColor-secondary hover:bg-fgColor-hover hover:text-fgColor-primary'}
         ${className}
       `}
+      data-testid={dataTestId}
+      onClick={onClick}
+      type="button"
     >
       <div className="col-[1]">{icon}</div>
       <div className="col-[2] min-w-0 truncate text-left">{label}</div>

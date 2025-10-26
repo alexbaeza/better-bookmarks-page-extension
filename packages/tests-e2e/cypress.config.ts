@@ -5,27 +5,18 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:3000',
-    supportFile: 'support/e2e.ts',
-    specPattern: ['**/*.cy.ts', 'features/**/*.feature'],
-    viewportWidth: 1200,
-    viewportHeight: 800,
-    // Performance optimizations
-    video: false, // Disable video recording for faster tests
-    screenshotOnRunFailure: true,
-    defaultCommandTimeout: 5000,
-    requestTimeout: 5000,
-    responseTimeout: 5000,
-    pageLoadTimeout: 5000,
-    scrollBehavior: 'center',
-
     // Disable animations for faster tests
     animationDistanceThreshold: 0,
-    // Faster element interactions
-    waitForAnimations: false,
+    baseUrl: 'http://localhost:3000',
+    defaultCommandTimeout: 5000,
     env: {
       NODE_ENV: 'test',
     },
+    pageLoadTimeout: 5000,
+    requestTimeout: 5000,
+    responseTimeout: 5000,
+    screenshotOnRunFailure: true,
+    scrollBehavior: 'center',
     async setupNodeEvents(on, config) {
       await addCucumberPreprocessorPlugin(on, config);
       on(
@@ -37,5 +28,13 @@ export default defineConfig({
 
       return config;
     },
+    specPattern: ['**/*.cy.ts', 'features/**/*.feature'],
+    supportFile: 'support/e2e.ts',
+    // Performance optimizations
+    video: false, // Disable video recording for faster tests
+    viewportHeight: 800,
+    viewportWidth: 1200,
+    // Faster element interactions
+    waitForAnimations: false,
   },
 });

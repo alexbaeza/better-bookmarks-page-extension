@@ -1,10 +1,7 @@
-import * as jotai from 'jotai';
 import { vi } from 'vitest';
-import { when } from 'vitest-when';
-
 import { Header } from '@/app/layouts/Header';
 import { greetingEnabledAtom, searchBarEnabledAtom } from '@/app/providers/atoms';
-import { render, screen } from '../../test-utils';
+import { render, screen } from '~test/test-utils';
 
 vi.mock('@/features/greeting/components/Greeting', () => ({
   Greeting: () => <div data-testid="greeting">Greeting</div>,
@@ -20,18 +17,17 @@ vi.mock('@/features/settings/containers/SettingsToggle', () => ({
 }));
 
 describe('Header', () => {
-  let spy: vi.SpyInstance;
-
   beforeEach(() => {
-    vi.resetAllMocks();
-    spy = vi.spyOn(jotai, 'useAtomValue');
+    vi.clearAllMocks();
   });
 
   it('renders greeting and search when enabled', () => {
-    when(spy).calledWith(greetingEnabledAtom).thenReturn(true);
-    when(spy).calledWith(searchBarEnabledAtom).thenReturn(true);
-
-    render(<Header />);
+    render(<Header />, {
+      initialValues: [
+        [greetingEnabledAtom, true],
+        [searchBarEnabledAtom, true],
+      ],
+    });
 
     expect(screen.getByTestId('greeting')).toBeInTheDocument();
     expect(screen.getByTestId('search-bar')).toBeInTheDocument();
@@ -40,19 +36,23 @@ describe('Header', () => {
   });
 
   it('hides greeting and shows search when greeting is disabled', () => {
-    when(spy).calledWith(greetingEnabledAtom).thenReturn(false);
-    when(spy).calledWith(searchBarEnabledAtom).thenReturn(true);
-
-    render(<Header />);
+    render(<Header />, {
+      initialValues: [
+        [greetingEnabledAtom, false],
+        [searchBarEnabledAtom, true],
+      ],
+    });
     expect(screen.queryByTestId('greeting')).toBeNull();
     expect(screen.getByTestId('search-bar')).toBeInTheDocument();
   });
 
   it('hides search when searchBarEnabled is false', () => {
-    when(spy).calledWith(greetingEnabledAtom).thenReturn(true);
-    when(spy).calledWith(searchBarEnabledAtom).thenReturn(false);
-
-    render(<Header />);
+    render(<Header />, {
+      initialValues: [
+        [greetingEnabledAtom, true],
+        [searchBarEnabledAtom, false],
+      ],
+    });
     expect(screen.getByTestId('greeting')).toBeInTheDocument();
     expect(screen.queryByTestId('search-bar')).toBeNull();
   });

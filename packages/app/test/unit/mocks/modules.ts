@@ -1,14 +1,10 @@
 import { vi } from 'vitest';
 
-vi.mock('jotai', async () => {
-  const actual = await vi.importActual('jotai');
-  return {
-    ...actual,
-    useAtom: vi.fn(() => [undefined, vi.fn()]),
-    useAtomValue: vi.fn(() => undefined),
-    useSetAtom: vi.fn(() => vi.fn()),
-  };
-});
+// NOTE: This file is deprecated and should not be used.
+// All tests should now use `vi.spyOn` instead of module mocks per testing.mdc guidance.
+// See https://github.com/alexbaeza/better-bookmarks-page-extension/wiki/Testing-Standards
+
+// Removed outdated vi.mock('jotai') - tests should use vi.spyOn instead
 
 vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
   BookmarkNavigationProvider: ({ children }: { children: React.ReactNode }) => children,
@@ -29,8 +25,8 @@ vi.mock('@/features/bookmarks/contexts/BookmarkSearchContext', () => ({
 vi.mock('@/app/providers/app-state-context', () => {
   const mockInitialContext = {
     bookmarks: { folders: [], uncategorized: undefined },
-    isLoading: false,
     error: null,
+    isLoading: false,
     providerInitialised: true,
     refreshBookmarks: vi.fn(),
     updateBookmarkLayout: vi.fn(),
@@ -40,8 +36,8 @@ vi.mock('@/app/providers/app-state-context', () => {
     AppStateContext: {
       Provider: ({ children }: { children: React.ReactNode }) => children,
     },
-    useAppStateContext: vi.fn(() => mockInitialContext),
     initialContext: mockInitialContext,
+    useAppStateContext: vi.fn(() => mockInitialContext),
   };
 });
 
@@ -55,49 +51,49 @@ vi.mock('@/app/providers/dragdrop-provider', () => ({
 
 vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
   useBookmarks: vi.fn(() => ({
+    counts: { folders: 0, total: 0, uncategorized: 0 },
+    create: vi.fn(),
     currentPage: 'All',
+    error: null,
+    isLoading: false,
+    items: [],
+    move: vi.fn(),
+    pageContainers: [],
+    rawFolders: [],
+    remove: vi.fn(),
     searchTerm: '',
     setSearchTerm: vi.fn(),
-    rawFolders: [],
-    create: vi.fn(),
     update: vi.fn(),
-    remove: vi.fn(),
-    move: vi.fn(),
     updateLayout: vi.fn(),
-    isLoading: false,
-    error: null,
-    items: [],
-    counts: { total: 0, folders: 0, uncategorized: 0 },
-    pageContainers: [],
   })),
 }));
 
 vi.mock('@/shared/hooks/useRawBookmarkData', () => ({
   useRawBookmarkData: vi.fn(() => ({
+    error: null,
+    isLoading: false,
     rawFolders: [],
     rawUncategorized: undefined,
-    isLoading: false,
-    error: null,
     refresh: vi.fn(),
   })),
 }));
 
 vi.mock('@/features/bookmarks/hooks/useBookmarkSearch', () => ({
   useBookmarkSearch: vi.fn(() => ({
+    counts: { folders: 0, total: 0, uncategorized: 0 },
+    items: [],
+    pageContainers: [],
     searchTerm: '',
     setSearchTerm: vi.fn(),
-    pageContainers: [],
-    items: [],
-    counts: { total: 0, folders: 0, uncategorized: 0 },
   })),
 }));
 
 vi.mock('@/features/bookmarks/hooks/useBookmarkActions', () => ({
   useBookmarkActions: vi.fn(() => ({
     create: vi.fn(),
-    update: vi.fn(),
-    remove: vi.fn(),
     move: vi.fn(),
+    remove: vi.fn(),
+    update: vi.fn(),
     updateLayout: vi.fn(),
   })),
 }));
@@ -105,18 +101,16 @@ vi.mock('@/features/bookmarks/hooks/useBookmarkActions', () => ({
 Object.assign(global, {
   chrome: {
     bookmarks: {
-      getTree: vi.fn(),
-      get: vi.fn(),
       create: vi.fn(),
-      update: vi.fn(),
-      remove: vi.fn(),
+      get: vi.fn(),
+      getTree: vi.fn(),
       move: vi.fn(),
+      remove: vi.fn(),
       search: vi.fn(),
+      update: vi.fn(),
     },
     runtime: {
       getURL: vi.fn((path: string) => `chrome-extension://test/${path}`),
     },
   },
 });
-
-

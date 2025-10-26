@@ -13,6 +13,7 @@ export interface MenuItemProps {
   onCancel?: () => void;
   confirmLabel?: string;
   animationDurationMs?: number;
+  dataTestId?: string;
 }
 
 export const MenuItem: React.FC<MenuItemProps> = ({
@@ -23,6 +24,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   confirmLabel = 'Are you sure?',
   onCancel,
   animationDurationMs = 200,
+  dataTestId = 'menu-item',
 }) => {
   const [confirming, setConfirming] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -54,7 +56,12 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 
   if (!onConfirm) {
     return (
-      <button type="button" onClick={onClick} className="flex w-full items-center space-x-2 rounded-lg p-2 text-sm text-fgColor-primary hover:bg-fgColor-hover">
+      <button
+        className="flex w-full items-center space-x-2 rounded-lg p-2 text-sm text-fgColor-primary hover:bg-fgColor-hover"
+        data-testid={dataTestId}
+        onClick={onClick}
+        type="button"
+      >
         {icon && <span className="flex-none">{icon}</span>}
         <span className="flex-1 text-left">{children}</span>
       </button>
@@ -62,12 +69,13 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   }
 
   return (
-    <div ref={ref as React.Ref<HTMLDivElement>} style={style} className="w-full">
+    <div className="w-full" ref={ref as React.Ref<HTMLDivElement>} style={style}>
       {!confirming ? (
         <button
-          type="button"
-          onClick={() => setConfirming(true)}
           className="flex w-full items-center space-x-2 rounded-lg p-2 text-sm text-fgColor-primary hover:bg-fgColor-hover"
+          data-testid={dataTestId}
+          onClick={() => setConfirming(true)}
+          type="button"
         >
           {icon && <span className="flex-none">{icon}</span>}
           <span className="flex-1 text-left">{children}</span>
@@ -76,18 +84,18 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         <div className="flex w-full items-center justify-between space-x-2 rounded bg-fgColor-danger px-3 py-2 text-fgColor-primary">
           <span className="flex-1 text-sm">{confirmLabel}</span>
           <IconButton
+            className="text-fgColor-primary"
             dataTestId="bookmark-delete-confirm-button"
             icon={<Check size={16} />}
-            className="text-fgColor-primary"
             onClick={() => {
               onConfirm();
               setConfirming(false);
             }}
           />
           <IconButton
+            className="text-fgColor-primary"
             dataTestId="bookmark-delete-cancel-button"
             icon={<X size={16} />}
-            className="text-fgColor-primary"
             onClick={() => {
               setConfirming(false);
               onCancel?.();

@@ -17,14 +17,14 @@ export const BookmarkFolderGridItem: React.FC<BookmarkFolderGridItemProps> = ({ 
 
   return (
     <button
-      data-testid={dataTestId}
       className="cursor-pointer p-4 hover:bg-gray-100 rounded-lg border border-gray-200"
+      data-testid={dataTestId}
       onClick={onClick}
       onKeyDown={handleKeyDown}
       type="button"
     >
       <div className="flex flex-col items-center space-y-2">
-        <FolderIcon data-testid="folder-icon" size={24} className="text-blue-500" />
+        <FolderIcon className="text-blue-500" data-testid="folder-icon" size={24} />
         <span className="text-sm text-gray-700 text-center">{title}</span>
       </div>
     </button>

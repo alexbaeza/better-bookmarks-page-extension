@@ -75,13 +75,13 @@ export class MockDataBookmarkAPI implements BrowserBookmarkAPI {
    */
   private convertToNormalized(items: unknown[]): NormalizedBookmarkItem[] {
     return items.map((item) => ({
+      children: item.children ? this.convertToNormalized(item.children) : undefined,
+      dateAdded: item.dateAdded,
+      dateGroupModified: item.dateGroupModified,
       id: item.id,
       parentId: item.parentId,
       title: item.title,
       url: item.url,
-      children: item.children ? this.convertToNormalized(item.children) : undefined,
-      dateAdded: item.dateAdded,
-      dateGroupModified: item.dateGroupModified,
     }));
   }
 

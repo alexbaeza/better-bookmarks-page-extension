@@ -36,16 +36,16 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
 
     return (
       <button
-        type="button"
-        data-testid={`background-overlay-option-${index}`}
         className={containerClasses}
+        data-testid={`background-overlay-option-${index}`}
         onClick={() => handleImageClick(image)}
         onKeyDown={(e) => handleKeyDown(e, image)}
+        type="button"
       >
-        <img className={imgClasses} src={image} alt={text} />
+        <img alt={text} className={imgClasses} src={image} />
         {isSelected && (
-          <div data-testid="background-check-icon-container" className="absolute -top-1 -right-1 p-1 bg-fgColor-accent rounded-full">
-            <CheckIcon size={12} className="text-bgColor-primary" />
+          <div className="absolute -top-1 -right-1 p-1 bg-fgColor-accent rounded-full" data-testid="background-check-icon-container">
+            <CheckIcon className="text-bgColor-primary" size={12} />
           </div>
         )}
         <p className={textClasses}>{text}</p>
@@ -63,7 +63,7 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
   ];
 
   return (
-    <div data-testid={dataTestId} className="space-y-4">
+    <div className="space-y-4" data-testid={dataTestId}>
       <div className="text-sm text-fgColor-secondary">Add some personality to your background</div>
 
       {/* Enable/Disable Background Overlay */}
@@ -75,11 +75,9 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
           </div>
         </div>
         <div
-          data-testid="background-overlay-toggle"
-          className="relative inline-flex cursor-pointer items-center"
-          role="switch"
           aria-checked={selectedBackground !== '/images/transparent.png'}
-          tabIndex={0}
+          className="relative inline-flex cursor-pointer items-center"
+          data-testid="background-overlay-toggle"
           onClick={() => setSelectedBackground(selectedBackground !== '/images/transparent.png' ? '/images/transparent.png' : '/images/doodle1.png')}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -87,12 +85,14 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
               setSelectedBackground(selectedBackground !== '/images/transparent.png' ? '/images/transparent.png' : '/images/doodle1.png');
             }
           }}
+          role="switch"
+          tabIndex={0}
         >
           <input
-            type="checkbox"
             checked={selectedBackground !== '/images/transparent.png'}
-            onChange={(e) => setSelectedBackground(e.target.checked ? '/images/doodle1.png' : '/images/transparent.png')}
             className="peer sr-only"
+            onChange={(e) => setSelectedBackground(e.target.checked ? '/images/doodle1.png' : '/images/transparent.png')}
+            type="checkbox"
           />
           <div className="peer h-6 w-11 rounded-full bg-bgColor-tertiary peer-checked:bg-bgColor-accent after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-fgColor-primary after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-fgColor-primary" />
         </div>
@@ -120,14 +120,14 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
 
           <div className="space-y-2">
             <input
-              data-testid="background-overlay-opacity-slider"
-              type="range"
-              step={5}
-              min="0"
-              max="100"
-              value={backgroundOverlayOpacity}
-              onChange={(e) => handleOpacityChange(Number(e.target.value))}
               className="w-full h-2 bg-bgColor-tertiary rounded-lg appearance-none cursor-pointer accent-fgColor-accent"
+              data-testid="background-overlay-opacity-slider"
+              max="100"
+              min="0"
+              onChange={(e) => handleOpacityChange(Number(e.target.value))}
+              step={5}
+              type="range"
+              value={backgroundOverlayOpacity}
             />
             <div className="flex justify-between text-xs text-fgColor-secondary">
               <span>Subtle</span>

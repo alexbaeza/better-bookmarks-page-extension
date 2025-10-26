@@ -56,33 +56,34 @@ export const Flyout: React.FC<FlyoutProps> = ({
     <>
       {withOverlay && (
         <div
+          aria-label="Close flyout"
           className="fixed inset-0 z-40 bg-black bg-opacity-50"
+          data-testid="flyout-overlay"
           onClick={onClose}
           onKeyDown={handleOverlayKeyDown}
           role="button"
           tabIndex={0}
-          aria-label="Close flyout"
         />
       )}
       <div
+        aria-modal="true"
         className={`fixed top-0 z-50 h-full ${widthClass} bg-bgColor-primary shadow-2xl transform transition-transform duration-300 ease-in-out ${
           side === 'right' ? 'right-0' : 'left-0'
         } ${className}`}
-        role="dialog"
-        aria-modal="true"
-        data-testid={dataTestId}
+        data-testid={dataTestId || 'flyout-container'}
         onKeyDown={handleFlyoutKeyDown}
-        tabIndex={-1}
+        role="dialog"
         style={{
-          margin: 0,
-          padding: 0,
           border: 'none',
+          height: '100%',
+          margin: 0,
           outline: 'none',
+          padding: 0,
           position: 'fixed',
           top: 0,
-          height: '100%',
           ...(side === 'right' ? { right: 0 } : { left: 0 }),
         }}
+        tabIndex={-1}
       >
         <div className="flex h-full flex-col">{children}</div>
       </div>
@@ -102,6 +103,7 @@ export const InlineFlyout: React.FC<InlineFlyoutProps> = ({ side = 'right', widt
   return (
     <aside
       className={`flex ${widthClass} shrink-0 flex-col border-l border-bgColor-tertiary bg-bgColor-secondary p-4 ${className} ${side === 'right' ? '' : ''}`}
+      data-testid="sidebar-flyout"
     >
       {children}
     </aside>

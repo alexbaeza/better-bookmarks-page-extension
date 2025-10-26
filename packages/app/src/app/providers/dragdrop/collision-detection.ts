@@ -71,8 +71,8 @@ export const createConstrainedCollisionDetection = (rawFolders: IBookmarkItem[])
     return pointerWithin({
       active,
       collisionRect,
-      droppableRects,
       droppableContainers: allowedContainers,
+      droppableRects,
       pointerCoordinates,
     });
   };

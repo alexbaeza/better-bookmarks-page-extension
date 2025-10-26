@@ -1,39 +1,36 @@
 {
-  "root": false,
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "a11y": {
-        "useSemanticElements": "off"
-      },
-      "correctness": {
-        "noUnusedImports": "error",
-        "noUnusedVariables": "error",
-        "noUnusedFunctionParameters": "error"
-      },
-      "style": {
-        "useConst": "error",
-        "useImportType": "error",
-        "useExportType": "error"
-      },
-      "performance": {
-        "noAccumulatingSpread": "error"
-      },
-      "suspicious": {
-        "noUnknownAtRules": {
-          "level": "error",
-          "options": {
-            "ignore": ["tailwind", "apply", "plugin", "custom-variant", "theme", "source", "layer"]
-          }
-        }
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on",
+        "useSortedAttributes": "on",
+        "useSortedKeys": "off",
+        "useSortedProperties": "off"
       }
+    },
+    "enabled": true,
+    "includes": ["**"]
+  },
+  "css": {
+    "formatter": {
+      "enabled": true
+    },
+    "linter": {
+      "enabled": true
+    },
+    "parser": {
+      "tailwindDirectives": true
     }
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": ["**", "!**/node_modules", "!**/dist", "!**/build", "!**/coverage", "!**/package.json", "!package.json"]
   },
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,
+    "includes": ["**"],
     "indentStyle": "space",
     "indentWidth": 2,
     "lineWidth": 160,
@@ -41,20 +38,72 @@
   },
   "javascript": {
     "formatter": {
-      "trailingCommas": "es5",
-      "semicolons": "always",
+      "arrowParentheses": "always",
+      "jsxQuoteStyle": "double",
       "quoteProperties": "asNeeded",
       "quoteStyle": "single",
-      "arrowParentheses": "always",
-      "jsxQuoteStyle": "double"
+      "semicolons": "always",
+      "trailingCommas": "es5"
     }
   },
-  "css": {
+  "json": {
     "formatter": {
-      "enabled": true
-    },
-    "parser": {
-      "tailwindDirectives": true
+      "indentStyle": "space",
+      "lineWidth": 160
     }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "a11y": {
+        "useSemanticElements": "off"
+      },
+      "correctness": {
+        "noUndeclaredDependencies": "error",
+        "noUnusedFunctionParameters": "error",
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error"
+      },
+      "nursery": {
+        "noFloatingPromises": "error",
+        "noImportCycles": "error"
+      },
+      "performance": {
+        "noAccumulatingSpread": "error"
+      },
+      "recommended": true,
+      "style": {
+        "noInferrableTypes": "error",
+        "noParameterAssign": "error",
+        "noUnusedTemplateLiteral": "error",
+        "noUselessElse": "error",
+        "useAsConstAssertion": "error",
+        "useConst": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useExportType": "error",
+        "useImportType": "error",
+        "useNumberNamespace": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "useTemplate": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noUnknownAtRules": {
+          "level": "error",
+          "options": {
+            "ignore": ["tailwind", "apply", "plugin", "custom-variant", "theme", "source", "layer"]
+          }
+        },
+        "noVar": "on"
+      }
+    }
+  },
+  "root": false,
+  "vcs": {
+    "clientKind": "git",
+    "enabled": true,
+    "useIgnoreFile": true
   }
 }

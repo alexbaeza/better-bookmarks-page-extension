@@ -4,10 +4,6 @@ import { Button } from '@/shared/ui/Button';
 import { fireEvent, render, screen } from '~test/test-utils';
 
 describe('Button', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('renders with primary variant by default', () => {
     render(<Button dataTestId="test-button">Click me</Button>);
 
@@ -17,7 +13,7 @@ describe('Button', () => {
 
   it('renders with secondary variant', () => {
     render(
-      <Button variant="secondary" dataTestId="test-button">
+      <Button dataTestId="test-button" variant="secondary">
         Click me
       </Button>
     );
@@ -40,7 +36,7 @@ describe('Button', () => {
   it('handles click events', () => {
     const onClick = vi.fn();
     render(
-      <Button onClick={onClick} dataTestId="test-button">
+      <Button dataTestId="test-button" onClick={onClick}>
         Click me
       </Button>
     );
@@ -54,7 +50,7 @@ describe('Button', () => {
   it('is disabled when disabled prop is true', () => {
     const onClick = vi.fn();
     render(
-      <Button disabled onClick={onClick} dataTestId="test-button">
+      <Button dataTestId="test-button" disabled onClick={onClick}>
         Click me
       </Button>
     );
@@ -68,7 +64,7 @@ describe('Button', () => {
 
   it('applies disabled styles for primary variant', () => {
     render(
-      <Button variant="primary" disabled dataTestId="test-button">
+      <Button dataTestId="test-button" disabled variant="primary">
         Click me
       </Button>
     );
@@ -79,7 +75,7 @@ describe('Button', () => {
 
   it('applies disabled styles for secondary variant', () => {
     render(
-      <Button variant="secondary" disabled dataTestId="test-button">
+      <Button dataTestId="test-button" disabled variant="secondary">
         Click me
       </Button>
     );

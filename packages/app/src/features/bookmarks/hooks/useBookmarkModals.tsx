@@ -17,7 +17,7 @@ export function useBookmarkModals() {
       await update(item.id, values);
     };
 
-    showModal(<BookmarkFormModal onClose={hideModal} onSave={onSave} initialValues={{ title: item.title, url: item.url }} />);
+    showModal(<BookmarkFormModal initialValues={{ title: item.title, url: item.url }} onClose={hideModal} onSave={onSave} />);
   };
 
   const openCreateModal = (parentId: string) => {
@@ -25,13 +25,13 @@ export function useBookmarkModals() {
       await create(parentId, values);
     };
 
-    showModal(<BookmarkFormModal onClose={hideModal} onSave={onSave} initialValues={{ title: '', url: '' }} />);
+    showModal(<BookmarkFormModal initialValues={{ title: '', url: '' }} onClose={hideModal} onSave={onSave} />);
   };
 
   return {
-    openFolderModal,
-    openEditModal,
     openCreateModal,
+    openEditModal,
+    openFolderModal,
     remove,
   };
 }

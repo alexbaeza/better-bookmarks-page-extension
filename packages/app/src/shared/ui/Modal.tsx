@@ -20,9 +20,9 @@ export const Modal: React.FC<ModalProps> = ({ onClose, title, children, size = '
   }
 
   const sizeClasses = {
-    sm: 'max-w-sm',
-    md: 'max-w-md',
     lg: 'max-w-lg',
+    md: 'max-w-md',
+    sm: 'max-w-sm',
     xl: 'max-w-xl',
   };
 
@@ -42,23 +42,29 @@ export const Modal: React.FC<ModalProps> = ({ onClose, title, children, size = '
 
   return createPortal(
     <div
+      aria-label="Close modal"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      data-testid={`${dataTestId}-backdrop`}
       onClick={onClose}
       onKeyDown={handleBackdropKeyDown}
       role="button"
       tabIndex={0}
-      aria-label="Close modal"
     >
       <dialog
-        open
         aria-modal="true"
         className={`relative z-10 w-11/12 ${maxClass} rounded-lg bg-bgColor-primary p-6 shadow-lg`}
+        data-testid={dataTestId}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleContentKeyDown}
+        open
       >
         <div className="mb-4 flex items-center justify-between">
-          {title && <h2 className="text-lg font-semibold text-fgColor-primary">{title}</h2>}
-          <IconButton onClick={onClose} icon={<X size={16} />} dataTestId={`${dataTestId}-close-button`} />
+          {title && (
+            <h2 className="text-lg font-semibold text-fgColor-primary" data-testid={`${dataTestId}-title`}>
+              {title}
+            </h2>
+          )}
+          <IconButton dataTestId={`${dataTestId}-close-button`} icon={<X size={16} />} onClick={onClose} />
         </div>
 
         <div>{children}</div>
