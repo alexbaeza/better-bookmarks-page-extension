@@ -98,7 +98,7 @@ jobs:
       - name: Run Cypress Tests (${{ matrix.browser }})
         uses: cypress-io/github-action@v6
         with:
-          project: packages/tests-e2e
+          working-directory: packages/tests-e2e
           start: pnpm preview
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 60
