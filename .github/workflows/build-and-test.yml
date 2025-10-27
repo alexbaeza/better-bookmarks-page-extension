@@ -124,6 +124,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build application
+        run: pnpm build
+
       - name: Run Cypress Tests (Chrome)
         uses: cypress-io/github-action@v6
         with:
@@ -155,6 +158,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Build application
+        run: pnpm build
 
       - name: Run Cypress Tests (Firefox)
         uses: cypress-io/github-action@v6
