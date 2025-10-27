@@ -18,16 +18,13 @@ runs:
       uses: pnpm/action-setup@v4
       with:
         version: ${{ inputs.pnpm-version }}
-      shell: bash
 
     - name: Setup Node.js
       uses: actions/setup-node@v6
       with:
         node-version: ${{ inputs.node-version }}
         cache: 'pnpm'
-      shell: bash
 
     - name: Install dependencies
       run: pnpm install
-      shell: bash
 
