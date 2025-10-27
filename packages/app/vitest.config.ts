@@ -18,6 +18,7 @@ export default defineConfig({
         'src/**/*.spec.{ts,tsx}',
         'src/styles/**',
         'src/assets/**',
+        'src/app/entrypoints/index.tsx',
         'src/features/bookmarks/lib/browser/types.ts',
         // Mock data and test utilities
         'src/**/mock-data*.{ts,tsx}',
