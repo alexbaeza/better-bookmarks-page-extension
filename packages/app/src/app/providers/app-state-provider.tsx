@@ -18,7 +18,6 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
 
   useEffect(() => {
     dispatch({ type: 'PROVIDER_INITIALISED' });
-    // Hydrate initial state from persisted atom for instant UI
     if (persistedBookmarks?.folders?.length || persistedBookmarks?.uncategorized) {
       dispatch({ data: persistedBookmarks, type: 'LOAD_BOOKMARKS_DATA_SUCCESS' });
     }

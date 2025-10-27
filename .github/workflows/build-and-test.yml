@@ -131,7 +131,6 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 60
           browser: chrome
-          working-directory: packages/tests-e2e
         env:
           CI: true
 
@@ -164,6 +163,5 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 60
           browser: firefox
-          working-directory: packages/tests-e2e
         env:
           CI: true
