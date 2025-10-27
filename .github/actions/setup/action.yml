@@ -12,7 +12,8 @@ inputs:
     default: '24'
 
 runs:
-  using: 'composite'
+  using: composite
+  shell: bash
   steps:
     - name: Setup pnpm
       uses: pnpm/action-setup@v4
