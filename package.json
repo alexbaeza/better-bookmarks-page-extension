@@ -24,10 +24,8 @@
     "test:coverage": "pnpm --filter @better-bookmarks/app test:coverage",
     "test:e2e": "pnpm --filter @better-bookmarks/tests-e2e test",
     "test:e2e:chrome": "pnpm --filter @better-bookmarks/tests-e2e test:chrome",
-    "test:e2e:debug": "pnpm --filter @better-bookmarks/tests-e2e test:debug",
     "test:e2e:firefox": "pnpm --filter @better-bookmarks/tests-e2e test:firefox",
-    "test:e2e:open": "pnpm --filter @better-bookmarks/tests-e2e test:open",
-    "test:e2e:spec": "pnpm --filter @better-bookmarks/tests-e2e test:spec"
+    "test:e2e:open": "pnpm --filter @better-bookmarks/tests-e2e test:open"
   },
   "devDependencies": {
     "@better-bookmarks/shared-tooling": "workspace:*",
