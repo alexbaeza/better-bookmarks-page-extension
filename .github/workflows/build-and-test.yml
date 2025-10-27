@@ -17,7 +17,6 @@ permissions:
   contents: read # access to check out code and install dependencies
 
 jobs:
-  # Code quality and linting checks
   lint-and-format:
     name: Lint & Format Check
     runs-on: ubuntu-latest
@@ -25,25 +24,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
         with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
 
       - name: Check lint & formatting
         run: pnpm biome ci .
 
 
-  # Unit tests
   tests-unit:
     name: Unit Tests
     runs-on: ubuntu-latest
@@ -52,19 +42,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
         with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
 
       - name: Run unit tests with coverage report
         run: pnpm test:coverage
@@ -74,7 +56,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-  # Build verification
   build:
     name: Build Verification
     runs-on: ubuntu-latest
@@ -83,91 +64,43 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
         with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
 
       - name: Build application
         run: pnpm build
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-  tests-e2e-chrome:
-    name: E2E Tests (Chrome)
+  tests-e2e:
+    name: E2E Tests (${{ matrix.browser }})
     runs-on: ubuntu-latest
     needs: [lint-and-format, build]
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
         with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
 
       - name: Build application
         run: pnpm build
 
-      - name: Run Cypress Tests (Chrome)
+      - name: Run Cypress Tests (${{ matrix.browser }})
         uses: cypress-io/github-action@v6
         with:
           start: pnpm preview
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 60
-          browser: chrome
-        env:
-          CI: true
-
-  tests-e2e-firefox:
-    name: E2E Tests (Firefox)
-    runs-on: ubuntu-latest
-    needs: [lint-and-format, build]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build application
-        run: pnpm build
-
-      - name: Run Cypress Tests (Firefox)
-        uses: cypress-io/github-action@v6
-        with:
-          start: pnpm preview
-          wait-on: 'http://localhost:3000'
-          wait-on-timeout: 60
-          browser: firefox
+          browser: ${{ matrix.browser }}
         env:
           CI: true
