@@ -1,12 +1,12 @@
+import { useDroppable } from '@dnd-kit/core';
 import { Bookmark as BookmarkIcon, X as CloseIcon, Folder as FolderIcon } from 'lucide-react';
 import type React from 'react';
-
+import { DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX } from '@/config/dnd-constants';
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { useFavicon } from '@/features/bookmarks/hooks/useFavicon';
 import { countFolders, countItems, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import { getDefaultFavicon } from '@/features/bookmarks/lib/browser/utils/default-favicon';
 import { SidebarSection } from '@/features/navigation/sidebar/components/SideBarSection';
-// Removed FlyoutFolderNode in favor of direct SidebarItem usage
 import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarItem';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { InlineFlyout } from '@/shared/ui/Flyout';
@@ -28,6 +28,7 @@ const BookmarkLeaf: React.FC<{
   return (
     <SidebarItem
       className="cursor-pointer"
+      data-testid={`flyout-bookmark-${leaf.id}`}
       icon={<ImageWithFallback alt={leaf.title} className="size-6 rounded-sm border border-none" fallback={getDefaultFavicon()} src={faviconUrl} />}
       isSelected={currentPage === leaf.id}
       label={leaf.title || 'Untitled'}
@@ -36,54 +37,85 @@ const BookmarkLeaf: React.FC<{
   );
 };
 
-export const SidebarFlyout: React.FC<SidebarFlyoutProps> = ({ folder, onClose, clickFolder }) => {
-  const { currentPage } = useBookmarkNavigation();
+const FlyoutFolderItem: React.FC<{
+  folder: IBookmarkItem;
+  currentPage: string;
+  clickFolder: (id: string) => void;
+}> = ({ folder, currentPage, clickFolder }) => {
+  const { setNodeRef, isOver } = useDroppable({
+    id: `${DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX}${folder.id}`,
+    disabled: false,
+  });
 
   return (
-    <InlineFlyout widthClass="w-64">
-      {/* Close button */}
-      <div className="mb-2 flex justify-end">
-        <button className="rounded p-1 text-fgColor-secondary hover:text-fgColor-primary" data-testid="flyout-close-button" onClick={onClose} type="button">
-          <CloseIcon size={16} />
-        </button>
+    <li className="mb-1">
+      <div className={isOver ? 'ring-2 ring-fgColor-accent' : ''} ref={setNodeRef}>
+        <SidebarItem
+          badge={countFolders(folder) + countItems(folder)}
+          className="cursor-pointer"
+          data-testid={`flyout-folder-${folder.id}`}
+          icon={<FolderIcon size={16} />}
+          isSelected={currentPage === folder.id}
+          label={folder.title || 'Untitled'}
+          onClick={() => clickFolder(folder.id)}
+        />
       </div>
+    </li>
+  );
+};
 
-      {/* Folder title */}
-      <h3 className="mb-2 text-lg font-semibold text-fgColor-primary" data-testid="flyout-title">
-        {folder.title}
-      </h3>
+export const SidebarFlyout: React.FC<SidebarFlyoutProps> = ({ folder, onClose, clickFolder }) => {
+  const { currentPage } = useBookmarkNavigation();
+  const { setNodeRef, isOver } = useDroppable({
+    id: `${DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX}${folder.id}`,
+    disabled: false,
+  });
 
-      <div className="flex-1 overflow-y-auto">
-        {/* Nested Folders */}
-        <SidebarSection icon={<FolderIcon size={14} />} title={`Folders (${countFolders(folder)})`}>
-          {folder.children?.filter(onlyFolders).map((sub: IBookmarkItem) => (
-            <li key={sub.id}>
-              <SidebarItem
-                badge={countFolders(sub) + countItems(sub)}
-                className="cursor-pointer"
-                icon={<FolderIcon size={16} />}
-                isSelected={currentPage === sub.id}
-                label={sub.title || 'Untitled'}
-                onClick={() => clickFolder(sub.id)}
-              />
-            </li>
-          ))}
-        </SidebarSection>
-
-        {/* Divider */}
-        <div className="py-4">
-          <hr className="border-t border-bgColor-tertiary pr-4" />
+  return (
+    <div className={isOver ? 'ring-2 ring-fgColor-accent' : ''} ref={setNodeRef}>
+      <InlineFlyout data-testid={`sidebar-flyout-${folder.id}`} widthClass="w-64">
+        {/* Close button */}
+        <div className="mb-1 flex justify-end">
+          <button
+            className="rounded px-1 py-0.5 text-fgColor-secondary hover:text-fgColor-primary"
+            data-testid="flyout-close-button"
+            onClick={onClose}
+            type="button"
+          >
+            <CloseIcon size={16} />
+          </button>
         </div>
 
-        {/* Nested Items */}
-        <SidebarSection icon={<BookmarkIcon size={14} />} title={`Items (${countItems(folder)})`}>
-          {folder.children
-            ?.filter((c: IBookmarkItem) => !Array.isArray(c.children))
-            .map((leaf: IBookmarkItem) => (
-              <BookmarkLeaf clickFolder={clickFolder} currentPage={currentPage} key={leaf.id} leaf={leaf} />
+        {/* Folder title */}
+        <h3 className="mb-1 text-lg font-semibold text-fgColor-primary" data-testid="flyout-title">
+          {folder.title}
+        </h3>
+
+        <div className="flex-1 overflow-y-auto px-1">
+          {/* Nested Folders */}
+          <SidebarSection icon={<FolderIcon size={14} />} title={`Folders (${countFolders(folder)})`}>
+            {folder.children?.filter(onlyFolders).map((sub: IBookmarkItem) => (
+              <FlyoutFolderItem clickFolder={clickFolder} currentPage={currentPage} folder={sub} key={sub.id} />
             ))}
-        </SidebarSection>
-      </div>
-    </InlineFlyout>
+          </SidebarSection>
+
+          {/* Divider */}
+          <div className="py-3">
+            <hr className="border-t border-bgColor-tertiary" />
+          </div>
+
+          {/* Nested Items */}
+          <SidebarSection icon={<BookmarkIcon size={14} />} title={`Items (${countItems(folder)})`}>
+            {folder.children
+              ?.filter((c: IBookmarkItem) => !Array.isArray(c.children))
+              .map((leaf: IBookmarkItem) => (
+                <div className="mb-1" key={leaf.id}>
+                  <BookmarkLeaf clickFolder={clickFolder} currentPage={currentPage} leaf={leaf} />
+                </div>
+              ))}
+          </SidebarSection>
+        </div>
+      </InlineFlyout>
+    </div>
   );
 };

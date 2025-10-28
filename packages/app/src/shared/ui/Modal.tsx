@@ -1,5 +1,6 @@
 import { X } from 'lucide-react';
 import type React from 'react';
+import { memo } from 'react';
 import { createPortal } from 'react-dom';
 
 import { IconButton } from './IconButton';
@@ -12,7 +13,7 @@ export interface ModalProps {
   dataTestId?: string;
 }
 
-export const Modal: React.FC<ModalProps> = ({ onClose, title, children, size = 'md', dataTestId = 'modal' }) => {
+export const Modal = memo<ModalProps>(({ onClose, title, children, size = 'md', dataTestId = 'modal' }) => {
   const modalRoot = document.getElementById('modal-root');
 
   if (!modalRoot) {
@@ -43,7 +44,7 @@ export const Modal: React.FC<ModalProps> = ({ onClose, title, children, size = '
   return createPortal(
     <div
       aria-label="Close modal"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50"
       data-testid={`${dataTestId}-backdrop`}
       onClick={onClose}
       onKeyDown={handleBackdropKeyDown}
@@ -52,7 +53,7 @@ export const Modal: React.FC<ModalProps> = ({ onClose, title, children, size = '
     >
       <dialog
         aria-modal="true"
-        className={`relative z-10 w-11/12 ${maxClass} rounded-lg bg-bgColor-primary p-6 shadow-lg`}
+        className={`relative z-[1000] w-11/12 ${maxClass} rounded-lg bg-bgColor-primary p-6 shadow-lg`}
         data-testid={dataTestId}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleContentKeyDown}
@@ -72,4 +73,4 @@ export const Modal: React.FC<ModalProps> = ({ onClose, title, children, size = '
     </div>,
     modalRoot
   );
-};
+});

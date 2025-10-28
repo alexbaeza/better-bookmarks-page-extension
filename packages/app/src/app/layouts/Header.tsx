@@ -2,8 +2,8 @@ import { useAtomValue } from 'jotai';
 import type React from 'react';
 
 import { greetingEnabledAtom, searchBarEnabledAtom } from '@/app/providers/atoms';
-import { ViewModeToggle } from '@/features/bookmarks/containers/ViewModeToggle';
 import { Greeting } from '@/features/greeting/components/Greeting';
+import { ViewModeToggle } from '@/features/preferences/containers/ViewModeToggle';
 import { SearchBar } from '@/features/search/containers/SearchBar';
 import { SettingsToggle } from '@/features/settings/containers/SettingsToggle';
 

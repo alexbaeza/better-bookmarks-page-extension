@@ -39,13 +39,13 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, leve
       ref={setNodeRef}
       role="treeitem"
       {...(hasKids && { 'aria-expanded': isOpen })}
-      className="relative outline-2 outline-offset-2 min-w-0"
+      className="relative min-w-0"
       tabIndex={0}
     >
       {/* Folder Row */}
       <SidebarItem
         badge={countItems(folder) + countFolders(folder)}
-        className={`cursor-pointer ${isOver ? 'ring-2 ring-offset-1 ring-fgColor-accent' : ''}`}
+        className={`cursor-pointer ${isOver ? 'ring-2 ring-fgColor-accent' : ''}`}
         data-testid={`sidebar-folder-item-${folder.id}`}
         icon={hasKids ? isOpen ? <FolderOpenIcon size={16} /> : <FolderIcon size={16} /> : <FolderDotIcon size={16} />}
         isSelected={isSelected}
@@ -58,9 +58,9 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, leve
 
       {/* Nested Children */}
       {isOpen && hasKids && folder.children && (
-        <fieldset aria-label={`Subfolders of ${folder.title || 'Untitled'}`} className="relative ml-3 pl-1 overflow-visible min-w-0">
+        <fieldset aria-label={`Subfolders of ${folder.title || 'Untitled'}`} className="relative ml-0 pl-0 overflow-visible min-w-0">
           {/* Vertical spine for this branch */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-px bg-gray-600" />
+          <div className="pointer-events-none absolute inset-y-0 left-3 w-px bg-gray-600" />
 
           {folder.children.filter(onlyFolders).map((child: IBookmarkItem) => (
             <TreeElbowItem key={child.id}>

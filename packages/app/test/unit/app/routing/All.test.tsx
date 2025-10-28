@@ -7,8 +7,8 @@ import { render, screen } from '~test/test-utils';
 vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
   useBookmarkNavigation: vi.fn(),
 }));
-vi.mock('@/features/bookmarks/containers/Content', () => ({
-  Content: () => <div data-testid="content">Content</div>,
+vi.mock('@/features/bookmarks/containers/BookmarkFolderContent', () => ({
+  BookmarkFolderContent: () => <div data-testid="content">Content</div>,
 }));
 
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';

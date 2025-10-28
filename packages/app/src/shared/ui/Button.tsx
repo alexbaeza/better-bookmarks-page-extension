@@ -1,5 +1,5 @@
-import type React from 'react';
 import type { ButtonHTMLAttributes } from 'react';
+import { memo } from 'react';
 
 export type ButtonVariant = 'primary' | 'secondary';
 
@@ -8,7 +8,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   dataTestId?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({ variant = 'primary', disabled = false, className = '', dataTestId, children, ...rest }) => {
+export const Button = memo<ButtonProps>(({ variant = 'primary', disabled = false, className = '', dataTestId, children, ...rest }) => {
   const base = `
     px-4 py-2 rounded
     font-medium focus:outline-none focus:ring-2 focus:ring-fgColor-accent
@@ -33,4 +33,4 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', disabled = 
       {children}
     </button>
   );
-};
+});

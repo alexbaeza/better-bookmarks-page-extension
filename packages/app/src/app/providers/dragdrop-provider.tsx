@@ -20,6 +20,40 @@ import { SkeletonBookmarkItem } from '@/features/bookmarks/components/items/Skel
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
 import { moveItem, reorderItems } from '@/features/bookmarks/lib/bookmarks';
 import { findItemById, findParentOfItem } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
+import type { IBookmarkItem } from '@/shared/types/bookmarks';
+
+// Utility function to extract destination folder ID from droppable container ID
+const extractDestinationFolderId = (overId: string): string | null => {
+  const prefixes = [DROPPABLE_SIDEBAR_FOLDER_PREFIX, DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX, DROPPABLE_ROOT_FOLDER_PREFIX];
+
+  for (const prefix of prefixes) {
+    if (overId.startsWith(prefix)) {
+      return overId.slice(prefix.length);
+    }
+  }
+  return null;
+};
+
+// Helper function to check if a container represents the same folder
+const isSameFolder = (containerId: string, fromFolderId: string): boolean => {
+  const destFolderId = extractDestinationFolderId(containerId);
+  return destFolderId === fromFolderId;
+};
+
+// Helper function to determine if dropping in a container is allowed
+const canDropInContainer = (containerId: string, fromFolderId: string, ownItems: string[]): boolean => {
+  // Allow dropping in different folders
+  if (
+    containerId.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX) ||
+    containerId.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX) ||
+    containerId.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX)
+  ) {
+    return !isSameFolder(containerId, fromFolderId);
+  }
+
+  // Allow reordering within same level
+  return ownItems.includes(containerId);
+};
 
 const DragDropContext = createContext<DragDropContextValue | null>(null);
 
@@ -37,139 +71,62 @@ export const DragDropProvider: React.FC<{ children: ReactNode }> = ({ children }
     setActiveId(active.id as string);
   };
 
+  // Unified handler for item moves (folders and bookmarks)
+  const handleItemMove = async (fromId: string, overId: string, srcParent: IBookmarkItem | null): Promise<boolean> => {
+    const destFolderId = extractDestinationFolderId(overId);
+
+    if (destFolderId) {
+      const fromFolderId = srcParent?.id || 'root';
+
+      // Prevent dropping into same folder
+      if (destFolderId !== fromFolderId) {
+        await moveItem(fromId, fromFolderId, destFolderId, 0);
+        refreshBookmarks();
+        return true; // Move handled
+      }
+      return false; // Same folder, no move
+    }
+
+    return false; // Not a folder drop target
+  };
+
+  // Unified handler for item reordering
+  const handleItemReorder = async (fromId: string, overId: string, srcParent: IBookmarkItem | null) => {
+    if (!srcParent?.children) return;
+
+    const fromIndex = srcParent.children.findIndex((c: IBookmarkItem) => c.id === fromId);
+    const toIndex = srcParent.children.findIndex((c: IBookmarkItem) => c.id === overId);
+
+    if (fromIndex >= 0 && toIndex >= 0 && fromIndex !== toIndex) {
+      await reorderItems(srcParent.id, fromIndex, toIndex);
+      refreshBookmarks();
+    }
+  };
+
   const handleDragEnd = async ({ active, over }: DragEndEvent) => {
     setActiveId(null);
-    if (!active || !over) {
-      return;
-    }
+    if (!active || !over) return;
 
     const fromId = active.id as string;
     const overId = String(over.id);
     const srcParent = findParentOfItem(rawFolders, fromId);
-    const activeItem = findItemById(rawFolders, fromId);
 
-    // Determine if we're dragging a folder or a bookmark
-    const isFolder = activeItem && !activeItem.url;
-
-    // Allow both folder and bookmark operations
-
-    if (isFolder) {
-      // Handle folder operations
-
-      // Handle reordering folders within same level
-      if (srcParent?.children) {
-        const fromIndex = srcParent.children.findIndex((c) => c.id === fromId);
-        const toIndex = srcParent.children.findIndex((c) => c.id === overId);
-
-        if (fromIndex >= 0 && toIndex >= 0 && fromIndex !== toIndex) {
-          await reorderItems(srcParent.id, fromIndex, toIndex);
-          refreshBookmarks();
-        } else {
-        }
-      } else {
-      }
-    } else {
-      // Handle bookmark operations
-      let destFolderId: string | null = null;
-      if (overId.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX)) {
-        destFolderId = overId.slice(DROPPABLE_SIDEBAR_FOLDER_PREFIX.length);
-      } else if (overId.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX)) {
-        destFolderId = overId.slice(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX.length);
-      } else if (overId.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX)) {
-        destFolderId = overId.slice(DROPPABLE_ROOT_FOLDER_PREFIX.length);
-      }
-
-      if (destFolderId) {
-        // If destination is different from source, move the bookmark
-        const fromFolderId = srcParent?.id || 'root';
-        if (destFolderId !== fromFolderId) {
-          await moveItem(fromId, fromFolderId, destFolderId, 0);
-          refreshBookmarks();
-          return;
-        }
-        // Same-folder container drop: prevent this operation
-        return;
-      }
-
-      // Handle reordering within same folder (bookmarks only)
-      if (srcParent?.children) {
-        const fromIndex = srcParent.children.findIndex((c) => c.id === fromId);
-        let toIndex = srcParent.children.findIndex((c) => c.id === overId);
-        // If overId is the container (no matching child), default to last position
-        if (toIndex === -1 && destFolderId === srcParent.id) {
-          toIndex = srcParent.children.length - 1;
-        }
-
-        if (fromIndex >= 0 && toIndex >= 0 && fromIndex !== toIndex) {
-          await reorderItems(srcParent.id, fromIndex, toIndex);
-          refreshBookmarks();
-        } else {
-        }
-      } else {
-      }
+    // Try folder-to-folder move first, then fall back to reordering
+    const moveHandled = await handleItemMove(fromId, overId, srcParent);
+    if (!moveHandled) {
+      await handleItemReorder(fromId, overId, srcParent);
     }
   };
 
   const constrainedCollisionDetection: CollisionDetection = ({ active, collisionRect, droppableRects, droppableContainers, pointerCoordinates }) => {
-    const activeItem = active.id ? findItemById(rawFolders, active.id as string) : null;
-    const isFolder = activeItem && !activeItem.url;
     const srcParent = active.id ? findParentOfItem(rawFolders, active.id as string) : null;
+    const fromFolderId = srcParent?.id || 'root';
+    const ownItems = srcParent?.children?.map((c) => c.id) ?? [];
 
-    // Allow both folder and bookmark operations
     const allowedContainers = droppableContainers.filter((c) => {
       const id = String(c.id);
-
-      if (isFolder) {
-        // Folders can be reordered within the layout or moved to sidebar
-        const fromFolderId = srcParent?.id || 'root';
-
-        // Check if this droppable container represents the same folder
-        let isSameFolder = false;
-        if (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX)) {
-          const destFolderId = id.slice(DROPPABLE_ROOT_FOLDER_PREFIX.length);
-          isSameFolder = destFolderId === fromFolderId;
-        } else if (id.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX)) {
-          const destFolderId = id.slice(DROPPABLE_SIDEBAR_FOLDER_PREFIX.length);
-          isSameFolder = destFolderId === fromFolderId;
-        } else if (id.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX)) {
-          const destFolderId = id.slice(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX.length);
-          isSameFolder = destFolderId === fromFolderId;
-        }
-
-        // Prevent dropping into the same folder, only allow reordering within same level
-        return (
-          (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX) && !isSameFolder) ||
-          (id.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX) && !isSameFolder) ||
-          (id.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX) && !isSameFolder) ||
-          // Allow reordering within same level (but not dropping into same folder)
-          (srcParent?.children?.map((c) => c.id) ?? []).includes(id)
-        );
-      }
-      // Bookmarks can be dropped in folders or reordered within same folder
-      const fromFolderId = srcParent?.id || 'root';
-      const ownItems = srcParent?.children?.map((c) => c.id) ?? [];
-
-      // Check if this droppable container represents the same folder
-      let isSameFolder = false;
-      if (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX)) {
-        const destFolderId = id.slice(DROPPABLE_ROOT_FOLDER_PREFIX.length);
-        isSameFolder = destFolderId === fromFolderId;
-      } else if (id.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX)) {
-        const destFolderId = id.slice(DROPPABLE_SIDEBAR_FOLDER_PREFIX.length);
-        isSameFolder = destFolderId === fromFolderId;
-      } else if (id.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX)) {
-        const destFolderId = id.slice(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX.length);
-        isSameFolder = destFolderId === fromFolderId;
-      }
-
-      // Prevent dropping into the same folder, only allow reordering within same level
-      return (
-        (id.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX) && !isSameFolder) ||
-        (id.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX) && !isSameFolder) ||
-        (id.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX) && !isSameFolder) ||
-        // Allow reordering within same level (but not dropping into same folder)
-        ownItems.includes(id)
-      );
+      const allowed = canDropInContainer(id, fromFolderId, ownItems);
+      return allowed;
     });
 
     return pointerWithin({

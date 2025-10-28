@@ -9,7 +9,7 @@ vi.mock('@/features/greeting/components/Greeting', () => ({
 vi.mock('@/features/search/containers/SearchBar', () => ({
   SearchBar: () => <div data-testid="search-bar">SearchBar</div>,
 }));
-vi.mock('@/features/bookmarks/containers/ViewModeToggle', () => ({
+vi.mock('@/features/preferences/containers/ViewModeToggle', () => ({
   ViewModeToggle: () => <div data-testid="view-mode-toggle">ViewModeToggle</div>,
 }));
 vi.mock('@/features/settings/containers/SettingsToggle', () => ({

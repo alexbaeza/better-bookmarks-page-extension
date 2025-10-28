@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useEffect } from 'react';
 
-import { Content } from '@/features/bookmarks/containers/Content';
+import { BookmarkFolderContent } from '@/features/bookmarks/containers/BookmarkFolderContent';
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 
 export const AllPage: React.FC = () => {
@@ -11,5 +11,5 @@ export const AllPage: React.FC = () => {
     setCurrentPage('All');
   }, [setCurrentPage]);
 
-  return <Content />;
+  return <BookmarkFolderContent />;
 };

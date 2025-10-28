@@ -151,7 +151,7 @@ describe('Flyout', () => {
     );
 
     const overlay = screen.getByTestId('flyout-overlay');
-    expect(overlay).toHaveClass('fixed', 'inset-0', 'z-40', 'bg-black', 'bg-opacity-50');
+    expect(overlay).toHaveClass('fixed', 'inset-0', 'z-[100]', 'bg-black', 'bg-opacity-50');
   });
 
   it('renders without overlay when withOverlay is false', () => {

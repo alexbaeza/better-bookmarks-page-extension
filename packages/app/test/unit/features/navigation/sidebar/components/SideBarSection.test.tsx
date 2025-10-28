@@ -122,6 +122,6 @@ describe('SidebarSection', () => {
     );
 
     const container = screen.getByText('Test Item').closest('ul');
-    expect(container).toHaveClass('space-y-1', 'min-w-0');
+    expect(container).toHaveClass('min-w-0');
   });
 });

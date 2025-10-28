@@ -74,9 +74,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
   return (
     <div className="flex h-screen" data-testid="sidebar">
       {/* Main tree */}
-      <nav aria-label="Bookmarks navigation" className="w-64 min-w-64 max-w-64 shrink-0 bg-bgColor-secondary flex h-full flex-col overflow-hidden">
+      <nav aria-label="Bookmarks navigation" className="w-64 min-w-64 max-w-64 shrink-0 bg-bgColor-secondary flex h-full flex-col overflow-hidden pr-2">
         <h2 className="p-2 mb-4 flex items-center text-lg font-bold text-fgColor-primary">{title}</h2>
-        <div aria-label="Bookmark folders" className="flex-1 overflow-y-auto px-2 min-w-0" role="tree">
+        <div aria-label="Bookmark folders" className="flex-1 overflow-y-auto min-w-0 overflow-hidden" role="tree">
           {/* Pages */}
           <SidebarSection title="Pages">
             <SidebarItem

@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useEffect } from 'react';
 
-import { Content } from '@/features/bookmarks/containers/Content';
+import { BookmarkFolderContent } from '@/features/bookmarks/containers/BookmarkFolderContent';
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 
 interface FolderPageProps {
@@ -15,5 +15,5 @@ export const FolderPage: React.FC<FolderPageProps> = ({ folderId }) => {
     if (folderId) setCurrentPage(folderId);
   }, [folderId, setCurrentPage]);
 
-  return <Content />;
+  return <BookmarkFolderContent />;
 };

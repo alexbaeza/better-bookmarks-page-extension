@@ -1,8 +1,8 @@
-import { GripVertical } from 'lucide-react';
 import type React from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
-
-import { ActionsOverlay } from './ActionsOverlay';
+import { ItemActionsMenu } from '@/features/bookmarks/components/items/options/ItemActionsMenu';
+import { useHover } from '@/features/bookmarks/hooks/useHover';
+import { BookmarkDragHandle } from '../BookmarkDragHandle';
+import { BookmarkListItemContent } from '../BookmarkListItemContent';
 
 export interface BaseListItemProps {
   dataTestId?: string;
@@ -13,94 +13,27 @@ export interface BaseListItemProps {
   onEdit?: () => void;
   onDelete?: () => void;
   dragHandleProps?: React.HTMLAttributes<HTMLElement>;
+  folderId?: string;
 }
 
-export const BaseListItem: React.FC<BaseListItemProps> = ({ dataTestId, icon, children, href, onClick, onEdit, onDelete, dragHandleProps }) => {
-  const [hovered, setHovered] = useState(false);
-  const hideTimeout = useRef<number | undefined>(undefined);
-  const ContentWrapper: React.ElementType = href ? 'a' : 'button';
-
-  const clearHide = useCallback(() => {
-    if (hideTimeout.current) {
-      window.clearTimeout(hideTimeout.current);
-      hideTimeout.current = undefined;
-    }
-  }, []);
-
-  const scheduleHide = () => {
-    clearHide();
-    hideTimeout.current = window.setTimeout(() => {
-      setHovered(false);
-    }, 200);
-  };
-
-  useEffect(() => {
-    return () => clearHide();
-  }, [clearHide]);
+export const BaseListItem: React.FC<BaseListItemProps> = ({ dataTestId, icon, children, href, onClick, onEdit, onDelete, dragHandleProps, folderId }) => {
+  const { hovered, onMouseEnter, onMouseLeave } = useHover();
 
   return (
-    <div
-      className="
-        relative flex h-12 w-full
-        overflow-visible rounded-lg
-        bg-bgColor-tertiary transition
-        hover:bg-fgColor-hover
-      "
-      data-testid={dataTestId}
-      onMouseEnter={() => {
-        clearHide();
-        setHovered(true);
-      }}
-      onMouseLeave={scheduleHide}
-      role="group"
+    <BookmarkListItemContent
+      actions={<ItemActionsMenu iconSize={16} onDelete={onDelete} onEdit={onEdit} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} visible={hovered} />}
+      dataTestId={dataTestId}
+      dragHandle={<BookmarkDragHandle hovered={hovered} size={16} variant="list" />}
+      dragHandleProps={dragHandleProps}
+      folderId={folderId}
+      hovered={hovered}
+      href={href}
+      icon={icon}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
-      {/* drag handle - outside clickable area */}
-      <div className="bg-bgColor-secondary-contrast flex h-full w-8 flex-none items-center justify-center rounded-l-lg">
-        <div
-          {...dragHandleProps}
-          aria-label="Drag handle"
-          className={`cursor-grab p-2 min-w-[32px] min-h-[32px] flex items-center justify-center ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}
-          data-testid="drag-handle-button"
-          onClick={(e) => e.stopPropagation()}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              e.stopPropagation();
-            }
-          }}
-          role="button"
-          tabIndex={0}
-        >
-          <GripVertical size={16} />
-        </div>
-      </div>
-
-      {/* clickable content area */}
-      <ContentWrapper
-        className="flex h-full flex-1 items-center focus:outline-none"
-        data-testid={href ? 'list-item-link' : 'list-item-button'}
-        href={href}
-        onClick={onClick}
-      >
-        {/* icon */}
-        <div className="flex h-full w-12 flex-none items-center justify-center">
-          <div className={`${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}`}>{icon}</div>
-        </div>
-
-        {/* text */}
-        <div className="overflow-hidden px-2 min-w-0">
-          <div
-            className={`line-clamp-2 break-words break-all hyphens-auto whitespace-normal text-xs ${
-              hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'
-            }`}
-          >
-            {children}
-          </div>
-        </div>
-      </ContentWrapper>
-
-      {/* edit/delete overlay */}
-      <ActionsOverlay onDelete={onDelete} onEdit={onEdit} onMouseEnter={clearHide} onMouseLeave={scheduleHide} visible={hovered} />
-    </div>
+      {children}
+    </BookmarkListItemContent>
   );
 };

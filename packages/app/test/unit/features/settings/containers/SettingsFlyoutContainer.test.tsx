@@ -56,7 +56,7 @@ describe('SettingsFlyoutContainer', () => {
 
     expect(screen.getByText('Settings')).toBeInTheDocument();
 
-    const backdrop = document.querySelector('.fixed.inset-0.z-40');
+    const backdrop = document.querySelector('.fixed.inset-0.z-\\[100\\]');
     if (backdrop) {
       fireEvent.click(backdrop);
     }

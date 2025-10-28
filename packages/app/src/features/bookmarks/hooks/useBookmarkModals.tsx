@@ -1,6 +1,6 @@
 import { useModal } from '@/app/providers/modal-context';
-import { BookmarkFormModal } from '@/features/bookmarks/components/BookmarkFormModal';
 import { BookmarkFolderModal } from '@/features/bookmarks/containers/BookmarkFolderModal';
+import { BookmarkFormModal } from '@/features/bookmarks/containers/BookmarkFormModal';
 import { useBookmarkActions } from '@/features/bookmarks/hooks/useBookmarkActions';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 

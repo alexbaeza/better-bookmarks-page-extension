@@ -73,13 +73,13 @@ describe('ZoomInline', () => {
       </AllProviders>
     );
 
-    const container = screen.getByText('Scale').closest('div');
+    const container = screen.getByTestId('zoom-controls');
     expect(container).toHaveClass('mb-4', 'flex', 'items-center', 'justify-between');
 
     const scaleLabel = screen.getByText('Scale');
-    expect(scaleLabel).toHaveClass('text-xs', 'font-semibold', 'uppercase', 'text-fgColor-secondary');
+    expect(scaleLabel).toHaveClass('text-xs', 'text-fgColor-secondary');
 
     const zoomDisplay = screen.getByText('100%');
-    expect(zoomDisplay).toHaveClass('w-10', 'text-center', 'text-xs', 'tabular-nums', 'text-fgColor-primary');
+    expect(zoomDisplay).toHaveClass('w-12', 'text-center', 'tabular-nums', 'text-fgColor-primary', 'text-xs');
   });
 });
