@@ -5,6 +5,7 @@ import { viewModeAtom } from '@/app/providers/atoms';
 import { BookmarkFolderGridItem } from '@/features/bookmarks/components/items/BookmarkFolderGridItem';
 import { BookmarkGridItem } from '@/features/bookmarks/components/items/grid/BookmarkGridItem';
 import { BookmarkListItem } from '@/features/bookmarks/components/items/list/BookmarkListItem';
+import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { useBookmarkModals } from '@/features/bookmarks/hooks/useBookmarkModals';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { BookmarkDisplayMode } from '@/shared/types/ui';
@@ -18,7 +19,8 @@ export interface BookmarkItemViewProps {
 
 export const BookmarkItemView: React.FC<BookmarkItemViewProps> = ({ dataTestId, item, onFolderClick, dragHandleProps }) => {
   const viewMode = useAtomValue(viewModeAtom);
-  const { openFolderModal, openEditModal, remove } = useBookmarkModals();
+  const { openEditModal, remove } = useBookmarkModals();
+  const { navigateToFolder } = useBookmarkNavigation();
 
   const handleEdit = (): void => {
     openEditModal(item);
@@ -32,7 +34,8 @@ export const BookmarkItemView: React.FC<BookmarkItemViewProps> = ({ dataTestId, 
     if (onFolderClick) {
       onFolderClick(item);
     } else {
-      openFolderModal(item);
+      // Use the new navigation system instead of modal
+      navigateToFolder(item.id);
     }
   };
 

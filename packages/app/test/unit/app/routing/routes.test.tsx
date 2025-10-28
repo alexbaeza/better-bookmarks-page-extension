@@ -4,6 +4,10 @@ import { AppRoutes } from '@/app/routing/routes';
 
 vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
   useBookmarkNavigation: vi.fn(),
+  BookmarkPage: {
+    All: 'All',
+    Uncategorized: 'Uncategorized',
+  },
 }));
 
 vi.mock('@/app/routing/All', () => ({
@@ -40,7 +44,8 @@ describe('AppRoutes', () => {
     mockUseBookmarkNavigation.mockReturnValue({
       currentPage: 'All',
       setCurrentPage: vi.fn(),
-    });
+      navigationStack: ['All'],
+    } as any);
 
     render(<AppRoutes />);
 
@@ -52,7 +57,8 @@ describe('AppRoutes', () => {
     mockUseBookmarkNavigation.mockReturnValue({
       currentPage: 'Uncategorized',
       setCurrentPage: vi.fn(),
-    });
+      navigationStack: ['All', 'Uncategorized'],
+    } as any);
 
     render(<AppRoutes />);
 
@@ -64,7 +70,8 @@ describe('AppRoutes', () => {
     mockUseBookmarkNavigation.mockReturnValue({
       currentPage: 'folder-123',
       setCurrentPage: vi.fn(),
-    });
+      navigationStack: ['All', 'folder-123'],
+    } as any);
 
     render(<AppRoutes />);
 
@@ -76,7 +83,8 @@ describe('AppRoutes', () => {
     mockUseBookmarkNavigation.mockReturnValue({
       currentPage: 'another-folder',
       setCurrentPage: vi.fn(),
-    });
+      navigationStack: ['All', 'another-folder'],
+    } as any);
 
     render(<AppRoutes />);
 
@@ -91,7 +99,8 @@ describe('AppRoutes', () => {
       mockUseBookmarkNavigation.mockReturnValue({
         currentPage: folderId,
         setCurrentPage: vi.fn(),
-      });
+        navigationStack: ['All', folderId],
+      } as any);
 
       const { container } = render(<AppRoutes />);
 
@@ -106,7 +115,8 @@ describe('AppRoutes', () => {
     mockUseBookmarkNavigation.mockReturnValue({
       currentPage: 'All',
       setCurrentPage: vi.fn(),
-    });
+      navigationStack: ['All'],
+    } as any);
 
     render(<AppRoutes />);
 
@@ -117,7 +127,8 @@ describe('AppRoutes', () => {
     mockUseBookmarkNavigation.mockReturnValue({
       currentPage: null as unknown as string, // TypeScript will complain but we're testing runtime behavior
       setCurrentPage: vi.fn(),
-    });
+      navigationStack: [],
+    } as any);
 
     render(<AppRoutes />);
 

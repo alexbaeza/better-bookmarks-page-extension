@@ -70,7 +70,7 @@ export const BookmarkListItemContent: React.FC<BookmarkListItemContentProps> = (
           <div className="flex h-full w-12 flex-none items-center justify-center">
             <div className={hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'}>{icon}</div>
           </div>
-          <div className="overflow-hidden px-2 min-w-0">
+          <div className="overflow-hidden px-2 min-w-0 flex-1">
             <Text color={hovered ? 'primary' : 'secondary'} lineClamp={2} size="xs">
               {children}
             </Text>

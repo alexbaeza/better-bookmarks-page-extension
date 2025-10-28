@@ -27,10 +27,13 @@ describe('UncategorizedPage', () => {
 
   it('calls setCurrentPage with "Uncategorized" on mount', () => {
     const setCurrentPage = vi.fn();
-    when(mockUseBookmarkNavigation).calledWith().thenReturn({
-      currentPage: 'Uncategorized',
-      setCurrentPage,
-    });
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn({
+        currentPage: 'Uncategorized',
+        setCurrentPage,
+        navigationStack: ['All', 'Uncategorized'],
+      } as any);
 
     render(<UncategorizedPage />);
 

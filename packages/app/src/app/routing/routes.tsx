@@ -4,20 +4,20 @@ import { AllPage } from '@/app/routing/All';
 import { FolderPage } from '@/app/routing/Folder';
 import { NotFoundPage } from '@/app/routing/NotFound';
 import { UncategorizedPage } from '@/app/routing/Uncategorized';
-import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
+import { BookmarkPage, useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 
 export const AppRoutes: React.FC = () => {
   const { currentPage } = useBookmarkNavigation();
 
   const renderPage = () => {
     switch (currentPage) {
-      case 'All':
+      case BookmarkPage.All:
         return <AllPage />;
-      case 'Uncategorized':
+      case BookmarkPage.Uncategorized:
         return <UncategorizedPage />;
       default:
         // If it's a folder ID, render the folder page
-        if (typeof currentPage === 'string' && currentPage !== 'All' && currentPage !== 'Uncategorized') {
+        if (typeof currentPage === 'string' && currentPage !== BookmarkPage.All && currentPage !== BookmarkPage.Uncategorized) {
           return <FolderPage folderId={currentPage} />;
         }
         return <NotFoundPage />;

@@ -27,10 +27,13 @@ describe('FolderPage', () => {
 
   it('calls setCurrentPage with folderId on mount', () => {
     const setCurrentPage = vi.fn();
-    when(mockUseBookmarkNavigation).calledWith().thenReturn({
-      currentPage: 'test-folder',
-      setCurrentPage,
-    });
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn({
+        currentPage: 'test-folder',
+        setCurrentPage,
+        navigationStack: ['All', 'test-folder'],
+      } as any);
 
     render(<FolderPage folderId="test-folder" />);
 
@@ -39,10 +42,13 @@ describe('FolderPage', () => {
 
   it('does not call setCurrentPage if folderId is undefined', () => {
     const setCurrentPage = vi.fn();
-    when(mockUseBookmarkNavigation).calledWith().thenReturn({
-      currentPage: 'All',
-      setCurrentPage,
-    });
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn({
+        currentPage: 'All',
+        setCurrentPage,
+        navigationStack: ['All'],
+      } as any);
 
     render(<FolderPage folderId="" />);
 

@@ -1,8 +1,10 @@
 import { FolderIcon } from 'lucide-react';
 import type React from 'react';
+import { useEffect, useState } from 'react';
 
 import { useModal } from '@/app/providers/modal-context';
 import { BookmarkDisplayArea } from '@/features/bookmarks/containers/BookmarkDisplayArea';
+import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { Modal } from '@/shared/ui/Modal';
 
@@ -13,8 +15,18 @@ export interface BookmarkFolderModalProps {
   folderTitle: string;
 }
 
-export const BookmarkFolderModal: React.FC<BookmarkFolderModalProps> = ({ folderContents, folderId, folderTitle }) => {
+export const BookmarkFolderModal: React.FC<BookmarkFolderModalProps> = ({ folderContents: initialContents, folderId, folderTitle }) => {
   const { hideModal } = useModal();
+  const { rawFolders } = useBookmarks();
+  const [folderContents, setFolderContents] = useState(initialContents);
+
+  // Refresh folder contents when rawFolders changes
+  useEffect(() => {
+    const currentFolder = rawFolders.find((f) => f.id === folderId);
+    if (currentFolder?.children) {
+      setFolderContents(currentFolder.children);
+    }
+  }, [rawFolders, folderId]);
 
   return (
     <Modal dataTestId="bookmark-folder-modal" onClose={hideModal} title={folderTitle}>
@@ -22,7 +34,9 @@ export const BookmarkFolderModal: React.FC<BookmarkFolderModalProps> = ({ folder
         <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-lg bg-bgColor-secondary p-2 text-fgColor-primary">
           <FolderIcon size={24} />
         </div>
-        <BookmarkDisplayArea folderContents={folderContents} folderId={folderId} />
+        <div className="min-h-64 w-full overflow-hidden rounded-lg border-4 border-bgColor-tertiary">
+          <BookmarkDisplayArea folderContents={folderContents} folderId={folderId} />
+        </div>
       </div>
     </Modal>
   );

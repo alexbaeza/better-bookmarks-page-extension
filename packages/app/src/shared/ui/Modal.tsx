@@ -48,6 +48,9 @@ export const Modal = memo<ModalProps>(({ onClose, title, children, size = 'md', 
       data-testid={`${dataTestId}-backdrop`}
       onClick={onClose}
       onKeyDown={handleBackdropKeyDown}
+      onPointerDown={(e) => e.stopPropagation()}
+      onPointerMove={(e) => e.stopPropagation()}
+      onPointerUp={(e) => e.stopPropagation()}
       role="button"
       tabIndex={0}
     >
@@ -57,6 +60,9 @@ export const Modal = memo<ModalProps>(({ onClose, title, children, size = 'md', 
         data-testid={dataTestId}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleContentKeyDown}
+        onPointerDown={(e) => e.stopPropagation()}
+        onPointerMove={(e) => e.stopPropagation()}
+        onPointerUp={(e) => e.stopPropagation()}
         open
       >
         <div className="mb-4 flex items-center justify-between">
