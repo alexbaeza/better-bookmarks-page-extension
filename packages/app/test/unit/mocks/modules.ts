@@ -1,11 +1,5 @@
 import { vi } from 'vitest';
 
-// NOTE: This file is deprecated and should not be used.
-// All tests should now use `vi.spyOn` instead of module mocks per testing.mdc guidance.
-// See https://github.com/alexbaeza/better-bookmarks-page-extension/wiki/Testing-Standards
-
-// Removed outdated vi.mock('jotai') - tests should use vi.spyOn instead
-
 vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
   BookmarkNavigationProvider: ({ children }: { children: React.ReactNode }) => children,
   useBookmarkNavigation: vi.fn(() => ({

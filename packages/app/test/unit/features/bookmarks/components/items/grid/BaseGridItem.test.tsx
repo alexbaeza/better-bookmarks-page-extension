@@ -1,3 +1,4 @@
+import { cleanup } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { BaseGridItem } from '@/features/bookmarks/components/items/grid/BaseGridItem';
@@ -13,7 +14,8 @@ describe('BaseGridItem', () => {
   });
 
   afterEach(() => {
-    document.body.innerHTML = '';
+    // Use proper cleanup instead of innerHTML to avoid portal issues
+    cleanup();
   });
   it('renders with default dataTestId', () => {
     render(
@@ -111,7 +113,7 @@ describe('BaseGridItem', () => {
       expect(screen.getByText('Delete item?')).toBeInTheDocument();
     });
 
-    const confirmButton = screen.getByTestId('delete-confirmation-modal-confirm-button');
+    const confirmButton = screen.getByTestId('bookmark-delete-confirm-button');
     fireEvent.click(confirmButton);
 
     await waitFor(() => {
