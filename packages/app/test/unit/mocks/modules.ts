@@ -92,7 +92,7 @@ vi.mock('@/features/bookmarks/hooks/useBookmarkActions', () => ({
   })),
 }));
 
-Object.assign(global, {
+Object.assign(globalThis, {
   chrome: {
     bookmarks: {
       create: vi.fn(),
