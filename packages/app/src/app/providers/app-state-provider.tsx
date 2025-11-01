@@ -31,7 +31,7 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
         setPersistedBookmarks(data);
         dispatch({ data, type: 'LOAD_BOOKMARKS_DATA_SUCCESS' });
       } catch (err: unknown) {
-        dispatch({ error: err, type: 'ERROR' });
+        dispatch({ error: err as Error, type: 'ERROR' });
       } finally {
         dispatch({ type: 'LOAD_BOOKMARKS_DATA_FINISHED' });
       }

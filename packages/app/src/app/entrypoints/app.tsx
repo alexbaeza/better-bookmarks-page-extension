@@ -14,13 +14,22 @@ export const App: React.FC = () => {
 
   return (
     <AppProviders>
-      <div className={`flex h-screen max-h-screen flex-col overflow-hidden bg-bgColor-primary ${themeClass}`} data-testid="app-container" style={{ zoom }}>
-        <BackgroundOverlay />
-        <MainLayout>
-          <AppRoutes />
-        </MainLayout>
-        <div id="modal-root" />
-        <div id="bookmark-menu-portal" />
+      <div className={`flex h-screen max-h-screen flex-col overflow-hidden bg-bgColor-primary ${themeClass}`} data-testid="app-container">
+        <div
+          style={{
+            transform: `scale(${zoom})`,
+            transformOrigin: 'top left',
+            width: `${100 / zoom}%`,
+            height: `${100 / zoom}%`,
+          }}
+        >
+          <BackgroundOverlay />
+          <MainLayout>
+            <AppRoutes />
+          </MainLayout>
+          <div id="modal-root" />
+          <div id="bookmark-menu-portal" />
+        </div>
       </div>
     </AppProviders>
   );

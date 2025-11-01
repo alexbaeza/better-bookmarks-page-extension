@@ -11,7 +11,7 @@ describe('SidebarSettings', () => {
   describe('When Sidebar toggle is disabled', () => {
     beforeEach(() => {
       localStorage.clear();
-      localStorage.setItem('BB-sidebarEnabled', 'false');
+      localStorage.setItem('BB-sidebar-enabled', 'false');
     });
 
     it('renders the component', () => {
@@ -45,7 +45,7 @@ describe('SidebarSettings', () => {
   describe('When Sidebar toggle is enabled', () => {
     beforeEach(() => {
       localStorage.clear();
-      localStorage.setItem('BB-sidebarEnabled', 'true');
+      localStorage.setItem('BB-sidebar-enabled', 'true');
     });
 
     it('renders an enabled checkbox', () => {

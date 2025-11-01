@@ -23,7 +23,9 @@ export const SortableBookmarkList: React.FC<SortableBookmarkListProps> = ({ item
   return (
     <SortableContext items={items.map((item) => item.id)} strategy={strategy}>
       <div className={className} style={style}>
-        {items.map((item) => renderItem(item, item.id === activeId))}
+        {items.map((item) => (
+          <div key={item.id}>{renderItem(item, item.id === activeId)}</div>
+        ))}
       </div>
     </SortableContext>
   );

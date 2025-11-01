@@ -18,6 +18,7 @@ export const useBookmarkIcon = (url?: string, title?: string, size: 'sm' | 'md' 
       alt={`favicon for ${title || 'bookmark'}`}
       className={`${sizeClasses[size]} rounded-sm`}
       fallback={getDefaultFavicon()}
+      isFavicon={true}
       src={faviconUrl}
     />
   ) : (

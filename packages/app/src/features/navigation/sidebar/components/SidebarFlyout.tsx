@@ -33,7 +33,9 @@ const BookmarkLeaf: React.FC<{
     <SidebarItem
       className="cursor-pointer"
       data-testid={`flyout-bookmark-${leaf.id}`}
-      icon={<ImageWithFallback alt={leaf.title} className="size-6 rounded-sm border border-none" fallback={getDefaultFavicon()} src={faviconUrl} />}
+      icon={
+        <ImageWithFallback alt={leaf.title} className="size-6 rounded-sm border border-none" fallback={getDefaultFavicon()} isFavicon={true} src={faviconUrl} />
+      }
       isSelected={currentPage === leaf.id}
       label={leaf.title || 'Untitled'}
       onClick={() => clickFolder(leaf.id)}

@@ -13,7 +13,7 @@ describe('GreetingSettings', () => {
     });
 
     it('renders the component', () => {
-      localStorage.setItem('BB-greetingEnabled', 'false');
+      localStorage.setItem('BB-greeting-enabled', 'false');
       render(<GreetingSettings />);
       const greetingToggle = screen.getByTestId('greeting-enabled-toggle');
       expect(greetingToggle).not.toBeChecked();
@@ -22,7 +22,7 @@ describe('GreetingSettings', () => {
     });
 
     it('does not render input when greeting is not shown', () => {
-      localStorage.setItem('BB-greetingEnabled', 'false');
+      localStorage.setItem('BB-greeting-enabled', 'false');
       render(<GreetingSettings />);
       expect(screen.queryByTestId('greeting-name-input')).not.toBeInTheDocument();
     });
@@ -32,7 +32,7 @@ describe('GreetingSettings', () => {
     beforeEach(() => {
       localStorage.clear();
       localStorage.setItem('BB-greeting-enabled', 'true');
-      localStorage.setItem('BB-greetingName', 'Bob');
+      localStorage.setItem('BB-greeting-name', 'Bob');
     });
 
     it('updates the greeting name state when the input value is changed', () => {
@@ -66,7 +66,7 @@ describe('GreetingSettings', () => {
     });
 
     it('does not render input when greeting is disabled', () => {
-      localStorage.setItem('BB-greetingEnabled', 'false');
+      localStorage.setItem('BB-greeting-enabled', 'false');
       render(<GreetingSettings />);
 
       expect(screen.queryByTestId('greeting-name-input')).not.toBeInTheDocument();

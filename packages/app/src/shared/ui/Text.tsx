@@ -67,9 +67,9 @@ export const Text: React.FC<TextProps> = ({
     align && alignClasses[align],
     truncate && 'truncate',
     lineClamp && `line-clamp-${lineClamp}`,
-    'break-words',
-    'hyphens-auto',
-    'whitespace-normal',
+    !lineClamp && 'break-words',
+    !lineClamp && 'hyphens-auto',
+    !lineClamp && 'whitespace-normal',
     className,
   ]
     .filter(Boolean)

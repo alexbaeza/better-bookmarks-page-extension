@@ -72,11 +72,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
   }
 
   return (
-    <div className="flex h-screen" data-testid="sidebar">
+    <div className="flex h-screen max-h-screen" data-testid="sidebar">
       {/* Main tree */}
-      <nav aria-label="Bookmarks navigation" className="w-64 min-w-64 max-w-64 shrink-0 bg-bgColor-secondary flex h-full flex-col overflow-hidden pr-2">
-        <h2 className="p-2 mb-4 flex items-center text-lg font-bold text-fgColor-primary">{title}</h2>
-        <div aria-label="Bookmark folders" className="flex-1 overflow-y-auto min-w-0 overflow-hidden" role="tree">
+      <nav aria-label="Bookmarks navigation" className="w-64 min-w-64 max-w-64 shrink-0 bg-bgColor-secondary flex h-full max-h-full flex-col pr-2">
+        <h2 className="p-2 mb-4 flex items-center text-lg font-bold text-fgColor-primary shrink-0">{title}</h2>
+        <div aria-label="Bookmark folders" className="flex-1 min-h-0 overflow-y-auto" role="tree">
           {/* Pages */}
           <SidebarSection title="Pages">
             <SidebarItem
@@ -101,22 +101,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
 
           {/* Folder roots */}
           <SidebarSection title="Folders">
-            <div className="space-y-1 min-w-0 overflow-hidden">
-              {roots.map((f) => (
-                <SidebarFolderNode
-                  clickFolder={clickFolder}
-                  expandedIds={expandedIds}
-                  folder={f}
-                  key={f.id}
-                  level={0}
-                  openFolderId={openFolderId}
-                  toggleFolder={toggleFolder}
-                />
-              ))}
-            </div>
+            {roots.map((f) => (
+              <SidebarFolderNode
+                clickFolder={clickFolder}
+                expandedIds={expandedIds}
+                folder={f}
+                key={f.id}
+                level={0}
+                openFolderId={openFolderId}
+                toggleFolder={toggleFolder}
+              />
+            ))}
           </SidebarSection>
         </div>
-        {footer && footer}
+        {footer && <div className="shrink-0 mt-auto">{footer}</div>}
       </nav>
 
       {openFolderId && selectedFolder && <SidebarFlyout clickFolder={clickFolder} folder={selectedFolder} onClose={() => setOpenFolderId(null)} />}

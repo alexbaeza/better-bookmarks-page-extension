@@ -29,4 +29,12 @@ describe('App', () => {
     expect(screen.getByTestId('app-container')).toBeInTheDocument();
     expect(screen.getByTestId('routes')).toBeInTheDocument();
   });
+
+  it('renders a scaling wrapper div inside app-container', () => {
+    render(<App />);
+    const appContainer = screen.getByTestId('app-container');
+    const scalingDiv = appContainer.firstChild;
+    expect(scalingDiv).toBeInstanceOf(HTMLElement);
+    expect(scalingDiv).toHaveAttribute('style');
+  });
 });

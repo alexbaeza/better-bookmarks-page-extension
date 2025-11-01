@@ -38,16 +38,13 @@ export function createBookmarkAPI(): BrowserBookmarkAPI {
       default:
         // In development, fallback to Chrome API if we can't detect browser
         if (isDev) {
-          console.warn('Could not detect browser, falling back to Chrome API');
           return new ChromeBookmarkAPI();
         }
         throw new Error(`Unsupported browser: ${browserInfo.type}`);
     }
-  } catch (error) {
-    console.warn('Failed to create browser API', error);
+  } catch (_error) {
     // In development, fallback to mock API if real APIs fail
     if (isDev) {
-      console.warn('Falling back to mock API for development/test');
       return new MockBrowserAPI();
     }
     throw Error('Failed to create browser API');

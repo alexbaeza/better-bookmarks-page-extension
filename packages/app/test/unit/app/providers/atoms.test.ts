@@ -52,7 +52,7 @@ describe('atoms', () => {
   });
 
   it('has correct zoom constants', () => {
-    expect(ZOOM_MIN_VALUE).toBe(0.8);
+    expect(ZOOM_MIN_VALUE).toBe(1.0);
     expect(ZOOM_MAX_VALUE).toBe(2.0);
   });
 

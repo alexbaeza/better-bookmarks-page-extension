@@ -1,7 +1,9 @@
 import { autoUpdate, flip, offset, shift, useDismiss, useFloating, useInteractions } from '@floating-ui/react';
+import { useAtomValue } from 'jotai';
 import type React from 'react';
 import { type ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { zoomAtom } from '@/app/providers/atoms';
 
 export interface BookmarkItemMenuProps {
   onMouseEnter?: () => void;
@@ -12,7 +14,8 @@ export interface BookmarkItemMenuProps {
 }
 
 export const BookmarkItemMenu: React.FC<BookmarkItemMenuProps> = ({ onMouseEnter, onMouseLeave, onClose, anchorRef, children }) => {
-  const { refs, floatingStyles, context } = useFloating({
+  const zoom = useAtomValue(zoomAtom);
+  const { refs, floatingStyles, context, update } = useFloating({
     placement: 'top-end',
     middleware: [
       offset(4), // Small gap between anchor and menu
@@ -34,6 +37,24 @@ export const BookmarkItemMenu: React.FC<BookmarkItemMenuProps> = ({ onMouseEnter
       refs.setReference(anchorRef.current);
     }
   }, [anchorRef, refs]);
+
+  // Reposition menu when zoom changes
+  // Note: CSS zoom changes don't trigger autoUpdate events, so we manually trigger
+  // repositioning when zoom changes. Using zoom value to ensure effect runs on change.
+  useEffect(() => {
+    if (!update) return;
+    // Use requestAnimationFrame to ensure DOM has updated after zoom change
+    // Access zoom to include it in the dependency tracking
+    const currentZoom = zoom;
+    const rafId = requestAnimationFrame(() => {
+      update();
+    });
+    return () => {
+      cancelAnimationFrame(rafId);
+      // Reference zoom to ensure effect tracks it
+      void currentZoom;
+    };
+  }, [zoom, update]);
 
   // Use Floating UI's dismiss hook for auto-close behavior
   const { getFloatingProps } = useInteractions([

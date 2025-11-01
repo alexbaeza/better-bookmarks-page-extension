@@ -1,5 +1,5 @@
+import { storageKey } from '@/app/providers/atoms';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
-
 import { mockData } from '../../../store/mock-data';
 import { orderingService } from '../../ordering-service';
 
@@ -12,7 +12,7 @@ import { orderingService } from '../../ordering-service';
 class MockDataService {
   private data: IBookmarkItem[] = [];
   private listeners: Set<() => void> = new Set();
-  private readonly STORAGE_KEY = 'bb-mock-bookmarks-data';
+  private readonly STORAGE_KEY = storageKey('mock-bookmarks-data');
 
   constructor() {
     this.loadMockData();
@@ -40,8 +40,7 @@ class MockDataService {
    */
   getData(): IBookmarkItem[] {
     // Apply ordering to the raw data
-    const orderedData = orderingService.applyOrdering(this.data);
-    return orderedData;
+    return orderingService.applyOrdering(this.data);
   }
 
   /**

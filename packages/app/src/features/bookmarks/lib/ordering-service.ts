@@ -1,3 +1,4 @@
+import { storageKey } from '@/app/providers/atoms';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
 export interface OrderingData {
@@ -14,7 +15,7 @@ export interface OrderingService {
 
 class BookmarkOrderingService implements OrderingService {
   private ordering: OrderingData = {};
-  private readonly STORAGE_KEY = 'bookmarkOrdering';
+  private readonly STORAGE_KEY = storageKey('bookmark-ordering');
 
   constructor() {
     this.loadFromStorage();

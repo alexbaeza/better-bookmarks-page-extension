@@ -15,6 +15,6 @@ export const SidebarSection: React.FC<SectionProps> = ({ title, icon, badge, chi
         <span className="flex-none rounded-full bg-bgColor-tertiary px-2 py-0.5 text-xs text-fgColor-secondary min-w-[1.5rem] text-center">{badge}</span>
       )}
     </h4>
-    <ul className="min-w-0">{children}</ul>
+    <ul className="min-w-0 space-y-1 overflow-hidden">{children}</ul>
   </div>
 );

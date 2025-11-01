@@ -16,7 +16,7 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({ icon, label, badge, is
       className={`
         grid w-full grid-cols-[auto,1fr,auto] items-center gap-2 min-w-0
         rounded-lg p-2 text-sm font-medium focus:outline-none
-        ${isSelected ? 'bg-fgColor-hover text-fgColor-primary' : 'text-fgColor-secondary hover:bg-fgColor-hover hover:text-fgColor-primary'}
+        ${isSelected ? 'bg-bgColor-tertiary text-fgColor-primary' : 'text-fgColor-secondary hover:bg-bgColor-tertiary hover:text-fgColor-primary'}
         ${className}
       `}
       data-testid={dataTestId}

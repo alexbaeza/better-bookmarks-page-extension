@@ -58,11 +58,10 @@ export async function getBookmarksData(): Promise<BookmarksData> {
   const orderedFolders = orderingService.applyOrdering(folders);
   const orderedUncategorized = uncategorized ? orderingService.applyOrdering([uncategorized])[0] : undefined;
 
-  const result = {
+  return {
     folders: orderedFolders,
     uncategorized: orderedUncategorized,
   };
-  return result;
 }
 
 export async function create(parentId: string | null, details: { title: string; url?: string }): Promise<IBookmarkItem> {

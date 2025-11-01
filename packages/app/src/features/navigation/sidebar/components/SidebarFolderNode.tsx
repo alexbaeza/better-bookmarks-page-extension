@@ -73,7 +73,7 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, leve
       {isOpen && hasKids && folder.children && (
         <fieldset aria-label={`Subfolders of ${folder.title || 'Untitled'}`} className="relative ml-0 pl-0 overflow-visible min-w-0">
           {/* Vertical spine for this branch */}
-          <div className="pointer-events-none absolute inset-y-0 left-3 w-px bg-gray-600" />
+          <div className="pointer-events-none absolute inset-y-0 left-3 w-px bg-fgColor-primary" />
 
           {folder.children.filter(onlyFolders).map((child: IBookmarkItem) => (
             <TreeElbowItem key={child.id}>

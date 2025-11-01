@@ -92,13 +92,10 @@ describe('createBookmarkAPI (Vite + Vitest)', () => {
     vi.mocked(detectBrowser).mockReturnValue({ type: 'unknown' } as any);
     (globalThis as any).chrome = { bookmarks: {} };
 
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const result = createBookmarkAPI();
 
     expect(result).toBeDefined();
     expect((result as any).type).toBe('chrome-api');
-    expect(warnSpy).toHaveBeenCalledWith('Could not detect browser, falling back to Chrome API');
-    warnSpy.mockRestore();
   });
 
   it('throws when unsupported browser in production', () => {

@@ -27,21 +27,21 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({ variant = 'settings'
       <div className={`${textSize} text-fgColor-secondary`}>Scale</div>
       <div className="flex items-center gap-2">
         <IconButton
-          aria-label="Increase scale"
-          className={`disabled:opacity-50 ${buttonSize}`}
-          disabled={zoom >= ZOOM_MAX_VALUE}
-          icon={<PlusIcon size={iconSize} />}
-          onClick={() => setZoom(ZOOM_STEP)}
-        />
-        <div className={`w-12 text-center tabular-nums text-fgColor-primary ${textSize}`} data-testid="zoom-display">
-          {Math.round(zoom * 100)}%
-        </div>
-        <IconButton
           aria-label="Decrease scale"
           className={`disabled:opacity-50 ${buttonSize}`}
           disabled={zoom <= ZOOM_MIN_VALUE}
           icon={<MinusIcon size={iconSize} />}
           onClick={() => setZoom(-ZOOM_STEP)}
+        />
+        <div className={`w-12 text-center tabular-nums text-fgColor-primary ${textSize}`} data-testid="zoom-display">
+          {Math.round(zoom * 100)}%
+        </div>
+        <IconButton
+          aria-label="Increase scale"
+          className={`disabled:opacity-50 ${buttonSize}`}
+          disabled={zoom >= ZOOM_MAX_VALUE}
+          icon={<PlusIcon size={iconSize} />}
+          onClick={() => setZoom(ZOOM_STEP)}
         />
       </div>
     </div>

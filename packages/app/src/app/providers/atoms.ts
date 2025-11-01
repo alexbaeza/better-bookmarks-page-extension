@@ -5,7 +5,7 @@ import type { BookmarksData } from '@/features/bookmarks/lib/bookmarks';
 import { BookmarkDisplayMode } from '@/shared/types/ui';
 import type { ThemeColors } from '@/styles/themes';
 
-const storageKey = (key: string) => {
+export const storageKey = (key: string) => {
   return `${LOCAL_STORAGE_PREFIX_KEY}${key}`;
 };
 
@@ -13,18 +13,18 @@ const settings = {
   preferences: {
     background: {
       image: storageKey('background'),
-      overlayOpacity: storageKey('backgroundOverlayOpacity'),
+      overlayOpacity: storageKey('background-overlay-opacity'),
     },
     greeting: {
-      enabled: storageKey('greetingEnabled'),
-      name: storageKey('greetingName'),
+      enabled: storageKey('greeting-enabled'),
+      name: storageKey('greeting-name'),
     },
     ui: {
-      customTheme: storageKey('customTheme'),
-      searchBarEnabled: storageKey('searchBarEnabled'),
-      sidebarEnabled: storageKey('sidebarEnabled'),
+      customTheme: storageKey('custom-theme'),
+      searchBarEnabled: storageKey('search-bar-enabled'),
+      sidebarEnabled: storageKey('sidebar-enabled'),
       theme: storageKey('theme'),
-      viewMode: storageKey('viewMode'),
+      viewMode: storageKey('view-mode'),
       zoom: storageKey('zoom'),
     },
   },
@@ -46,10 +46,10 @@ export const bookmarksAtom = atomWithStorage<BookmarksData>(settings.state.bookm
 // Settings: Theme & Appearance
 // =============================
 /**
- * selected theme key. Defaults to 'default'.
+ * selected theme key. Defaults to 'nord'.
  * Stored in localStorage under settings.preferences.ui.theme.
  */
-export const themeAtom = atomWithStorage<string>(settings.preferences.ui.theme, 'default');
+export const themeAtom = atomWithStorage<string>(settings.preferences.ui.theme, 'nord');
 /**
  * custom theme colors when user selects 'custom' theme.
  * Null means no custom overrides.
@@ -85,7 +85,7 @@ export const greetingNameAtom = atomWithStorage<string>(settings.preferences.gre
 // =============================
 /** Zoom helpers (1.0 = 100%). */
 export const ZOOM_STEP = 0.1;
-export const ZOOM_MIN_VALUE = 0.8;
+export const ZOOM_MIN_VALUE = 1.0;
 export const ZOOM_MAX_VALUE = 2.0;
 
 /** zoom scalar (1.0 = 100%). */
