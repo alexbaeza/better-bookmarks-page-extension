@@ -73,11 +73,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
 
   return (
     <div className="flex h-screen max-h-screen" data-testid="sidebar">
-      {/* Main tree */}
       <nav aria-label="Bookmarks navigation" className="w-64 min-w-64 max-w-64 shrink-0 bg-bgColor-secondary flex h-full max-h-full flex-col pr-2">
         <h2 className="p-2 mb-4 flex items-center text-lg font-bold text-fgColor-primary shrink-0">{title}</h2>
         <div aria-label="Bookmark folders" className="flex-1 min-h-0 overflow-y-auto" role="tree">
-          {/* Pages */}
           <SidebarSection title="Pages">
             <SidebarItem
               badge={counts.all}
@@ -99,7 +97,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
 
           <div className="border-t border-bgColor-tertiary py-6" />
 
-          {/* Folder roots */}
           <SidebarSection title="Folders">
             {roots.map((f) => (
               <SidebarFolderNode

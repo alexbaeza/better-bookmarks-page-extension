@@ -95,7 +95,6 @@ export const setZoomAtom = atom(null, (get, set, delta: number) => {
   set(zoomAtom, next);
 });
 
-// Optional grouped exports (non-breaking). Keep using named atoms as before.
 export const SETTINGS = {
   backgroundOverlayAtom,
   backgroundOverlayOpacityAtom,
