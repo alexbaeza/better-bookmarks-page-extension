@@ -6,6 +6,9 @@
 #   ./scripts/create-release.sh firefox    # build only Firefox package
 
 TARGET=${1:-all}
+CURR_VERSION=$(jq -r '.version' package.json)
+BUILD_DIR="packages/app/build"
+MANIFEST_FILE="${BUILD_DIR}/manifest.json"
 
 echo "🚀 Starting release process..."
 echo ""
@@ -14,8 +17,7 @@ pnpm build || exit 1
 
 echo ""
 echo "📋 Preparing release artifacts"
-VERSION_STRING='"version": '
-CURR_VERSION=$(./scripts/current-version-check.sh)
+
 mkdir -p release
 echo "   Version: $CURR_VERSION"
 echo "   Output directory: release/"
@@ -23,38 +25,30 @@ echo ""
 
 package_firefox() {
   echo "🦊 Creating Firefox release"
-  cp packages/app/build/manifest-firefox.json packages/app/build/manifest.json
+  cp "scripts/manifest-firefox.json" "$MANIFEST_FILE"
 
   echo "   Setting version to $CURR_VERSION"
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\"/" packages/app/build/manifest.json
-  else
-    sed -i -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\"/" packages/app/build/manifest.json
-  fi
+  jq --arg version "$CURR_VERSION" '.version = $version' "$MANIFEST_FILE" > "${MANIFEST_FILE}.tmp" && mv "${MANIFEST_FILE}.tmp" "$MANIFEST_FILE"
 
   echo "   Packaging extension..."
-  (cd packages/app/build && zip -r ../../../release/extension-firefox-"$CURR_VERSION".zip ./* -x 'manifest-*' 'release/*' > /dev/null)
+  (cd "$BUILD_DIR" && zip -r "../../../release/extension-firefox-${CURR_VERSION}.zip" ./* -x 'manifest-*' 'release/*' > /dev/null)
   
-  ZIP_SIZE=$(du -h release/extension-firefox-"$CURR_VERSION".zip | cut -f1)
-  echo "   ✓ Created: release/extension-firefox-$CURR_VERSION.zip ($ZIP_SIZE)"
+  ZIP_SIZE=$(du -h "release/extension-firefox-${CURR_VERSION}.zip" | cut -f1)
+  echo "   ✓ Created: release/extension-firefox-${CURR_VERSION}.zip ($ZIP_SIZE)"
 }
 
 package_chrome() {
   echo "🌐 Creating Chrome release"
-  cp packages/app/build/manifest-chrome.json packages/app/build/manifest.json
+  cp "scripts/manifest-chrome.json" "$MANIFEST_FILE"
 
   echo "   Setting version to $CURR_VERSION"
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\"/" packages/app/build/manifest.json
-  else
-    sed -i -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\"/" packages/app/build/manifest.json
-  fi
+  jq --arg version "$CURR_VERSION" '.version = $version' "$MANIFEST_FILE" > "${MANIFEST_FILE}.tmp" && mv "${MANIFEST_FILE}.tmp" "$MANIFEST_FILE"
 
   echo "   Packaging extension..."
-  (cd packages/app/build && zip -r ../../../release/extension-chrome-"$CURR_VERSION".zip ./* -x 'manifest-*' 'release/*' > /dev/null)
+  (cd "$BUILD_DIR" && zip -r "../../../release/extension-chrome-${CURR_VERSION}.zip" ./* -x 'manifest-*' 'release/*' > /dev/null)
   
-  ZIP_SIZE=$(du -h release/extension-chrome-"$CURR_VERSION".zip | cut -f1)
-  echo "   ✓ Created: release/extension-chrome-$CURR_VERSION.zip ($ZIP_SIZE)"
+  ZIP_SIZE=$(du -h "release/extension-chrome-${CURR_VERSION}.zip" | cut -f1)
+  echo "   ✓ Created: release/extension-chrome-${CURR_VERSION}.zip ($ZIP_SIZE)"
 }
 
 case "$TARGET" in

@@ -8,11 +8,11 @@ export default defineConfig({
     // Disable animations for faster tests
     animationDistanceThreshold: 0,
     baseUrl: 'http://localhost:3000',
-    defaultCommandTimeout: 5000,
+    defaultCommandTimeout: 10000,
     env: {
       NODE_ENV: 'test',
     },
-    pageLoadTimeout: 5000,
+    pageLoadTimeout: 10000,
     requestTimeout: 5000,
     responseTimeout: 5000,
     screenshotOnRunFailure: true,

@@ -32,7 +32,7 @@ export const BookmarkDisplayArea: React.FC<BookmarkDisplayAreaProps> = ({ folder
   const renderItem = (item: IBookmarkItem, isDragging?: boolean) => <BookmarkItemDraggable isDragging={isDragging} item={item} />;
 
   return (
-    <div ref={containerRef}>
+    <div data-view-mode={viewMode} ref={containerRef}>
       <SortableBookmarkList className={layoutClass} folderId={folderId} items={folderContents} renderItem={renderItem} style={gridStyle} />
     </div>
   );

@@ -1,6 +1,4 @@
 /// <reference types="vite/client" />
-import { copyFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 // biome-ignore lint/correctness/noUndeclaredDependencies: Optional dev dependency
 import { codecovVitePlugin } from '@codecov/vite-plugin';
 import react from '@vitejs/plugin-react';
@@ -19,13 +17,6 @@ export default defineConfig({
       jsxImportSource: 'react',
       jsxRuntime: 'automatic',
     }),
-    {
-      name: 'copy-files',
-      writeBundle() {
-        // Copy Firefox manifest
-        copyFileSync(resolve(__dirname, 'public/manifest-firefox.json'), resolve(__dirname, 'build/manifest-firefox.json'));
-      },
-    },
     // Put the Codecov vite plugin after all other plugins
     codecovVitePlugin({
       bundleName: 'better-bookmarks-page-extension',

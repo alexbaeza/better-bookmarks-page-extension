@@ -26,9 +26,12 @@ export const BookmarkItemDraggable: React.FC<BookmarkItemDraggableProps> = ({ it
     ...listeners,
   };
 
+  const isFolder = Boolean(item.children);
+  const testId = isFolder ? `bookmark-folder-item-${item.id}` : `bookmark-item-${item.id}`;
+
   return (
-    <div className="focus:outline-none" ref={setNodeRef} style={style}>
-      <BookmarkItemView dragHandleProps={dragHandleProps} item={item} />
+    <div className="focus:outline-none" data-testid={testId} ref={setNodeRef} style={style}>
+      <BookmarkItemView dataTestId={testId} dragHandleProps={dragHandleProps} item={item} />
     </div>
   );
 };

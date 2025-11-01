@@ -15,6 +15,7 @@ Feature: Theme Builder
   Scenario Outline: Change color in custom theme
     When I click "settings-toggle"
     Then I should see the "theme-settings" section
+    When I select the "default" theme
     When I click "theme-custom"
     Then the app should have custom theme with "<colorKey>" color
     And the "<colorKey>" color should be "<defaultColor>"

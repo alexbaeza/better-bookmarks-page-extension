@@ -31,10 +31,10 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
       <div className="space-y-4" data-testid={`${dataTestId}-container`}>
         <p className="text-sm text-fgColor-secondary">{message}</p>
         <div className="flex justify-end gap-2">
-          <Button data-testid={`${dataTestId}-cancel-button`} onClick={onClose} variant="secondary">
+          <Button data-testid="bookmark-delete-cancel-button" onClick={onClose} variant="secondary">
             Cancel
           </Button>
-          <Button data-testid={`${dataTestId}-confirm-button`} onClick={handleConfirm} variant="primary">
+          <Button data-testid="bookmark-delete-confirm-button" onClick={handleConfirm} variant="primary">
             Delete
           </Button>
         </div>

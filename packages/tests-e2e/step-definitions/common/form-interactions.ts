@@ -13,7 +13,16 @@ When('I enter {string} as {string}', (value: string, fieldName: string) => {
 });
 
 When('I select color {string} for {string}', (color: string, colorKey: string) => {
-  cy.get(`#color-input-${colorKey}`).invoke('val', color).trigger('change');
+  cy.get(`#color-input-${colorKey}`)
+    .scrollIntoView()
+    .should('be.visible')
+    .then(($input) => {
+      // For color inputs, we need to set the value property directly and trigger input/change events
+      const input = $input[0] as HTMLInputElement;
+      input.value = color;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
 });
 
 Then('the {string} field should contain {string}', (fieldName: string, expectedValue: string) => {

@@ -101,7 +101,7 @@ export const SidebarFlyout: React.FC<SidebarFlyoutProps> = ({ folder, onClose, c
 
   return (
     <div className={`${isOver && !isDisabled ? 'ring-2 ring-fgColor-accent' : ''} ${isDisabled ? 'opacity-50' : ''}`} ref={setNodeRef}>
-      <InlineFlyout data-testid={`sidebar-flyout-${folder.id}`} widthClass="w-64">
+      <InlineFlyout data-testid="sidebar-flyout" widthClass="w-64">
         {/* Close button */}
         <div className="mb-1 flex justify-end">
           <button
