@@ -48,13 +48,13 @@ export async function getBookmarksData(): Promise<BookmarksData> {
   const folders = tree.folders.map(normalizeToAppFormat);
   const uncategorized = tree.uncategorized ? normalizeToAppFormat(tree.uncategorized) : undefined;
 
-  // Initialize ordering for all folders
+  // Initialize ordering for all folders (only for new folders)
   orderingService.initializeOrdering(folders);
   if (uncategorized) {
     orderingService.initializeOrdering([uncategorized]);
   }
 
-  // Apply ordering to folders
+  // Apply stored ordering to folders
   const orderedFolders = orderingService.applyOrdering(folders);
   const orderedUncategorized = uncategorized ? orderingService.applyOrdering([uncategorized])[0] : undefined;
 

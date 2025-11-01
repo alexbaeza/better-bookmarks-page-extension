@@ -1,14 +1,5 @@
-import {
-  type CollisionDetection,
-  DndContext,
-  type DragEndEvent,
-  DragOverlay,
-  type DragStartEvent,
-  PointerSensor,
-  pointerWithin,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
+import { DndContext, type DragEndEvent, DragOverlay, type DragStartEvent, PointerSensor, pointerWithin, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove } from '@dnd-kit/sortable';
 import { useAtomValue } from 'jotai';
 import type React from 'react';
 import { createContext, type ReactNode, useContext, useState } from 'react';
@@ -18,8 +9,9 @@ import { viewModeAtom } from '@/app/providers/atoms';
 import { DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX, DROPPABLE_ROOT_FOLDER_PREFIX, DROPPABLE_SIDEBAR_FOLDER_PREFIX } from '@/config/dnd-constants';
 import { SkeletonBookmarkItem } from '@/features/bookmarks/components/items/SkeletonBookmarkItem';
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
-import { moveItem, reorderItems } from '@/features/bookmarks/lib/bookmarks';
+import { move, moveItem } from '@/features/bookmarks/lib/bookmarks';
 import { findItemById, findParentOfItem } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
+import { orderingService } from '@/features/bookmarks/lib/ordering-service';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
 // Utility function to extract destination folder ID from droppable container ID
@@ -32,27 +24,6 @@ const extractDestinationFolderId = (overId: string): string | null => {
     }
   }
   return null;
-};
-
-// Helper function to check if a container represents the same folder
-const isSameFolder = (containerId: string, fromFolderId: string): boolean => {
-  const destFolderId = extractDestinationFolderId(containerId);
-  return destFolderId === fromFolderId;
-};
-
-// Helper function to determine if dropping in a container is allowed
-const canDropInContainer = (containerId: string, fromFolderId: string, ownItems: string[]): boolean => {
-  // Allow dropping in different folders
-  if (
-    containerId.startsWith(DROPPABLE_ROOT_FOLDER_PREFIX) ||
-    containerId.startsWith(DROPPABLE_SIDEBAR_FOLDER_PREFIX) ||
-    containerId.startsWith(DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX)
-  ) {
-    return !isSameFolder(containerId, fromFolderId);
-  }
-
-  // Allow reordering within same level
-  return ownItems.includes(containerId);
 };
 
 const DragDropContext = createContext<DragDropContextValue | null>(null);
@@ -90,17 +61,71 @@ export const DragDropProvider: React.FC<{ children: ReactNode }> = ({ children }
     return false; // Not a folder drop target
   };
 
-  // Unified handler for item reordering
-  const handleItemReorder = async (fromId: string, overId: string, srcParent: IBookmarkItem | null) => {
-    if (!srcParent?.children) return;
+  // Handle reordering within the same folder (using optimized logic from useBookmarkReorder)
+  const handleItemReorder = async (fromId: string, overId: string, srcParent: IBookmarkItem | null): Promise<boolean> => {
+    if (!srcParent?.children) return false;
 
-    const fromIndex = srcParent.children.findIndex((c: IBookmarkItem) => c.id === fromId);
-    const toIndex = srcParent.children.findIndex((c: IBookmarkItem) => c.id === overId);
+    // Check if overId is another item in the same folder
+    const activeIndex = srcParent.children.findIndex((c) => c.id === fromId);
+    const overIndex = srcParent.children.findIndex((c) => c.id === overId);
 
-    if (fromIndex >= 0 && toIndex >= 0 && fromIndex !== toIndex) {
-      await reorderItems(srcParent.id, fromIndex, toIndex);
-      refreshBookmarks();
+    // Only reorder if both items are in the same folder and positions changed
+    if (activeIndex < 0 || overIndex < 0 || activeIndex === overIndex) {
+      return false; // Not a reorder operation
     }
+
+    // 1. Calculate new order using arrayMove
+    const currentItems = [...srcParent.children];
+    const reorderedItems = arrayMove(currentItems, activeIndex, overIndex);
+
+    // 2. Update localStorage order immediately (for immediate persistence)
+    // getBookmarksData() applies this order via orderingService.applyOrdering()
+    const orderedIds = reorderedItems.map((item) => item.id);
+    orderingService.setOrder(srcParent.id, orderedIds);
+
+    // 3. Compare old and new order to find items that moved
+    const currentOrder = currentItems.map((item) => item.id);
+    const newOrder = reorderedItems.map((item) => item.id);
+
+    // Check if order actually changed
+    const orderChanged = currentOrder.some((id, index) => id !== newOrder[index]);
+
+    // 4. Refresh UI immediately with new order from localStorage
+    // This prevents the visual glitch where items snap back to old positions
+    // getBookmarksData() will apply orderingService order even if browser API hasn't updated yet
+    await refreshBookmarks();
+
+    if (!orderChanged) {
+      return true; // No change, already refreshed
+    }
+
+    // 5. Apply to browser bookmarks API in the background
+    // Move items in reverse order to avoid index shifting issues
+    // Don't await - let this happen in background while UI already shows correct order
+    const updatePromises: Promise<void>[] = [];
+    for (let targetIndex = newOrder.length - 1; targetIndex >= 0; targetIndex--) {
+      const itemId = newOrder[targetIndex];
+      const currentIdx = currentOrder.indexOf(itemId);
+
+      // Only move if position actually changed
+      if (currentIdx !== targetIndex) {
+        updatePromises.push(
+          move(itemId, {
+            parentId: srcParent.id,
+            index: targetIndex,
+          })
+        );
+
+        // Update current order after move to reflect new positions
+        currentOrder.splice(currentIdx, 1);
+        currentOrder.splice(targetIndex, 0, itemId);
+      }
+    }
+
+    // 6. Wait for all API calls to complete, then refresh once more to ensure sync
+    await Promise.all(updatePromises);
+    await refreshBookmarks();
+    return true; // Reorder handled
   };
 
   const handleDragEnd = async ({ active, over }: DragEndEvent) => {
@@ -111,37 +136,19 @@ export const DragDropProvider: React.FC<{ children: ReactNode }> = ({ children }
     const overId = String(over.id);
     const srcParent = findParentOfItem(rawFolders, fromId);
 
-    // Try folder-to-folder move first, then fall back to reordering
+    // First try folder-to-folder moves (sidebar, etc.)
     const moveHandled = await handleItemMove(fromId, overId, srcParent);
+
+    // If not a folder move, try reordering within same folder
     if (!moveHandled) {
       await handleItemReorder(fromId, overId, srcParent);
     }
   };
 
-  const constrainedCollisionDetection: CollisionDetection = ({ active, collisionRect, droppableRects, droppableContainers, pointerCoordinates }) => {
-    const srcParent = active.id ? findParentOfItem(rawFolders, active.id as string) : null;
-    const fromFolderId = srcParent?.id || 'root';
-    const ownItems = srcParent?.children?.map((c) => c.id) ?? [];
-
-    const allowedContainers = droppableContainers.filter((c) => {
-      const id = String(c.id);
-      const allowed = canDropInContainer(id, fromFolderId, ownItems);
-      return allowed;
-    });
-
-    return pointerWithin({
-      active,
-      collisionRect,
-      droppableContainers: allowedContainers,
-      droppableRects,
-      pointerCoordinates,
-    });
-  };
-
   return (
     <DragDropContext.Provider value={{ activeId }}>
       <DndContext
-        collisionDetection={constrainedCollisionDetection}
+        collisionDetection={pointerWithin}
         onDragCancel={() => setActiveId(null)}
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart}

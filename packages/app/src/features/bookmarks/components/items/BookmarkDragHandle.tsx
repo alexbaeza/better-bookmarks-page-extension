@@ -19,7 +19,7 @@ export const BookmarkDragHandle: React.FC<BookmarkDragHandleProps> = ({ hovered 
     <div
       {...mergedDragHandleProps}
       aria-label="Drag handle"
-      className={`cursor-grab flex items-center justify-center ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'} ${className}`}
+      className={`cursor-grab flex items-center justify-center focus:outline-none ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'} ${className}`}
       data-testid="drag-handle-button"
       onClick={(e) => e.stopPropagation()}
       onKeyDown={(e) => {

@@ -4,7 +4,6 @@ import type React from 'react';
 
 import { viewModeAtom } from '@/app/providers/atoms';
 import { SkeletonBookmarkItem } from '@/features/bookmarks/components/items/SkeletonBookmarkItem';
-
 import { useDragStyles } from '@/features/bookmarks/hooks/useDragStyles';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
@@ -14,62 +13,49 @@ export interface UseBookmarkDragOptions {
 }
 
 export interface UseBookmarkDragReturn {
-  dragProps: {
-    ref: (node: HTMLElement | null) => void;
-    style: React.CSSProperties;
-    'data-testid': string;
-  };
-  dragHandleProps: Record<string, any>;
+  dragProps: Record<string, unknown> & { ref: (node: HTMLElement | null) => void; style: React.CSSProperties; 'data-testid': string };
+  dragHandleProps: Record<string, unknown>;
   isDragging: boolean;
-  renderDragOverlay: () => React.ReactElement | null;
+  renderDragOverlay: () => React.ReactNode | null;
 }
 
-export const useBookmarkDrag = ({ item, isGhost = false }: UseBookmarkDragOptions): UseBookmarkDragReturn => {
+/**
+ * Hook for bookmark drag functionality
+ * @param options - Options containing the bookmark item and optional isGhost flag
+ * @returns Drag props, drag handle props, isDragging state, and renderDragOverlay function
+ */
+export function useBookmarkDrag({ item, isGhost = false }: UseBookmarkDragOptions): UseBookmarkDragReturn {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
   const viewMode = useAtomValue(viewModeAtom);
-  const isGrid = viewMode === 'grid';
-  const style = useDragStyles(transform, transition, isGhost, isDragging, isGrid);
+
+  const style = useDragStyles(transform, transition, isGhost, isDragging, true);
+
+  const isFolder = Boolean(item.children);
+  const testId = isFolder ? `bookmark-folder-item-${item.id}` : `bookmark-item-${item.id}`;
+
+  const dragProps = {
+    ref: setNodeRef,
+    style,
+    'data-testid': testId,
+    ...attributes,
+  };
+
+  const dragHandleProps = {
+    role: 'button',
+    ...listeners,
+  };
 
   const renderDragOverlay = () => {
     if (isGhost) {
-      return (
-        <div
-          aria-hidden="true"
-          className="w-24 h-24 rounded-lg border-2 border-dashed border-fgColor-accent"
-          ref={setNodeRef}
-          style={{
-            ...style,
-            backgroundImage: `
-              repeating-linear-gradient(
-                45deg,
-                rgba(255,255,255,0.15) 0,
-                rgba(255,255,255,0.15) 8px,
-                transparent 8px,
-                transparent 16px
-              )
-            `,
-          }}
-        >
-          <SkeletonBookmarkItem viewMode={viewMode} />
-        </div>
-      );
+      return <SkeletonBookmarkItem dataTestId={`${testId}-ghost`} viewMode={viewMode} />;
     }
-
-    return (
-      <div ref={setNodeRef} style={style} {...attributes} {...listeners} data-testid={`${item.url ? 'bookmark-item' : 'bookmark-folder-item'}-${item.id}`}>
-        {/* Content will be provided by consumer */}
-      </div>
-    );
+    return <SkeletonBookmarkItem dataTestId={`${testId}-overlay`} viewMode={viewMode} />;
   };
 
   return {
-    dragProps: {
-      ref: setNodeRef,
-      style,
-      'data-testid': `${item.url ? 'bookmark-item' : 'bookmark-folder-item'}-${item.id}`,
-    },
-    dragHandleProps: { ...attributes, ...listeners },
+    dragProps,
+    dragHandleProps,
     isDragging,
     renderDragOverlay,
   };
-};
+}

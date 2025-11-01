@@ -3,6 +3,7 @@ import type React from 'react';
 import { useRef, useState } from 'react';
 import { BookmarkItemMenu } from '@/features/bookmarks/components/items/options/BookmarkItemMenu';
 import { BookmarkItemMenuItem } from '@/features/bookmarks/components/items/options/BookmarkItemMenuItem';
+import { DeleteConfirmationModal } from '@/features/bookmarks/components/items/options/DeleteConfirmationModal';
 import { IconButton } from '@/shared/ui/IconButton';
 
 export interface ItemActionsMenuProps {
@@ -17,6 +18,7 @@ export interface ItemActionsMenuProps {
 
 export const ItemActionsMenu: React.FC<ItemActionsMenuProps> = ({ visible, iconSize = 16, className = '', onEdit, onDelete, onMouseEnter, onMouseLeave }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleOptionsKeyDown = (event: React.KeyboardEvent) => {
@@ -25,6 +27,16 @@ export const ItemActionsMenu: React.FC<ItemActionsMenuProps> = ({ visible, iconS
       event.stopPropagation();
       setMenuOpen((o) => !o);
     }
+  };
+
+  const handleDeleteClick = () => {
+    setMenuOpen(false);
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    setDeleteModalOpen(false);
+    onDelete?.();
   };
 
   return (
@@ -55,18 +67,20 @@ export const ItemActionsMenu: React.FC<ItemActionsMenuProps> = ({ visible, iconS
           >
             Edit
           </BookmarkItemMenuItem>
-          <BookmarkItemMenuItem
-            confirmLabel="Confirm delete?"
-            icon={<Trash2 size={14} />}
-            onConfirm={() => {
-              setMenuOpen(false);
-              onDelete?.();
-            }}
-          >
+          <BookmarkItemMenuItem icon={<Trash2 size={14} />} onClick={handleDeleteClick}>
             Delete
           </BookmarkItemMenuItem>
         </BookmarkItemMenu>
       )}
+
+      <DeleteConfirmationModal
+        dataTestId="delete-confirmation-modal"
+        isOpen={deleteModalOpen}
+        message="This action cannot be undone."
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        title="Delete item?"
+      />
     </>
   );
 };

@@ -7,7 +7,7 @@ type SectionProps = {
   children: React.ReactNode;
 };
 export const SidebarSection: React.FC<SectionProps> = ({ title, icon, badge, children }) => (
-  <>
+  <div className="p-1">
     <h4 className="mb-1 flex items-center gap-2 text-xs font-semibold uppercase text-fgColor-secondary min-w-0">
       <div className="flex-1 min-w-0 truncate text-left">{title}</div>
       {icon && <span className="flex-none text-fgColor-secondary hover:text-fgColor-primary">{icon}</span>}
@@ -16,5 +16,5 @@ export const SidebarSection: React.FC<SectionProps> = ({ title, icon, badge, chi
       )}
     </h4>
     <ul className="min-w-0">{children}</ul>
-  </>
+  </div>
 );

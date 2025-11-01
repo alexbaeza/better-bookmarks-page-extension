@@ -108,13 +108,15 @@ describe('BaseGridItem', () => {
     fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(screen.getByText('Confirm delete?')).toBeInTheDocument();
+      expect(screen.getByText('Delete item?')).toBeInTheDocument();
     });
 
-    const confirmButton = screen.getByTestId('bookmark-delete-confirm-button');
+    const confirmButton = screen.getByTestId('delete-confirmation-modal-confirm-button');
     fireEvent.click(confirmButton);
 
-    expect(onDelete).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(onDelete).toHaveBeenCalled();
+    });
   });
 
   it('passes dragHandleProps to drag handle', () => {

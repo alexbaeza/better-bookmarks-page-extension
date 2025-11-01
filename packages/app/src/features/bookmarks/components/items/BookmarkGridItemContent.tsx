@@ -15,6 +15,7 @@ export interface BookmarkGridItemContentProps {
   dragHandle?: React.ReactNode;
   actions?: React.ReactNode;
   dragHandleProps?: React.HTMLAttributes<HTMLElement>;
+  isHovered?: boolean;
 }
 
 export const BookmarkGridItemContent: React.FC<BookmarkGridItemContentProps> = ({
@@ -29,6 +30,7 @@ export const BookmarkGridItemContent: React.FC<BookmarkGridItemContentProps> = (
   dragHandle,
   actions,
   dragHandleProps,
+  isHovered = false,
 }) => {
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -48,23 +50,34 @@ export const BookmarkGridItemContent: React.FC<BookmarkGridItemContentProps> = (
   return (
     <BookmarkDragProvider dragHandleProps={dragHandleProps}>
       <div
-        className="
-          relative flex w-24 flex-col items-center gap-1
-          rounded-lg bg-bgColor-secondary p-2 transition
-          hover:bg-bgColor-tertiary
-        "
+        className={`relative flex w-24 flex-col items-center gap-1 rounded-lg p-2 transition ${isHovered ? 'bg-bgColor-tertiary' : 'bg-bgColor-secondary'}`}
         data-testid={dataTestId}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         role="group"
       >
-        <div className="flex w-full flex-end justify-between">
+        <div
+          className="relative z-10 flex w-full flex-end justify-between"
+          onClick={(e) => {
+            // Prevent clicks on actions area from bubbling to parent click handlers
+            if (actions) {
+              e.stopPropagation();
+            }
+          }}
+          onKeyDown={(e) => {
+            // Prevent keyboard events on actions area from bubbling
+            if (actions) {
+              e.stopPropagation();
+            }
+          }}
+          role="none"
+        >
           {dragHandle}
           {actions}
         </div>
 
         <div
-          className="z-0 -mt-4 flex flex-col items-center cursor-pointer flex-1 w-full"
+          className="relative z-0 -mt-4 flex flex-col items-center cursor-pointer flex-1 w-full pointer-events-auto"
           data-testid="grid-item-main-button"
           onClick={handleTileClick}
           onKeyDown={handleKeyDown}

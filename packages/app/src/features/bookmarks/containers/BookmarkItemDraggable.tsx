@@ -1,23 +1,33 @@
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import type React from 'react';
 import { BookmarkItemView } from '@/features/bookmarks/containers/BookmarkItemView';
 
-import { useBookmarkDrag } from '@/features/bookmarks/hooks/useBookmarkDrag';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
 export interface BookmarkItemDraggableProps {
   item: IBookmarkItem;
-  isGhost?: boolean;
+  isDragging?: boolean;
 }
 
-export const BookmarkItemDraggable: React.FC<BookmarkItemDraggableProps> = ({ item, isGhost = false }) => {
-  const { dragProps, dragHandleProps, renderDragOverlay } = useBookmarkDrag({ item, isGhost });
+export const BookmarkItemDraggable: React.FC<BookmarkItemDraggableProps> = ({ item, isDragging = false }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: item.id });
 
-  if (isGhost) {
-    return renderDragOverlay();
-  }
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  // Only apply drag listeners to the handle, not the entire container
+  // This allows clicking on the item itself
+  const dragHandleProps = {
+    ...attributes,
+    ...listeners,
+  };
 
   return (
-    <div {...dragProps}>
+    <div className="focus:outline-none" ref={setNodeRef} style={style}>
       <BookmarkItemView dragHandleProps={dragHandleProps} item={item} />
     </div>
   );

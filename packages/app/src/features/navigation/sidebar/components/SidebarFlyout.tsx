@@ -1,10 +1,14 @@
 import { useDroppable } from '@dnd-kit/core';
 import { Bookmark as BookmarkIcon, X as CloseIcon, Folder as FolderIcon } from 'lucide-react';
 import type React from 'react';
+import { useMemo } from 'react';
+
+import { useDragDrop } from '@/app/providers/dragdrop-provider';
 import { DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX } from '@/config/dnd-constants';
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
+import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
 import { useFavicon } from '@/features/bookmarks/hooks/useFavicon';
-import { countFolders, countItems, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
+import { countFolders, countItems, findParentOfItem, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import { getDefaultFavicon } from '@/features/bookmarks/lib/browser/utils/default-favicon';
 import { SidebarSection } from '@/features/navigation/sidebar/components/SideBarSection';
 import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarItem';
@@ -42,14 +46,25 @@ const FlyoutFolderItem: React.FC<{
   currentPage: string;
   clickFolder: (id: string) => void;
 }> = ({ folder, currentPage, clickFolder }) => {
+  const { activeId } = useDragDrop();
+  const { rawFolders } = useBookmarks();
+
+  // Disable droppable if the dragged item is from the same folder
+  const isDisabled = useMemo(() => {
+    if (!activeId) return false;
+    const srcParent = findParentOfItem(rawFolders, activeId);
+    const fromFolderId = srcParent?.id || 'root';
+    return folder.id === fromFolderId;
+  }, [activeId, folder.id, rawFolders]);
+
   const { setNodeRef, isOver } = useDroppable({
     id: `${DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX}${folder.id}`,
-    disabled: false,
+    disabled: isDisabled,
   });
 
   return (
     <li className="mb-1">
-      <div className={isOver ? 'ring-2 ring-fgColor-accent' : ''} ref={setNodeRef}>
+      <div className={`${isOver && !isDisabled ? 'ring-2 ring-fgColor-accent' : ''} ${isDisabled ? 'opacity-50' : ''}`} ref={setNodeRef}>
         <SidebarItem
           badge={countFolders(folder) + countItems(folder)}
           className="cursor-pointer"
@@ -66,13 +81,24 @@ const FlyoutFolderItem: React.FC<{
 
 export const SidebarFlyout: React.FC<SidebarFlyoutProps> = ({ folder, onClose, clickFolder }) => {
   const { currentPage } = useBookmarkNavigation();
+  const { activeId } = useDragDrop();
+  const { rawFolders } = useBookmarks();
+
+  // Disable droppable if the dragged item is from the same folder
+  const isDisabled = useMemo(() => {
+    if (!activeId) return false;
+    const srcParent = findParentOfItem(rawFolders, activeId);
+    const fromFolderId = srcParent?.id || 'root';
+    return folder.id === fromFolderId;
+  }, [activeId, folder.id, rawFolders]);
+
   const { setNodeRef, isOver } = useDroppable({
     id: `${DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX}${folder.id}`,
-    disabled: false,
+    disabled: isDisabled,
   });
 
   return (
-    <div className={isOver ? 'ring-2 ring-fgColor-accent' : ''} ref={setNodeRef}>
+    <div className={`${isOver && !isDisabled ? 'ring-2 ring-fgColor-accent' : ''} ${isDisabled ? 'opacity-50' : ''}`} ref={setNodeRef}>
       <InlineFlyout data-testid={`sidebar-flyout-${folder.id}`} widthClass="w-64">
         {/* Close button */}
         <div className="mb-1 flex justify-end">

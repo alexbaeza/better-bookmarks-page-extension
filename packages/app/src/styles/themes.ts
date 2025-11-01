@@ -1,20 +1,6 @@
 export type ThemeColors = Record<string, string>;
 
 export const themes: Record<string, ThemeColors> = {
-  'catppuccin-mocha': {
-    'bgColor-accent': '#89B4FA',
-    'bgColor-primary': '#1E1E2E',
-    'bgColor-secondary': '#313244',
-    'bgColor-tertiary': '#45475A',
-    'fgColor-accent': '#89B4FA',
-    'fgColor-active': '#585B70',
-    'fgColor-danger': '#F38BA8',
-    'fgColor-hover': '#45475A',
-    'fgColor-muted': '#A6E3A1',
-    'fgColor-primary': '#CDD6F4',
-    'fgColor-secondary': '#A6ADC8',
-  },
-  // Order matters for unit tests
   default: {
     'bgColor-accent': '#007AFF',
     'bgColor-primary': '#1F1E25',
@@ -29,18 +15,18 @@ export const themes: Record<string, ThemeColors> = {
     'fgColor-secondary': '#8C8C91',
   },
 
-  dracula: {
-    'bgColor-accent': '#BD93F9',
-    'bgColor-primary': '#282A36',
-    'bgColor-secondary': '#21222C',
-    'bgColor-tertiary': '#44475A',
-    'fgColor-accent': '#BD93F9',
-    'fgColor-active': '#6272A4',
-    'fgColor-danger': '#FF5555',
-    'fgColor-hover': '#44475A',
-    'fgColor-muted': '#50FA7B',
-    'fgColor-primary': '#F8F8F2',
-    'fgColor-secondary': '#6272A4',
+  'catppuccin-mocha': {
+    'bgColor-accent': '#89B4FA',
+    'bgColor-primary': '#1E1E2E',
+    'bgColor-secondary': '#313244',
+    'bgColor-tertiary': '#45475A',
+    'fgColor-accent': '#89B4FA',
+    'fgColor-active': '#585B70',
+    'fgColor-danger': '#F38BA8',
+    'fgColor-hover': '#45475A',
+    'fgColor-muted': '#A6E3A1',
+    'fgColor-primary': '#CDD6F4',
+    'fgColor-secondary': '#A6ADC8',
   },
 
   'github-dark': {
@@ -99,20 +85,6 @@ export const themes: Record<string, ThemeColors> = {
     'fgColor-secondary': '#4C566A',
   },
 
-  pink: {
-    'bgColor-accent': '#EC4899',
-    'bgColor-primary': '#FDF2F8',
-    'bgColor-secondary': '#FCE7F3',
-    'bgColor-tertiary': '#FBCFE8',
-    'fgColor-accent': '#EC4899',
-    'fgColor-active': '#F3E8FF',
-    'fgColor-danger': '#DC2626',
-    'fgColor-hover': '#FCE7F3',
-    'fgColor-muted': '#DB2777',
-    'fgColor-primary': '#831843',
-    'fgColor-secondary': '#BE185D',
-  },
-
   'solarized-dark': {
     'bgColor-accent': '#268BD2',
     'bgColor-primary': '#002B36',
@@ -167,5 +139,32 @@ export const themes: Record<string, ThemeColors> = {
     'fgColor-muted': '#6A9955',
     'fgColor-primary': '#D4D4D4',
     'fgColor-secondary': '#858585',
+  },
+
+  pink: {
+    'bgColor-accent': '#EC4899',
+    'bgColor-primary': '#FDF2F8',
+    'bgColor-secondary': '#FCE7F3',
+    'bgColor-tertiary': '#FBCFE8',
+    'fgColor-accent': '#EC4899',
+    'fgColor-active': '#F3E8FF',
+    'fgColor-danger': '#DC2626',
+    'fgColor-hover': '#FCE7F3',
+    'fgColor-muted': '#DB2777',
+    'fgColor-primary': '#831843',
+    'fgColor-secondary': '#BE185D',
+  },
+  dracula: {
+    'bgColor-accent': '#BD93F9',
+    'bgColor-primary': '#282A36',
+    'bgColor-secondary': '#21222C',
+    'bgColor-tertiary': '#44475A',
+    'fgColor-accent': '#BD93F9',
+    'fgColor-active': '#6272A4',
+    'fgColor-danger': '#FF5555',
+    'fgColor-hover': '#44475A',
+    'fgColor-muted': '#50FA7B',
+    'fgColor-primary': '#F8F8F2',
+    'fgColor-secondary': '#6272A4',
   },
 };

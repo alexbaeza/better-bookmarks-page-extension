@@ -1,10 +1,12 @@
 import { useDroppable } from '@dnd-kit/core';
 import { FolderDot as FolderDotIcon, Folder as FolderIcon, FolderOpen as FolderOpenIcon } from 'lucide-react';
 import type React from 'react';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
+import { useDragDrop } from '@/app/providers/dragdrop-provider';
 import { DROPPABLE_SIDEBAR_FOLDER_PREFIX } from '@/config/dnd-constants';
-import { countFolders, countItems, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
+import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
+import { countFolders, countItems, findParentOfItem, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
 import { SidebarItem } from './SidebarItem';
@@ -19,8 +21,19 @@ type FolderNodeProps = {
   clickFolder: (id: string) => void;
 };
 export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, level, expandedIds, toggleFolder, openFolderId, clickFolder }) => {
+  const { activeId } = useDragDrop();
+  const { rawFolders } = useBookmarks();
+
+  // Disable droppable if the dragged item is from the same folder
+  const isDisabled = useMemo(() => {
+    if (!activeId) return false;
+    const srcParent = findParentOfItem(rawFolders, activeId);
+    const fromFolderId = srcParent?.id || 'root';
+    return folder.id === fromFolderId;
+  }, [activeId, folder.id, rawFolders]);
+
   const { setNodeRef, isOver } = useDroppable({
-    disabled: false,
+    disabled: isDisabled,
     id: `${DROPPABLE_SIDEBAR_FOLDER_PREFIX}${folder.id}`,
   });
 
@@ -45,7 +58,7 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(({ folder, leve
       {/* Folder Row */}
       <SidebarItem
         badge={countItems(folder) + countFolders(folder)}
-        className={`cursor-pointer ${isOver ? 'ring-2 ring-fgColor-accent' : ''}`}
+        className={`cursor-pointer ${isOver && !isDisabled ? 'ring-2 ring-fgColor-accent' : ''} ${isDisabled ? 'opacity-50' : ''}`}
         data-testid={`sidebar-folder-item-${folder.id}`}
         icon={hasKids ? isOpen ? <FolderOpenIcon size={16} /> : <FolderIcon size={16} /> : <FolderDotIcon size={16} />}
         isSelected={isSelected}

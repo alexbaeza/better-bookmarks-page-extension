@@ -50,7 +50,16 @@ export const BookmarkItemView: React.FC<BookmarkItemViewProps> = ({ dataTestId, 
 
   if (viewMode === BookmarkDisplayMode.Grid) {
     if (isFolder) {
-      return <BookmarkFolderGridItem dragHandleProps={dragHandleProps} folderId={item.id} onClick={handleClick} title={item.title} />;
+      return (
+        <BookmarkFolderGridItem
+          dragHandleProps={dragHandleProps}
+          folderId={item.id}
+          onClick={handleClick}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+          title={item.title}
+        />
+      );
     }
     return <BookmarkGridItem {...commonProps} onClick={undefined} url={item.url} />;
   }

@@ -11,6 +11,6 @@ export function useOptimalColumns(containerWidth: number, isList: boolean): numb
   const availableWidth = containerWidth - gap;
   const columns = Math.max(1, Math.floor(availableWidth / (minItemWidth + gap)));
 
-  // Cap at reasonable maximum
-  return Math.min(columns, 20);
+  // Return calculated columns to fill the row based on available width
+  return columns;
 }

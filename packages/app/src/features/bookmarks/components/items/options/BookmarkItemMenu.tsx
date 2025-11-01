@@ -1,8 +1,7 @@
+import { autoUpdate, flip, offset, shift, useDismiss, useFloating, useInteractions } from '@floating-ui/react';
 import type React from 'react';
-import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-
-import { useClickOutside } from '@/features/bookmarks/hooks/useClickOutside';
 
 export interface BookmarkItemMenuProps {
   onMouseEnter?: () => void;
@@ -13,56 +12,63 @@ export interface BookmarkItemMenuProps {
 }
 
 export const BookmarkItemMenu: React.FC<BookmarkItemMenuProps> = ({ onMouseEnter, onMouseLeave, onClose, anchorRef, children }) => {
-  const menuRef = useRef<HTMLDivElement>(null);
+  const { refs, floatingStyles, context } = useFloating({
+    placement: 'top-end',
+    middleware: [
+      offset(4), // Small gap between anchor and menu
+      flip(), // Flip to opposite side if there's no room
+      shift({ padding: 8 }), // Shift to stay within viewport
+    ],
+    whileElementsMounted: autoUpdate,
+    open: true,
+    onOpenChange: (open) => {
+      if (!open) {
+        onClose?.();
+      }
+    },
+  });
 
-  const [desiredPos, setDesiredPos] = useState({ left: 0, top: 0 });
-  const [actualPos, setActualPos] = useState({ left: 0, top: 0 });
-
+  // Set reference element
   useEffect(() => {
-    const anchor = anchorRef.current;
-    if (!anchor) return;
-    const rect = anchor.getBoundingClientRect();
-    setDesiredPos({ left: rect.right, top: rect.bottom });
-  }, [anchorRef]);
-
-  useClickOutside(menuRef, () => onClose?.());
-
-  useEffect(() => {
-    const menuEl = menuRef.current;
-    if (!menuEl) return;
-
-    const { offsetWidth: w, offsetHeight: h } = menuEl;
-    const margin = 8; // breathing room
-    let left = desiredPos.left;
-    let top = desiredPos.top;
-
-    if (left + w + margin > window.innerWidth) {
-      const anchor = anchorRef.current;
-      left = Math.max(margin, desiredPos.left - w - (anchor?.offsetWidth ?? 0));
+    if (anchorRef.current) {
+      refs.setReference(anchorRef.current);
     }
-    if (top + h + margin > window.innerHeight) {
-      const anchor = anchorRef.current;
-      top = Math.max(margin, desiredPos.top - h - (anchor?.offsetHeight ?? 0));
-    }
+  }, [anchorRef, refs]);
 
-    setActualPos({ left, top });
-  }, [desiredPos, anchorRef]);
+  // Use Floating UI's dismiss hook for auto-close behavior
+  const { getFloatingProps } = useInteractions([
+    useDismiss(context, {
+      outsidePress: true, // Close when clicking outside
+      escapeKey: true, // Close on Escape key
+      outsidePressEvent: 'mousedown', // Use mousedown for better UX
+      referencePress: true, // Close when clicking the anchor button again
+    }),
+  ]);
 
   const menuRoot = document.getElementById('bookmark-menu-portal');
   if (!menuRoot) return null;
 
+  // Handle hover to maintain hover state on the parent item
+  const handleMouseEnter = () => {
+    onMouseEnter?.(); // Keep parent item hovered so options button stays visible
+  };
+
+  const handleMouseLeave = () => {
+    onMouseLeave?.(); // Allow parent item to unhover when leaving menu
+  };
+
   return createPortal(
     <div
+      {...getFloatingProps()}
       aria-label="Item options menu"
-      className="w-40 rounded bg-bgColor-tertiary p-2 shadow-lg"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      ref={menuRef}
+      className="w-40 rounded bg-bgColor-secondary p-2 shadow-lg border border-bgColor-tertiary"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      ref={refs.setFloating}
       role="menu"
       style={{
-        left: actualPos.left,
-        position: 'absolute',
-        top: actualPos.top,
+        ...floatingStyles,
+        position: 'fixed',
         zIndex: 1000,
       }}
     >

@@ -1,14 +1,13 @@
-import { rectSortingStrategy, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useAtomValue } from 'jotai';
-import React from 'react';
+import type React from 'react';
 
 import { viewModeAtom } from '@/app/providers/atoms';
-import { useDragDrop } from '@/app/providers/dragdrop-provider';
 import { BookmarkItemDraggable } from '@/features/bookmarks/containers/BookmarkItemDraggable';
 import { useContainerWidth } from '@/features/bookmarks/hooks/useContainerWidth';
 import { useOptimalColumns } from '@/features/bookmarks/hooks/useOptimalColumns';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { BookmarkDisplayMode } from '@/shared/types/ui';
+import { SortableBookmarkList } from '@/shared/ui/SortableBookmarkList';
 
 export interface BookmarkDisplayAreaProps {
   folderContents: IBookmarkItem[];
@@ -16,7 +15,6 @@ export interface BookmarkDisplayAreaProps {
 }
 
 export const BookmarkDisplayArea: React.FC<BookmarkDisplayAreaProps> = ({ folderContents, folderId }) => {
-  const { activeId } = useDragDrop();
   const viewMode = useAtomValue(viewModeAtom);
   const isList = viewMode === BookmarkDisplayMode.List;
   const { containerWidth, containerRef } = useContainerWidth();
@@ -31,22 +29,11 @@ export const BookmarkDisplayArea: React.FC<BookmarkDisplayAreaProps> = ({ folder
         gridTemplateColumns: `repeat(${optimalColumns}, minmax(100px, 1fr))`,
       };
 
+  const renderItem = (item: IBookmarkItem, isDragging?: boolean) => <BookmarkItemDraggable isDragging={isDragging} item={item} />;
+
   return (
-    <SortableContext items={folderContents.map((item) => item.id)} strategy={isList ? verticalListSortingStrategy : rectSortingStrategy}>
-      <div
-        className={layoutClass}
-        data-folder-id={folderId}
-        data-testid={`bookmark-content-container-${folderId}`}
-        data-view-mode={viewMode}
-        ref={containerRef}
-        style={gridStyle}
-      >
-        {folderContents.map((item) => (
-          <React.Fragment key={item.id}>
-            <BookmarkItemDraggable isGhost={item.id === activeId} item={item} />
-          </React.Fragment>
-        ))}
-      </div>
-    </SortableContext>
+    <div ref={containerRef}>
+      <SortableBookmarkList className={layoutClass} folderId={folderId} items={folderContents} renderItem={renderItem} style={gridStyle} />
+    </div>
   );
 };

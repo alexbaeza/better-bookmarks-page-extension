@@ -33,19 +33,19 @@ describe('useOptimalColumns', () => {
     expect(result.current).toBe(9);
   });
 
-  it('caps columns at reasonable maximum (20)', () => {
-    // For 5000px width: floor((5000 - 8) / 108) = floor(4992 / 108) = 46, but capped at 20
+  it('calculates many columns for very wide containers', () => {
+    // For 5000px width: floor((5000 - 8) / 108) = floor(4992 / 108) = 46
     const { result } = renderHook(() => useOptimalColumns(5000, false));
-    expect(result.current).toBe(20);
+    expect(result.current).toBe(46);
   });
 
-  it('handles edge case of exactly 20 columns', () => {
-    // Calculate width needed for 20 columns: 20 * 100 + 19 * 8 (gaps) = 2000 + 152 = 2152px
-    // We need width that gives floor((width - 8) / 108) = 20
-    // So we need: (width - 8) / 108 >= 20 and < 21
-    // 20 * 108 + 8 = 2168px
-    const { result } = renderHook(() => useOptimalColumns(2168, false));
-    expect(result.current).toBe(20);
+  it('handles edge case of exactly 4 columns', () => {
+    // Calculate width needed for 4 columns: 4 * 100 + 3 * 8 (gaps) = 400 + 24 = 424px
+    // We need width that gives floor((width - 8) / 108) >= 4
+    // So we need: (width - 8) / 108 >= 4
+    // 4 * 108 + 8 = 440px
+    const { result } = renderHook(() => useOptimalColumns(440, false));
+    expect(result.current).toBe(4);
   });
 
   it('handles zero width gracefully', () => {
