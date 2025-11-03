@@ -1,0 +1,57 @@
+name: Pre-checks
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+env:
+  NODE_VERSION: '24'
+  PNPM_VERSION: '10'
+
+permissions:
+  contents: read # access to check out code and install dependencies
+
+jobs:
+  commit-validation:
+    name: Validate Commit Messages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Validate commit messages
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "Validating commits in PR..."
+            git log --oneline ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} | while read commit; do
+              COMMIT_MSG=$(git log --format=%s -n 1 ${commit%% *})
+              echo "Checking: $COMMIT_MSG"
+              echo "$COMMIT_MSG" | npx commitlint
+            done
+          else
+            echo "Validating commit in push..."
+            COMMIT_MSG=$(git log --format=%s -n 1 HEAD)
+            echo "Checking: $COMMIT_MSG"
+            echo "$COMMIT_MSG" | npx commitlint
+          fi
+
+      - name: Run Biome checks
+        run: pnpm biome ci .

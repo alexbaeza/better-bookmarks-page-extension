@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+# Only run tests if there are changes in packages/ directory
+# This checks the diff between the current branch and the remote branch
+set -e
+
+# Get the current branch name
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Check if we're pushing to a remote branch
+if git rev-parse --verify "origin/$CURRENT_BRANCH" >/dev/null 2>&1; then
+  # Compare with remote branch
+  CHANGED_FILES=$(git diff --name-only "origin/$CURRENT_BRANCH" HEAD)
+else
+  # If remote branch doesn't exist, check all commits
+  CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+fi
+
+# Check if any files in packages/ directory have changed
+if echo "$CHANGED_FILES" | grep -q "^packages/"; then
+  echo "Changes detected in packages/ directory, running tests..."
+  pnpm test
+else
+  echo "No changes in packages/ directory, skipping tests"
+fi

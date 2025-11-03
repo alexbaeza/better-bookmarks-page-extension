@@ -41,14 +41,14 @@ _if you'd like to find out more about the  `bookmarks` api_
 
 In the project directory, you can run:
 
-### `yarn dev`
+### `pnpm dev`
 
 Runs the extension in the development mode with instant feedback.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ## Building the extension
 
-### `yarn build`
+### `pnpm build`
 
 Builds an optimized production build of the extension in the `build` folder.\
 The build for the best performance.
@@ -61,17 +61,17 @@ _I am attempting a semi-automated release creation, currently the automation tak
 updating release versions and creating the packages but does not automatically publish to the
 firefox and chrome stores._
 
-### `yarn release patch`
+### `pnpm release patch`
 
 This will update the patch version by 0.0.1 and create the package to be published
 under `build/release/`
 
-### `yarn release minor`
+### `pnpm release minor`
 
 This will update the patch version by 0.1.0 and create the package to be published
 under `build/release/`
 
-### `yarn release major`
+### `pnpm release major`
 
 This will update the patch version by 1.0.0 and create the package to be published
 under `build/release/`

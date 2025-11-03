@@ -1,0 +1,11 @@
+// Configuration for Node.js build tools (Vite, Vitest configs)
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "skipLibCheck": true
+  },
+  "include": ["vite.config.ts", "vitest.config.ts"]
+}
