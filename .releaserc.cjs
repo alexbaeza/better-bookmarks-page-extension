@@ -4,6 +4,6 @@ module.exports = {
   ...semanticReleaseSharedConfig,
   releaseRules: [
     ...semanticReleaseSharedConfig.releaseRules,
-    { release: 'minor', type: 'release' }, // Allow release: type to trigger minor releases
+    { release: 'minor', type: 'release' },
   ],
 };

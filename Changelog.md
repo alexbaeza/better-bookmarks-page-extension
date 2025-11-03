@@ -20,3 +20,4 @@ The bookmarks domain was refactored into functional APIs with a cross‑browser 
 ### Other
 - Migrated build/test stack to Vite, Vitest, Testing Library, and MSW.
 - Migrated linting/formatting to Biome; removed ESLint/Prettier configs and dependencies.
+
