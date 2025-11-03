@@ -6,43 +6,59 @@
 #   ./scripts/create-release.sh firefox    # build only Firefox package
 
 TARGET=${1:-all}
+CURR_VERSION=$(jq -r '.version' package.json)
+BUILD_DIR="packages/app/build"
+MANIFEST_FILE="${BUILD_DIR}/manifest.json"
 
-echo "Building app"
+echo "🚀 Starting release process..."
+echo ""
+
+echo "🧹 Cleaning build directory..."
+pnpm clean || exit 1
+
+echo "📦 Building app"
 pnpm build || exit 1
 
-echo "Preparing release artifacts"
-VERSION_STRING='"version": '
-CURR_VERSION=$(./scripts/current-version-check.sh)
+echo ""
+echo "📋 Preparing release artifacts"
+
+# Clean release directory to avoid accumulating old zips
+if [ -d "release" ]; then
+  echo "🧹 Cleaning release directory..."
+  rm -f release/*.zip
+fi
 mkdir -p release
 
+echo "   Version: $CURR_VERSION"
+echo "   Output directory: release/"
+echo ""
+
 package_firefox() {
-  echo "Creating Firefox release"
-  cp build/manifest-firefox.json build/manifest.json
+  echo "🦊 Creating Firefox release"
+  cp "scripts/manifest-firefox.json" "$MANIFEST_FILE"
 
-  echo "Setting Firefox version to $CURR_VERSION"
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\",/" build/manifest.json
-  else
-    sed -i -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\",/" build/manifest.json
-  fi
+  echo "   Setting version to $CURR_VERSION"
+  jq --arg version "$CURR_VERSION" '.version = $version' "$MANIFEST_FILE" > "${MANIFEST_FILE}.tmp" && mv "${MANIFEST_FILE}.tmp" "$MANIFEST_FILE"
 
-  echo "Bundling Firefox release"
-  (cd build && zip -r ../release/extension-firefox-"$CURR_VERSION".zip ./* -x 'manifest-*' 'release/*')
+  echo "   Packaging extension..."
+  (cd "$BUILD_DIR" && zip -r "../../../release/extension-firefox-${CURR_VERSION}.zip" . -x "*.map" "*.DS_Store" "__MACOSX/*" > /dev/null)
+  
+  ZIP_SIZE=$(du -h "release/extension-firefox-${CURR_VERSION}.zip" | cut -f1)
+  echo "   ✓ Created: release/extension-firefox-${CURR_VERSION}.zip ($ZIP_SIZE)"
 }
 
 package_chrome() {
-  echo "Creating Chrome release"
-  cp build/manifest-chrome.json build/manifest.json
+  echo "🌐 Creating Chrome release"
+  cp "scripts/manifest-chrome.json" "$MANIFEST_FILE"
 
-  echo "Setting Chrome version to $CURR_VERSION"
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\",/" build/manifest.json
-  else
-    sed -i -e "s/\($VERSION_STRING\).*/\1\"$CURR_VERSION\",/" build/manifest.json
-  fi
+  echo "   Setting version to $CURR_VERSION"
+  jq --arg version "$CURR_VERSION" '.version = $version' "$MANIFEST_FILE" > "${MANIFEST_FILE}.tmp" && mv "${MANIFEST_FILE}.tmp" "$MANIFEST_FILE"
 
-  echo "Bundling Chrome release"
-  (cd build && zip -r ../release/extension-chrome-"$CURR_VERSION".zip ./* -x 'manifest-*' 'release/*')
+  echo "   Packaging extension..."
+  (cd "$BUILD_DIR" && zip -r "../../../release/extension-chrome-${CURR_VERSION}.zip" . -x "*.map" "*.DS_Store" "__MACOSX/*" > /dev/null)
+  
+  ZIP_SIZE=$(du -h "release/extension-chrome-${CURR_VERSION}.zip" | cut -f1)
+  echo "   ✓ Created: release/extension-chrome-${CURR_VERSION}.zip ($ZIP_SIZE)"
 }
 
 case "$TARGET" in
@@ -58,4 +74,8 @@ case "$TARGET" in
     ;;
 esac
 
-echo "Completed successfully"
+echo ""
+echo "✅ Release completed successfully!"
+echo ""
+echo "📦 Built packages:"
+ls -lh release/*.zip 2>/dev/null | awk '{print "   - " $9 " (" $5 ")"}'

@@ -8,7 +8,10 @@ on:
 
 env:
   NODE_VERSION: '24'
-  PNPM_VERSION: '8'
+  PNPM_VERSION: '10'
+
+permissions:
+  contents: read # access to check out code and install dependencies
 
 jobs:
   commit-validation:
@@ -16,19 +19,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install
@@ -49,6 +53,5 @@ jobs:
             echo "$COMMIT_MSG" | npx commitlint
           fi
 
-      - name: Run checks
-        run: |
-          pnpm check
+      - name: Run Biome checks
+        run: pnpm biome ci .

@@ -6,70 +6,49 @@ on:
   pull_request:
     branches: [main, develop]
 
-# Wait for pre-checks to pass before running main pipeline
+# Run linting and formatting checks first, then run tests and builds
 # This ensures we don't waste CI resources on invalid commits
 
 env:
   NODE_VERSION: '24'
-  PNPM_VERSION: '8'
+  PNPM_VERSION: '10'
+
+permissions:
+  contents: read # access to check out code and install dependencies
 
 jobs:
-  # Code quality and linting checks
   lint-and-format:
     name: Lint & Format Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
         with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
+      - name: Check lint & formatting
+        run: pnpm biome ci .
 
-      - name: Install dependencies
-        run: pnpm install
 
-      - name: Run linting
-        run: pnpm lint
-
-      - name: Check formatting
-        run: pnpm format --check
-
-      - name: Run type checking
-        run: pnpm check
-
-  # Unit tests
-  unit-tests:
+  tests-unit:
     name: Unit Tests
     runs-on: ubuntu-latest
-    needs: [wait-for-pre-checks]
+    needs: [lint-and-format]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
         with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Run unit tests
-        run: pnpm test
-
-      - name: Generate coverage report
+      - name: Run unit tests with coverage report
         run: pnpm test:coverage
 
       - name: Upload coverage reports to Codecov
@@ -77,101 +56,51 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-  # Build verification
   build:
     name: Build Verification
     runs-on: ubuntu-latest
-    needs: [wait-for-pre-checks]
+    needs: [lint-and-format, tests-unit]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
         with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
+      - name: Build application
+        run: pnpm build
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Install dependencies
-        run: pnpm install
+  tests-e2e:
+    name: E2E Tests (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    needs: [lint-and-format, build]
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Build application
         run: pnpm build
 
-  e2e-chrome:
-    name: E2E Tests (Chrome)
-    runs-on: ubuntu-latest
-    needs: [wait-for-pre-checks, build]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Run Cypress Tests (${{ matrix.browser }})
+        uses: cypress-io/github-action@v6
         with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Start development server
-        run: |
-          pnpm build
-          pnpm preview --port 3000 --host 0.0.0.0 &
-          sleep 10
+          start: pnpm preview
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 60
+          command: pnpm run test:e2e:${{ matrix.browser }}
         env:
           CI: true
-
-      - name: Wait for server
-        run: npx wait-on http://localhost:3000 --timeout 30000
-
-      - name: Run E2E tests (Chrome)
-        run: pnpm test:e2e:chrome
-        env:
-          CYPRESS_baseUrl: http://localhost:3000
-
-  e2e-firefox:
-    name: E2E Tests (Firefox)
-    runs-on: ubuntu-latest
-    needs: [wait-for-pre-checks, build]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Start development server
-        run: |
-          pnpm build
-          pnpm preview --port 3000 --host 0.0.0.0 &
-          sleep 10
-        env:
-          CI: true
-
-      - name: Wait for server
-        run: npx wait-on http://localhost:3000 --timeout 30000
-
-      - name: Run E2E tests (Firefox)
-        run: pnpm test:e2e:firefox
-        env:
-          CYPRESS_baseUrl: http://localhost:3000

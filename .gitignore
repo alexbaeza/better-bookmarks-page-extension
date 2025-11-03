@@ -1,5 +1,5 @@
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 
@@ -8,7 +8,7 @@ coverage
 test/coverage
 
 # production
-/build
+build
 
 # misc
 .DS_Store
@@ -26,5 +26,10 @@ yarn-debug.log*
 yarn-error.log*
 
 # artefacts
-/release
+release
+reports
+cypress
+screenshots
 
+/test/e2e/downloads
+.pnpm-store

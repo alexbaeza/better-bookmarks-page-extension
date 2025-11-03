@@ -1,0 +1,28 @@
+{
+  "name": "@better-bookmarks/tests-e2e",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "cypress run",
+    "test:chrome": "cypress run --browser chrome",
+    "test:debug": "cypress run --headed --no-exit",
+    "test:firefox": "cypress run --browser firefox",
+    "test:open": "cypress open",
+    "test:spec": "cypress run --spec"
+  },
+  "cypress-cucumber-preprocessor": {
+    "stepDefinitions": "step-definitions/**/*.{js,ts}"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^23.2.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.7",
+    "cypress": "^15.5.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  }
+}
