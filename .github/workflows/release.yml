@@ -46,7 +46,8 @@ jobs:
 
       - name: Run semantic-release
         run: |
-          pnpm semantic-release
+          pnpm exec semantic-release
+        working-directory: .
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
