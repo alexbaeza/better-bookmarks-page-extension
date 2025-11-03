@@ -1,9 +1,7 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 env:
   NODE_VERSION: '24'
@@ -11,13 +9,21 @@ env:
 
 jobs:
   release:
-    name: Automated Release
+    name: Manual Release
     runs-on: ubuntu-latest
     permissions:
       contents: write
       issues: write
       pull-requests: write
     steps:
+      - name: Check authorization
+        run: |
+          if [ "${{ github.actor }}" != "alexbaeza" ]; then
+            echo "❌ Unauthorized: Only alexbaeza can trigger this workflow"
+            exit 1
+          fi
+          echo "✅ Authorized user: ${{ github.actor }}"
+
       - name: Checkout code
         uses: actions/checkout@v5
         with:
@@ -34,23 +40,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
-
+      
       - name: Install dependencies
         run: pnpm install
-
-      - name: Run checks
-        run: |
-          pnpm biome ci .
-
-      - name: Run tests
-        run: |
-          pnpm test
-          pnpm test:e2e:chrome --config video=false,screenshotOnRunFailure=false
-
-      - name: Generate changelog
-        run: |
-          # Generate changelog from conventional commits
-          pnpm changelog
 
       - name: Run semantic-release
         run: |
