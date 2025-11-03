@@ -2,5 +2,8 @@ const semanticReleaseSharedConfig = require('@better-bookmarks/shared-tooling').
 
 module.exports = {
   ...semanticReleaseSharedConfig,
-  // Project-specific overrides can be added here if needed
+  releaseRules: [
+    ...semanticReleaseSharedConfig.releaseRules,
+    { release: 'minor', type: 'release' }, // Allow release: type to trigger minor releases
+  ],
 };
