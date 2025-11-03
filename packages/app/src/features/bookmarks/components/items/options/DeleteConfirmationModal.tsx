@@ -1,6 +1,9 @@
 import type React from 'react';
 import { Button } from '@/shared/ui/Button';
 import { Modal } from '@/shared/ui/Modal';
+import { Row } from '@/shared/ui/Row';
+import { Stack } from '@/shared/ui/Stack';
+import { Text } from '@/shared/ui/Text';
 
 export interface DeleteConfirmationModalProps {
   isOpen: boolean;
@@ -28,17 +31,19 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
 
   return (
     <Modal dataTestId={dataTestId} onClose={onClose} size="sm" title={title}>
-      <div className="space-y-4" data-testid={`${dataTestId}-container`}>
-        <p className="text-sm text-fgColor-secondary">{message}</p>
-        <div className="flex justify-end gap-2">
+      <Stack data-testid={`${dataTestId}-container`} gap="lg">
+        <Text color="secondary" size="sm">
+          {message}
+        </Text>
+        <Row gap="sm" justifyContent="end">
           <Button data-testid="bookmark-delete-cancel-button" onClick={onClose} variant="secondary">
             Cancel
           </Button>
           <Button data-testid="bookmark-delete-confirm-button" onClick={handleConfirm} variant="primary">
             Delete
           </Button>
-        </div>
-      </div>
+        </Row>
+      </Stack>
     </Modal>
   );
 };

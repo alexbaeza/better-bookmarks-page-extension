@@ -40,12 +40,8 @@ describe('Modal', () => {
 
     const backdrop = screen.getByTestId('modal-backdrop');
     expect(backdrop).toBeInTheDocument();
-    // Radix UI Dialog handles onPointerDownOutside internally
-    // We verify the backdrop exists and modal structure is correct
     const content = screen.getByTestId('modal');
     expect(content).toBeInTheDocument();
-    // Note: Radix UI handles outside clicks via onPointerDownOutside prop on Dialog.Content
-    // which is tested through Radix UI's own test suite
   });
 
   it('calls onClose when close button is clicked', () => {
@@ -63,11 +59,7 @@ describe('Modal', () => {
     render(<Modal onClose={onClose}>Content</Modal>);
 
     const dialog = screen.getByTestId('modal');
-    // Radix UI Dialog handles Escape via onEscapeKeyDown prop on Dialog.Content
-    // We verify the dialog exists and has the correct structure
     expect(dialog).toBeInTheDocument();
-    // Note: Radix UI handles Escape key internally via onEscapeKeyDown prop
-    // which is tested through Radix UI's own test suite
   });
 
   it('has onEscapeKeyDown and onPointerDownOutside handlers', () => {
@@ -76,7 +68,6 @@ describe('Modal', () => {
 
     const dialog = screen.getByTestId('modal');
     expect(dialog).toBeInTheDocument();
-    // Verify that the handlers are attached (Radix UI handles these internally)
   });
 
   it('applies correct size classes', () => {

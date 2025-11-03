@@ -23,7 +23,10 @@ export const SearchBar: React.FC = () => {
       // Check if user is typing in an input, textarea, or contenteditable element
       const isTypingTarget =
         event.target instanceof HTMLElement &&
-        (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.isContentEditable || event.target.tagName === 'SELECT');
+        (event.target.tagName === 'INPUT' ||
+          event.target.tagName === 'TEXTAREA' ||
+          event.target.isContentEditable ||
+          event.target.tagName === 'SELECT');
 
       // Don't trigger if user is already typing
       if (isTypingTarget) return;
@@ -47,7 +50,14 @@ export const SearchBar: React.FC = () => {
 
   return (
     <div className="mt-4 w-full">
-      <SearchInput data-testid="search-input" onChange={setSearchTerm} placeholder={placeholder} ref={inputRef} showShortcut value={searchTerm} />
+      <SearchInput
+        data-testid="search-input"
+        onChange={setSearchTerm}
+        placeholder={placeholder}
+        ref={inputRef}
+        showShortcut
+        value={searchTerm}
+      />
     </div>
   );
 };

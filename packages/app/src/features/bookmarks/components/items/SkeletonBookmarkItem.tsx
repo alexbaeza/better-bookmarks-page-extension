@@ -10,7 +10,10 @@ export interface SkeletonBookmarkItemProps {
   viewMode?: BookmarkDisplayMode;
 }
 
-export const SkeletonBookmarkItem: React.FC<SkeletonBookmarkItemProps> = ({ dataTestId = 'bookmark-skeleton-item', viewMode: propViewMode }) => {
+export const SkeletonBookmarkItem: React.FC<SkeletonBookmarkItemProps> = ({
+  dataTestId = 'bookmark-skeleton-item',
+  viewMode: propViewMode,
+}) => {
   const atomViewMode = useAtomValue(viewModeAtom);
   const viewMode = propViewMode ?? atomViewMode;
 

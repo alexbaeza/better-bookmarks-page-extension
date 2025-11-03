@@ -32,8 +32,7 @@ When('I expand a sidebar folder', () => {
 });
 
 Then('I should see expanded folder contents', () => {
-  // Check if folder is expanded by looking for aria-expanded on the li element
-  cy.get('[data-testid^="sidebar-folder-item-"]').first().parent().should('have.attr', 'aria-expanded', 'true');
+  cy.get('[data-testid^="sidebar-folder-item-"]').first().closest('li').should('have.attr', 'aria-expanded', 'true');
 });
 
 When('I collapse the sidebar folder', () => {
@@ -41,8 +40,7 @@ When('I collapse the sidebar folder', () => {
 });
 
 Then('I should see collapsed folder contents', () => {
-  // Check if folder is collapsed by looking for aria-expanded attribute
-  cy.get('[data-testid^="sidebar-folder-item-"]').first().parent().should('have.attr', 'aria-expanded', 'false');
+  cy.get('[data-testid^="sidebar-folder-item-"]').first().closest('li').should('have.attr', 'aria-expanded', 'false');
 });
 
 When('I click on a sidebar folder', () => {
@@ -56,7 +54,6 @@ Then('I should see the sidebar flyout', () => {
 Then('I should see folder contents in flyout', () => {
   cy.get('[data-testid="flyout-title"]').should('be.visible');
   cy.get('[data-testid="sidebar-flyout"]').within(() => {
-    // Check that there are interactive elements in the flyout
     cy.get('button').should('have.length.greaterThan', 0);
   });
 });

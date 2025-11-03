@@ -8,7 +8,11 @@ const TestChild: React.FC = () => {
   const { showModal, hideModal } = useModal();
   return (
     <div>
-      <button data-testid="show-modal" onClick={() => showModal(<div data-testid="modal">Modal Content</div>)} type="button">
+      <button
+        data-testid="show-modal"
+        onClick={() => showModal(<div data-testid="modal">Modal Content</div>)}
+        type="button"
+      >
         Show
       </button>
       <button data-testid="hide-modal" onClick={hideModal} type="button">

@@ -5,7 +5,6 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    // Disable animations for faster tests
     animationDistanceThreshold: 0,
     baseUrl: 'http://localhost:3000',
     defaultCommandTimeout: 10000,
@@ -30,11 +29,9 @@ export default defineConfig({
     },
     specPattern: ['**/*.cy.ts', 'features/**/*.feature'],
     supportFile: 'support/e2e.ts',
-    // Performance optimizations
     video: false, // Disable video recording for faster tests
     viewportHeight: 800,
     viewportWidth: 1200,
-    // Faster element interactions
     waitForAnimations: false,
   },
 });

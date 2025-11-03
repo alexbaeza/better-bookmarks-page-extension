@@ -11,6 +11,8 @@ export interface OrderingService {
   moveItem(itemId: string, fromFolderId: string, toFolderId: string, toIndex: number): void;
   reorderItems(folderId: string, fromIndex: number, toIndex: number): void;
   initializeOrdering(bookmarks: IBookmarkItem[]): void;
+  cleanupStaleOrdering(folder: IBookmarkItem): void;
+  getOrderedChildren(folder: IBookmarkItem): IBookmarkItem[] | undefined;
 }
 
 class BookmarkOrderingService implements OrderingService {
@@ -42,7 +44,6 @@ class BookmarkOrderingService implements OrderingService {
   moveItem(itemId: string, fromFolderId: string, toFolderId: string, toIndex: number): void {
     // Remove from source folder
     if (fromFolderId && this.ordering[fromFolderId]) {
-      const _beforeRemove = [...this.ordering[fromFolderId]];
       this.ordering[fromFolderId] = this.ordering[fromFolderId].filter((id) => id !== itemId);
     }
 
@@ -52,7 +53,6 @@ class BookmarkOrderingService implements OrderingService {
     }
 
     // Dedupe in destination before inserting
-    const _beforeAdd = [...this.ordering[toFolderId]];
     const withoutItem = this.ordering[toFolderId].filter((id) => id !== itemId);
     const clampedIndex = Math.max(0, Math.min(toIndex, withoutItem.length));
     withoutItem.splice(clampedIndex, 0, itemId);
@@ -64,14 +64,31 @@ class BookmarkOrderingService implements OrderingService {
    * Reorder items within the same folder
    */
   reorderItems(folderId: string, fromIndex: number, toIndex: number): void {
-    if (!this.ordering[folderId]) {
+    if (!this.ordering[folderId] || this.ordering[folderId].length === 0) {
       return;
     }
 
     const beforeReorder = [...this.ordering[folderId]];
+
+    // Validate indices
+    if (fromIndex < 0 || fromIndex >= beforeReorder.length) {
+      console.warn(`Invalid fromIndex ${fromIndex} for folder ${folderId} with ${beforeReorder.length} items`);
+      return;
+    }
+    if (toIndex < 0 || toIndex > beforeReorder.length) {
+      console.warn(`Invalid toIndex ${toIndex} for folder ${folderId} with ${beforeReorder.length} items`);
+      return;
+    }
+
     const afterReorder = [...beforeReorder];
-    const [movedItem] = afterReorder.splice(fromIndex, 1);
-    afterReorder.splice(toIndex, 0, movedItem);
+    const movedItemId = afterReorder[fromIndex];
+    if (!movedItemId) {
+      console.warn(`No item at index ${fromIndex} in folder ${folderId}`);
+      return;
+    }
+
+    afterReorder.splice(fromIndex, 1);
+    afterReorder.splice(toIndex, 0, movedItemId);
 
     this.ordering[folderId] = afterReorder;
 
@@ -79,26 +96,73 @@ class BookmarkOrderingService implements OrderingService {
   }
 
   /**
+   * Clean up stale ordering entries - remove IDs that don't exist in the folder
+   */
+  cleanupStaleOrdering(folder: IBookmarkItem): void {
+    if (!folder.children || folder.children.length === 0) {
+      // Remove ordering for empty folders
+      if (this.ordering[folder.id]) {
+        delete this.ordering[folder.id];
+        this.saveToStorage();
+      }
+      return;
+    }
+
+    const currentOrder = this.ordering[folder.id];
+    if (!currentOrder || currentOrder.length === 0) {
+      return;
+    }
+
+    const validIds = new Set(folder.children.map((child) => child.id));
+    const cleanedOrder = currentOrder.filter((id) => validIds.has(id));
+
+    // Only update if we actually removed stale entries
+    if (cleanedOrder.length !== currentOrder.length) {
+      this.ordering[folder.id] = cleanedOrder;
+      this.saveToStorage();
+    }
+  }
+
+  /**
    * Initialize ordering for all folders based on current bookmark structure
+   * Also reconciles ordering with current bookmark state
    */
   initializeOrdering(bookmarks: IBookmarkItem[]): void {
-    const initializeFolder = (folder: IBookmarkItem) => {
+    const reconcileFolder = (folder: IBookmarkItem) => {
       if (folder.children && folder.children.length > 0) {
-        // Only initialize if not already ordered
+        // Clean up stale ordering entries
+        this.cleanupStaleOrdering(folder);
+
+        // If no ordering exists, initialize with current children
         if (!this.ordering[folder.id]) {
           this.ordering[folder.id] = folder.children.map((child) => child.id);
-        }
+        } else {
+          // Reconcile: ensure all current children are in ordering
+          const currentOrder = this.ordering[folder.id];
+          const currentIds = new Set(currentOrder);
 
-        // Recursively initialize child folders
-        for (const child of folder.children) {
-          if (child.children) {
-            initializeFolder(child);
+          // Add any new items that aren't in ordering (at the end to maintain existing order)
+          const newItems = folder.children.filter((child) => !currentIds.has(child.id)).map((child) => child.id);
+
+          if (newItems.length > 0) {
+            // Add new items to the end of ordering
+            this.ordering[folder.id] = [...currentOrder, ...newItems];
           }
         }
+
+        // Recursively reconcile child folders
+        for (const child of folder.children) {
+          if (child.children) {
+            reconcileFolder(child);
+          }
+        }
+      } else {
+        // Clean up empty folders
+        this.cleanupStaleOrdering(folder);
       }
     };
 
-    bookmarks.forEach(initializeFolder);
+    bookmarks.forEach(reconcileFolder);
     this.saveToStorage();
   }
 
@@ -122,7 +186,7 @@ class BookmarkOrderingService implements OrderingService {
   /**
    * Get children in the correct order
    */
-  private getOrderedChildren(folder: IBookmarkItem): IBookmarkItem[] | undefined {
+  getOrderedChildren(folder: IBookmarkItem): IBookmarkItem[] | undefined {
     if (!folder.children || folder.children.length === 0) {
       return folder.children;
     }

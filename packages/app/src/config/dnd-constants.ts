@@ -1,3 +1,9 @@
-export const DROPPABLE_FLY_OUT_SIDEBAR_FOLDER_PREFIX = 'droppable-fly-out-sidebar-folder-';
-export const DROPPABLE_SIDEBAR_FOLDER_PREFIX = 'droppable-sidebar-folder-';
-export const DROPPABLE_ROOT_FOLDER_PREFIX = 'droppable-root-folder-';
+/**
+ * Drag and drop constants
+ */
+
+export const DND_ITEM_TYPES = {
+  BOOKMARK: 'bookmark',
+} as const;
+
+export type DndItemType = (typeof DND_ITEM_TYPES)[keyof typeof DND_ITEM_TYPES];

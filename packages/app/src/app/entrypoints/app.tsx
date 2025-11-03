@@ -4,6 +4,7 @@ import type React from 'react';
 import { themeAtom, zoomAtom } from '@/app/providers/atoms';
 import { AppProviders } from '@/app/providers/providers';
 import { AppRoutes } from '@/app/routing/routes';
+import { SettingsToggle } from '@/features/settings/containers/SettingsToggle';
 import { BackgroundOverlay } from '@/shared/ui/BackgroundOverlay';
 
 import { MainLayout } from '../layouts/MainLayout';
@@ -14,8 +15,12 @@ export const App: React.FC = () => {
 
   return (
     <AppProviders>
-      <div className={`flex h-screen max-h-screen flex-col overflow-hidden bg-bgColor-primary ${themeClass}`} data-testid="app-container">
+      <div
+        className={`flex h-screen max-h-screen flex-col overflow-hidden bg-bgColor-primary ${themeClass}`}
+        data-testid="app-container"
+      >
         <div
+          className="flex flex-1 flex-col overflow-hidden"
           style={{
             transform: `scale(${zoom})`,
             transformOrigin: 'top left',
@@ -30,6 +35,7 @@ export const App: React.FC = () => {
           <div id="modal-root" />
           <div id="bookmark-menu-portal" />
         </div>
+        <SettingsToggle />
       </div>
     </AppProviders>
   );

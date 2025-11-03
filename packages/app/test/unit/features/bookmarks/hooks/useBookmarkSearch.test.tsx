@@ -57,7 +57,10 @@ describe('useBookmarkSearch', () => {
 
   it('should return initial state', () => {
     const wrapper = createWrapper();
-    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }), { wrapper });
+    const { result } = renderHook(
+      () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
+      { wrapper }
+    );
 
     expect(result.current.searchTerm).toBe('');
     expect(result.current.pageContainers).toBeDefined();
@@ -66,14 +69,20 @@ describe('useBookmarkSearch', () => {
 
   it('should provide search term setter', () => {
     const wrapper = createWrapper();
-    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }), { wrapper });
+    const { result } = renderHook(
+      () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
+      { wrapper }
+    );
 
     expect(typeof result.current.setSearchTerm).toBe('function');
   });
 
   it('should return counts object', () => {
     const wrapper = createWrapper();
-    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }), { wrapper });
+    const { result } = renderHook(
+      () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
+      { wrapper }
+    );
 
     expect(result.current.counts).toBeDefined();
     expect(typeof result.current.counts).toBe('object');
@@ -81,29 +90,59 @@ describe('useBookmarkSearch', () => {
 
   it('should return page containers', () => {
     const wrapper = createWrapper();
-    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }), { wrapper });
+    const { result } = renderHook(
+      () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
+      { wrapper }
+    );
 
     expect(Array.isArray(result.current.pageContainers)).toBe(true);
   });
 
   it('should return items array', () => {
     const wrapper = createWrapper();
-    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }), { wrapper });
+    const { result } = renderHook(
+      () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
+      { wrapper }
+    );
 
     expect(Array.isArray(result.current.items)).toBe(true);
   });
 
   it('should handle empty folders', () => {
     const wrapper = createWrapper();
-    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: [], rawUncategorized: undefined }), { wrapper });
+    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: [], rawUncategorized: undefined }), {
+      wrapper,
+    });
 
     expect(Array.isArray(result.current.pageContainers)).toBe(true);
   });
 
   it('should handle undefined uncategorized', () => {
     const wrapper = createWrapper();
-    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: undefined }), { wrapper });
+    const { result } = renderHook(() => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: undefined }), {
+      wrapper,
+    });
 
     expect(result.current.counts.uncategorized).toBe(0);
+  });
+
+  it('should handle All page', () => {
+    const wrapper = createWrapper();
+    const { result } = renderHook(
+      () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
+      { wrapper }
+    );
+
+    expect(Array.isArray(result.current.pageContainers)).toBe(true);
+  });
+
+  it('should return empty items for All page', () => {
+    const wrapper = createWrapper();
+    const { result } = renderHook(
+      () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
+      { wrapper }
+    );
+
+    expect(Array.isArray(result.current.items)).toBe(true);
   });
 });

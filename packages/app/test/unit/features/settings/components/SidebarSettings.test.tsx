@@ -37,7 +37,6 @@ describe('SidebarSettings', () => {
       const checkbox = screen.getByTestId('sidebar-settings-toggle');
       fireEvent.click(checkbox);
 
-      // Just verify the checkbox is clickable
       expect(checkbox).toBeInTheDocument();
     });
   });
@@ -61,7 +60,6 @@ describe('SidebarSettings', () => {
       const checkbox = screen.getByTestId('sidebar-settings-toggle');
       fireEvent.click(checkbox);
 
-      // Just verify the checkbox is clickable
       expect(checkbox).toBeInTheDocument();
     });
   });

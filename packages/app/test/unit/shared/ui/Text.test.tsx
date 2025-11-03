@@ -7,7 +7,14 @@ describe('Text', () => {
     render(<Text>Test content</Text>);
     const element = screen.getByText('Test content');
     expect(element.tagName).toBe('P');
-    expect(element).toHaveClass('text-base', 'text-fgColor-primary', 'font-normal', 'break-words', 'hyphens-auto', 'whitespace-normal');
+    expect(element).toHaveClass(
+      'text-base',
+      'text-fgColor-primary',
+      'font-normal',
+      'break-words',
+      'hyphens-auto',
+      'whitespace-normal'
+    );
   });
 
   it('renders different semantic tags', () => {

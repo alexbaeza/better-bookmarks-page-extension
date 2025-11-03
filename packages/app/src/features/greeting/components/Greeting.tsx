@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai';
 
 import { greetingEnabledAtom, greetingNameAtom } from '@/app/providers/atoms';
+import { Text } from '@/shared/ui/Text';
 
 const getGreeting = () => {
   const hour = new Date().getHours();
@@ -22,9 +23,16 @@ export const Greeting = () => {
   return (
     <div className="flex px-3 pt-3" data-testid="greeting">
       <div className="flex px-3 pt-3">
-        <h1 className="text-title-1 mt-16 pr-3 text-3xl font-bold  text-fgColor-primary md:mb-10" data-testid="greeting-message">
+        <Text
+          as="h1"
+          className="text-title-1 mt-16 pr-3 md:mb-10"
+          color="primary"
+          data-testid="greeting-message"
+          size="3xl"
+          weight="bold"
+        >
           {getGreeting() + (greetingEnabled && greetingName ? `, ${greetingName}` : '')}
-        </h1>
+        </Text>
       </div>
     </div>
   );

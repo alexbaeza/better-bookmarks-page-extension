@@ -53,7 +53,6 @@ describe('GreetingSettings', () => {
 
       fireEvent.click(greetingToggle);
 
-      // Just verify the toggle is clickable
       expect(greetingToggle).toBeInTheDocument();
     });
 

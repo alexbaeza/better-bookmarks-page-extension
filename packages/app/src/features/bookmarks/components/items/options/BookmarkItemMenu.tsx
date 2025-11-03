@@ -13,7 +13,13 @@ export interface BookmarkItemMenuProps {
   children: ReactNode;
 }
 
-export const BookmarkItemMenu: React.FC<BookmarkItemMenuProps> = ({ onMouseEnter, onMouseLeave, onClose, anchorRef, children }) => {
+export const BookmarkItemMenu: React.FC<BookmarkItemMenuProps> = ({
+  onMouseEnter,
+  onMouseLeave,
+  onClose,
+  anchorRef,
+  children,
+}) => {
   const zoom = useAtomValue(zoomAtom);
   const { refs, floatingStyles, context, update } = useFloating({
     placement: 'top-end',

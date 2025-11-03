@@ -13,13 +13,11 @@ Then('{string} should not exist', (testId: string) => {
 });
 
 Then('the {string} color should be {string}', (colorKey: string, expectedColor: string) => {
-  // Get the computed CSS custom property value
   cy.get('[data-testid="app-container"]').then(($el) => {
     const computedStyle = window.getComputedStyle($el[0]);
     const cssVarName = `--colors-${colorKey}`;
     const computedColor = computedStyle.getPropertyValue(cssVarName);
 
-    // Convert hex to RGB format for comparison
     const hexToRgb = (hex: string) => {
       const r = Number.parseInt(hex.slice(1, 3), 16);
       const g = Number.parseInt(hex.slice(3, 5), 16);

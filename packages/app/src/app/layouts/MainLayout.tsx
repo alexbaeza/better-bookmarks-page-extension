@@ -11,7 +11,7 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({ children 
   const sidebarEnabled = useAtomValue(sidebarEnabledAtom);
 
   return (
-    <div className="flex flex-1 overflow-hidden">
+    <div className="flex min-h-0 flex-1 overflow-hidden">
       {sidebarEnabled && <Sidebar footer={<SidebarFooter />} title="Better Bookmarks" />}
       <MainContent>{children}</MainContent>
     </div>

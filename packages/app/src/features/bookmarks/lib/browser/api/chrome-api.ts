@@ -2,14 +2,21 @@ import type { BrowserBookmarkAPI, NormalizedBookmarkItem, NormalizedBookmarkTree
 
 /**
  * Chrome-specific implementation of the browser bookmark API
+ * Accepts an optional mock bookmarks API for testing/development
  */
 export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
   private chrome: typeof window.chrome;
 
-  constructor() {
-    this.chrome = (window as typeof window & { chrome: typeof window.chrome }).chrome;
-    if (!this.chrome?.bookmarks) {
-      throw new Error('Chrome bookmarks API not available');
+  constructor(mockBookmarks?: typeof window.chrome.bookmarks) {
+    if (mockBookmarks) {
+      // Use mock API (for dev/test environments)
+      this.chrome = { bookmarks: mockBookmarks } as typeof window.chrome;
+    } else {
+      // Use real Chrome API
+      this.chrome = (window as typeof window & { chrome: typeof window.chrome }).chrome;
+      if (!this.chrome?.bookmarks) {
+        throw new Error('Chrome bookmarks API not available');
+      }
     }
   }
 
@@ -72,7 +79,10 @@ export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
     };
   }
 
-  async createBookmark(parentId: string | null, details: { title: string; url?: string }): Promise<NormalizedBookmarkItem> {
+  async createBookmark(
+    parentId: string | null,
+    details: { title: string; url?: string }
+  ): Promise<NormalizedBookmarkItem> {
     const targetParent = parentId && parentId !== '' ? parentId : 'Uncategorized';
 
     const created = await this.chrome.bookmarks.create({

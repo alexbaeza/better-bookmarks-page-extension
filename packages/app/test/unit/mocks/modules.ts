@@ -6,6 +6,10 @@ vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
     currentPage: 'All',
     setCurrentPage: vi.fn(),
   })),
+  BookmarkPage: {
+    All: 'All',
+    Uncategorized: 'Uncategorized',
+  },
 }));
 
 vi.mock('@/features/bookmarks/contexts/BookmarkSearchContext', () => ({
@@ -13,6 +17,7 @@ vi.mock('@/features/bookmarks/contexts/BookmarkSearchContext', () => ({
   useBookmarkSearchTerm: vi.fn(() => ({
     searchTerm: '',
     setSearchTerm: vi.fn(),
+    resetSearch: vi.fn(),
   })),
 }));
 

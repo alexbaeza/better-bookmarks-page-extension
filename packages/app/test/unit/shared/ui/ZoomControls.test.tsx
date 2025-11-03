@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { ZoomControls } from '@/shared/ui/ZoomControls';
 
-// Mock the jotai hooks
 const mockUseAtom = vi.fn(() => [1.0, vi.fn()]);
 const mockUseSetAtom = vi.fn(() => vi.fn());
 

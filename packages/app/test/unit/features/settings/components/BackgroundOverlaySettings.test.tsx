@@ -19,7 +19,6 @@ describe('BackgroundSettings', () => {
     const toggle = screen.getByTestId('background-overlay-toggle');
     fireEvent.click(toggle);
 
-    // After clicking, the images should be visible
     expect(screen.getByAltText('Doodle 1')).toBeInTheDocument();
     expect(screen.getByAltText('Doodle 2')).toBeInTheDocument();
   });

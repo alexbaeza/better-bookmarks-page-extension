@@ -1,83 +1,32 @@
+import { useAtomValue } from 'jotai';
 import type React from 'react';
 import { memo } from 'react';
-import { useBookmarkDrag } from '@/features/bookmarks/hooks/useBookmarkDrag';
-import { useBookmarkIcon } from '@/features/bookmarks/hooks/useBookmarkIcon';
-import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
-import { highlighter } from '@/features/bookmarks/lib/highlighter';
 
+import { viewModeAtom } from '@/app/providers/atoms';
+import { BookmarkGridItem } from '@/features/bookmarks/components/items/grid/BookmarkGridItem';
+import { BookmarkListItem } from '@/features/bookmarks/components/items/list/BookmarkListItem';
+import { SkeletonBookmarkItem } from '@/features/bookmarks/components/items/SkeletonBookmarkItem';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
+import { BookmarkDisplayMode } from '@/shared/types/ui';
 
 export interface BookmarkItemProps {
   item: IBookmarkItem;
   dataTestId?: string;
-  children?: React.ReactNode;
+  isLoading?: boolean;
+  onFolderClick?: (item: IBookmarkItem) => void;
 }
 
-interface BookmarkItemComponent extends React.FC<BookmarkItemProps> {
-  Icon: React.FC<{ item: IBookmarkItem; size?: 'sm' | 'md' | 'lg' }>;
-  Title: React.FC<{ item: IBookmarkItem; highlighted?: boolean }>;
-  Actions: React.FC<{ onEdit?: () => void; onDelete?: () => void }>;
-  DragHandle: React.FC<{ item: IBookmarkItem }>;
-}
+export const BookmarkItem: React.FC<BookmarkItemProps> = memo(({ item, dataTestId, isLoading, onFolderClick }) => {
+  const viewMode = useAtomValue(viewModeAtom);
 
-const BookmarkItemRoot = memo<BookmarkItemProps>(({ item, dataTestId, children }) => {
-  const { dragProps } = useBookmarkDrag({ item });
-
-  return (
-    <div {...dragProps} data-testid={dataTestId}>
-      {children}
-    </div>
-  );
-});
-
-const BookmarkItemIcon = memo<{ item: IBookmarkItem; size?: 'sm' | 'md' | 'lg' }>(({ item, size = 'md' }) => {
-  const icon = useBookmarkIcon(item.url, item.title, size);
-  return <div data-testid="favicon">{icon}</div>;
-});
-
-const BookmarkItemTitle = memo<{ item: IBookmarkItem; highlighted?: boolean }>(({ item, highlighted = true }) => {
-  const { searchTerm } = useBookmarks();
-
-  if (highlighted) {
-    return <span>{highlighter(item.title, searchTerm)}</span>;
+  // Handle loading state
+  if (isLoading || !item) {
+    return <SkeletonBookmarkItem dataTestId={dataTestId} />;
   }
 
-  return <span>{item.title}</span>;
+  if (viewMode === BookmarkDisplayMode.Grid) {
+    return <BookmarkGridItem dataTestId={dataTestId} item={item} onFolderClick={onFolderClick} />;
+  }
+
+  return <BookmarkListItem dataTestId={dataTestId} item={item} onFolderClick={onFolderClick} />;
 });
-
-const BookmarkItemActions = memo<{ onEdit?: () => void; onDelete?: () => void }>(({ onEdit, onDelete }) => {
-  return (
-    <div className="flex gap-1">
-      {onEdit && (
-        <button aria-label="Edit bookmark" onClick={onEdit} type="button">
-          Edit
-        </button>
-      )}
-      {onDelete && (
-        <button aria-label="Delete bookmark" onClick={onDelete} type="button">
-          Delete
-        </button>
-      )}
-    </div>
-  );
-});
-
-const BookmarkItemDragHandle = memo<{ item: IBookmarkItem }>(({ item }) => {
-  const { dragHandleProps } = useBookmarkDrag({ item });
-
-  return (
-    <div {...dragHandleProps} className="cursor-grab" role="button" tabIndex={0}>
-      <span>⋮⋮</span>
-    </div>
-  );
-});
-
-// Compound component pattern
-const BookmarkItem: BookmarkItemComponent = Object.assign(BookmarkItemRoot, {
-  Icon: BookmarkItemIcon,
-  Title: BookmarkItemTitle,
-  Actions: BookmarkItemActions,
-  DragHandle: BookmarkItemDragHandle,
-});
-
-export { BookmarkItem };

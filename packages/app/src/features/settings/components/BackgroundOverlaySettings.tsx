@@ -3,6 +3,10 @@ import { CheckIcon } from 'lucide-react';
 import type React from 'react';
 
 import { backgroundOverlayAtom, backgroundOverlayOpacityAtom } from '@/app/providers/atoms';
+import { Row } from '@/shared/ui/Row';
+import { SettingCard } from '@/shared/ui/SettingCard';
+import { Stack } from '@/shared/ui/Stack';
+import { Text } from '@/shared/ui/Text';
 
 interface BackgroundOverlaySettingsProps {
   dataTestId?: string;
@@ -10,7 +14,6 @@ interface BackgroundOverlaySettingsProps {
 
 export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySettingsProps) => {
   const [selectedBackground, setSelectedBackground] = useAtom(backgroundOverlayAtom);
-
   const [backgroundOverlayOpacity, setBackgroundOverlayOpacity] = useAtom(backgroundOverlayOpacityAtom);
 
   const handleImageClick = (image: string) => {
@@ -30,9 +33,6 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
       isSelected ? 'border-fgColor-accent shadow-lg scale-105' : 'border-fgColor-active hover:border-fgColor-secondary'
     }`;
     const containerClasses = 'cursor-pointer flex flex-col items-center justify-center relative group';
-    const textClasses = `text-xs text-center mt-2 transition-colors ${
-      isSelected ? 'text-fgColor-accent font-medium' : 'text-fgColor-secondary group-hover:text-fgColor-primary'
-    }`;
 
     return (
       <button
@@ -44,11 +44,22 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
       >
         <img alt={text} className={imgClasses} src={image} />
         {isSelected && (
-          <div className="absolute -top-1 -right-1 p-1 bg-fgColor-accent rounded-full" data-testid="background-check-icon-container">
+          <div
+            className="absolute -top-1 -right-1 p-1 bg-fgColor-accent rounded-full"
+            data-testid="background-check-icon-container"
+          >
             <CheckIcon className="text-bgColor-primary" size={12} />
           </div>
         )}
-        <p className={textClasses}>{text}</p>
+        <Text
+          className={`mt-2 text-center transition-colors ${
+            isSelected ? 'text-fgColor-accent' : 'text-fgColor-secondary group-hover:text-fgColor-primary'
+          }`}
+          size="xs"
+          weight={isSelected ? 'medium' : 'normal'}
+        >
+          {text}
+        </Text>
       </button>
     );
   };
@@ -62,63 +73,78 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
     { image: '/images/doodle2.png', text: 'Doodle 2' },
   ];
 
+  const isOverlayEnabled = selectedBackground !== '/images/transparent.png';
+
+  const toggleOverlay = () => {
+    const newBackground = isOverlayEnabled ? '/images/transparent.png' : '/images/doodle1.png';
+    setSelectedBackground(newBackground);
+  };
+
+  const handleToggleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleOverlay();
+    }
+  };
+
+  const handleToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newBackground = e.target.checked ? '/images/doodle1.png' : '/images/transparent.png';
+    setSelectedBackground(newBackground);
+  };
+
   return (
-    <div className="space-y-4" data-testid={dataTestId}>
-      <div className="text-sm text-fgColor-secondary">Add some personality to your background</div>
+    <Stack data-testid={dataTestId} gap="lg">
+      <Text color="secondary" size="sm">
+        Add some personality to your background
+      </Text>
 
       {/* Enable/Disable Background Overlay */}
-      <div className="flex items-center justify-between bg-bgColor-primary rounded-lg p-4">
-        <div className="flex-1">
-          <div className="text-sm font-medium text-fgColor-primary mb-1">Enable Background Overlay</div>
-          <div className="text-xs text-fgColor-secondary">
-            {selectedBackground !== '/images/transparent.png' ? 'Overlay is enabled' : 'Overlay is disabled'}
+      <SettingCard
+        description={isOverlayEnabled ? 'Overlay is enabled' : 'Overlay is disabled'}
+        title="Enable Background Overlay"
+        toggle={
+          <div
+            aria-checked={isOverlayEnabled}
+            className="relative inline-flex cursor-pointer items-center"
+            data-testid="background-overlay-toggle"
+            onClick={toggleOverlay}
+            onKeyDown={handleToggleKeyDown}
+            role="switch"
+            tabIndex={0}
+          >
+            <input checked={isOverlayEnabled} className="peer sr-only" onChange={handleToggleChange} type="checkbox" />
+            <div className="peer h-6 w-11 rounded-full bg-bgColor-tertiary peer-checked:bg-bgColor-accent after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-fgColor-primary after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-fgColor-primary" />
           </div>
-        </div>
-        <div
-          aria-checked={selectedBackground !== '/images/transparent.png'}
-          className="relative inline-flex cursor-pointer items-center"
-          data-testid="background-overlay-toggle"
-          onClick={() => setSelectedBackground(selectedBackground !== '/images/transparent.png' ? '/images/transparent.png' : '/images/doodle1.png')}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              setSelectedBackground(selectedBackground !== '/images/transparent.png' ? '/images/transparent.png' : '/images/doodle1.png');
-            }
-          }}
-          role="switch"
-          tabIndex={0}
-        >
-          <input
-            checked={selectedBackground !== '/images/transparent.png'}
-            className="peer sr-only"
-            onChange={(e) => setSelectedBackground(e.target.checked ? '/images/doodle1.png' : '/images/transparent.png')}
-            type="checkbox"
-          />
-          <div className="peer h-6 w-11 rounded-full bg-bgColor-tertiary peer-checked:bg-bgColor-accent after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-fgColor-primary after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-fgColor-primary" />
-        </div>
-      </div>
+        }
+      />
 
       {/* Overlay Selection - only when overlay is enabled */}
-      {selectedBackground !== '/images/transparent.png' && (
-        <div className="space-y-4">
-          <div className="text-sm font-medium text-fgColor-primary">Choose an overlay</div>
+      {isOverlayEnabled && (
+        <Stack gap="lg">
+          <Text size="sm" weight="medium">
+            Choose an overlay
+          </Text>
           <div className="grid grid-cols-3 gap-4">
             {overlayOptions.map((opt, idx) => (
               <div key={opt.image}>{renderImage(opt.image, opt.text, idx)}</div>
             ))}
           </div>
-        </div>
+        </Stack>
       )}
 
       {/* Opacity Control */}
-      {selectedBackground !== '/images/transparent.png' && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="text-sm font-medium text-fgColor-primary">Overlay Opacity</div>
-            <div className="text-xs text-fgColor-secondary">{backgroundOverlayOpacity}%</div>
-          </div>
+      {isOverlayEnabled && (
+        <Stack gap="lg">
+          <Row alignItems="center" justifyContent="space-between">
+            <Text size="sm" weight="medium">
+              Overlay Opacity
+            </Text>
+            <Text color="secondary" size="xs">
+              {backgroundOverlayOpacity}%
+            </Text>
+          </Row>
 
-          <div className="space-y-2">
+          <Stack gap="sm">
             <input
               className="w-full h-2 bg-bgColor-tertiary rounded-lg appearance-none cursor-pointer accent-fgColor-accent"
               data-testid="background-overlay-opacity-slider"
@@ -129,13 +155,17 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
               type="range"
               value={backgroundOverlayOpacity}
             />
-            <div className="flex justify-between text-xs text-fgColor-secondary">
-              <span>Subtle</span>
-              <span>Bold</span>
-            </div>
-          </div>
-        </div>
+            <Row gap="none" justifyContent="space-between">
+              <Text color="secondary" size="xs">
+                Subtle
+              </Text>
+              <Text color="secondary" size="xs">
+                Bold
+              </Text>
+            </Row>
+          </Stack>
+        </Stack>
       )}
-    </div>
+    </Stack>
   );
 };

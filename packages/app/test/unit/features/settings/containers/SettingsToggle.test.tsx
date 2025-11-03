@@ -6,7 +6,9 @@ import { SettingsToggle } from '@/features/settings/containers/SettingsToggle';
 import { AllProviders } from '~test/test-utils';
 
 vi.mock('@/features/settings/containers/SettingsFlyoutContainer', () => ({
-  SettingsFlyoutContainer: ({ children }: { children: React.ReactNode }) => <div data-testid="settings-flyout-container">{children}</div>,
+  SettingsFlyoutContainer: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="settings-flyout-container">{children}</div>
+  ),
 }));
 
 vi.mock('@/features/settings/containers/SettingsPanelContainer', () => ({

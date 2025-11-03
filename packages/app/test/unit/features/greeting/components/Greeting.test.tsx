@@ -40,7 +40,6 @@ describe('Greeting component', () => {
     });
     const message = screen.getByTestId('greeting-message');
     expect(message).toBeInTheDocument();
-    // Greeting message should exist but not include the name
     expect(message.textContent).not.toContain('Bob');
   });
 

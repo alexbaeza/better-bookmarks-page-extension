@@ -33,7 +33,9 @@ vi.mock('@/features/settings/components/UnifiedThemeSettings', () => ({
 }));
 
 vi.mock('@/features/settings/components/BackgroundOverlaySettings', () => ({
-  BackgroundOverlaySettings: ({ dataTestId }: { dataTestId: string }) => <div data-testid={dataTestId}>BackgroundOverlaySettings</div>,
+  BackgroundOverlaySettings: ({ dataTestId }: { dataTestId: string }) => (
+    <div data-testid={dataTestId}>BackgroundOverlaySettings</div>
+  ),
 }));
 
 describe('SettingsPanelContainer', () => {
@@ -91,7 +93,9 @@ describe('SettingsPanelContainer', () => {
     fireEvent.click(resetButton);
 
     expect(screen.getByTestId('settings-reset-modal-title')).toBeInTheDocument();
-    expect(screen.getByText('This will clear all saved preferences and reload the page. This action cannot be undone.')).toBeInTheDocument();
+    expect(
+      screen.getByText('This will clear all saved preferences and reload the page. This action cannot be undone.')
+    ).toBeInTheDocument();
   });
 
   it('closes reset confirmation modal when cancel is clicked', async () => {

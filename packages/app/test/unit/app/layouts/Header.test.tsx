@@ -31,8 +31,6 @@ describe('Header', () => {
 
     expect(screen.getByTestId('greeting')).toBeInTheDocument();
     expect(screen.getByTestId('search-bar')).toBeInTheDocument();
-    expect(screen.getByTestId('view-mode-toggle')).toBeInTheDocument();
-    expect(screen.getByTestId('settings-toggle')).toBeInTheDocument();
   });
 
   it('hides greeting and shows search when greeting is disabled', () => {

@@ -1,10 +1,16 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "root": false,
   "assist": {
     "actions": {
       "source": {
         "organizeImports": "on",
-        "useSortedAttributes": "on",
+        "useSortedAttributes": {
+          "level": "on",
+          "options": {
+            "sortOrder": "natural"
+          }
+        },
         "useSortedKeys": "off",
         "useSortedProperties": "off"
       }
@@ -33,7 +39,7 @@
     "includes": ["**"],
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 160,
+    "lineWidth": 120,
     "useEditorconfig": true
   },
   "javascript": {
@@ -100,7 +106,6 @@
       }
     }
   },
-  "root": false,
   "vcs": {
     "clientKind": "git",
     "enabled": true,

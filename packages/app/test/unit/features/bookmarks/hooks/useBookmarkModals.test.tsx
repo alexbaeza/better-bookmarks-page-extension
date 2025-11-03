@@ -50,7 +50,9 @@ describe('useBookmarkModals', () => {
       updateLayout: vi.fn(),
     });
 
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => <ModalProvider>{children}</ModalProvider>;
+    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+      <ModalProvider>{children}</ModalProvider>
+    );
 
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
@@ -73,7 +75,9 @@ describe('useBookmarkModals', () => {
       updateLayout: vi.fn(),
     });
 
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => <ModalProvider>{children}</ModalProvider>;
+    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+      <ModalProvider>{children}</ModalProvider>
+    );
 
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
@@ -81,8 +85,6 @@ describe('useBookmarkModals', () => {
       result.current.openCreateModal('parent1');
     });
 
-    // Modal should be opened with BookmarkFormModal
-    // The actual create call would happen when the modal's onSave is called
     expect(mockCreate).not.toHaveBeenCalled();
   });
 
@@ -99,7 +101,9 @@ describe('useBookmarkModals', () => {
       updateLayout: vi.fn(),
     });
 
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => <ModalProvider>{children}</ModalProvider>;
+    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+      <ModalProvider>{children}</ModalProvider>
+    );
 
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
@@ -107,8 +111,6 @@ describe('useBookmarkModals', () => {
       result.current.openEditModal(mockBookmarkItem);
     });
 
-    // Modal should be opened with BookmarkFormModal
-    // The actual update call would happen when the modal's onSave is called
     expect(mockUpdate).not.toHaveBeenCalled();
   });
 
@@ -125,7 +127,9 @@ describe('useBookmarkModals', () => {
       updateLayout: vi.fn(),
     });
 
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => <ModalProvider>{children}</ModalProvider>;
+    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+      <ModalProvider>{children}</ModalProvider>
+    );
 
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
@@ -133,7 +137,6 @@ describe('useBookmarkModals', () => {
       result.current.openFolderModal(mockFolder);
     });
 
-    // Modal should be opened
     expect(mockFolder).toBeDefined();
   });
 
@@ -150,7 +153,9 @@ describe('useBookmarkModals', () => {
       updateLayout: vi.fn(),
     });
 
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => <ModalProvider>{children}</ModalProvider>;
+    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+      <ModalProvider>{children}</ModalProvider>
+    );
 
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
@@ -170,11 +175,12 @@ describe('useBookmarkModals', () => {
       updateLayout: vi.fn(),
     });
 
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => <ModalProvider>{children}</ModalProvider>;
+    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+      <ModalProvider>{children}</ModalProvider>
+    );
 
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
-    // Verify modal functions return successfully
     expect(typeof result.current.openCreateModal).toBe('function');
     expect(typeof result.current.openEditModal).toBe('function');
     expect(typeof result.current.openFolderModal).toBe('function');
@@ -199,7 +205,9 @@ describe('useBookmarkModals', () => {
       children: undefined,
     };
 
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => <ModalProvider>{children}</ModalProvider>;
+    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+      <ModalProvider>{children}</ModalProvider>
+    );
 
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
@@ -207,7 +215,6 @@ describe('useBookmarkModals', () => {
       result.current.openFolderModal(folderWithUndefinedChildren);
     });
 
-    // Should handle undefined children gracefully
     expect(typeof result.current.openFolderModal).toBe('function');
   });
 });

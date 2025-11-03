@@ -16,7 +16,16 @@ interface FlyoutProps {
 }
 
 export const Flyout = memo<FlyoutProps>(
-  ({ isOpen, onClose, side = 'right', widthClass = 'w-[28rem]', withOverlay = true, className = '', children, 'data-testid': dataTestId }) => {
+  ({
+    isOpen,
+    onClose,
+    side = 'right',
+    widthClass = 'w-[28rem]',
+    withOverlay = true,
+    className = '',
+    children,
+    'data-testid': dataTestId,
+  }) => {
     const handleOverlayKeyDown = (event: React.KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
@@ -92,13 +101,15 @@ interface InlineFlyoutProps {
   children: React.ReactNode;
 }
 
-export const InlineFlyout = memo<InlineFlyoutProps>(({ side = 'right', widthClass = 'w-64', className = '', children }) => {
-  return (
-    <aside
-      className={`flex ${widthClass} shrink-0 flex-col border-l border-bgColor-tertiary bg-bgColor-secondary px-2 py-1 ${className} ${side === 'right' ? '' : ''}`}
-      data-testid="sidebar-flyout"
-    >
-      {children}
-    </aside>
-  );
-});
+export const InlineFlyout = memo<InlineFlyoutProps>(
+  ({ side = 'right', widthClass = 'w-64', className = '', children }) => {
+    return (
+      <aside
+        className={`flex ${widthClass} shrink-0 flex-col border-l border-bgColor-tertiary bg-bgColor-secondary px-2 py-1 ${className} ${side === 'right' ? '' : ''}`}
+        data-testid="sidebar-flyout"
+      >
+        {children}
+      </aside>
+    );
+  }
+);

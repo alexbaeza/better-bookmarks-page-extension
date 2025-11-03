@@ -9,7 +9,9 @@ export function useBookmarkModals() {
   const { create, update, remove } = useBookmarkActions();
 
   const openFolderModal = (folder: IBookmarkItem) => {
-    showModal(<BookmarkFolderModal folderContents={folder.children ?? []} folderId={folder.id} folderTitle={folder.title} />);
+    showModal(
+      <BookmarkFolderModal folderContents={folder.children ?? []} folderId={folder.id} folderTitle={folder.title} />
+    );
   };
 
   const openEditModal = (item: IBookmarkItem) => {
@@ -17,7 +19,9 @@ export function useBookmarkModals() {
       await update(item.id, values);
     };
 
-    showModal(<BookmarkFormModal initialValues={{ title: item.title, url: item.url }} onClose={hideModal} onSave={onSave} />);
+    showModal(
+      <BookmarkFormModal initialValues={{ title: item.title, url: item.url }} onClose={hideModal} onSave={onSave} />
+    );
   };
 
   const openCreateModal = (parentId: string) => {

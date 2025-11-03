@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { Flyout } from '@/shared/ui/Flyout';
 import { IconButton } from '@/shared/ui/IconButton';
+import { Text } from '@/shared/ui/Text';
 
 interface SettingsFlyoutContainerProps {
   children: React.ReactNode;
@@ -17,17 +18,22 @@ export const SettingsFlyoutContainer: React.FC<SettingsFlyoutContainerProps> = (
 
   return (
     <>
-      <IconButton
-        aria-label="Open settings"
-        className="text-fgColor-secondary hover:text-fgColor-primary"
-        dataTestId="settings-toggle"
-        icon={<CogIcon size={16} />}
-        onClick={toggleFlyout}
-      />
+      <div className="fixed bottom-6 right-6 z-50">
+        <IconButton
+          aria-label="Open settings"
+          className="shadow-lg"
+          dataTestId="settings-toggle"
+          icon={<CogIcon size={24} />}
+          onClick={toggleFlyout}
+          size="lg"
+        />
+      </div>
 
       <Flyout data-testid="settings-modal" isOpen={isOpen} onClose={closeFlyout} side="right" widthClass="w-[28rem]">
         <div className="flex items-center justify-between border-b border-fgColor-secondary/20 p-4">
-          <h2 className="text-xl font-semibold text-fgColor-primary">Settings</h2>
+          <Text as="h2" color="primary" size="xl" weight="semibold">
+            Settings
+          </Text>
           <IconButton
             className="text-fgColor-secondary hover:text-fgColor-primary"
             dataTestId="modal-close-button"

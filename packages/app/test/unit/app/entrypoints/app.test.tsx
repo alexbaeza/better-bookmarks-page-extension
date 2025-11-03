@@ -11,7 +11,9 @@ vi.mock('@/app/layouts/Header', () => ({
   Header: () => <div data-testid="header">Header</div>,
 }));
 vi.mock('@/features/settings/containers/SettingsFlyoutContainer', () => ({
-  SettingsFlyoutContainer: ({ children }: { children: React.ReactNode }) => <div data-testid="settings-modal">{children}</div>,
+  SettingsFlyoutContainer: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="settings-modal">{children}</div>
+  ),
 }));
 vi.mock('@/app/providers/providers', () => ({
   AppProviders: ({ children }: { children: React.ReactNode }) => <>{children}</>,

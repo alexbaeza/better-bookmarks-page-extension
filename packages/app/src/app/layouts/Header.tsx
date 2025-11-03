@@ -3,9 +3,9 @@ import type React from 'react';
 
 import { greetingEnabledAtom, searchBarEnabledAtom } from '@/app/providers/atoms';
 import { Greeting } from '@/features/greeting/components/Greeting';
-import { ViewModeToggle } from '@/features/preferences/containers/ViewModeToggle';
 import { SearchBar } from '@/features/search/containers/SearchBar';
-import { SettingsToggle } from '@/features/settings/containers/SettingsToggle';
+import { Col } from '@/shared/ui/Col';
+import { Row } from '@/shared/ui/Row';
 
 export const Header: React.FC = () => {
   const showGreeting = useAtomValue(greetingEnabledAtom);
@@ -14,19 +14,17 @@ export const Header: React.FC = () => {
   return (
     <header className="w-full bg-bgColor-primary px-6 py-4">
       {/* Top row: Greeting left, controls right */}
-      <div className="flex w-full items-center justify-between">
-        <div className="min-w-0">{showGreeting && <Greeting />}</div>
-        <div className="flex items-center gap-4">
-          <ViewModeToggle />
-          <SettingsToggle />
-        </div>
-      </div>
+      <Row alignItems="center" gap="none" justifyContent="between">
+        <Col className="min-w-0" span="auto">
+          {showGreeting && <Greeting />}
+        </Col>
+      </Row>
 
       {/* Center row: Search */}
       {showSearch && (
-        <div className="mt-4 flex w-full justify-center">
+        <Row className="mt-4" gap="none" justifyContent="center">
           <SearchBar />
-        </div>
+        </Row>
       )}
     </header>
   );

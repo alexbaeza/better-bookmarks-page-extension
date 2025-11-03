@@ -17,10 +17,13 @@ const sizeClasses: Record<IconButtonSize, string> = {
 };
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ dataTestId, className, onClick, icon, disabled, size = 'md', positionClassName = '', type = 'button', ...rest }, ref) => {
+  (
+    { dataTestId, className, onClick, icon, disabled, size = 'md', positionClassName = '', type = 'button', ...rest },
+    ref
+  ) => {
     return (
       <button
-        className={`${positionClassName} relative z-20 inline-flex items-center justify-center aspect-square rounded-lg bg-bgColor-secondary text-fgColor-primary hover:bg-fgColor-hover hover:text-white disabled:opacity-50 ${sizeClasses[size]} ${className || ''}`}
+        className={`${positionClassName} relative z-20 inline-flex items-center justify-center aspect-square rounded-lg bg-bgColor-accent text-fgColor-primary hover:bg-fgColor-hover disabled:opacity-50 ${sizeClasses[size]} ${className || ''}`}
         data-testid={dataTestId}
         disabled={disabled}
         onClick={onClick}

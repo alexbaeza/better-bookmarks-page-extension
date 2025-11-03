@@ -3,9 +3,14 @@ import { useState } from 'react';
 import { LOCAL_STORAGE_PREFIX_KEY } from '@/config/constants';
 import { BuiltWith } from '@/shared/ui/BuiltWith';
 import { Button } from '@/shared/ui/Button';
+import { Content } from '@/shared/ui/Content';
 import { Divider } from '@/shared/ui/Divider';
 import { Modal } from '@/shared/ui/Modal';
+import { Row } from '@/shared/ui/Row';
+import { Scrollable } from '@/shared/ui/Scrollable';
 import { Sponsor } from '@/shared/ui/Sponsor';
+import { Stack } from '@/shared/ui/Stack';
+import { Text } from '@/shared/ui/Text';
 import { BackgroundOverlaySettings } from '../components/BackgroundOverlaySettings';
 import { GreetingSettings } from '../components/GreetingSettings';
 import { SearchBarSettings } from '../components/SearchBarSettings';
@@ -27,69 +32,82 @@ export const SettingsPanelContainer: React.FC = () => {
   };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="space-y-4 p-4">
-        {/* Layout Section */}
-        <div className="space-y-3">
-          <Divider title="Layout" />
-          <SidebarSettings dataTestId="sidebar-settings" />
-          <SearchBarSettings dataTestId="search-bar-settings" />
-        </div>
+    <Scrollable className="h-full">
+      <Content padding>
+        <Stack gap="lg">
+          {/* Layout Section */}
+          <Stack gap="md">
+            <Divider title="Layout" />
+            <SidebarSettings dataTestId="sidebar-settings" />
+            <SearchBarSettings dataTestId="search-bar-settings" />
+          </Stack>
 
-        {/* Personalization Section */}
-        <div className="space-y-3">
-          <Divider title="Personalization" />
-          <GreetingSettings dataTestId="greeting-settings" />
-        </div>
+          {/* Personalization Section */}
+          <Stack gap="md">
+            <Divider title="Personalization" />
+            <GreetingSettings dataTestId="greeting-settings" />
+          </Stack>
 
-        {/* Appearance Section */}
-        <div className="space-y-3">
-          <Divider title="Appearance" />
-          <ZoomSettings dataTestId="zoom-settings-flyout" />
-          <UnifiedThemeSettings />
-          <BackgroundOverlaySettings dataTestId="background-overlay-settings" />
-        </div>
+          {/* Appearance Section */}
+          <Stack gap="md">
+            <Divider title="Appearance" />
+            <ZoomSettings dataTestId="zoom-settings-flyout" />
+            <UnifiedThemeSettings />
+            <BackgroundOverlaySettings dataTestId="background-overlay-settings" />
+          </Stack>
 
-        {/* Support Section */}
-        <div className="space-y-3">
-          <Divider title="Support" />
-          <Sponsor dataTestId="sponsor" />
-        </div>
+          {/* Support Section */}
+          <Stack gap="md">
+            <Divider title="Support" />
+            <Sponsor dataTestId="sponsor" />
+          </Stack>
 
-        {/* Maintenance */}
-        <div className="space-y-3">
-          <Divider title="Maintenance" />
-          <Button
-            aria-label="Reset all settings"
-            className="w-full"
-            data-testid="settings-reset-open-button"
-            onClick={() => setIsConfirmOpen(true)}
-            variant="secondary"
-          >
-            Reset all settings (clears local storage)
-          </Button>
-        </div>
+          {/* Maintenance */}
+          <Stack gap="md">
+            <Divider title="Maintenance" />
+            <Button
+              aria-label="Reset all settings"
+              className="w-full"
+              data-testid="settings-reset-open-button"
+              onClick={() => setIsConfirmOpen(true)}
+              variant="secondary"
+            >
+              Reset all settings (clears local storage)
+            </Button>
+          </Stack>
 
-        {/* Footer */}
-        <div className="pt-2">
-          <BuiltWith />
-        </div>
-      </div>
+          {/* Footer */}
+          <div className="pt-2">
+            <BuiltWith />
+          </div>
+        </Stack>
+      </Content>
       {isConfirmOpen && (
-        <Modal dataTestId="settings-reset-modal" onClose={() => setIsConfirmOpen(false)} size="md" title="Reset all settings">
-          <div className="space-y-4" data-testid="confirmation-modal-container">
-            <p className="text-sm text-fgColor-secondary">This will clear all saved preferences and reload the page. This action cannot be undone.</p>
-            <div className="flex justify-end gap-2">
-              <Button data-testid="settings-reset-cancel-button" onClick={() => setIsConfirmOpen(false)} variant="secondary">
+        <Modal
+          dataTestId="settings-reset-modal"
+          onClose={() => setIsConfirmOpen(false)}
+          size="md"
+          title="Reset all settings"
+        >
+          <Stack data-testid="confirmation-modal-container" gap="lg">
+            <Text color="secondary" size="sm">
+              This will clear all saved preferences and reload the page. This action cannot be undone.
+            </Text>
+            <Row gap="sm" justifyContent="end">
+              <Button
+                data-testid="settings-reset-cancel-button"
+                onClick={() => setIsConfirmOpen(false)}
+                variant="secondary"
+              >
                 Cancel
               </Button>
               <Button data-testid="settings-reset-confirm-button" onClick={handleResetAll} variant="primary">
                 Confirm
               </Button>
-            </div>
-          </div>
+            </Row>
+          </Stack>
         </Modal>
       )}
-    </div>
+    </Scrollable>
   );
 };

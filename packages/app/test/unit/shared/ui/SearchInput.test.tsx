@@ -92,7 +92,15 @@ describe('SearchInput', () => {
     );
 
     const input = screen.getByPlaceholderText('Search');
-    expect(input).toHaveClass('w-full', 'rounded-xl', 'bg-bgColor-secondary', 'px-12', 'py-5', 'text-xl', 'text-fgColor-primary');
+    expect(input).toHaveClass(
+      'w-full',
+      'rounded-xl',
+      'bg-bgColor-secondary',
+      'px-12',
+      'py-5',
+      'text-xl',
+      'text-fgColor-primary'
+    );
   });
 
   it('applies correct CSS classes to container', () => {

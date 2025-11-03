@@ -23,7 +23,10 @@ export function usePlatform(): PlatformInfo {
 
     const userAgent = navigator.userAgent.toLowerCase();
     // Use userAgentData if available (modern browsers), otherwise fall back to userAgent
-    const platform = (navigator as typeof navigator & { userAgentData?: { platform?: string } }).userAgentData?.platform?.toLowerCase() || userAgent;
+    const platform =
+      (
+        navigator as typeof navigator & { userAgentData?: { platform?: string } }
+      ).userAgentData?.platform?.toLowerCase() || userAgent;
 
     const isMac = /mac/.test(platform) || /mac/.test(userAgent);
     const isWindows = /win/.test(platform) || /windows/.test(userAgent);

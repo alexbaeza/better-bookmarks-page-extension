@@ -16,7 +16,15 @@ export interface ItemActionsMenuProps {
   onMouseLeave?: () => void;
 }
 
-export const ItemActionsMenu: React.FC<ItemActionsMenuProps> = ({ visible, iconSize = 16, className = '', onEdit, onDelete, onMouseEnter, onMouseLeave }) => {
+export const ItemActionsMenu: React.FC<ItemActionsMenuProps> = ({
+  visible,
+  iconSize = 16,
+  className = '',
+  onEdit,
+  onDelete,
+  onMouseEnter,
+  onMouseLeave,
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -41,23 +49,26 @@ export const ItemActionsMenu: React.FC<ItemActionsMenuProps> = ({ visible, iconS
 
   return (
     <>
-      {visible && (
-        <IconButton
-          className={`text-fgColor-secondary hover:text-fgColor-primary hover:bg-fgColor-hover rounded ${className}`}
-          dataTestId="item-options-button"
-          icon={<MoreVertical size={iconSize} />}
-          onClick={(e) => {
-            e.stopPropagation();
-            setMenuOpen((o) => !o);
-          }}
-          onKeyDown={handleOptionsKeyDown}
-          ref={buttonRef as React.Ref<HTMLButtonElement>}
-          size="sm"
-        />
-      )}
+      <IconButton
+        className={`relative z-20 inline-flex items-center justify-center aspect-square rounded-lg bg-bgColor-secondary text-fgColor-primary hover:bg-fgColor-hover hover:text-white disabled:opacity-50 p-1 text-xs text-fgColor-secondary hover:text-fgColor-primary hover:bg-fgColor-hover rounded ${visible ? 'opacity-100' : 'opacity-0'} ${className}`}
+        dataTestId="item-options-button"
+        icon={<MoreVertical size={iconSize} />}
+        onClick={(e) => {
+          e.stopPropagation();
+          setMenuOpen((o) => !o);
+        }}
+        onKeyDown={handleOptionsKeyDown}
+        ref={buttonRef as React.Ref<HTMLButtonElement>}
+        size="sm"
+      />
 
       {menuOpen && (
-        <BookmarkItemMenu anchorRef={buttonRef} onClose={() => setMenuOpen(false)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+        <BookmarkItemMenu
+          anchorRef={buttonRef}
+          onClose={() => setMenuOpen(false)}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+        >
           <BookmarkItemMenuItem
             icon={<Edit2 size={14} />}
             onClick={() => {

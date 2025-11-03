@@ -2,14 +2,21 @@ import type { BrowserBookmarkAPI, NormalizedBookmarkItem, NormalizedBookmarkTree
 
 /**
  * Firefox-specific implementation of the browser bookmark API
+ * Accepts an optional mock bookmarks API for testing/development
  */
 export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
   private browser: typeof window.browser;
 
-  constructor() {
-    this.browser = (window as typeof window & { browser: typeof window.browser }).browser;
-    if (!this.browser?.bookmarks) {
-      throw new Error('Firefox bookmarks API not available');
+  constructor(mockBookmarks?: typeof window.browser.bookmarks) {
+    if (mockBookmarks) {
+      // Use mock API (for dev/test environments)
+      this.browser = { bookmarks: mockBookmarks } as typeof window.browser;
+    } else {
+      // Use real Firefox API
+      this.browser = (window as typeof window & { browser: typeof window.browser }).browser;
+      if (!this.browser?.bookmarks) {
+        throw new Error('Firefox bookmarks API not available');
+      }
     }
   }
 
@@ -72,7 +79,10 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
     };
   }
 
-  async createBookmark(parentId: string | null, details: { title: string; url?: string }): Promise<NormalizedBookmarkItem> {
+  async createBookmark(
+    parentId: string | null,
+    details: { title: string; url?: string }
+  ): Promise<NormalizedBookmarkItem> {
     const targetParent = parentId && parentId !== '' ? parentId : 'Uncategorized';
 
     const created = await this.browser.bookmarks.create({

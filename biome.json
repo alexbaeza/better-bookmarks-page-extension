@@ -1,5 +1,4 @@
 {
-  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["./packages/shared-tooling/configs/biome.json"],
   "files": {
     "ignoreUnknown": true,

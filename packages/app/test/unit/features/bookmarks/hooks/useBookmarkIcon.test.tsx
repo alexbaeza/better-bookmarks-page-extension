@@ -2,7 +2,6 @@ import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useBookmarkIcon } from '@/features/bookmarks/hooks/useBookmarkIcon';
 
-// Mock dependencies
 vi.mock('../../../../../../../src/features/bookmarks/hooks/useFavicon', () => ({
   useFavicon: (url?: string) => (url ? `https://favicon.service/${url}` : ''),
 }));
@@ -35,7 +34,6 @@ describe('useBookmarkIcon', () => {
       const { result } = renderHook(() => useBookmarkIcon('https://example.com', 'Example'));
 
       expect(result.current).toBeDefined();
-      // The result is a React element, check its type
       expect((result.current as any).type).toBeDefined();
     });
 

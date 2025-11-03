@@ -3,7 +3,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useContainerWidth } from '@/features/bookmarks/hooks/useContainerWidth';
 
-// Mock ResizeObserver
 const mockDisconnect = vi.fn();
 const mockObserve = vi.fn();
 const mockUnobserve = vi.fn();

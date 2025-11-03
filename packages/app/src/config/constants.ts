@@ -7,3 +7,6 @@ export const APP_REPO_URL: string = 'https://github.com/alexbaeza/better-bookmar
 export const APP_DONATION_URL: string = 'https://www.buymeacoffee.com/alexbaeza';
 
 export const LOCAL_STORAGE_PREFIX_KEY: string = 'BB-';
+
+// Grid layout constants
+export const GRID_MIN_ITEM_WIDTH = 100; // Minimum width in pixels for grid items

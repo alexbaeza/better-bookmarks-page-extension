@@ -21,7 +21,9 @@ describe('AppStateContext', () => {
   });
 
   it('returns context when wrapped with provider', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => <AppStateContext.Provider value={initialContext}>{children}</AppStateContext.Provider>;
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <AppStateContext.Provider value={initialContext}>{children}</AppStateContext.Provider>
+    );
 
     const { result } = renderHook(() => useAppStateContext(), { wrapper });
 
@@ -43,7 +45,9 @@ describe('AppStateContext', () => {
   });
 
   it('exposes correct context shape', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => <AppStateContext.Provider value={initialContext}>{children}</AppStateContext.Provider>;
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <AppStateContext.Provider value={initialContext}>{children}</AppStateContext.Provider>
+    );
 
     const { result } = renderHook(() => useAppStateContext(), { wrapper });
 

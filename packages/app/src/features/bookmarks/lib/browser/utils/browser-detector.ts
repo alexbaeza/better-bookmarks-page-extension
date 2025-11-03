@@ -11,8 +11,7 @@ export function detectBrowser(): BrowserInfo {
     !!(window as typeof window & { chrome?: { runtime?: { id?: string } } }).chrome?.runtime?.id ||
     !!(window as typeof window & { browser?: { runtime?: { id?: string } } }).browser?.runtime?.id;
 
-  // In development, be more lenient with detection
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = import.meta.env.DEV;
 
   if (isFirefox) {
     return {

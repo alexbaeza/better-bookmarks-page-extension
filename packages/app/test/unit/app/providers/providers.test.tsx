@@ -5,7 +5,9 @@ import { AppProviders } from '@/app/providers/providers';
 import { AllProviders } from '~test/test-utils';
 
 vi.mock('@/app/providers/app-state-provider', () => ({
-  AppStateProvider: ({ children }: { children: React.ReactNode }) => <div data-testid="app-state-provider">{children}</div>,
+  AppStateProvider: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="app-state-provider">{children}</div>
+  ),
 }));
 
 vi.mock('@/app/providers/theme-provider', () => ({
@@ -13,15 +15,19 @@ vi.mock('@/app/providers/theme-provider', () => ({
 }));
 
 vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
-  BookmarkNavigationProvider: ({ children }: { children: React.ReactNode }) => <div data-testid="bookmark-navigation-provider">{children}</div>,
+  BookmarkNavigationProvider: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="bookmark-navigation-provider">{children}</div>
+  ),
 }));
 
 vi.mock('@/features/bookmarks/contexts/BookmarkSearchContext', () => ({
-  BookmarkSearchProvider: ({ children }: { children: React.ReactNode }) => <div data-testid="bookmark-search-provider">{children}</div>,
+  BookmarkSearchProvider: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="bookmark-search-provider">{children}</div>
+  ),
 }));
 
-vi.mock('@/app/providers/dragdrop-provider', () => ({
-  DragDropProvider: ({ children }: { children: React.ReactNode }) => <div data-testid="dragdrop-provider">{children}</div>,
+vi.mock('react-dnd', () => ({
+  DndProvider: ({ children }: { children: React.ReactNode }) => <div data-testid="dragdrop-provider">{children}</div>,
 }));
 
 vi.mock('@/app/providers/modal-context', () => ({
@@ -79,10 +85,10 @@ describe('AppProviders', () => {
 
     const appStateProvider = container.querySelector('[data-testid="app-state-provider"]');
     const themeProvider = appStateProvider?.querySelector('[data-testid="theme-provider"]');
-    const navigationProvider = themeProvider?.querySelector('[data-testid="bookmark-navigation-provider"]');
+    const dragdropProvider = themeProvider?.querySelector('[data-testid="dragdrop-provider"]');
+    const navigationProvider = dragdropProvider?.querySelector('[data-testid="bookmark-navigation-provider"]');
     const searchProvider = navigationProvider?.querySelector('[data-testid="bookmark-search-provider"]');
-    const dragdropProvider = searchProvider?.querySelector('[data-testid="dragdrop-provider"]');
-    const modalProvider = dragdropProvider?.querySelector('[data-testid="modal-provider"]');
+    const modalProvider = searchProvider?.querySelector('[data-testid="modal-provider"]');
     const appContent = modalProvider?.querySelector('[data-testid="app-content"]');
 
     expect(appStateProvider).toBeInTheDocument();

@@ -22,5 +22,12 @@ export const Input: React.FC<InputProps> = ({ disabled = false, className = '', 
     cursor-not-allowed opacity-50
   `;
 
-  return <input {...rest} className={`${base} ${disabled ? disabledStyles : enabledStyles} ${className}`} data-testid={dataTestId} disabled={disabled} />;
+  return (
+    <input
+      {...rest}
+      className={`${base} ${disabled ? disabledStyles : enabledStyles} ${className}`}
+      data-testid={dataTestId}
+      disabled={disabled}
+    />
+  );
 };

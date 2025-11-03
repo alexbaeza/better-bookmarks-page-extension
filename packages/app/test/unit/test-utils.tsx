@@ -5,7 +5,9 @@ import type React from 'react';
 
 import { ModalProvider } from '@/app/providers/modal-context';
 
-const MockModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => <ModalProvider>{children}</ModalProvider>;
+const MockModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <ModalProvider>{children}</ModalProvider>
+);
 
 const MockBookmarkNavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <>{children}</>;
@@ -23,18 +25,28 @@ const MockDragDropProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   return <>{children}</>;
 };
 
+const MockBookmarkActionsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <>{children}</>;
+};
+
 const HydrateAtoms: React.FC<{ initialValues: any; children: React.ReactNode }> = ({ initialValues, children }) => {
   useHydrateAtoms(initialValues);
   return <>{children}</>;
 };
 
-const MockJotaiProvider: React.FC<{ children: React.ReactNode; initialValues?: any }> = ({ children, initialValues = [] }) => (
+const MockJotaiProvider: React.FC<{ children: React.ReactNode; initialValues?: any }> = ({
+  children,
+  initialValues = [],
+}) => (
   <Provider>
     <HydrateAtoms initialValues={initialValues}>{children}</HydrateAtoms>
   </Provider>
 );
 
-const MockBookmarkProviders: React.FC<{ children: React.ReactNode; initialValues?: any }> = ({ children, initialValues = [] }) => (
+const MockBookmarkProviders: React.FC<{ children: React.ReactNode; initialValues?: any }> = ({
+  children,
+  initialValues = [],
+}) => (
   <MockJotaiProvider initialValues={initialValues}>
     <MockAppStateProvider>
       <MockBookmarkNavigationProvider>
@@ -44,7 +56,10 @@ const MockBookmarkProviders: React.FC<{ children: React.ReactNode; initialValues
   </MockJotaiProvider>
 );
 
-const AllProviders: React.FC<{ children: React.ReactNode; initialValues?: any }> = ({ children, initialValues = [] }) => (
+const AllProviders: React.FC<{ children: React.ReactNode; initialValues?: any }> = ({
+  children,
+  initialValues = [],
+}) => (
   <MockJotaiProvider initialValues={initialValues}>
     <MockAppStateProvider>
       <MockBookmarkNavigationProvider>
@@ -63,7 +78,8 @@ const customRender = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wra
   return render(ui, { wrapper: (props) => <AllProviders {...props} initialValues={initialValues} />, ...rest });
 };
 
-const renderWithModalProvider = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wrapper'>) => render(ui, { wrapper: MockModalProvider, ...options });
+const renderWithModalProvider = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
+  render(ui, { wrapper: MockModalProvider, ...options });
 
 const renderWithBookmarkProvider = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
   render(ui, { wrapper: MockBookmarkNavigationProvider, ...options });
@@ -77,12 +93,24 @@ const renderWithAppStateProvider = (ui: React.ReactElement, options?: Omit<Rende
 const renderWithDragDropProvider = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
   render(ui, { wrapper: MockDragDropProvider, ...options });
 
-const renderWithBookmarkProviders = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wrapper'> & { initialValues?: any }) => {
+const renderWithBookmarkActionsProvider = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
+  render(ui, { wrapper: MockBookmarkActionsProvider, ...options });
+
+const renderWithBookmarkProviders = (
+  ui: React.ReactElement,
+  options?: Omit<RenderOptions, 'wrapper'> & { initialValues?: any }
+) => {
   const { initialValues, ...rest } = options || {};
-  return render(ui, { wrapper: (props) => <MockBookmarkProviders {...props} initialValues={initialValues} />, ...rest });
+  return render(ui, {
+    wrapper: (props) => <MockBookmarkProviders {...props} initialValues={initialValues} />,
+    ...rest,
+  });
 };
 
-const renderWithJotaiProvider = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wrapper'> & { initialValues?: any }) => {
+const renderWithJotaiProvider = (
+  ui: React.ReactElement,
+  options?: Omit<RenderOptions, 'wrapper'> & { initialValues?: any }
+) => {
   const { initialValues, ...rest } = options || {};
   return render(ui, { wrapper: (props) => <MockJotaiProvider {...props} initialValues={initialValues} />, ...rest });
 };
@@ -95,6 +123,7 @@ export {
   renderWithBookmarkSearchProvider,
   renderWithAppStateProvider,
   renderWithDragDropProvider,
+  renderWithBookmarkActionsProvider,
   renderWithBookmarkProviders,
   renderWithJotaiProvider,
   AllProviders,
@@ -103,6 +132,7 @@ export {
   MockBookmarkSearchProvider,
   MockAppStateProvider,
   MockDragDropProvider,
+  MockBookmarkActionsProvider,
   MockBookmarkProviders,
   MockJotaiProvider,
 };

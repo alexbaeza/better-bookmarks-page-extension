@@ -9,6 +9,7 @@ import { SidebarSection } from '@/features/navigation/sidebar/components/SideBar
 import { SidebarFlyout } from '@/features/navigation/sidebar/components/SidebarFlyout';
 import { SidebarFolderNode } from '@/features/navigation/sidebar/components/SidebarFolderNode';
 import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarItem';
+import { Text } from '@/shared/ui/Text';
 
 export interface SidebarProps {
   title?: string;
@@ -58,7 +59,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
     return (
       <div className="flex h-screen" data-testid="sidebar">
         <nav aria-label="Bookmarks navigation" className="w-64 shrink-0 bg-bgColor-secondary p-4">
-          <h2 className="mb-4 flex items-center text-lg font-bold text-fgColor-primary">{title}</h2>
+          <Text as="h2" className="mb-4 flex items-center" color="primary" size="lg" weight="bold">
+            {title}
+          </Text>
           <div className="h-[calc(100vh-4rem)] overflow-y-auto px-2">
             <div className="animate-pulse space-y-4">
               <div className="h-4 bg-bgColor-tertiary rounded" />
@@ -73,9 +76,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
 
   return (
     <div className="flex h-screen max-h-screen" data-testid="sidebar">
-      <nav aria-label="Bookmarks navigation" className="w-64 min-w-64 max-w-64 shrink-0 bg-bgColor-secondary flex h-full max-h-full flex-col pr-2">
-        <h2 className="p-2 mb-4 flex items-center text-lg font-bold text-fgColor-primary shrink-0">{title}</h2>
-        <div aria-label="Bookmark folders" className="flex-1 min-h-0 overflow-y-auto" role="tree">
+      <nav
+        aria-label="Bookmarks navigation"
+        className="w-64 min-w-64 max-w-64 shrink-0 bg-bgColor-secondary flex h-full max-h-full flex-col pr-2"
+      >
+        <Text as="h2" className="p-2 mb-4 shrink-0" color="primary" size="lg" weight="bold">
+          {title}
+        </Text>
+        <div
+          aria-label="Bookmark folders"
+          className="flex-1 min-h-0 overflow-y-auto overflow-x-visible px-1"
+          role="tree"
+        >
           <SidebarSection title="Pages">
             <SidebarItem
               badge={counts.all}
@@ -114,7 +126,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
         {footer && <div className="shrink-0 mt-auto">{footer}</div>}
       </nav>
 
-      {openFolderId && selectedFolder && <SidebarFlyout clickFolder={clickFolder} folder={selectedFolder} onClose={() => setOpenFolderId(null)} />}
+      {openFolderId && selectedFolder && (
+        <SidebarFlyout clickFolder={clickFolder} folder={selectedFolder} onClose={() => setOpenFolderId(null)} />
+      )}
     </div>
   );
 };

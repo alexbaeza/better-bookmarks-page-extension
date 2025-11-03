@@ -9,7 +9,14 @@ export interface ToggleProps extends Omit<InputHTMLAttributes<HTMLInputElement>,
 
 export const Toggle: React.FC<ToggleProps> = ({ checked, onChange, className = '', ...rest }) => (
   <label className={`relative inline-flex cursor-pointer items-center ${className}`}>
-    <input checked={checked} className="peer sr-only" data-testid="toggle-input" onChange={(e) => onChange(e.target.checked)} type="checkbox" {...rest} />
+    <input
+      checked={checked}
+      className="peer sr-only"
+      data-testid="toggle-input"
+      onChange={(e) => onChange(e.target.checked)}
+      type="checkbox"
+      {...rest}
+    />
     <div
       className={[
         'peer h-6 w-11 rounded-full ',

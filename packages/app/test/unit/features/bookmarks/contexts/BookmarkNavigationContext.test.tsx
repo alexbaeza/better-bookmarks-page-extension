@@ -8,7 +8,9 @@ describe('BookmarkNavigationContext', () => {
     const { useBookmarkNavigation } = (await vi.importActual(
       '@/features/bookmarks/contexts/BookmarkNavigationContext'
     )) as typeof import('@/features/bookmarks/contexts/BookmarkNavigationContext');
-    expect(() => renderHook(() => useBookmarkNavigation())).toThrowError(/useBookmarkNavigation must be used within BookmarkNavigationProvider/);
+    expect(() => renderHook(() => useBookmarkNavigation())).toThrowError(
+      /useBookmarkNavigation must be used within BookmarkNavigationProvider/
+    );
   });
 
   it('provides default page and allows updating it', async () => {
@@ -17,7 +19,9 @@ describe('BookmarkNavigationContext', () => {
     const { BookmarkNavigationProvider, useBookmarkNavigation } = (await vi.importActual(
       '@/features/bookmarks/contexts/BookmarkNavigationContext'
     )) as typeof import('@/features/bookmarks/contexts/BookmarkNavigationContext');
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => <BookmarkNavigationProvider>{children}</BookmarkNavigationProvider>;
+    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+      <BookmarkNavigationProvider>{children}</BookmarkNavigationProvider>
+    );
     const { result } = renderHook(() => useBookmarkNavigation(), { wrapper });
     expect(result.current.currentPage).toBe('All');
     act(() => {

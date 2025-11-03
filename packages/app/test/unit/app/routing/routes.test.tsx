@@ -10,16 +10,12 @@ vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
   },
 }));
 
-vi.mock('@/app/routing/All', () => ({
-  AllPage: () => <div data-testid="all-page">All Page</div>,
-}));
-
-vi.mock('@/app/routing/Uncategorized', () => ({
-  UncategorizedPage: () => <div data-testid="uncategorized-page">Uncategorized Page</div>,
-}));
-
-vi.mock('@/app/routing/Folder', () => ({
-  FolderPage: ({ folderId }: { folderId: string }) => <div data-testid="folder-page">Folder Page: {folderId}</div>,
+vi.mock('@/app/routing/Page', () => ({
+  Page: ({ pageId }: { pageId: string }) => {
+    if (pageId === 'All') return <div data-testid="all-page">All Page</div>;
+    if (pageId === 'Uncategorized') return <div data-testid="uncategorized-page">Uncategorized Page</div>;
+    return <div data-testid="folder-page">Folder Page: {pageId}</div>;
+  },
 }));
 
 vi.mock('@/app/routing/NotFound', () => ({

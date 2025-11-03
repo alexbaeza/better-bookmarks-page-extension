@@ -4,11 +4,9 @@
  */
 
 export const selectors = {
-  // App containers
   appContainer: '[data-testid="app-container"]',
   appContent: '[data-testid="app-content"]',
 
-  // Bookmarks
   bookmarks: {
     item: '[data-testid^="bookmark-item-"]',
     folderItem: '[data-testid^="bookmark-folder-item-"]',
@@ -21,18 +19,15 @@ export const selectors = {
     dragHandleButton: '[data-testid="drag-handle-button"]',
   },
 
-  // Sidebar
   sidebar: {
     container: '[data-testid="sidebar"]',
     folderItem: '[data-testid^="sidebar-folder-item-"]',
   },
 
-  // Search
   search: {
     input: '[data-testid="search-input"]',
   },
 
-  // View
   view: {
     toggle: '[data-testid="view-toggle"]',
     gridMode: '[data-view-mode="grid"]',
@@ -41,12 +36,10 @@ export const selectors = {
     listIcon: '[data-testid="list-icon"]',
   },
 
-  // Settings
   settings: {
     toggle: '[data-testid="settings-toggle"]',
     modal: '[data-testid="settings-modal"]',
 
-    // Theme settings
     theme: {
       custom: '[data-testid="theme-custom"]',
       default: '[data-testid="theme-default"]',
@@ -64,32 +57,27 @@ export const selectors = {
     },
     customThemeStyle: '#custom-theme-style',
 
-    // Background overlay
     backgroundOverlay: {
       settings: '[data-testid="background-overlay-settings"]',
       toggle: '[data-testid="background-overlay-toggle"]',
       option1: '[data-testid="background-overlay-option-1"]',
     },
 
-    // Greeting
     greeting: {
       settings: '[data-testid="greeting-settings"]',
       nameInput: '[data-testid="greeting-name-input"]',
       message: '[data-testid="greeting-message"]',
     },
 
-    // Sidebar
     sidebar: {
       settings: '[data-testid="sidebar-settings"]',
       toggle: '[data-testid="sidebar-settings-toggle"]',
     },
 
-    // Search bar
     searchBar: {
       enabledToggle: '[data-testid="search-bar-enabled-toggle"]',
     },
 
-    // Reset
     reset: {
       confirmButton: '[data-testid="settings-reset-confirm-button"]',
       confirmationModal: '[data-testid="confirmation-modal-container"]',

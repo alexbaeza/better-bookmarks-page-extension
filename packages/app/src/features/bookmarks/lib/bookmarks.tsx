@@ -41,20 +41,65 @@ function getAPI(): BrowserBookmarkAPI {
   return api;
 }
 
+/**
+ * Check if we're using mock API (for dev/test environments)
+ */
+function isUsingMockAPI(): boolean {
+  const isTest = import.meta.env.MODE === 'test';
+
+  type MaybeGlobals = typeof globalThis & {
+    Cypress?: unknown;
+    chrome?: { bookmarks?: unknown };
+    browser?: { bookmarks?: unknown };
+  };
+  const g = globalThis as MaybeGlobals;
+  const isCypressTest = Boolean(g.Cypress);
+  const hasChromeAPI = Boolean(g.chrome?.bookmarks);
+  const hasBrowserAPI = Boolean(g.browser?.bookmarks);
+
+  // Using mock API if in test or if browser APIs are not available
+  return isTest || isCypressTest || (!hasChromeAPI && !hasBrowserAPI);
+}
+
 export async function getBookmarksData(): Promise<BookmarksData> {
   const browserAPI = getAPI();
+  // Fetch fresh data from browser API (syncs with browser's bookmark state)
   const tree: NormalizedBookmarkTree = await browserAPI.getBookmarksTree();
 
   const folders = tree.folders.map(normalizeToAppFormat);
   const uncategorized = tree.uncategorized ? normalizeToAppFormat(tree.uncategorized) : undefined;
 
-  // Initialize ordering for all folders (only for new folders)
+  const usingMock = isUsingMockAPI();
+
+  if (usingMock) {
+    // For mock API in dev/test: simple initialization only
+    // Mock API manages its own state, so we just initialize ordering for new folders
+    // and apply existing ordering
+    orderingService.initializeOrdering(folders);
+    if (uncategorized) {
+      orderingService.initializeOrdering([uncategorized]);
+    }
+
+    const orderedFolders = orderingService.applyOrdering(folders);
+    const orderedUncategorized = uncategorized ? orderingService.applyOrdering([uncategorized])[0] : undefined;
+
+    return {
+      folders: orderedFolders,
+      uncategorized: orderedUncategorized,
+    };
+  }
+
+  // For real Chrome/Firefox APIs: full reconciliation
+  // Reconcile ordering with current bookmark structure:
+  // - Initialize ordering for new folders
+  // - Clean up stale ordering entries for deleted items
+  // - Add new items to ordering (maintains existing order, adds new items at end)
   orderingService.initializeOrdering(folders);
   if (uncategorized) {
     orderingService.initializeOrdering([uncategorized]);
   }
 
-  // Apply stored ordering to folders
+  // Apply stored ordering to folders (new items will appear at end)
   const orderedFolders = orderingService.applyOrdering(folders);
   const orderedUncategorized = uncategorized ? orderingService.applyOrdering([uncategorized])[0] : undefined;
 
@@ -64,7 +109,10 @@ export async function getBookmarksData(): Promise<BookmarksData> {
   };
 }
 
-export async function create(parentId: string | null, details: { title: string; url?: string }): Promise<IBookmarkItem> {
+export async function create(
+  parentId: string | null,
+  details: { title: string; url?: string }
+): Promise<IBookmarkItem> {
   const browserAPI = getAPI();
   const created: NormalizedBookmarkItem = await browserAPI.createBookmark(parentId, details);
   return normalizeToAppFormat(created);
@@ -108,7 +156,12 @@ export function getFaviconUrl(url: string): string {
 /**
  * Move an item within a folder or between folders
  */
-export async function moveItem(itemId: string, fromFolderId: string, toFolderId: string, toIndex: number): Promise<void> {
+export async function moveItem(
+  itemId: string,
+  fromFolderId: string,
+  toFolderId: string,
+  toIndex: number
+): Promise<void> {
   // Persist overlay order first so UI reflects change immediately
   orderingService.moveItem(itemId, fromFolderId, toFolderId, toIndex);
   // Then perform the actual browser move to trigger sync on next import

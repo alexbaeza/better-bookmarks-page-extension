@@ -9,7 +9,14 @@ export interface ImageWithFallbackProps extends ImgHTMLAttributes<HTMLImageEleme
   isFavicon?: boolean; // Whether this is a favicon that should use caching
 }
 
-export const ImageWithFallback = ({ fallback = getDefaultFavicon(), src, alt, className = '', isFavicon = false, ...props }: ImageWithFallbackProps) => {
+export const ImageWithFallback = ({
+  fallback = getDefaultFavicon(),
+  src,
+  alt,
+  className = '',
+  isFavicon = false,
+  ...props
+}: ImageWithFallbackProps) => {
   const [hasError, setError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [actualSrc, setActualSrc] = useState<string>(src);

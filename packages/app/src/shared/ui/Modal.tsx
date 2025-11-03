@@ -4,6 +4,7 @@ import type React from 'react';
 import { memo } from 'react';
 
 import { IconButton } from './IconButton';
+import { Text } from './Text';
 
 export interface ModalProps {
   onClose: () => void;
@@ -24,7 +25,10 @@ export const Modal = memo<ModalProps>(({ onClose, title, children, size = 'md', 
   return (
     <Dialog.Root modal onOpenChange={(open) => !open && onClose()} open>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[999] bg-black bg-opacity-50" data-testid={`${dataTestId}-backdrop`} />
+        <Dialog.Overlay
+          className="fixed inset-0 z-[999] bg-black bg-opacity-50"
+          data-testid={`${dataTestId}-backdrop`}
+        />
         <Dialog.Content
           className={`fixed left-1/2 top-1/2 z-[1000] w-11/12 max-h-[85vh] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-bgColor-primary p-6 shadow-lg focus:outline-none ${sizeClasses[size]}`}
           data-testid={dataTestId}
@@ -33,8 +37,10 @@ export const Modal = memo<ModalProps>(({ onClose, title, children, size = 'md', 
         >
           <div className="mb-4 flex items-center justify-between">
             {title && (
-              <Dialog.Title className="text-lg font-semibold text-fgColor-primary" data-testid={`${dataTestId}-title`}>
-                {title}
+              <Dialog.Title asChild>
+                <Text as="h2" color="primary" data-testid={`${dataTestId}-title`} size="lg" weight="semibold">
+                  {title}
+                </Text>
               </Dialog.Title>
             )}
             <Dialog.Close asChild>

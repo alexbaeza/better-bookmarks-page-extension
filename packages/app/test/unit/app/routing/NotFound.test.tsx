@@ -27,10 +27,7 @@ describe('NotFoundPage', () => {
   it('has correct styling', () => {
     render(<NotFoundPage />);
 
-    const container = screen.getByText('404 – Page not found').parentElement?.parentElement;
-    expect(container).toHaveClass('flex size-full items-center justify-center p-4');
-
     const text = screen.getByText('404 – Page not found');
-    expect(text).toHaveClass('text-center text-lg font-semibold text-fgColor-primary');
+    expect(text).toHaveClass('text-center', 'text-lg', 'font-semibold', 'text-fgColor-primary');
   });
 });

@@ -12,13 +12,23 @@ MANIFEST_FILE="${BUILD_DIR}/manifest.json"
 
 echo "🚀 Starting release process..."
 echo ""
+
+echo "🧹 Cleaning build directory..."
+pnpm clean || exit 1
+
 echo "📦 Building app"
 pnpm build || exit 1
 
 echo ""
 echo "📋 Preparing release artifacts"
 
+# Clean release directory to avoid accumulating old zips
+if [ -d "release" ]; then
+  echo "🧹 Cleaning release directory..."
+  rm -f release/*.zip
+fi
 mkdir -p release
+
 echo "   Version: $CURR_VERSION"
 echo "   Output directory: release/"
 echo ""
@@ -31,7 +41,7 @@ package_firefox() {
   jq --arg version "$CURR_VERSION" '.version = $version' "$MANIFEST_FILE" > "${MANIFEST_FILE}.tmp" && mv "${MANIFEST_FILE}.tmp" "$MANIFEST_FILE"
 
   echo "   Packaging extension..."
-  (cd "$BUILD_DIR" && zip -r "../../../release/extension-firefox-${CURR_VERSION}.zip" ./* -x 'manifest-*' 'release/*' > /dev/null)
+  (cd "$BUILD_DIR" && zip -r "../../../release/extension-firefox-${CURR_VERSION}.zip" . -x "*.map" "*.DS_Store" "__MACOSX/*" > /dev/null)
   
   ZIP_SIZE=$(du -h "release/extension-firefox-${CURR_VERSION}.zip" | cut -f1)
   echo "   ✓ Created: release/extension-firefox-${CURR_VERSION}.zip ($ZIP_SIZE)"
@@ -45,7 +55,7 @@ package_chrome() {
   jq --arg version "$CURR_VERSION" '.version = $version' "$MANIFEST_FILE" > "${MANIFEST_FILE}.tmp" && mv "${MANIFEST_FILE}.tmp" "$MANIFEST_FILE"
 
   echo "   Packaging extension..."
-  (cd "$BUILD_DIR" && zip -r "../../../release/extension-chrome-${CURR_VERSION}.zip" ./* -x 'manifest-*' 'release/*' > /dev/null)
+  (cd "$BUILD_DIR" && zip -r "../../../release/extension-chrome-${CURR_VERSION}.zip" . -x "*.map" "*.DS_Store" "__MACOSX/*" > /dev/null)
   
   ZIP_SIZE=$(du -h "release/extension-chrome-${CURR_VERSION}.zip" | cut -f1)
   echo "   ✓ Created: release/extension-chrome-${CURR_VERSION}.zip ($ZIP_SIZE)"

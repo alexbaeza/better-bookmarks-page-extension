@@ -22,7 +22,11 @@ export const findParentOfItem = (tree: IBookmarkItem[], id: string): IBookmarkIt
   return null;
 };
 
-export const updateChildrenInTree = (tree: IBookmarkItem[], parentId: string, newChildren: IBookmarkItem[]): IBookmarkItem[] => {
+export const updateChildrenInTree = (
+  tree: IBookmarkItem[],
+  parentId: string,
+  newChildren: IBookmarkItem[]
+): IBookmarkItem[] => {
   return tree.map((item) => {
     if (item.id === parentId) {
       return { ...item, children: newChildren };

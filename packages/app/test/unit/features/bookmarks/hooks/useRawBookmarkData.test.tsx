@@ -2,7 +2,6 @@ import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useRawBookmarkData } from '@/features/bookmarks/hooks/useRawBookmarkData';
 
-// Mock dependencies
 const mockRefreshBookmarks = vi.fn();
 const mockAppStateContext = {
   providerInitialised: true,
@@ -69,16 +68,12 @@ describe('useRawBookmarkData', () => {
   it('should call refreshBookmarks when not initialized', () => {
     mockAppStateContext.providerInitialised = false;
     renderHook(() => useRawBookmarkData());
-
-    // Note: useEffect is called asynchronously, so we can't easily test the call in this test
-    // This would require more complex async testing
   });
 
   it('should not call refreshBookmarks when initialized', () => {
     mockAppStateContext.providerInitialised = true;
     renderHook(() => useRawBookmarkData());
 
-    // The effect should not run on first render if already initialized
     expect(mockRefreshBookmarks).not.toHaveBeenCalled();
   });
 });

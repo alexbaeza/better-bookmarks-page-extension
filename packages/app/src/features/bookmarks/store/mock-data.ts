@@ -26,10 +26,17 @@ export const mockData: IBookmarkItem[] = [
         // Deep nesting test
         createFolder('10', '1', '📚 Long Title Folder with Special Characters !@#$%^&*()', [
           createFolder('11', '10', 'Nested Folder Level 1', [
-            createFolder('12', '11', 'Nested Folder Level 2', [createBookmark('13', '12', 'Nested Bookmark Level 3', 'https://deep.link.example.com/')]),
+            createFolder('12', '11', 'Nested Folder Level 2', [
+              createBookmark('13', '12', 'Nested Bookmark Level 3', 'https://deep.link.example.com/'),
+            ]),
           ]),
           createFolder('14', '10', 'Empty Folder', []),
-          createBookmark('14b', '10', 'Example Link Inside Long Title Folder', 'https://example.com/inside-long-folder'),
+          createBookmark(
+            '14b',
+            '10',
+            'Example Link Inside Long Title Folder',
+            'https://example.com/inside-long-folder'
+          ),
         ]),
 
         // Mixed content folder
@@ -62,7 +69,12 @@ export const mockData: IBookmarkItem[] = [
         createFolder('100', '1', '🚀 Programming Languages', [
           createFolder('101', '100', 'JavaScript & TypeScript', [
             createBookmark('102', '101', 'JavaScript MDN', 'https://developer.mozilla.org/en-US/docs/Web/JavaScript'),
-            createBookmark('103', '101', 'TypeScript Handbook', 'https://www.typescriptlang.org/docs/handbook/intro.html'),
+            createBookmark(
+              '103',
+              '101',
+              'TypeScript Handbook',
+              'https://www.typescriptlang.org/docs/handbook/intro.html'
+            ),
             createBookmark('104', '101', 'You Dont Know JS', 'https://github.com/getify/You-Dont-Know-JS'),
             createBookmark('105', '101', 'Modern JavaScript Tutorial', 'https://javascript.info'),
             createFolder('106', '101', 'Frameworks', [
@@ -204,7 +216,9 @@ export const mockData: IBookmarkItem[] = [
 
         // Very Large Folder - Testing performance with many items
         createFolder('800', '1', '📚 Very Large Folder (50+ items)', [
-          ...Array.from({ length: 50 }, (_, i) => createBookmark(`800-${i}`, '800', `Bookmark ${i + 1}`, `https://example.com/item-${i + 1}`)),
+          ...Array.from({ length: 50 }, (_, i) =>
+            createBookmark(`800-${i}`, '800', `Bookmark ${i + 1}`, `https://example.com/item-${i + 1}`)
+          ),
         ]),
 
         // Deeply nested structure
@@ -214,7 +228,9 @@ export const mockData: IBookmarkItem[] = [
               createFolder('903', '902', 'Level 4', [
                 createFolder('904', '903', 'Level 5', [
                   createFolder('905', '904', 'Level 6', [
-                    createFolder('906', '905', 'Level 7', [createBookmark('907', '906', 'Deep Bookmark', 'https://deep.example.com')]),
+                    createFolder('906', '905', 'Level 7', [
+                      createBookmark('907', '906', 'Deep Bookmark', 'https://deep.example.com'),
+                    ]),
                   ]),
                 ]),
               ]),
@@ -231,7 +247,12 @@ export const mockData: IBookmarkItem[] = [
             'https://example.com/long-title'
           ),
           createBookmark('1002', '1000', '', 'https://example.com/no-title'),
-          createBookmark('1003', '1000', 'Special Characters: !@#$%^&*()_+-=[]{}|;:",./<>?', 'https://example.com/special'),
+          createBookmark(
+            '1003',
+            '1000',
+            'Special Characters: !@#$%^&*()_+-=[]{}|;:",./<>?',
+            'https://example.com/special'
+          ),
           createBookmark('1004', '1000', 'Emoji Test 🎉 🚀 💻 🌟', 'https://example.com/emoji'),
           createBookmark('1005', '1000', '中文标题', 'https://example.com/chinese'),
           createBookmark('1006', '1000', 'العربية', 'https://example.com/arabic'),

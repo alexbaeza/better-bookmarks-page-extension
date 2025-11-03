@@ -39,6 +39,8 @@ code {
   }
 }
 
+/* Drag and Drop Animations - Removed divider animations */
+
 /* Utility Classes for Common Patterns */
 @layer components {
   /* Text utilities */

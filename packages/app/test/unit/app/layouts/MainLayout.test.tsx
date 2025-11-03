@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { MainLayout } from '@/app/layouts/MainLayout';
 
-// Mock dependencies
 const mockUseAtomValue = vi.fn();
 vi.mock('jotai', () => ({
   useAtomValue: () => mockUseAtomValue(),

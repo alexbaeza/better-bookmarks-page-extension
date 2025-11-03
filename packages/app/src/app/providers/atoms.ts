@@ -59,7 +59,10 @@ export const customThemeAtom = atomWithStorage<ThemeColors | null>(settings.pref
 /**
  * background overlay image path. '/images/transparent.png' disables overlay.
  */
-export const backgroundOverlayAtom = atomWithStorage<string>(settings.preferences.background.image, '/images/transparent.png');
+export const backgroundOverlayAtom = atomWithStorage<string>(
+  settings.preferences.background.image,
+  '/images/transparent.png'
+);
 
 /** toggle for showing the sidebar. */
 export const sidebarEnabledAtom = atomWithStorage<boolean>(settings.preferences.ui.sidebarEnabled, true);
@@ -73,7 +76,10 @@ export const backgroundOverlayOpacityAtom = atomWithStorage<number>(settings.pre
 // Preferences: Greeting & View
 // =============================
 /** bookmark view mode (Grid/List). */
-export const viewModeAtom = atomWithStorage<BookmarkDisplayMode>(settings.preferences.ui.viewMode, BookmarkDisplayMode.Grid);
+export const viewModeAtom = atomWithStorage<BookmarkDisplayMode>(
+  settings.preferences.ui.viewMode,
+  BookmarkDisplayMode.Grid
+);
 /** toggle for enabling the greeting block. */
 export const greetingEnabledAtom = atomWithStorage<boolean>(settings.preferences.greeting.enabled, true);
 /** display name used by the greeting block. */

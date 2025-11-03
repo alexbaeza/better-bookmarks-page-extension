@@ -4,7 +4,7 @@ import { ImageWithFallback } from '@/shared/ui/ImageWithFallback';
 import { getDefaultFavicon } from '../lib/browser/utils/default-favicon';
 import { useFavicon } from './useFavicon';
 
-export const useBookmarkIcon = (url?: string, title?: string, size: 'sm' | 'md' | 'lg' = 'md'): React.ReactNode => {
+export const useBookmarkIcon = (url?: string, size: 'sm' | 'md' | 'lg' = 'md'): React.ReactNode => {
   const faviconUrl = useFavicon(url);
 
   const sizeClasses = {
@@ -13,15 +13,36 @@ export const useBookmarkIcon = (url?: string, title?: string, size: 'sm' | 'md' 
     lg: 'size-14',
   };
 
-  return url ? (
-    <ImageWithFallback
-      alt={`favicon for ${title || 'bookmark'}`}
-      className={`${sizeClasses[size]} rounded-sm`}
-      fallback={getDefaultFavicon()}
-      isFavicon={true}
-      src={faviconUrl}
+  const getFolderIconSize = () => {
+    switch (size) {
+      case 'sm':
+        return 16;
+      case 'md':
+        return 28;
+      case 'lg':
+        return 32;
+      default:
+        return 28;
+    }
+  };
+
+  if (url) {
+    return (
+      <ImageWithFallback
+        alt="favicon"
+        className={`${sizeClasses[size]} rounded-sm`}
+        fallback={getDefaultFavicon()}
+        isFavicon={true}
+        src={faviconUrl}
+      />
+    );
+  }
+
+  return (
+    <Folder
+      className="text-fgColor-secondary hover:text-fgColor-primary"
+      fill="currentColor"
+      size={getFolderIconSize()}
     />
-  ) : (
-    <Folder className="text-fgColor-secondary hover:text-fgColor-primary" fill="currentColor" size={size === 'sm' ? 16 : size === 'md' ? 28 : 32} />
   );
 };

@@ -88,6 +88,8 @@ describe('Button', () => {
     render(<Button dataTestId="test-button">Click me</Button>);
 
     const button = screen.getByTestId('test-button');
-    expect(button).toHaveClass('px-4 py-2 rounded font-medium focus:outline-none focus:ring-2 focus:ring-fgColor-accent transition-colors');
+    expect(button).toHaveClass(
+      'px-4 py-2 rounded font-medium focus:outline-none focus:ring-2 focus:ring-fgColor-accent transition-colors'
+    );
   });
 });

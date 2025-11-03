@@ -108,7 +108,7 @@ describe('IconButton', () => {
     expect(button).toHaveClass('inline-flex');
     expect(button).toHaveClass('items-center');
     expect(button).toHaveClass('rounded-lg');
-    expect(button).toHaveClass('bg-bgColor-secondary');
+    expect(button).toHaveClass('bg-bgColor-accent');
     expect(button).toHaveClass('text-fgColor-primary');
   });
 
@@ -116,6 +116,5 @@ describe('IconButton', () => {
     render(<IconButton icon={mockIcon} />);
     const button = screen.getByRole('button');
     expect(button).toHaveClass('hover:bg-fgColor-hover');
-    expect(button).toHaveClass('hover:text-white');
   });
 });

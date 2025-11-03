@@ -89,8 +89,18 @@ describe('SidebarSection', () => {
       </SidebarSection>
     );
 
-    const title = screen.getByText('Test Section').closest('h4');
-    expect(title).toHaveClass('mb-1', 'flex', 'items-center', 'gap-2', 'text-xs', 'font-semibold', 'uppercase', 'text-fgColor-secondary', 'min-w-0');
+    const titleText = screen.getByText('Test Section');
+    const titleContainer = titleText.closest('.flex');
+    expect(titleContainer).toHaveClass(
+      'mb-1',
+      'min-w-0',
+      'text-xs',
+      'font-semibold',
+      'uppercase',
+      'text-fgColor-secondary',
+      'flex',
+      'items-center'
+    );
   });
 
   it('applies correct CSS classes to badge', () => {
@@ -102,15 +112,18 @@ describe('SidebarSection', () => {
 
     const badge = screen.getByText('5');
     expect(badge).toHaveClass(
-      'flex-none',
       'rounded-full',
       'bg-bgColor-tertiary',
+      'text-xs',
+      'text-fgColor-primary',
+      'font-bold',
+      'flex',
+      'items-center',
+      'justify-center',
+      'text-center',
       'px-2',
       'py-0.5',
-      'text-xs',
-      'text-fgColor-secondary',
-      'min-w-[1.5rem]',
-      'text-center'
+      'min-w-[1.5rem]'
     );
   });
 

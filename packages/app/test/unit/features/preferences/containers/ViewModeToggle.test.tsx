@@ -4,7 +4,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ViewModeToggle } from '@/features/preferences/containers/ViewModeToggle';
 import { BookmarkDisplayMode } from '@/shared/types/ui';
 
-// Mock dependencies
 const mockSetViewMode = vi.fn();
 let mockViewMode = BookmarkDisplayMode.Grid;
 

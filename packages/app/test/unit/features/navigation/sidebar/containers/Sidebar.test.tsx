@@ -16,8 +16,8 @@ vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
 vi.mock('@/features/navigation/sidebar/components/SidebarFlyout', () => ({
   SidebarFlyout: ({ folder, onClose }: { folder: any; onClose: () => void }) => (
     <div data-testid="sidebar-flyout">
-      <div data-testid="flyout-folder-title">{folder.title}</div>
-      <button data-testid="flyout-close" onClick={onClose} type="button">
+      <div data-testid="flyout-title">{folder.title}</div>
+      <button data-testid="flyout-close-button" onClick={onClose} type="button">
         Close
       </button>
     </div>
@@ -26,8 +26,21 @@ vi.mock('@/features/navigation/sidebar/components/SidebarFlyout', () => ({
 
 vi.mock('@/features/navigation/sidebar/components/SidebarItem', () => ({
   SidebarItem: ({ label, onClick, isSelected }: { label: string; onClick: () => void; isSelected: boolean }) => (
-    <button data-selected={isSelected} data-testid={`sidebar-item-${label.toLowerCase().replace(/\s+/g, '-')}`} onClick={onClick} type="button">
+    <button
+      data-selected={isSelected}
+      data-testid={`sidebar-item-${label.toLowerCase().replace(/\s+/g, '-')}`}
+      onClick={onClick}
+      type="button"
+    >
       {label}
+    </button>
+  ),
+}));
+
+vi.mock('@/features/navigation/sidebar/components/SidebarFolderNode', () => ({
+  SidebarFolderNode: ({ folder, clickFolder }: { folder: any; clickFolder: (id: string) => void }) => (
+    <button data-testid={`sidebar-folder-${folder.id}`} onClick={() => clickFolder(folder.id)} type="button">
+      {folder.title}
     </button>
   ),
 }));
@@ -43,6 +56,11 @@ describe('Sidebar', () => {
     mockUseBookmarkNavigation.mockReturnValue({
       currentPage: 'All',
       setCurrentPage: mockSetCurrentPage,
+      navigateToFolder: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateBack: vi.fn(),
+      canGoBack: false,
+      navigationStack: ['All'],
     });
     mockUseBookmarks = vi.mocked(useBookmarks);
     mockUseBookmarks.mockReturnValue({
@@ -53,7 +71,7 @@ describe('Sidebar', () => {
         { children: [], id: 'folder-2', title: 'Test Folder 2' },
       ],
       currentPage: 'All',
-      error: null,
+      error: undefined,
       items: [],
       pageContainers: [],
       searchTerm: '',
@@ -63,7 +81,6 @@ describe('Sidebar', () => {
       move: vi.fn(),
       remove: vi.fn(),
       update: vi.fn(),
-      updateLayout: vi.fn(),
     });
   });
 
@@ -141,12 +158,23 @@ describe('Sidebar', () => {
   });
 
   it('renders folder nodes', () => {
+    mockUseBookmarkNavigation.mockReturnValue({
+      currentPage: 'All',
+      setCurrentPage: mockSetCurrentPage,
+      navigateToFolder: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateBack: vi.fn(),
+      canGoBack: false,
+      navigationStack: ['All'],
+    });
     render(
       <AllProviders>
         <Sidebar />
       </AllProviders>
     );
 
+    expect(screen.getByTestId('sidebar-folder-folder-1')).toBeInTheDocument();
+    expect(screen.getByTestId('sidebar-folder-folder-2')).toBeInTheDocument();
     expect(screen.getByText('Test Folder 1')).toBeInTheDocument();
     expect(screen.getByText('Test Folder 2')).toBeInTheDocument();
   });
@@ -181,6 +209,11 @@ describe('Sidebar', () => {
     mockUseBookmarkNavigation.mockReturnValue({
       currentPage: 'All',
       setCurrentPage: mockSetCurrentPage,
+      navigateToFolder: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateBack: vi.fn(),
+      canGoBack: false,
+      navigationStack: ['All'],
     });
 
     render(
@@ -197,6 +230,11 @@ describe('Sidebar', () => {
     mockUseBookmarkNavigation.mockReturnValue({
       currentPage: 'Uncategorized',
       setCurrentPage: mockSetCurrentPage,
+      navigateToFolder: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateBack: vi.fn(),
+      canGoBack: false,
+      navigationStack: ['All', 'Uncategorized'],
     });
 
     render(
@@ -216,14 +254,14 @@ describe('Sidebar', () => {
       </AllProviders>
     );
 
-    const folderButton = screen.getByText('Test Folder 1');
+    const folderButton = screen.getByTestId('sidebar-folder-folder-1');
     fireEvent.click(folderButton);
 
     await waitFor(() => {
       expect(screen.getByTestId('sidebar-flyout')).toBeInTheDocument();
     });
 
-    expect(screen.getByTestId('flyout-folder-title')).toHaveTextContent('Test Folder 1');
+    expect(screen.getByTestId('flyout-title')).toHaveTextContent('Test Folder 1');
   });
 
   it('closes flyout when close button is clicked', async () => {
@@ -233,14 +271,14 @@ describe('Sidebar', () => {
       </AllProviders>
     );
 
-    const folderButton = screen.getByText('Test Folder 1');
+    const folderButton = screen.getByTestId('sidebar-folder-folder-1');
     fireEvent.click(folderButton);
 
     await waitFor(() => {
       expect(screen.getByTestId('sidebar-flyout')).toBeInTheDocument();
     });
 
-    const closeButton = screen.getByTestId('flyout-close');
+    const closeButton = screen.getByTestId('flyout-close-button');
     fireEvent.click(closeButton);
 
     await waitFor(() => {
@@ -264,6 +302,11 @@ describe('Sidebar', () => {
     mockUseBookmarkNavigation.mockReturnValue({
       currentPage: 'All',
       setCurrentPage: mockSetCurrentPage,
+      navigateToFolder: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateBack: vi.fn(),
+      canGoBack: false,
+      navigationStack: ['All'],
     });
 
     render(
@@ -279,6 +322,11 @@ describe('Sidebar', () => {
     mockUseBookmarkNavigation.mockReturnValue({
       currentPage: 'Uncategorized',
       setCurrentPage: mockSetCurrentPage,
+      navigateToFolder: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateBack: vi.fn(),
+      canGoBack: false,
+      navigationStack: ['All', 'Uncategorized'],
     });
 
     render(

@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SearchBar } from '@/features/search/containers/SearchBar';
 
-// Mock dependencies
 const mockSetSearchTerm = vi.fn();
 const mockFindFolderById = vi.fn();
 
@@ -22,7 +21,13 @@ vi.mock('@/features/bookmarks/lib/browser/utils/bookmark-tree-utils', () => ({
 
 vi.mock('@/shared/ui/SearchInput', () => ({
   SearchInput: ({ placeholder, value, onChange, 'data-testid': dataTestId }: any) => (
-    <input data-testid={dataTestId} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} type="text" value={value} />
+    <input
+      data-testid={dataTestId}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      type="text"
+      value={value}
+    />
   ),
 }));
 
