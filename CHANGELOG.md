@@ -1,3 +1,7 @@
+## 2.0.0 (2025-11-04)
+
+* release: 3.0.0 Update changelog ([2c14358](https://github.com/alexbaeza/better-bookmarks-page-extension/commit/2c14358))
+
 ## 3.0.0 (2025-11-04)
 
 v3.0.0 is a complete rewrite focused on new functionality, performance, and a clearer architecture. We migrated to a feature-based structure that cleanly separates app composition, domain features, and shared building blocks. UI has been modernized to introduce new features a powerful Search bar, and personalization is now first-class with a drag and drop funtionality to re-order items toggleable features and flexible theme system.
