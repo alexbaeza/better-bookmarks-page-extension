@@ -8,6 +8,7 @@ module.exports = {
   ],
   preset: 'conventionalcommits',
   plugins: [
+    // Analyze commits for version bumps
     [
       '@semantic-release/commit-analyzer',
       {
@@ -27,25 +28,57 @@ module.exports = {
           { release: 'major', type: 'release' },
         ],
         parserOpts: {
-          headerPattern: /^(\w+)(?:\(([\d.]+)\))?: (.*)$/,
-          headerCorrespondence: ['type', 'version', 'subject'],
+          headerPattern: /^(\w+)(?:\(([^)]+)\))?: (.*)$/,
+          headerCorrespondence: ['type', 'scopeOrVersion', 'subject'],
         },
       },
     ],
-    '@semantic-release/release-notes-generator',
+
+    // Generate changelog sections with custom formatting
+    [
+      '@semantic-release/release-notes-generator',
+      {
+        writerOpts: {
+          commitsSort: ['subject', 'scope'],
+        },
+        preset: 'conventionalcommits',
+        presetConfig: {
+          types: [
+            { type: 'feat', section: '✨ Features' },
+            { type: 'fix', section: '🐛 Bug Fixes' },
+            { type: 'refactor', section: '🧠 Refactor' },
+            { type: 'perf', section: '⚡ Performance' },
+            { type: 'docs', section: '📝 Docs' },
+            { type: 'chore', section: '🧹 Chore' },
+            { type: 'test', section: '🧪 Tests' },
+            { type: 'build', section: '🏗️ Build' },
+            { type: 'ci', section: '🤖 CI' },
+            { type: 'style', hidden: true },
+          ],
+        },
+      },
+    ],
+
+    // Update or create CHANGELOG.md
     '@semantic-release/changelog',
+
+    // Update package.json but don’t publish to npm
     [
       '@semantic-release/npm',
       {
         npmPublish: false,
       },
     ],
+
+    //️ Build + prepare step
     [
       '@semantic-release/exec',
       {
         prepareCmd: 'pnpm release',
       },
     ],
+
+    // Commit back version + changelog
     [
       '@semantic-release/git',
       {
@@ -54,6 +87,8 @@ module.exports = {
           'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
       },
     ],
+
+    // Publish GitHub release with dynamic artifact names
     [
       '@semantic-release/github',
       {
