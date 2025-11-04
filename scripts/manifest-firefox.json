@@ -1,7 +1,10 @@
 {
   "browser_specific_settings": {
     "gecko": {
-      "id": "better-bookmarks-page-extension@alexbaeza.github.com"
+      "id": "better-bookmarks-page-extension@alexbaeza.github.com",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   },
   "chrome_settings_overrides": {
