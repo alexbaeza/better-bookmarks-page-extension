@@ -1,5 +1,9 @@
 ## 3.0.0 (2025-11-04)
 
+* release: 3.0.0 Update changelog ([d607fcf](https://github.com/alexbaeza/better-bookmarks-page-extension/commit/d607fcf))
+
+## 3.0.0 (2025-11-04)
+
 v3.0.0 is a complete rewrite focused on new functionality, performance, and a clearer architecture. We migrated to a feature-based structure that cleanly separates app composition, domain features, and shared building blocks. UI has been modernized to introduce new features a powerful Search bar, and personalization is now first-class with a drag and drop funtionality to re-order items toggleable features and flexible theme system.
 
 The bookmarks domain was refactored into functional APIs with a cross‑browser factory, and drag‑and‑drop ordering is more predictable. Across the board, we consolidated styling with Tailwind, simplified imports, and adopted Biome for consistent linting/formatting. This release lays a strong foundation for future features while keeping the codebase maintainable and testable.
