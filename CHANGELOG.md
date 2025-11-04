@@ -1,3 +1,7 @@
+## 3.0.0 (2025-11-04)
+
+* release: 3.0.0 Trigger release ([c0f07f4](https://github.com/alexbaeza/better-bookmarks-page-extension/commit/c0f07f4))
+
 ## 2.0.0 (2025-11-04)
 
 * release: 3.0.0 Trigger release ([f65dece](https://github.com/alexbaeza/better-bookmarks-page-extension/commit/f65dece))
