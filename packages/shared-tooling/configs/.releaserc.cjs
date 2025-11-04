@@ -24,7 +24,7 @@ module.exports = {
           { release: false, type: 'test' },
           { release: false, type: 'build' },
           { release: false, type: 'ci' },
-          { release: 'minor', type: 'release' },
+          { release: 'major', type: 'release' },
         ],
         parserOpts: {
           headerPattern: /^(\w+)(?:\(([\d.]+)\))?: (.*)$/,
