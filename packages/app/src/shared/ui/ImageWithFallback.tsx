@@ -1,4 +1,4 @@
-import { type ImgHTMLAttributes, useEffect, useState } from 'react';
+import { type ImgHTMLAttributes, useEffect, useRef, useState } from 'react';
 import { getDefaultFavicon } from '@/features/bookmarks/lib/browser/utils/default-favicon';
 import { faviconCache } from '@/features/bookmarks/lib/favicon-cache';
 
@@ -20,6 +20,7 @@ export const ImageWithFallback = ({
   const [hasError, setError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [actualSrc, setActualSrc] = useState<string>(src);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
     // Reset state when src changes
@@ -52,8 +53,14 @@ export const ImageWithFallback = ({
     if (cacheStatus !== 'loading' && cacheStatus !== 'loaded') {
       faviconCache.markLoading(src);
     } else if (cacheStatus === 'loaded') {
-      // If already loaded, browser cache should handle it quickly
-      // But we still need to let it load naturally to track state
+      // If already loaded, check if image is complete (cached by browser)
+      // Chrome may have cached images that are immediately available
+      // Use setTimeout to check after React has rendered the image
+      setTimeout(() => {
+        if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) {
+          setIsLoading(false);
+        }
+      }, 0);
     }
   }, [src, fallback, isFavicon]);
 
@@ -80,6 +87,20 @@ export const ImageWithFallback = ({
       className={`${className} ${isLoading ? 'opacity-50' : 'opacity-100'} transition-opacity duration-200`}
       onError={handleError}
       onLoad={handleLoad}
+      ref={(node) => {
+        imgRef.current = node;
+        // Check if image is already complete (cached) when ref is set
+        // This handles Chrome's behavior where cached images may not fire onLoad
+        if (node?.complete && isFavicon && !hasError) {
+          const cacheStatus = faviconCache.getStatus(src);
+          if (cacheStatus === 'loaded' || node.naturalWidth > 0) {
+            setIsLoading(false);
+            if (isFavicon && src) {
+              faviconCache.markLoaded(src);
+            }
+          }
+        }
+      }}
       src={hasError ? fallback : actualSrc}
     />
   );
