@@ -1,3 +1,10 @@
+## 2.0.0 (2025-11-04)
+
+* release: 3.0.0 Trigger release ([f65dece](https://github.com/alexbaeza/better-bookmarks-page-extension/commit/f65dece))
+* release: 3.0.0 Trigger release ([040976e](https://github.com/alexbaeza/better-bookmarks-page-extension/commit/040976e))
+* release: 3.0.0 Trigger release ([ccb1f2d](https://github.com/alexbaeza/better-bookmarks-page-extension/commit/ccb1f2d))
+* Merge branch 'main' of github.com:alexbaeza/better-bookmarks-page-extension ([78c95ea](https://github.com/alexbaeza/better-bookmarks-page-extension/commit/78c95ea))
+
 ## 1.0.0 (2025-11-04)
 
 * release(3.0.0): Introduce New Toggleable Features: Search, Greeting, Settings, Theme builder (#171) ([5514404](https://github.com/alexbaeza/better-bookmarks-page-extension/commit/5514404)), closes [#171](https://github.com/alexbaeza/better-bookmarks-page-extension/issues/171) [#168](https://github.com/alexbaeza/better-bookmarks-page-extension/issues/168)

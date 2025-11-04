@@ -88,19 +88,17 @@ module.exports = {
       },
     ],
 
-    // Publish GitHub release with dynamic artifact names
+    // Publish GitHub release with dynamic artifact names 
     [
       '@semantic-release/github',
       {
         assets: [
           {
-            label: 'Chrome Extension',
-            name: 'chrome-extension-v${nextRelease.version}.zip',
+            label: 'chrome-extension-v${nextRelease.version}.zip',
             path: 'release/extension-chrome-*.zip',
           },
           {
-            label: 'Firefox Extension',
-            name: 'firefox-extension-v${nextRelease.version}.zip',
+            label: 'firefox-extension-v${nextRelease.version}.zip',
             path: 'release/extension-firefox-*.zip',
           },
         ],
