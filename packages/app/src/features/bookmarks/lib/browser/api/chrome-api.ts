@@ -1,5 +1,10 @@
 import type { BrowserBookmarkAPI, NormalizedBookmarkItem, NormalizedBookmarkTree } from '../types';
 
+const DEFAULT_FOLDER_TYPE_IDS = new Set([
+  'other', // Other bookmarks
+  'bookmarks-bar', // Bookmarks bar
+]);
+
 /**
  * Chrome-specific implementation of the browser bookmark API
  * Accepts an optional mock bookmarks API for testing/development
@@ -28,8 +33,12 @@ export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
     const allBookmarks: NormalizedBookmarkItem[] = [];
     const allFolders: NormalizedBookmarkItem[] = [];
 
+    // The new bookmarks api changes introduced folderType
+    // folderType:  allows extensions to identify the "special" folders such as the bookmarks bar.
+    // The name and id shouldn't be used for this purpose (name is locale-dependent, and id is not fixed)
+    // See: https://developer.chrome.com/blog/bookmarks-sync-changes#detailed_api_changes
     const isDefaultFolder = (node: chrome.bookmarks.BookmarkTreeNode): boolean =>
-      node.title === 'Bookmarks Menu' || node.title === 'Bookmarks Toolbar' || node.title === 'Other Bookmarks';
+      node.folderType !== undefined && DEFAULT_FOLDER_TYPE_IDS.has(node.folderType);
 
     const processNode = (node: chrome.bookmarks.BookmarkTreeNode, parentIsDefault: boolean) => {
       // Skip the root and default containers themselves; mark their children as under default

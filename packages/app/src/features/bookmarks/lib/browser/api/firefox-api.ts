@@ -1,5 +1,12 @@
 import type { BrowserBookmarkAPI, NormalizedBookmarkItem, NormalizedBookmarkTree } from '../types';
 
+const DEFAULT_FOLDER_IDS = new Set([
+  'menu________', // Bookmarks Menu
+  'toolbar_____', // Bookmarks Toolbar
+  'unfiled_____', // Other Bookmarks
+  'mobile______', // Mobile Bookmarks
+]);
+
 /**
  * Firefox-specific implementation of the browser bookmark API
  * Accepts an optional mock bookmarks API for testing/development
@@ -28,8 +35,10 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
     const allBookmarks: NormalizedBookmarkItem[] = [];
     const allFolders: NormalizedBookmarkItem[] = [];
 
-    const isDefaultFolder = (node: browser.bookmarks.BookmarkTreeNode): boolean =>
-      node.title === 'Bookmarks Menu' || node.title === 'Bookmarks Toolbar' || node.title === 'Other Bookmarks';
+    // Firefox does not expose folderType like chrome does on the new bookmarks api
+    // However, firefox seems to have predefined ids for these which help identify the "special" folders such as the bookmarks bar.
+    // The name and id shouldn't be used for this purpose (name is locale-dependent, and id is not fixed)
+    const isDefaultFolder = (node: browser.bookmarks.BookmarkTreeNode): boolean => DEFAULT_FOLDER_IDS.has(node.id);
 
     const processNode = (node: browser.bookmarks.BookmarkTreeNode, parentIsDefault: boolean) => {
       // Skip the root and default containers themselves; mark their children as under default
