@@ -584,5 +584,4 @@ class MockBookmarksAPI {
   };
 }
 
-// Export the class so factory can create instances with the correct browser type
 export { MockBookmarksAPI };
