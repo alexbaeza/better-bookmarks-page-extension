@@ -3,6 +3,7 @@ version: 2
 updates:
   # Enable version updates for npm
   - package-ecosystem: "npm"
+  
     directory: "/"
     schedule:
       interval: "weekly"
@@ -19,13 +20,32 @@ updates:
     labels:
       - "dependencies"
       - "automated"
+    allow:
+    - dependency-type: security
+    - dependency-type: production
+    - dependency-type: development
     groups:
-      minor-and-patch:
+      development-patch-updates:
         applies-to: version-updates
         update-types:
-          - "minor"
+          - "development"
           - "patch"
-
+      development-minor-updates:
+        applies-to: version-updates
+        update-types:
+          - "development"
+          - "minor"
+      production-patch-updates:
+        applies-to: version-updates
+        update-types:
+          - "production"
+          - "patch"
+      production-minor-updates:
+        applies-to: version-updates
+        update-types:
+          - "production"
+          - "minor"
+      
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -42,7 +62,7 @@ updates:
       prefix: "ci"
       include: "scope"
     labels:
-      - "github-actions"
+      - "dependencies"
       - "automated"
     groups:
       minor-and-patch:
