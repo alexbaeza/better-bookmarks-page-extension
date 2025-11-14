@@ -13,7 +13,7 @@ vi.mock('@/features/bookmarks/lib/browser/api/firefox-api', () => ({
   },
 }));
 vi.mock('@/features/bookmarks/lib/browser/api/mock-bookmarks-api', () => ({
-  mockBookmarksAPI: {},
+  MockBookmarksAPI: class {},
 }));
 vi.mock('@/features/bookmarks/lib/browser/utils/browser-detector', () => ({
   detectBrowser: vi.fn(),
@@ -85,14 +85,11 @@ describe('createBookmarkAPI (Vite + Vitest)', () => {
     expect(result).toEqual({ type: 'firefox-api' });
   });
 
-  it('falls back to ChromeBookmarkAPI in dev when unknown type', () => {
-    vi.stubEnv('NODE_ENV', 'development');
+  it('throws error for unknown browser type', () => {
+    vi.stubEnv('NODE_ENV', 'production');
     vi.mocked(detectBrowser).mockReturnValue({ type: 'unknown' } as any);
     (globalThis as any).chrome = { bookmarks: {} };
 
-    const result = createBookmarkAPI();
-
-    expect(result).toBeDefined();
-    expect((result as any).type).toBe('chrome-api');
+    expect(() => createBookmarkAPI()).toThrow('Unsupported browser');
   });
 });
