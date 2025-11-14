@@ -92,17 +92,12 @@ jobs:
           pnpm-version: ${{ env.PNPM_VERSION }}
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Cache Cypress binary
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            cypress-${{ runner.os }}-cypress-
-
       - name: Build application
         run: pnpm build
 
+      - name: Build application
+        run: pnpm --allow-build=cypress add --save-dev cypress
+      
       - name: Run Cypress Tests (${{ matrix.browser }})
         uses: cypress-io/github-action@v6
         with:
@@ -110,6 +105,5 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 60
           command: pnpm run test:e2e:${{ matrix.browser }}
-          cache-key: cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
         env:
           CI: true
