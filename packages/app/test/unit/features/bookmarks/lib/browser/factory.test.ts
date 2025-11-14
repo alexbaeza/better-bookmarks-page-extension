@@ -13,7 +13,7 @@ vi.mock('@/features/bookmarks/lib/browser/api/firefox-api', () => ({
   },
 }));
 vi.mock('@/features/bookmarks/lib/browser/api/mock-bookmarks-api', () => ({
-  mockBookmarksAPI: {},
+  MockBookmarksAPI: class {},
 }));
 vi.mock('@/features/bookmarks/lib/browser/utils/browser-detector', () => ({
   detectBrowser: vi.fn(),

@@ -1,36 +1,128 @@
 import { storageKey } from '@/app/providers/atoms';
 import { orderingService } from '@/features/bookmarks/lib/ordering-service';
-import { mockData } from '@/features/bookmarks/store/mock-data';
+import { chromeMockData } from '@/features/bookmarks/store/chrome-mock-data';
+import { firefoxMockData } from '@/features/bookmarks/store/firefox-mock-data';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
+
+// Firefox built-in folder IDs
+const FIREFOX_BUILT_IN_IDS = {
+  ROOT: 'root________',
+  MENU: 'menu________',
+  TOOLBAR: 'toolbar_____',
+  UNFILED: 'unfiled_____',
+  MOBILE: 'mobile______',
+} as const;
+
+// Chrome built-in folder types
+const CHROME_BUILT_IN_TYPES = {
+  BOOKMARKS_BAR: 'bookmarks-bar',
+  OTHER: 'other',
+} as const;
+
+// Map Firefox IDs to Chrome folderType
+const FIREFOX_TO_CHROME_MAP: Record<string, string> = {
+  [FIREFOX_BUILT_IN_IDS.TOOLBAR]: CHROME_BUILT_IN_TYPES.BOOKMARKS_BAR,
+  [FIREFOX_BUILT_IN_IDS.UNFILED]: CHROME_BUILT_IN_TYPES.OTHER,
+};
+
+// Map Chrome IDs to Chrome folderType (for Chrome mock data)
+const CHROME_ID_TO_FOLDER_TYPE_MAP: Record<string, string> = {
+  '1': CHROME_BUILT_IN_TYPES.BOOKMARKS_BAR, // Bookmarks Bar
+  '2': CHROME_BUILT_IN_TYPES.OTHER, // Other Bookmarks
+};
 
 /**
  * Mock implementation of Chrome/Firefox bookmarks API
  * Uses the same interface as chrome.bookmarks and browser.bookmarks
  * This allows us to reuse ChromeBookmarkAPI and FirefoxBookmarkAPI with mock data
+ * Note: This implements the browser API interface, not BrowserBookmarkAPI
+ * Loads browser-specific mock data based on the browser type passed to the constructor
  */
 class MockBookmarksAPI {
   private data: IBookmarkItem[] = [];
   private listeners: Set<(id: string, changeInfo: { title?: string; url?: string }) => void> = new Set();
   private readonly STORAGE_KEY = storageKey('mock-bookmarks-data');
+  private readonly browserType: 'chrome' | 'firefox';
 
-  constructor() {
+  constructor(browserType: 'chrome' | 'firefox') {
+    this.browserType = browserType;
     this.loadMockData();
   }
 
   /**
    * Load mock data as the initial state
+   * Loads the appropriate mock data file based on browser type,
+   * converting raw browser bookmark nodes into IBookmarkItem[]
    */
   private loadMockData(): void {
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       if (stored) {
-        this.data = JSON.parse(stored);
+        this.data = JSON.parse(stored) as IBookmarkItem[];
       } else {
-        this.data = JSON.parse(JSON.stringify(mockData));
+        // Initialize from browser-specific mock data
+        this.initFromMockData();
       }
     } catch {
-      this.data = JSON.parse(JSON.stringify(mockData));
+      // Fallback to browser-specific mock data
+      this.initFromMockData();
     }
+  }
+
+  /**
+   * Initialize internal data from raw browser-specific mock bookmark trees
+   * Converts Chrome/Firefox BookmarkTreeNode structures into IBookmarkItem[]
+   */
+  private initFromMockData(): void {
+    if (this.browserType === 'firefox') {
+      this.data = firefoxMockData.map((node) => this.fromFirefoxNode(node));
+    } else {
+      this.data = chromeMockData.map((node) => this.fromChromeNode(node));
+    }
+  }
+
+  /**
+   * Convert a raw Chrome BookmarkTreeNode (and its subtree) into an IBookmarkItem tree
+   */
+  private fromChromeNode(node: chrome.bookmarks.BookmarkTreeNode): IBookmarkItem {
+    const item: IBookmarkItem = {
+      id: node.id,
+      parentId: node.parentId,
+      title: node.title ?? '',
+      url: node.url,
+      dateAdded: node.dateAdded ?? Date.now(),
+    };
+
+    if (node.children && node.children.length > 0) {
+      item.children = node.children.map((child) => this.fromChromeNode(child));
+    } else if (!node.url) {
+      // Folder with no children yet
+      item.children = [];
+    }
+
+    return item;
+  }
+
+  /**
+   * Convert a raw Firefox BookmarkTreeNode (and its subtree) into an IBookmarkItem tree
+   */
+  private fromFirefoxNode(node: browser.bookmarks.BookmarkTreeNode): IBookmarkItem {
+    const item: IBookmarkItem = {
+      id: node.id,
+      parentId: node.parentId,
+      title: node.title ?? '',
+      url: node.url,
+      dateAdded: node.dateAdded ?? Date.now(),
+    };
+
+    if (node.children && node.children.length > 0) {
+      item.children = node.children.map((child) => this.fromFirefoxNode(child));
+    } else if (!node.url) {
+      // Folder with no children yet
+      item.children = [];
+    }
+
+    return item;
   }
 
   /**
@@ -147,13 +239,17 @@ class MockBookmarksAPI {
   }
 
   /**
-   * Convert IBookmarkItem to BookmarkTreeNode format (matches Chrome/Firefox)
+   * Convert IBookmarkItem to Chrome BookmarkTreeNode format
    */
-  private toBookmarkTreeNode(item: IBookmarkItem): chrome.bookmarks.BookmarkTreeNode {
+  private toChromeBookmarkTreeNode(item: IBookmarkItem): chrome.bookmarks.BookmarkTreeNode {
+    // Use Chrome ID mapping for Chrome data, or Firefox mapping if converting Firefox data
+    const folderType = (CHROME_ID_TO_FOLDER_TYPE_MAP[item.id] ||
+      FIREFOX_TO_CHROME_MAP[item.id]) as chrome.bookmarks.BookmarkTreeNode['folderType'];
     return {
-      children: item.children?.map(this.toBookmarkTreeNode.bind(this)),
+      children: item.children?.map(this.toChromeBookmarkTreeNode.bind(this)),
       dateAdded: item.dateAdded,
       dateGroupModified: item.dateGroupModified,
+      folderType,
       id: item.id,
       parentId: item.parentId,
       title: item.title,
@@ -163,10 +259,41 @@ class MockBookmarksAPI {
   }
 
   /**
+   * Convert IBookmarkItem to Firefox BookmarkTreeNode format
+   */
+  private toFirefoxBookmarkTreeNode(item: IBookmarkItem): browser.bookmarks.BookmarkTreeNode {
+    return {
+      children: item.children?.map(this.toFirefoxBookmarkTreeNode.bind(this)),
+      dateAdded: item.dateAdded,
+      dateGroupModified: item.dateGroupModified,
+      id: item.id,
+      parentId: item.parentId,
+      title: item.title,
+      url: item.url,
+    };
+  }
+
+  /**
+   * Convert IBookmarkItem to BookmarkTreeNode format (matches Chrome/Firefox based on browserType)
+   */
+  private toBookmarkTreeNode(
+    item: IBookmarkItem
+  ): chrome.bookmarks.BookmarkTreeNode | browser.bookmarks.BookmarkTreeNode {
+    if (this.browserType === 'chrome') {
+      return this.toChromeBookmarkTreeNode(item);
+    }
+    return this.toFirefoxBookmarkTreeNode(item);
+  }
+
+  /**
    * Convert array of IBookmarkItem to BookmarkTreeNode[]
    */
-  private toBookmarkTree(items: IBookmarkItem[]): chrome.bookmarks.BookmarkTreeNode[] {
-    return items.map(this.toBookmarkTreeNode.bind(this));
+  private toBookmarkTree(
+    items: IBookmarkItem[]
+  ): chrome.bookmarks.BookmarkTreeNode[] | browser.bookmarks.BookmarkTreeNode[] {
+    return items.map(this.toBookmarkTreeNode.bind(this)) as
+      | chrome.bookmarks.BookmarkTreeNode[]
+      | browser.bookmarks.BookmarkTreeNode[];
   }
 
   // Chrome/Firefox Bookmarks API methods
@@ -174,21 +301,23 @@ class MockBookmarksAPI {
   /**
    * Get the entire bookmark tree (matches chrome.bookmarks.getTree / browser.bookmarks.getTree)
    */
-  async getTree(): Promise<chrome.bookmarks.BookmarkTreeNode[]> {
+  async getTree(): Promise<chrome.bookmarks.BookmarkTreeNode[] | browser.bookmarks.BookmarkTreeNode[]> {
     return this.toBookmarkTree(this.getData());
   }
 
   /**
    * Get subtree starting from a specific bookmark ID (matches chrome.bookmarks.getSubTree / browser.bookmarks.getSubTree)
    */
-  async getSubTree(id: string): Promise<chrome.bookmarks.BookmarkTreeNode[]> {
+  async getSubTree(id: string): Promise<chrome.bookmarks.BookmarkTreeNode[] | browser.bookmarks.BookmarkTreeNode[]> {
     const bookmark = this.findById(id);
     if (!bookmark) {
       return [];
     }
 
     // Return raw data - ordering is handled at app level
-    return [this.toBookmarkTreeNode(bookmark)];
+    return [this.toBookmarkTreeNode(bookmark)] as
+      | chrome.bookmarks.BookmarkTreeNode[]
+      | browser.bookmarks.BookmarkTreeNode[];
   }
 
   /**
@@ -198,7 +327,7 @@ class MockBookmarksAPI {
     parentId?: string;
     title: string;
     url?: string;
-  }): Promise<chrome.bookmarks.BookmarkTreeNode> {
+  }): Promise<chrome.bookmarks.BookmarkTreeNode | browser.bookmarks.BookmarkTreeNode> {
     const newBookmark: IBookmarkItem = {
       children: bookmark.url ? undefined : [],
       dateAdded: Date.now(),
@@ -209,7 +338,9 @@ class MockBookmarksAPI {
       url: bookmark.url,
     };
 
-    const parentId = bookmark.parentId || '1'; // Default to root
+    // Use appropriate root ID based on browser type
+    const defaultRootId = this.browserType === 'firefox' ? FIREFOX_BUILT_IN_IDS.ROOT : '0';
+    const parentId = bookmark.parentId || defaultRootId;
     this.addToParent(parentId, newBookmark);
 
     // Update dateGroupModified for parent folder
@@ -226,15 +357,19 @@ class MockBookmarksAPI {
     this.saveToStorage();
     this.notifyListeners(newBookmark.id, {});
 
-    return this.toBookmarkTreeNode(newBookmark);
+    return this.toBookmarkTreeNode(newBookmark) as
+      | chrome.bookmarks.BookmarkTreeNode
+      | browser.bookmarks.BookmarkTreeNode;
   }
 
   /**
    * Get bookmarks by ID(s) (matches chrome.bookmarks.get / browser.bookmarks.get)
    */
-  async get(idOrIdList: string | string[]): Promise<chrome.bookmarks.BookmarkTreeNode[]> {
+  async get(
+    idOrIdList: string | string[]
+  ): Promise<chrome.bookmarks.BookmarkTreeNode[] | browser.bookmarks.BookmarkTreeNode[]> {
     const ids = Array.isArray(idOrIdList) ? idOrIdList : [idOrIdList];
-    const results: chrome.bookmarks.BookmarkTreeNode[] = [];
+    const results: (chrome.bookmarks.BookmarkTreeNode | browser.bookmarks.BookmarkTreeNode)[] = [];
 
     for (const id of ids) {
       const bookmark = this.findById(id);
@@ -243,13 +378,16 @@ class MockBookmarksAPI {
       }
     }
 
-    return results;
+    return results as chrome.bookmarks.BookmarkTreeNode[] | browser.bookmarks.BookmarkTreeNode[];
   }
 
   /**
    * Update a bookmark (matches chrome.bookmarks.update / browser.bookmarks.update)
    */
-  async update(id: string, changes: { title?: string; url?: string }): Promise<chrome.bookmarks.BookmarkTreeNode> {
+  async update(
+    id: string,
+    changes: { title?: string; url?: string }
+  ): Promise<chrome.bookmarks.BookmarkTreeNode | browser.bookmarks.BookmarkTreeNode> {
     const bookmark = this.findById(id);
     if (!bookmark) {
       throw new Error(`Bookmark with id ${id} not found`);
@@ -274,7 +412,7 @@ class MockBookmarksAPI {
     this.saveToStorage();
     this.notifyListeners(id, changes);
 
-    return this.toBookmarkTreeNode(bookmark);
+    return this.toBookmarkTreeNode(bookmark) as chrome.bookmarks.BookmarkTreeNode | browser.bookmarks.BookmarkTreeNode;
   }
 
   /**
@@ -306,14 +444,16 @@ class MockBookmarksAPI {
   async move(
     id: string,
     destination: { parentId?: string; index?: number }
-  ): Promise<chrome.bookmarks.BookmarkTreeNode> {
+  ): Promise<chrome.bookmarks.BookmarkTreeNode | browser.bookmarks.BookmarkTreeNode> {
     const bookmark = this.findById(id);
     if (!bookmark) {
       throw new Error(`Bookmark with id ${id} not found`);
     }
 
+    // Use appropriate root ID based on browser type
+    const defaultRootId = this.browserType === 'firefox' ? FIREFOX_BUILT_IN_IDS.ROOT : '0';
     const fromParentId = this.findParentId(id);
-    const toParentId = destination.parentId || fromParentId || '1';
+    const toParentId = destination.parentId || fromParentId || defaultRootId;
     const isSameFolder = fromParentId === toParentId;
 
     // For same-folder moves (reordering), update raw children array
@@ -331,7 +471,9 @@ class MockBookmarksAPI {
 
       // Don't do anything if moving to the same position
       if (currentIndex === destination.index) {
-        return this.toBookmarkTreeNode(bookmark);
+        return this.toBookmarkTreeNode(bookmark) as
+          | chrome.bookmarks.BookmarkTreeNode
+          | browser.bookmarks.BookmarkTreeNode;
       }
 
       // Reorder the raw children array
@@ -372,13 +514,15 @@ class MockBookmarksAPI {
     this.saveToStorage();
     this.notifyListeners(id, {});
 
-    return this.toBookmarkTreeNode(bookmark);
+    return this.toBookmarkTreeNode(bookmark) as chrome.bookmarks.BookmarkTreeNode | browser.bookmarks.BookmarkTreeNode;
   }
 
   /**
    * Search bookmarks (matches chrome.bookmarks.search / browser.bookmarks.search)
    */
-  async search(query: { query: string }): Promise<chrome.bookmarks.BookmarkTreeNode[]> {
+  async search(query: {
+    query: string;
+  }): Promise<chrome.bookmarks.BookmarkTreeNode[] | browser.bookmarks.BookmarkTreeNode[]> {
     const results: IBookmarkItem[] = [];
     const searchTerm = query.query.toLowerCase();
 
@@ -394,7 +538,9 @@ class MockBookmarksAPI {
     };
 
     searchInArray(this.getData());
-    return results.map(this.toBookmarkTreeNode.bind(this));
+    return results.map(this.toBookmarkTreeNode.bind(this)) as
+      | chrome.bookmarks.BookmarkTreeNode[]
+      | browser.bookmarks.BookmarkTreeNode[];
   }
 
   /**
@@ -438,5 +584,5 @@ class MockBookmarksAPI {
   };
 }
 
-// Create singleton instance
-export const mockBookmarksAPI = new MockBookmarksAPI();
+// Export the class so factory can create instances with the correct browser type
+export { MockBookmarksAPI };

@@ -1,6 +1,6 @@
 import { ChromeBookmarkAPI } from './api/chrome-api';
 import { FirefoxBookmarkAPI } from './api/firefox-api';
-import { mockBookmarksAPI } from './api/mock-bookmarks-api';
+import { MockBookmarksAPI } from './api/mock-bookmarks-api';
 import type { BrowserBookmarkAPI } from './types';
 import { detectBrowser } from './utils/browser-detector';
 
@@ -25,13 +25,26 @@ export function createBookmarkAPI(): BrowserBookmarkAPI {
   const hasChromeAPI = Boolean(g.chrome?.bookmarks);
   const hasBrowserAPI = Boolean(g.browser?.bookmarks);
 
-  // In test environment or when browser APIs are not available, use mock data with Chrome implementation
-  if (isTest || isCypressTest || (!hasChromeAPI && !hasBrowserAPI)) {
-    // Use mock API with Chrome implementation (same code path as real Chrome)
-    return new ChromeBookmarkAPI(mockBookmarksAPI as unknown as typeof window.chrome.bookmarks);
+  // In dev/test environment or when browser APIs are not available, use mock data
+  if (isDev || isTest || isCypressTest || (!hasChromeAPI && !hasBrowserAPI)) {
+    const browserType = browserInfo.type === 'firefox' ? 'firefox' : 'chrome';
+
+    console.warn(
+      `[Bookmarks API] Development mode: Using mock data with ${browserInfo.type === 'firefox' ? 'Firefox' : 'Chrome'} implementation`
+    );
+
+    // Create mock API instance with the correct browser type to load the appropriate mock data
+    const mockBookmarksAPI = new MockBookmarksAPI(browserType);
+
+    // Use mock API with appropriate browser implementation based on detected browser type
+    if (browserType === 'firefox') {
+      return new FirefoxBookmarkAPI(mockBookmarksAPI);
+    }
+    // Default to Chrome implementation (for Chrome or unknown browsers)
+    return new ChromeBookmarkAPI(mockBookmarksAPI);
   }
 
-  // Try to use real browser API (even in development)
+  // In production, use real browser APIs
   try {
     switch (browserInfo.type) {
       case 'chrome':
@@ -39,17 +52,9 @@ export function createBookmarkAPI(): BrowserBookmarkAPI {
       case 'firefox':
         return new FirefoxBookmarkAPI();
       default:
-        // In development, fallback to Chrome API if we can't detect browser
-        if (isDev) {
-          return new ChromeBookmarkAPI();
-        }
         throw new Error(`Unsupported browser: ${browserInfo.type}`);
     }
   } catch {
-    // In development, fallback to mock API with Chrome implementation if real APIs fail
-    if (isDev) {
-      return new ChromeBookmarkAPI(mockBookmarksAPI as unknown as typeof window.chrome.bookmarks);
-    }
     throw Error('Failed to create browser API');
   }
 }

@@ -1,10 +1,7 @@
 import type { BrowserBookmarkAPI, NormalizedBookmarkItem, NormalizedBookmarkTree } from '../types';
+import type { MockBookmarksAPI } from './mock-bookmarks-api';
 
-const DEFAULT_FOLDER_TYPE_IDS = new Set([
-  'other', // Other bookmarks
-  'bookmarks-bar', // Bookmarks bar
-]);
-
+export type ChromeBookmarks = chrome.bookmarks.BookmarkTreeNode;
 /**
  * Chrome-specific implementation of the browser bookmark API
  * Accepts an optional mock bookmarks API for testing/development
@@ -12,10 +9,10 @@ const DEFAULT_FOLDER_TYPE_IDS = new Set([
 export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
   private chrome: typeof window.chrome;
 
-  constructor(mockBookmarks?: typeof window.chrome.bookmarks) {
+  constructor(mockBookmarks?: MockBookmarksAPI) {
     if (mockBookmarks) {
       // Use mock API (for dev/test environments)
-      this.chrome = { bookmarks: mockBookmarks } as typeof window.chrome;
+      this.chrome = { bookmarks: mockBookmarks } as unknown as typeof window.chrome;
     } else {
       // Use real Chrome API
       this.chrome = (window as typeof window & { chrome: typeof window.chrome }).chrome;
@@ -27,62 +24,36 @@ export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
 
   async getBookmarksTree(): Promise<NormalizedBookmarkTree> {
     const tree = await this.chrome.bookmarks.getTree();
+    console.log(JSON.stringify(tree));
     const root = tree[0];
 
-    // Flatten only direct children of browser default folders
-    const allBookmarks: NormalizedBookmarkItem[] = [];
-    const allFolders: NormalizedBookmarkItem[] = [];
-
     // The new bookmarks api changes introduced folderType
-    // folderType:  allows extensions to identify the "special" folders such as the bookmarks bar.
+    // folderType: allows extensions to identify the "special" folders such as the bookmarks bar.
     // The name and id shouldn't be used for this purpose (name is locale-dependent, and id is not fixed)
     // See: https://developer.chrome.com/blog/bookmarks-sync-changes#detailed_api_changes
-    const isDefaultFolder = (node: chrome.bookmarks.BookmarkTreeNode): boolean =>
-      node.folderType !== undefined && DEFAULT_FOLDER_TYPE_IDS.has(node.folderType);
+    const isBuiltInFolder = (node: chrome.bookmarks.BookmarkTreeNode): boolean => node.folderType !== undefined;
 
-    const processNode = (node: chrome.bookmarks.BookmarkTreeNode, parentIsDefault: boolean) => {
-      // Skip the root and default containers themselves; mark their children as under default
-      if (node.id === root.id || isDefaultFolder(node)) {
-        if (node.children) {
-          const underDefault = isDefaultFolder(node);
-          for (const child of node.children) {
-            processNode(child, underDefault);
-          }
-        }
-        return;
-      }
+    // Get built-in folders (direct children of root)
+    const builtInFolders = (root.children ?? []).filter(isBuiltInFolder);
 
-      const normalized = this.normalizeBookmarkItem(node);
+    // Get direct children of built-in folders
+    const nodesUnderBuiltIn = builtInFolders.flatMap((folder) => folder.children ?? []);
 
-      if (node.children) {
-        // Only expose folders that are direct children of default containers
-        if (parentIsDefault) {
-          allFolders.push(normalized);
-        }
-        if (node.children) {
-          for (const child of node.children) {
-            processNode(child, false);
-          }
-        }
-      } else if (node.url) {
-        // Only expose loose bookmarks directly under default containers as uncategorized
-        if (parentIsDefault) {
-          allBookmarks.push(normalized);
-        }
-      }
-    };
+    // Separate folders and bookmarks
+    const allFolders = nodesUnderBuiltIn
+      .filter((node) => node.children)
+      .map((node) => this.normalizeBookmarkItem(node));
 
-    // Process the entire tree starting at root
-    processNode(root, false);
+    const allBookmarks = nodesUnderBuiltIn.filter((node) => node.url).map((node) => this.normalizeBookmarkItem(node));
 
     return {
       folders: allFolders,
       uncategorized:
         allBookmarks.length > 0
           ? {
-              children: allBookmarks,
               id: 'uncategorized',
               title: 'Uncategorized',
+              children: allBookmarks,
             }
           : undefined,
     };
