@@ -3,6 +3,7 @@ version: 2
 updates:
   # Enable version updates for npm
   - package-ecosystem: "npm"
+  
     directory: "/"
     schedule:
       interval: "weekly"
@@ -19,6 +20,9 @@ updates:
     labels:
       - "dependencies"
       - "automated"
+    allow:
+    - dependency-type: security
+    - dependency-type: production
     groups:
       minor-and-patch:
         applies-to: version-updates
