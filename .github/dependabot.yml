@@ -26,24 +26,20 @@ updates:
     - dependency-type: development
     groups:
       development-patch-updates:
-        applies-to: version-updates
+        applies-to: development
         update-types:
-          - "development"
           - "patch"
       development-minor-updates:
-        applies-to: version-updates
+        applies-to: development
         update-types:
-          - "development"
           - "minor"
       production-patch-updates:
-        applies-to: version-updates
+        applies-to: production
         update-types:
-          - "production"
           - "patch"
       production-minor-updates:
-        applies-to: version-updates
+        applies-to: production
         update-types:
-          - "production"
           - "minor"
       
   # Enable version updates for GitHub Actions
