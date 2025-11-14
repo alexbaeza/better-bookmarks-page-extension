@@ -40,6 +40,6 @@ export function createBookmarkAPI(): BrowserBookmarkAPI {
     case 'firefox':
       return useMockData ? new FirefoxBookmarkAPI(new MockBookmarksAPI(browserInfo.type)) : new FirefoxBookmarkAPI();
     default:
-      throw new Error(`Unsupported browser: ${browserInfo.type}`);
+      throw new Error(`Unsupported browser please open an issue and report it: ${browserInfo.type}`);
   }
 }
