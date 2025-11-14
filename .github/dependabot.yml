@@ -21,7 +21,6 @@ updates:
       - "dependencies"
       - "automated"
     allow:
-    - dependency-type: security
     - dependency-type: production
     - dependency-type: development
     groups:
