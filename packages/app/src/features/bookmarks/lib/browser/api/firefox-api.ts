@@ -32,7 +32,6 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
 
   async getBookmarksTree(): Promise<NormalizedBookmarkTree> {
     const tree = await this.browser.bookmarks.getTree();
-    console.log(tree);
     const root = tree[0];
 
     const isBuiltInFolder = (node: browser.bookmarks.BookmarkTreeNode): boolean => BUILT_IN_FOLDER_IDS.has(node.id);

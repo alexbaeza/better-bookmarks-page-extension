@@ -24,7 +24,6 @@ export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
 
   async getBookmarksTree(): Promise<NormalizedBookmarkTree> {
     const tree = await this.chrome.bookmarks.getTree();
-    console.log(JSON.stringify(tree));
     const root = tree[0];
 
     // The new bookmarks api changes introduced folderType
