@@ -1,3 +1,7 @@
+## <small>3.0.1 (2025-11-14)</small>
+
+* revert: Blank commit to trigger ci workflow on manual revert (#187) ([fe867ec](https://github.com/alexbaeza/better-bookmarks-page-extension/commit/fe867ec)), closes [#187](https://github.com/alexbaeza/better-bookmarks-page-extension/issues/187)
+
 ## 3.0.0 (2025-11-04)
 
 * release: 3.0.0 Update changelog ([d607fcf](https://github.com/alexbaeza/better-bookmarks-page-extension/commit/d607fcf))
