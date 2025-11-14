@@ -75,4 +75,3 @@ under `build/release/`
 
 This will update the patch version by 1.0.0 and create the package to be published
 under `build/release/`
-
