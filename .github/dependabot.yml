@@ -26,19 +26,23 @@ updates:
     - dependency-type: development
     groups:
       development-patch-updates:
-        applies-to: development
+        dependency-type: development
+        applies-to: version-updates
         update-types:
           - "patch"
       development-minor-updates:
-        applies-to: development
+        dependency-type: development
+        applies-to: version-updates
         update-types:
           - "minor"
       production-patch-updates:
-        applies-to: production
+        dependency-type: production
+        applies-to: version-updates
         update-types:
           - "patch"
       production-minor-updates:
-        applies-to: production
+        dependency-type: production
+        applies-to: version-updates
         update-types:
           - "minor"
       
