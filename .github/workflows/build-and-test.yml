@@ -95,9 +95,6 @@ jobs:
       - name: Build application
         run: pnpm build
 
-      - name: Build application
-        run: pnpm --allow-build=cypress add --save-dev cypress
-      
       - name: Run Cypress Tests (${{ matrix.browser }})
         uses: cypress-io/github-action@v6
         with:
