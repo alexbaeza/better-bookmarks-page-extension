@@ -1,6 +1,6 @@
 {
   "name": "better-bookmarks-page-extension",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "private": true,
   "scripts": {
     "audit": "pnpm audit --audit-level moderate",
@@ -47,6 +47,11 @@
   "lint-staged": {
     "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
       "biome check --write --no-errors-on-unmatched"
+    ]
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "cypress"
     ]
   }
 }

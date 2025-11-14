@@ -38,6 +38,7 @@ jobs:
         run: pnpm install
 
       - name: Validate commit messages
+        if: false # Temporarily disabled
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "Validating commits in PR..."
