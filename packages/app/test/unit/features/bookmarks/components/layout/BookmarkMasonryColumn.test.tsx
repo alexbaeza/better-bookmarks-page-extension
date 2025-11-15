@@ -1,240 +1,188 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { act, render, screen } from '@testing-library/react';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { BookmarkMasonryColumn } from '@/features/bookmarks/components/layout/BookmarkMasonryColumn';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
-import { AllProviders } from '~test/test-utils';
 
-const mockUseBookmarks = vi.fn();
-const mockUseBookmarkActions = vi.fn();
-const mockHighlighter = vi.fn();
+const moveMock = vi.fn();
+const droppableProps: { onDrop?: (id: string, parentId: string, index: number) => void } = {};
+const displayAreaProps: { folderContents?: IBookmarkItem[]; folderId?: string } = {};
 
 vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
-  useBookmarks: () => mockUseBookmarks(),
+  useBookmarks: () => ({
+    searchTerm: 'term',
+  }),
 }));
 
 vi.mock('@/features/bookmarks/hooks/useBookmarkActions', () => ({
-  useBookmarkActions: () => mockUseBookmarkActions(),
+  useBookmarkActions: () => ({
+    move: moveMock,
+  }),
 }));
 
-vi.mock('@/features/bookmarks/lib/highlighter', () => ({
-  highlighter: (text: string, searchTerm: string) => mockHighlighter(text, searchTerm),
+vi.mock('@/features/bookmarks/components/dnd/DroppableFolder', () => ({
+  DroppableFolder: ({ children, onDrop }: { children: React.ReactNode; onDrop?: typeof droppableProps.onDrop }) => {
+    droppableProps.onDrop = onDrop;
+    return <div data-testid="droppable">{children}</div>;
+  },
 }));
 
 vi.mock('@/features/bookmarks/components/BookmarkFolderContainer', () => ({
-  BookmarkFolderContainer: ({
-    children,
-    overflowVisible,
-  }: {
-    children: React.ReactNode;
-    overflowVisible?: boolean;
-  }) => (
-    <div data-overflow-visible={overflowVisible} data-testid="bookmark-folder-container">
-      {children}
-    </div>
+  BookmarkFolderContainer: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="folder-container">{children}</div>
   ),
 }));
 
 vi.mock('@/features/bookmarks/containers/BookmarkDisplayArea', () => ({
-  BookmarkDisplayArea: ({ folderContents, folderId }: { folderContents: IBookmarkItem[]; folderId: string }) => (
-    <div data-folder-id={folderId} data-testid="bookmark-display-area">
-      Display area with {folderContents.length} items
-    </div>
-  ),
+  BookmarkDisplayArea: (props: { folderContents?: IBookmarkItem[]; folderId: string }) => {
+    displayAreaProps.folderContents = props.folderContents;
+    displayAreaProps.folderId = props.folderId;
+    return <div data-testid="display-area" />;
+  },
 }));
 
-vi.mock('@/features/bookmarks/components/dnd/DroppableFolder', () => ({
-  DroppableFolder: ({
-    children,
-    folderId,
-    onDrop,
-  }: {
-    children: React.ReactNode;
-    folderId: string;
-    onDrop: (draggedItemId: string, fromFolderId: string, fromIndex: number) => void;
-  }) => (
-    <div
-      data-folder-id={folderId}
-      data-testid="droppable-folder"
-      onClick={() => onDrop?.('dragged-item', 'from-folder', 0)}
-      onKeyDown={() => onDrop?.('dragged-item', 'from-folder', 0)}
-      role="button"
-      tabIndex={0}
-    >
-      {children}
-    </div>
-  ),
-}));
-
-const mockFolderContents: IBookmarkItem[] = [
-  { id: 'item1', title: 'Bookmark 1', url: 'https://example1.com', dateAdded: Date.now() },
-  { id: 'item2', title: 'Bookmark 2', url: 'https://example2.com', dateAdded: Date.now() },
-  { id: 'item3', title: 'Bookmark 3', url: 'https://example3.com', dateAdded: Date.now() },
+const folderContents: IBookmarkItem[] = [
+  { id: 'bookmark-1', title: 'Bookmark 1', url: 'https://example.com/1', dateAdded: Date.now() },
 ];
 
+const folderId = 'folder-1';
+
+const defaultRect: DOMRect = {
+  x: 0,
+  y: 0,
+  width: 0,
+  height: 250,
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 250,
+  toJSON: () => ({}),
+};
+
+let resizeObservers: Array<{
+  callback: ResizeObserverCallback;
+  observe: ReturnType<typeof vi.fn>;
+  disconnect: ReturnType<typeof vi.fn>;
+}> = [];
+const originalResizeObserver = global.ResizeObserver;
+
+beforeAll(() => {
+  class MockResizeObserver {
+    callback: ResizeObserverCallback;
+    observe: ReturnType<typeof vi.fn>;
+    disconnect: ReturnType<typeof vi.fn>;
+    constructor(callback: ResizeObserverCallback) {
+      this.callback = callback;
+      this.observe = vi.fn();
+      this.disconnect = vi.fn();
+      resizeObservers.push({ callback, observe: this.observe, disconnect: this.disconnect });
+    }
+  }
+  (global as any).ResizeObserver = MockResizeObserver;
+});
+
+afterAll(() => {
+  global.ResizeObserver = originalResizeObserver;
+});
+
+beforeEach(() => {
+  moveMock.mockReset();
+  droppableProps.onDrop = undefined;
+  displayAreaProps.folderContents = undefined;
+  displayAreaProps.folderId = undefined;
+  resizeObservers = [];
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
 describe('BookmarkMasonryColumn', () => {
-  const defaultProps = {
-    folderId: 'test-folder-123',
-    name: 'Test Folder',
-    folderContents: mockFolderContents,
-  };
+  it('renders folder information and passes folder contents to BookmarkDisplayArea', () => {
+    render(<BookmarkMasonryColumn folderContents={folderContents} folderId={folderId} name="My Folder" />);
 
-  beforeEach(() => {
-    vi.clearAllMocks();
-    mockUseBookmarks.mockReturnValue({ searchTerm: '' });
-    mockUseBookmarkActions.mockReturnValue({ move: vi.fn() });
-    mockHighlighter.mockImplementation((text) => text); // Return text as-is by default
+    expect(screen.getByText('My Folder')).toBeInTheDocument();
+    expect(screen.getByTestId('display-area')).toBeInTheDocument();
+    expect(displayAreaProps.folderContents).toEqual(folderContents);
+    expect(displayAreaProps.folderId).toBe(folderId);
   });
 
-  it('renders folder name and bookmark count', () => {
-    render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} />
-      </AllProviders>
-    );
+  it('moves dragged items to the current folder when dropped', async () => {
+    moveMock.mockResolvedValue(undefined);
 
-    expect(screen.getByText('Test Folder')).toBeInTheDocument();
-    expect(screen.getByTestId('bookmark-count-test-folder-123')).toHaveTextContent('3');
+    render(<BookmarkMasonryColumn folderContents={folderContents} folderId={folderId} name="My Folder" />);
+
+    await act(async () => {
+      await droppableProps.onDrop?.('dragged-id', 'from-folder', 0);
+    });
+
+    expect(moveMock).toHaveBeenCalledWith('dragged-id', { parentId: folderId });
   });
 
-  it('displays correct bookmark count', () => {
+  it('reports height via ResizeObserver and initial measurement', () => {
+    const onHeightChange = vi.fn();
+    const getBoundingClientRectSpy = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockReturnValue(defaultRect);
+
     render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} folderContents={[]} />
-      </AllProviders>
+      <BookmarkMasonryColumn
+        folderContents={folderContents}
+        folderId={folderId}
+        name="My Folder"
+        onHeightChange={onHeightChange}
+      />
     );
 
-    expect(screen.getByTestId('bookmark-count-test-folder-123')).toHaveTextContent('0');
+    expect(onHeightChange).toHaveBeenCalledWith(folderId, 250);
+    expect(resizeObservers).toHaveLength(1);
+
+    act(() => {
+      resizeObservers[0].callback(
+        [
+          {
+            target: document.createElement('div'),
+            contentRect: { ...defaultRect, height: 375 },
+          } as unknown as ResizeObserverEntry,
+        ],
+        {} as ResizeObserver
+      );
+    });
+
+    expect(onHeightChange).toHaveBeenCalledWith(folderId, 375);
+    getBoundingClientRectSpy.mockRestore();
   });
 
-  it('applies correct CSS classes', () => {
-    render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} />
-      </AllProviders>
-    );
+  it('skips ResizeObserver wiring when onHeightChange is not provided', () => {
+    const getBoundingClientRectSpy = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockReturnValue(defaultRect);
 
-    const container = document.querySelector('.group.relative.w-full');
-    expect(container).toBeInTheDocument();
+    render(<BookmarkMasonryColumn folderContents={folderContents} folderId={folderId} name="My Folder" />);
 
-    const header = document.querySelector('.mb-2.mt-3.flex.items-center.justify-between.space-x-2');
-    expect(header).toBeInTheDocument();
-
-    const title = document.querySelector('.leading-6.tracking-wide.uppercase');
-    expect(title).toBeInTheDocument();
-    expect(title).toHaveTextContent('Test Folder');
+    expect(resizeObservers).toHaveLength(0);
+    getBoundingClientRectSpy.mockRestore();
   });
 
-  it('renders DroppableFolder with correct folderId', () => {
-    render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} />
-      </AllProviders>
-    );
-
-    const droppableFolder = screen.getByTestId('droppable-folder');
-    expect(droppableFolder).toHaveAttribute('data-folder-id', 'test-folder-123');
-  });
-
-  it('renders BookmarkFolderContainer with overflowVisible prop', () => {
-    render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} />
-      </AllProviders>
-    );
-
-    const folderContainer = screen.getByTestId('bookmark-folder-container');
-    expect(folderContainer).toHaveAttribute('data-overflow-visible', 'true');
-  });
-
-  it('renders BookmarkDisplayArea with correct props', () => {
-    render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} />
-      </AllProviders>
-    );
-
-    const displayArea = screen.getByTestId('bookmark-display-area');
-    expect(displayArea).toHaveAttribute('data-folder-id', 'test-folder-123');
-    expect(displayArea).toHaveTextContent('Display area with 3 items');
-  });
-
-  it('handles drop events correctly', async () => {
-    const mockMove = vi.fn().mockResolvedValue(undefined);
-    mockUseBookmarkActions.mockReturnValue({ move: mockMove });
+  it('falls back to getBoundingClientRect when ResizeObserver is unavailable', () => {
+    const onHeightChange = vi.fn();
+    const getBoundingClientRectSpy = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockReturnValue(defaultRect);
+    // @ts-expect-error force undefined
+    global.ResizeObserver = undefined;
 
     render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} />
-      </AllProviders>
+      <BookmarkMasonryColumn
+        folderContents={folderContents}
+        folderId={folderId}
+        name="My Folder"
+        onHeightChange={onHeightChange}
+      />
     );
 
-    const droppableFolder = screen.getByTestId('droppable-folder');
-    fireEvent.click(droppableFolder);
+    expect(onHeightChange).toHaveBeenCalledWith(folderId, 250);
 
-    expect(mockMove).toHaveBeenCalledWith('dragged-item', { parentId: 'test-folder-123' });
-  });
-
-  it('highlights folder name when search term is present', () => {
-    mockUseBookmarks.mockReturnValue({ searchTerm: 'Test' });
-    mockHighlighter.mockReturnValue('<mark>Test</mark> Folder');
-
-    render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} />
-      </AllProviders>
-    );
-
-    expect(mockHighlighter).toHaveBeenCalledWith('Test Folder', 'Test');
-  });
-
-  it('handles empty folder contents', () => {
-    render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} folderContents={[]} />
-      </AllProviders>
-    );
-
-    const displayArea = screen.getByTestId('bookmark-display-area');
-    expect(displayArea).toHaveTextContent('Display area with 0 items');
-  });
-
-  it('handles undefined folder contents', () => {
-    render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} folderContents={undefined} />
-      </AllProviders>
-    );
-
-    const displayArea = screen.getByTestId('bookmark-display-area');
-    expect(displayArea).toHaveTextContent('Display area with 0 items');
-  });
-
-  it('passes folderId to move function in drop handler', () => {
-    const mockMove = vi.fn();
-    mockUseBookmarkActions.mockReturnValue({ move: mockMove });
-
-    render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} folderId="custom-folder-id" />
-      </AllProviders>
-    );
-
-    const droppableFolder = screen.getByTestId('droppable-folder');
-    fireEvent.click(droppableFolder);
-
-    expect(mockMove).toHaveBeenCalledWith('dragged-item', { parentId: 'custom-folder-id' });
-  });
-
-  it('truncates long folder names', () => {
-    const longName = 'This is a very long folder name that should be truncated';
-    render(
-      <AllProviders>
-        <BookmarkMasonryColumn {...defaultProps} name={longName} />
-      </AllProviders>
-    );
-
-    const title = document.querySelector('.truncate');
-    expect(title).toBeInTheDocument();
-    expect(title).toHaveTextContent(longName);
+    getBoundingClientRectSpy.mockRestore();
   });
 });

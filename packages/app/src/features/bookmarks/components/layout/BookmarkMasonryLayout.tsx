@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useContainerWidth } from '@/features/bookmarks/hooks/useContainerWidth';
 import type { MasonryColumn } from '@/features/bookmarks/hooks/useMasonryLayout';
 import { useMasonryLayout } from '@/features/bookmarks/hooks/useMasonryLayout';
@@ -10,9 +10,18 @@ export interface BookmarkMasonryLayoutProps {
   folders: IBookmarkItem[];
 }
 
+// Constants for height estimation and threshold calculation
+const BASE_FOLDER_HEIGHT = 180; // header + padding
+const PER_CHILD_HEIGHT = 56; // approx height per bookmark card
+const HEIGHT_CHANGE_THRESHOLD = PER_CHILD_HEIGHT; // Ignore changes less than one item height
+
 export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ folders }) => {
   const { containerWidth, containerRef } = useContainerWidth();
   const [folderHeights, setFolderHeights] = useState<Record<string, number>>({});
+  const folderHeightsRef = useRef(folderHeights);
+
+  // Keep ref in sync with state
+  folderHeightsRef.current = folderHeights;
 
   // Calculate column count based on container width
   const columnCount = useMemo(() => {
@@ -28,19 +37,17 @@ export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ fo
 
   const estimateFolderHeight = useCallback((folder: IBookmarkItem) => {
     const childCount = folder.children?.length ?? 0;
-    const baseHeight = 180; // header + padding
-    const perChildHeight = 56; // approx height per bookmark card
-    return baseHeight + childCount * perChildHeight;
+    return BASE_FOLDER_HEIGHT + childCount * PER_CHILD_HEIGHT;
   }, []);
 
   const handleHeightChange = useCallback((id: string, height: number) => {
-    setFolderHeights((prev) => {
-      const current = prev[id];
-      if (current && Math.abs(current - height) < 1) {
-        return prev;
-      }
-      return { ...prev, [id]: height };
-    });
+    const current = folderHeightsRef.current[id];
+    // Skip update if change is insignificant (< 1 item height difference)
+    // This prevents unnecessary re-renders from minor measurement variations
+    if (current !== undefined && Math.abs(current - height) < HEIGHT_CHANGE_THRESHOLD) {
+      return; // Don't call setState at all
+    }
+    setFolderHeights((prev) => ({ ...prev, [id]: height }));
   }, []);
 
   const getItemHeight = useCallback(
@@ -106,9 +113,8 @@ export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ fo
             data-testid={`masonry-grid-column-${column.key}`}
             key={column.key}
           >
-            {column.items.map((folder, i) => (
+            {column.items.map((folder) => (
               <BookmarkMasonryColumn
-                data-testid={`bookmark-masonry-grid-${i}`}
                 folderContents={folder.children ?? []}
                 folderId={folder.id}
                 key={String(folder.id)}

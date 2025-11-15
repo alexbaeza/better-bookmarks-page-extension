@@ -56,73 +56,97 @@ const mockFolders: IBookmarkItem[] = [
   },
 ];
 
+const defaultColumns = [
+  { items: [mockFolders[0]], key: 'column-0' },
+  { items: [mockFolders[1]], key: 'column-1' },
+  { items: [mockFolders[2]], key: 'column-2' },
+];
+
+const setupHeightEstimationScenario = () => {
+  const heightGetter = vi.fn<(folder: IBookmarkItem) => number>();
+
+  mockUseMasonryLayout.mockImplementationOnce((_items, _options, getItemHeight) => {
+    heightGetter.mockImplementation(getItemHeight);
+    return defaultColumns;
+  });
+
+  render(
+    <AllProviders>
+      <BookmarkMasonryLayout folders={mockFolders} />
+    </AllProviders>
+  );
+
+  return heightGetter;
+};
+
+const setupHeightUpdateScenario = () => {
+  const heightGetter = vi.fn<(folder: IBookmarkItem) => number>();
+  const reportHeight = vi.fn();
+
+  mockUseMasonryLayout.mockImplementation((_items, _options, getItemHeight) => {
+    heightGetter.mockImplementation(getItemHeight);
+    return defaultColumns;
+  });
+
+  mockBookmarkMasonryColumn.mockImplementationOnce((props: MockColumnProps) => {
+    if (props.folderId === 'folder1' && props.onHeightChange) {
+      reportHeight.mockImplementation((height: number) => props.onHeightChange?.(props.folderId, height));
+    }
+    return renderMockColumn(props);
+  });
+
+  render(
+    <AllProviders>
+      <BookmarkMasonryLayout folders={mockFolders} />
+    </AllProviders>
+  );
+
+  return { heightGetter, reportHeight };
+};
+
 describe('BookmarkMasonryLayout', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockBookmarkMasonryColumn.mockImplementation(renderMockColumn);
     mockUseContainerWidth.mockReturnValue({ containerWidth: 1200, containerRef: vi.fn() });
-    mockUseMasonryLayout.mockReturnValue([
-      { items: [mockFolders[0]], key: 'column-0' },
-      { items: [mockFolders[1]], key: 'column-1' },
-      { items: [mockFolders[2]], key: 'column-2' },
-    ]);
+    mockUseMasonryLayout.mockReturnValue(defaultColumns);
   });
 
   describe('height estimation', () => {
     it('provides getItemHeight estimation to useMasonryLayout', () => {
-      const capturedHeightGetter = vi.fn<(folder: IBookmarkItem) => number>();
-
-      mockUseMasonryLayout.mockImplementationOnce((_items, _options, getItemHeight) => {
-        capturedHeightGetter.mockImplementation(getItemHeight);
-        return [
-          { items: [mockFolders[0]], key: 'column-0' },
-          { items: [mockFolders[1]], key: 'column-1' },
-          { items: [mockFolders[2]], key: 'column-2' },
-        ];
-      });
-
-      render(
-        <AllProviders>
-          <BookmarkMasonryLayout folders={mockFolders} />
-        </AllProviders>
-      );
-
+      const capturedHeightGetter = setupHeightEstimationScenario();
       expect(capturedHeightGetter(mockFolders[0])).toBe(292); // 180 header/padding + 2 children * 56 each
     });
 
     it('updates item heights when columns report measurements', () => {
-      const capturedHeightGetter = vi.fn<(folder: IBookmarkItem) => number>();
-
-      mockUseMasonryLayout.mockImplementation((_items, _options, getItemHeight) => {
-        capturedHeightGetter.mockImplementation(getItemHeight);
-        return [
-          { items: [mockFolders[0]], key: 'column-0' },
-          { items: [mockFolders[1]], key: 'column-1' },
-          { items: [mockFolders[2]], key: 'column-2' },
-        ];
-      });
-
-      const reportHeight = vi.fn();
-
-      mockBookmarkMasonryColumn.mockImplementationOnce((props: MockColumnProps) => {
-        if (props.folderId === 'folder1' && props.onHeightChange) {
-          reportHeight.mockImplementation((height: number) => props.onHeightChange?.(props.folderId, height));
-        }
-        return renderMockColumn(props);
-      });
-
-      render(
-        <AllProviders>
-          <BookmarkMasonryLayout folders={mockFolders} />
-        </AllProviders>
-      );
+      const { heightGetter, reportHeight } = setupHeightUpdateScenario();
 
       act(() => {
         reportHeight(500);
       });
 
       expect(reportHeight).toHaveBeenCalledWith(500);
-      expect(capturedHeightGetter(mockFolders[0])).toBe(500);
+      expect(heightGetter(mockFolders[0])).toBe(500);
+    });
+
+    it('ignores insignificant height changes to avoid unnecessary re-renders', () => {
+      const { heightGetter, reportHeight } = setupHeightUpdateScenario();
+
+      act(() => {
+        reportHeight(400);
+      });
+
+      const callCountAfterSignificantChange = mockUseMasonryLayout.mock.calls.length;
+      expect(heightGetter(mockFolders[0])).toBe(400);
+      expect(callCountAfterSignificantChange).toBeGreaterThan(0); // Should have been called at least once
+
+      act(() => {
+        reportHeight(455); // 55px difference, less than 56px threshold (one item height)
+      });
+
+      // Call count should not increase after insignificant change
+      expect(mockUseMasonryLayout.mock.calls.length).toBe(callCountAfterSignificantChange);
+      expect(heightGetter(mockFolders[0])).toBe(400); // Height should remain 400, not 455
     });
   });
 
