@@ -34,12 +34,7 @@ export const SettingsFlyoutContainer: React.FC<SettingsFlyoutContainerProps> = (
           <Text as="h2" color="primary" size="xl" weight="semibold">
             Settings
           </Text>
-          <IconButton
-            className="text-fgColor-secondary hover:text-fgColor-primary"
-            dataTestId="modal-close-button"
-            icon={<X size={16} />}
-            onClick={closeFlyout}
-          />
+          <IconButton dataTestId="modal-close-button" icon={<X size={16} />} onClick={closeFlyout} />
         </div>
         <div className="flex-1 overflow-y-auto p-4" style={{ overflowY: 'auto' }}>
           {children}

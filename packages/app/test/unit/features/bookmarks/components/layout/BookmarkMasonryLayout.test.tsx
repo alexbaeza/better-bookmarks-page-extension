@@ -88,35 +88,29 @@ describe('BookmarkMasonryLayout', () => {
     expect(screen.getByTestId('masonry-column-folder3')).toBeInTheDocument();
   });
 
-  it('calculates correct column count based on container width', () => {
-    const widthTests = [
-      { width: 600, expectedColumns: 1 }, // < 640
-      { width: 700, expectedColumns: 1 }, // >= 640 but < 768
-      { width: 800, expectedColumns: 2 }, // >= 768 but < 1024
-      { width: 1100, expectedColumns: 3 }, // >= 1024 but < 1536
-      { width: 1600, expectedColumns: 4 }, // >= 1536
-    ];
+  it.each([
+    [600, 1, '< 640'],
+    [700, 1, '>= 640 but < 768'],
+    [800, 2, '>= 768 but < 1024'],
+    [1100, 4, '>= 1024 but < 1536'],
+    [1600, 4, '>= 1536'],
+  ])('calculates correct column count (%i px width = %i columns) for %s', (width, expectedColumns) => {
+    mockUseContainerWidth.mockReturnValue({ containerWidth: width, containerRef: vi.fn() });
+    mockUseMasonryLayout.mockReturnValue(
+      Array.from({ length: expectedColumns }, (_, i) => ({
+        items: [mockFolders[i % mockFolders.length]].filter(Boolean),
+        key: `column-${i}`,
+      }))
+    );
 
-    widthTests.forEach(({ width, expectedColumns }) => {
-      mockUseContainerWidth.mockReturnValue({ containerWidth: width, containerRef: vi.fn() });
-      mockUseMasonryLayout.mockReturnValue(
-        Array.from({ length: expectedColumns }, (_, i) => ({
-          items: [mockFolders[i % mockFolders.length]].filter(Boolean),
-          key: `column-${i}`,
-        }))
-      );
+    render(
+      <AllProviders>
+        <BookmarkMasonryLayout folders={mockFolders} />
+      </AllProviders>
+    );
 
-      const { unmount } = render(
-        <AllProviders>
-          <BookmarkMasonryLayout folders={mockFolders} />
-        </AllProviders>
-      );
-
-      const columns = document.querySelectorAll('.flex.min-w-0.flex-col.gap-4');
-      expect(columns).toHaveLength(expectedColumns);
-
-      unmount(); // Clean up for next test
-    });
+    const columns = document.querySelectorAll('.flex.min-w-0.flex-col.gap-4');
+    expect(columns).toHaveLength(expectedColumns);
   });
 
   it('handles zero container width with default value', () => {
