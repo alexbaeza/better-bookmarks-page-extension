@@ -123,46 +123,62 @@ class BookmarkOrderingService implements OrderingService {
     }
   }
 
+  private initializeNewOrdering(folder: IBookmarkItem, children: IBookmarkItem[]): void {
+    this.ordering[folder.id] = children.map((child) => child.id);
+  }
+
+  private reconcileExistingOrdering(folder: IBookmarkItem): void {
+    const currentOrder = this.ordering[folder.id];
+    const currentIds = new Set(currentOrder);
+
+    // Add any new items that aren't in ordering (at the end to maintain existing order)
+    const newItems = folder.children?.filter((child) => !currentIds.has(child.id)).map((child) => child.id) ?? [];
+
+    if (newItems.length > 0) {
+      // Add new items to the end of ordering
+      this.ordering[folder.id] = [...currentOrder, ...newItems];
+    }
+  }
+
+  private reconcileFolderOrdering(folder: IBookmarkItem): void {
+    // Guard clause - this method should only be called with folders that have children
+    if (!folder.children || folder.children.length === 0) {
+      return;
+    }
+
+    // Clean up stale ordering entries
+    this.cleanupStaleOrdering(folder);
+
+    // If no ordering exists, initialize with current children
+    if (!this.ordering[folder.id]) {
+      this.initializeNewOrdering(folder, folder.children);
+    } else {
+      // Reconcile: ensure all current children are in ordering
+      this.reconcileExistingOrdering(folder);
+    }
+
+    // Recursively reconcile child folders
+    for (const child of folder.children) {
+      if (child.children) {
+        this.reconcileFolderOrdering(child);
+      }
+    }
+  }
+
   /**
    * Initialize ordering for all folders based on current bookmark structure
    * Also reconciles ordering with current bookmark state
    */
   initializeOrdering(bookmarks: IBookmarkItem[]): void {
-    const reconcileFolder = (folder: IBookmarkItem) => {
+    bookmarks.forEach((folder) => {
       if (folder.children && folder.children.length > 0) {
-        // Clean up stale ordering entries
-        this.cleanupStaleOrdering(folder);
-
-        // If no ordering exists, initialize with current children
-        if (!this.ordering[folder.id]) {
-          this.ordering[folder.id] = folder.children.map((child) => child.id);
-        } else {
-          // Reconcile: ensure all current children are in ordering
-          const currentOrder = this.ordering[folder.id];
-          const currentIds = new Set(currentOrder);
-
-          // Add any new items that aren't in ordering (at the end to maintain existing order)
-          const newItems = folder.children.filter((child) => !currentIds.has(child.id)).map((child) => child.id);
-
-          if (newItems.length > 0) {
-            // Add new items to the end of ordering
-            this.ordering[folder.id] = [...currentOrder, ...newItems];
-          }
-        }
-
-        // Recursively reconcile child folders
-        for (const child of folder.children) {
-          if (child.children) {
-            reconcileFolder(child);
-          }
-        }
+        this.reconcileFolderOrdering(folder);
       } else {
         // Clean up empty folders
         this.cleanupStaleOrdering(folder);
       }
-    };
+    });
 
-    bookmarks.forEach(reconcileFolder);
     this.saveToStorage();
   }
 

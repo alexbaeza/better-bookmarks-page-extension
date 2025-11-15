@@ -56,7 +56,7 @@ const gridColsMap: Record<number, string> = {
 };
 
 function getColumnsClass(breakpoint: string, columns: number | undefined): string {
-  if (!columns || !gridColsMap[columns]) return '';
+  if (!(columns && gridColsMap[columns])) return '';
   const baseClass = gridColsMap[columns];
   return breakpoint === '' ? baseClass : `${breakpoint}:${baseClass}`;
 }

@@ -1,7 +1,9 @@
 import { memo } from 'react';
 import { Bookmark } from '@/features/bookmarks/components/Bookmark';
+import { DroppableFolder } from '@/features/bookmarks/components/dnd/DroppableFolder';
 import { useBaseBookmarkItem } from '@/features/bookmarks/components/items/BaseBookmarkItem';
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
+import { useBookmarkActions } from '@/features/bookmarks/hooks/useBookmarkActions';
 import { useBookmarkIcon } from '@/features/bookmarks/hooks/useBookmarkIcon';
 import { useBookmarkModals } from '@/features/bookmarks/hooks/useBookmarkModals';
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
@@ -19,6 +21,7 @@ export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId,
   const { openEditModal } = useBookmarkModals();
   const { navigateToFolder } = useBookmarkNavigation();
   const { searchTerm } = useBookmarks();
+  const { move } = useBookmarkActions();
 
   const handleEdit = (): void => {
     openEditModal(item);
@@ -30,6 +33,11 @@ export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId,
     } else if (item.children) {
       navigateToFolder(item.id);
     }
+  };
+
+  const handleDrop = async (draggedItemId: string, _fromFolderId: string, _fromIndex: number): Promise<void> => {
+    // Move bookmark to this folder
+    await move(draggedItemId, { parentId: item.id });
   };
 
   const highlightedTitle = highlighter(item.title, searchTerm);
@@ -46,7 +54,7 @@ export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId,
     onClick,
   } = useBaseBookmarkItem(item, dataTestId, handleEdit, handleEdit, handleClick, onFolderClick, 16, 'list');
 
-  return (
+  const content = (
     <Bookmark.Root
       className="relative flex h-12 w-full overflow-visible rounded-lg bg-bgColor-tertiary transition hover:bg-fgColor-hover"
       dataTestId={testId}
@@ -92,4 +100,14 @@ export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId,
       )}
     </Bookmark.Root>
   );
+
+  if (isFolder) {
+    return (
+      <DroppableFolder dataTestId={`${testId}-droppable`} folderId={item.id} onDrop={handleDrop}>
+        {content}
+      </DroppableFolder>
+    );
+  }
+
+  return content;
 });

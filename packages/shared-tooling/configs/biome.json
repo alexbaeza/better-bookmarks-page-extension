@@ -61,6 +61,12 @@
   "linter": {
     "enabled": true,
     "rules": {
+      "complexity": {
+        "recommended": true,
+        "useArrowFunction": "error",
+        "noExcessiveCognitiveComplexity": "error",
+        "useSimplifiedLogicExpression": "error"
+      },
       "a11y": {
         "useSemanticElements": "off"
       },
@@ -71,13 +77,13 @@
         "noUnusedVariables": "error"
       },
       "nursery": {
+        "recommended": true,
         "noFloatingPromises": "error",
         "noImportCycles": "error"
       },
       "performance": {
         "noAccumulatingSpread": "error"
       },
-      "recommended": true,
       "style": {
         "noInferrableTypes": "error",
         "noParameterAssign": "error",

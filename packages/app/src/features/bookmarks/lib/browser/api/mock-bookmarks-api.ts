@@ -438,6 +438,79 @@ class MockBookmarksAPI {
     this.notifyListeners(id, {});
   }
 
+  private getDestinationParentId(bookmarkId: string, destination: { parentId?: string; index?: number }): string {
+    const defaultRootId = this.browserType === 'firefox' ? FIREFOX_BUILT_IN_IDS.ROOT : '0';
+    const fromParentId = this.findParentId(bookmarkId);
+    return destination.parentId || fromParentId || defaultRootId;
+  }
+
+  private handleSameFolderMove(
+    bookmark: IBookmarkItem,
+    folderId: string,
+    destinationIndex: number
+  ): chrome.bookmarks.BookmarkTreeNode | browser.bookmarks.BookmarkTreeNode {
+    const folder = this.findById(folderId);
+    if (!folder?.children) {
+      throw new Error(`Folder with id ${folderId} not found or has no children`);
+    }
+
+    // Find the item's current index in the raw children array
+    const currentIndex = folder.children.findIndex((child) => child.id === bookmark.id);
+    if (currentIndex === -1) {
+      throw new Error(`Item with id ${bookmark.id} not found in folder ${folderId}`);
+    }
+
+    // Don't do anything if moving to the same position
+    if (currentIndex === destinationIndex) {
+      return this.toBookmarkTreeNode(bookmark) as
+        | chrome.bookmarks.BookmarkTreeNode
+        | browser.bookmarks.BookmarkTreeNode;
+    }
+
+    // Reorder the raw children array
+    const [movedItem] = folder.children.splice(currentIndex, 1);
+    folder.children.splice(destinationIndex, 0, movedItem);
+
+    // Update ordering service with the new order (using IDs)
+    const newOrderIds = folder.children.map((child) => child.id);
+    orderingService.setOrder(folderId, newOrderIds);
+
+    // Update dateGroupModified
+    folder.dateGroupModified = Date.now();
+
+    return this.toBookmarkTreeNode(bookmark) as chrome.bookmarks.BookmarkTreeNode | browser.bookmarks.BookmarkTreeNode;
+  }
+
+  private handleCrossFolderMove(
+    bookmark: IBookmarkItem,
+    fromParentId: string | undefined,
+    toParentId: string,
+    destinationIndex?: number
+  ): void {
+    // Remove from current parent
+    this.removeById(bookmark.id);
+
+    // Update ordering in source folder
+    if (fromParentId) {
+      const sourceOrder = orderingService.getOrder(fromParentId);
+      const filteredOrder = sourceOrder.filter((itemId) => itemId !== bookmark.id);
+      orderingService.setOrder(fromParentId, filteredOrder);
+    }
+
+    // Add to new parent at specified index
+    this.addToParent(toParentId, bookmark, destinationIndex);
+
+    // Update ordering service
+    orderingService.moveItem(bookmark.id, fromParentId || 'root', toParentId, destinationIndex ?? 0);
+  }
+
+  private updateDestinationFolderTimestamp(parentId: string): void {
+    const destinationFolder = this.findById(parentId);
+    if (destinationFolder && !destinationFolder.url) {
+      destinationFolder.dateGroupModified = Date.now();
+    }
+  }
+
   /**
    * Move a bookmark (matches chrome.bookmarks.move / browser.bookmarks.move)
    */
@@ -450,71 +523,30 @@ class MockBookmarksAPI {
       throw new Error(`Bookmark with id ${id} not found`);
     }
 
-    // Use appropriate root ID based on browser type
-    const defaultRootId = this.browserType === 'firefox' ? FIREFOX_BUILT_IN_IDS.ROOT : '0';
     const fromParentId = this.findParentId(id);
-    const toParentId = destination.parentId || fromParentId || defaultRootId;
+    const toParentId = this.getDestinationParentId(id, destination);
     const isSameFolder = fromParentId === toParentId;
+
+    let result: chrome.bookmarks.BookmarkTreeNode | browser.bookmarks.BookmarkTreeNode;
 
     // For same-folder moves (reordering), update raw children array
     if (isSameFolder && destination.index !== undefined) {
-      const folder = this.findById(toParentId);
-      if (!folder || !folder.children) {
-        throw new Error(`Folder with id ${toParentId} not found or has no children`);
-      }
-
-      // Find the item's current index in the raw children array
-      const currentIndex = folder.children.findIndex((child) => child.id === id);
-      if (currentIndex === -1) {
-        throw new Error(`Item with id ${id} not found in folder ${toParentId}`);
-      }
-
-      // Don't do anything if moving to the same position
-      if (currentIndex === destination.index) {
-        return this.toBookmarkTreeNode(bookmark) as
-          | chrome.bookmarks.BookmarkTreeNode
-          | browser.bookmarks.BookmarkTreeNode;
-      }
-
-      // Reorder the raw children array
-      const [movedItem] = folder.children.splice(currentIndex, 1);
-      folder.children.splice(destination.index, 0, movedItem);
-
-      // Update ordering service with the new order (using IDs)
-      const newOrderIds = folder.children.map((child) => child.id);
-      orderingService.setOrder(toParentId, newOrderIds);
-
-      // Update dateGroupModified
-      folder.dateGroupModified = Date.now();
+      result = this.handleSameFolderMove(bookmark, toParentId, destination.index);
     } else {
       // Cross-folder move or move to end
-      // Remove from current parent
-      this.removeById(id);
-
-      // Update ordering in source folder
-      if (fromParentId) {
-        const sourceOrder = orderingService.getOrder(fromParentId);
-        const filteredOrder = sourceOrder.filter((itemId) => itemId !== id);
-        orderingService.setOrder(fromParentId, filteredOrder);
-      }
-
-      // Add to new parent at specified index
-      this.addToParent(toParentId, bookmark, destination.index);
-
-      // Update ordering service
-      orderingService.moveItem(id, fromParentId || 'root', toParentId, destination.index ?? 0);
+      this.handleCrossFolderMove(bookmark, fromParentId, toParentId, destination.index);
+      result = this.toBookmarkTreeNode(bookmark) as
+        | chrome.bookmarks.BookmarkTreeNode
+        | browser.bookmarks.BookmarkTreeNode;
     }
 
     // Update dateGroupModified for destination folder
-    const destinationFolder = this.findById(toParentId);
-    if (destinationFolder && !destinationFolder.url) {
-      destinationFolder.dateGroupModified = Date.now();
-    }
+    this.updateDestinationFolderTimestamp(toParentId);
 
     this.saveToStorage();
     this.notifyListeners(id, {});
 
-    return this.toBookmarkTreeNode(bookmark) as chrome.bookmarks.BookmarkTreeNode | browser.bookmarks.BookmarkTreeNode;
+    return result;
   }
 
   /**
