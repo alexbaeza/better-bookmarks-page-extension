@@ -7,6 +7,7 @@ import { Button } from '@/shared/ui/Button';
 import { Divider } from '@/shared/ui/Divider';
 import { Text } from '@/shared/ui/Text';
 import { themes } from '@/styles/themes';
+import { ThemeButton } from './ThemeButton';
 
 export const UnifiedThemeSettings: React.FC = () => {
   const [theme, setTheme] = useAtom(themeAtom);
@@ -81,19 +82,14 @@ export const UnifiedThemeSettings: React.FC = () => {
           {/* Preset themes */}
           <div className="grid grid-cols-2 gap-3">
             {Object.keys(themes).map((themeKey) => (
-              <button
-                className={`p-3 rounded-lg border text-sm font-medium transition-colors ${
-                  theme === themeKey
-                    ? 'border-fgColor-accent bg-fgColor-accent/10 text-fgColor-accent'
-                    : 'border-fgColor-active bg-bgColor-secondary text-fgColor-primary hover:bg-bgColor-tertiary'
-                }`}
+              <ThemeButton
                 data-testid={`theme-${themeKey}`}
+                isActive={theme === themeKey}
                 key={themeKey}
                 onClick={() => handleThemeChange(themeKey)}
-                type="button"
               >
                 {themeKey.charAt(0).toUpperCase() + themeKey.slice(1)}
-              </button>
+              </ThemeButton>
             ))}
           </div>
 
@@ -116,21 +112,11 @@ export const UnifiedThemeSettings: React.FC = () => {
 
             {/* Custom Theme Button */}
             <div className="flex-1">
-              <button
-                className={`relative p-3 rounded-lg border text-sm font-medium transition-all duration-300 w-full ${
-                  theme === 'custom'
-                    ? 'border-fgColor-accent bg-fgColor-accent/10 text-fgColor-accent'
-                    : 'border-fgColor-active bg-bgColor-secondary text-fgColor-primary hover:bg-bgColor-tertiary'
-                }`}
+              <ThemeButton
                 data-testid="theme-custom"
+                isActive={theme === 'custom'}
                 onClick={() => handleThemeChange('custom')}
-                style={{
-                  borderImage:
-                    theme === 'custom'
-                      ? undefined
-                      : 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3) 1',
-                }}
-                type="button"
+                variant="rainbow"
               >
                 <div className="flex items-center justify-center gap-2">
                   <Star className={theme === 'custom' ? 'text-fgColor-accent' : 'text-fgColor-primary'} size={14} />
@@ -138,7 +124,7 @@ export const UnifiedThemeSettings: React.FC = () => {
                     Custom Theme
                   </span>
                 </div>
-              </button>
+              </ThemeButton>
             </div>
           </div>
         </div>

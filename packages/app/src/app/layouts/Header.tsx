@@ -12,7 +12,7 @@ export const Header: React.FC = () => {
   const showSearch = useAtomValue(searchBarEnabledAtom);
 
   return (
-    <header className="w-full bg-bgColor-primary px-6 py-4">
+    <header className="w-full bg-bgColor-primary p-6">
       {/* Top row: Greeting left, controls right */}
       <Row alignItems="center" gap="none" justifyContent="between">
         <Col className="min-w-0" span="auto">
@@ -22,7 +22,7 @@ export const Header: React.FC = () => {
 
       {/* Center row: Search */}
       {showSearch && (
-        <Row className="mt-4" gap="none" justifyContent="center">
+        <Row gap="none" justifyContent="center">
           <SearchBar />
         </Row>
       )}

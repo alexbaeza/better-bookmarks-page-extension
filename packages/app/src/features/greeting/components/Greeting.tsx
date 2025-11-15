@@ -21,19 +21,17 @@ export const Greeting = () => {
   const [greetingName] = useAtom(greetingNameAtom);
 
   return (
-    <div className="flex px-3 pt-3" data-testid="greeting">
-      <div className="flex px-3 pt-3">
-        <Text
-          as="h1"
-          className="text-title-1 mt-16 pr-3 md:mb-10"
-          color="primary"
-          data-testid="greeting-message"
-          size="3xl"
-          weight="bold"
-        >
-          {getGreeting() + (greetingEnabled && greetingName ? `, ${greetingName}` : '')}
-        </Text>
-      </div>
+    <div className="flex mt-8" data-testid="greeting">
+      <Text
+        as="h1"
+        className="text-title-1 md:mb-10"
+        color="primary"
+        data-testid="greeting-message"
+        size="3xl"
+        weight="bold"
+      >
+        {getGreeting() + (greetingEnabled && greetingName ? `, ${greetingName}` : '')}
+      </Text>
     </div>
   );
 };

@@ -88,24 +88,21 @@ describe('AppRoutes', () => {
     expect(screen.getByText('Folder Page: another-folder')).toBeInTheDocument();
   });
 
-  it('should handle different folder IDs correctly', () => {
-    const folderIds = ['folder-1', 'my-folder', '123', 'special-folder-name'];
-
-    folderIds.forEach((folderId) => {
+  it.each(['folder-1', 'my-folder', '123', 'special-folder-name'])(
+    'should handle folder ID "%s" correctly',
+    (folderId) => {
       mockUseBookmarkNavigation.mockReturnValue({
         currentPage: folderId,
         setCurrentPage: vi.fn(),
         navigationStack: ['All', folderId],
       } as any);
 
-      const { container } = render(<AppRoutes />);
+      render(<AppRoutes />);
 
       expect(screen.getByTestId('folder-page')).toBeInTheDocument();
       expect(screen.getByText(`Folder Page: ${folderId}`)).toBeInTheDocument();
-
-      container.remove();
-    });
-  });
+    }
+  );
 
   it('should call useBookmarkNavigation hook', () => {
     mockUseBookmarkNavigation.mockReturnValue({
