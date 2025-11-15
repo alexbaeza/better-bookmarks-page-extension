@@ -1,57 +1,83 @@
-import type { IBookmarkItem } from '@/shared/types/bookmarks';
+import type { ChromeBookmarks } from '@/features/bookmarks/lib/browser/api/chrome-api';
 
-// Helper function to create bookmark items
-const createBookmark = (id: string, parentId: string, title: string, url: string): IBookmarkItem => ({
-  dateAdded: Date.now(),
+// Helper function to create bookmark items as raw Chrome BookmarkTreeNode
+const createBookmark = (id: string, parentId: string, title: string, url: string): ChromeBookmarks => ({
   id,
   parentId,
   title,
   url,
-});
-
-// Helper function to create folder items
-const createFolder = (id: string, parentId: string, title: string, children: IBookmarkItem[] = []): IBookmarkItem => ({
-  children,
   dateAdded: Date.now(),
-  id,
-  parentId,
-  title,
+  // Mock data never syncs
+  syncing: false,
 });
 
-export const mockData: IBookmarkItem[] = [
+// Helper function to create folder items as raw Chrome BookmarkTreeNode
+const createFolder = (
+  id: string,
+  parentId: string,
+  title: string,
+  children: ChromeBookmarks[] = []
+): ChromeBookmarks => {
+  const folderType = id === '1' ? 'bookmarks-bar' : id === '2' ? 'other' : undefined;
+
+  return {
+    id,
+    parentId,
+    title,
+    children,
+    dateAdded: Date.now(),
+    dateGroupModified: Date.now(),
+    folderType,
+    syncing: false,
+  };
+};
+
+/**
+ * Chrome mock data with Chrome-style IDs:
+ * - '0' = Root
+ * - '1' = Bookmarks Bar (folderType: 'bookmarks-bar')
+ * - '2' = Other Bookmarks (folderType: 'other')
+ */
+export const chromeMockData: ChromeBookmarks[] = [
   {
+    id: '0',
+    title: '',
+    dateAdded: Date.now(),
     children: [
-      // Bookmarks Menu - Main folder with extensive content
-      createFolder('1', '0', 'Bookmarks Menu', [
+      // Bookmarks Bar (id: '1')
+      createFolder('1', '0', 'Bookmarks Bar', [
+        createBookmark('61', '1', 'Gmail', 'https://gmail.com'),
+        createBookmark('62', '1', 'Calendar', 'https://calendar.google.com'),
+        createBookmark('63', '1', 'Google Drive', 'https://drive.google.com'),
+        createBookmark('64', '1', 'Keep', 'https://keep.google.com'),
+      ]),
+
+      // Other Bookmarks (id: '2')
+      createFolder('2', '0', 'Other Bookmarks', [
         // Deep nesting test
-        createFolder('10', '1', '📚 Long Title Folder with Special Characters !@#$%^&*()', [
-          createFolder('11', '10', 'Nested Folder Level 1', [
-            createFolder('12', '11', 'Nested Folder Level 2', [
-              createBookmark('13', '12', 'Nested Bookmark Level 3', 'https://deep.link.example.com/'),
+        createFolder('11', '2', '📚 Long Title Folder with Special Characters !@#$%^&*()', [
+          createFolder('12', '11', 'Nested Folder Level 1', [
+            createFolder('13', '12', 'Nested Folder Level 2', [
+              createBookmark('14', '13', 'Nested Bookmark Level 3', 'https://deep.link.example.com/'),
             ]),
           ]),
-          createFolder('14', '10', 'Empty Folder', []),
-          createBookmark(
-            '14b',
-            '10',
-            'Example Link Inside Long Title Folder',
-            'https://example.com/inside-long-folder'
-          ),
+          createFolder('15', '11', 'Empty Folder', []),
+          createBookmark('16', '11', 'Example Link Inside Long Title Folder', 'https://example.com/inside-long-folder'),
         ]),
 
         // Mixed content folder
-        createFolder('15', '1', 'Mixed Content', [
-          createBookmark('16', '15', 'GitHub', 'https://github.com'),
-          createBookmark('17', '15', 'Stack Overflow', 'https://stackoverflow.com'),
-          createFolder('18', '15', 'Projects', []),
-          createBookmark('30', '15', '', 'https://empty-title.com'),
+        createFolder('17', '2', 'Mixed Content', [
+          createBookmark('18', '17', 'GitHub', 'https://github.com'),
+          createBookmark('19', '17', 'Stack Overflow', 'https://stackoverflow.com'),
+          createFolder('20', '17', 'Projects', []),
+          createBookmark('21', '17', '', 'https://empty-title.com'),
         ]),
 
         // Empty folder at root level
-        createFolder('19', '1', 'Empty Folder at Root Level', []),
+        createFolder('22', '2', 'Empty Folder at Root Level', []),
 
         // Development Resources - Large folder
-        createFolder('32', '1', '💾 Development Resources', [
+        createFolder('32', '2', '💾 Development Resources', [
           createBookmark('33', '32', 'TypeScript Docs', 'https://www.typescriptlang.org/docs/'),
           createBookmark('34', '32', 'MDN Web Docs', 'https://developer.mozilla.org/'),
           createBookmark('35', '32', 'Mozilla Firefox', 'https://www.mozilla.org/firefox/'),
@@ -66,7 +92,7 @@ export const mockData: IBookmarkItem[] = [
         ]),
 
         // Programming Languages - Large folder with nested structure
-        createFolder('100', '1', '🚀 Programming Languages', [
+        createFolder('100', '2', '🚀 Programming Languages', [
           createFolder('101', '100', 'JavaScript & TypeScript', [
             createBookmark('102', '101', 'JavaScript MDN', 'https://developer.mozilla.org/en-US/docs/Web/JavaScript'),
             createBookmark(
@@ -103,7 +129,7 @@ export const mockData: IBookmarkItem[] = [
         ]),
 
         // Design & UI - Large folder
-        createFolder('200', '1', '🎨 Design & UI', [
+        createFolder('200', '2', '🎨 Design & UI', [
           createFolder('201', '200', 'Design Inspiration', [
             createBookmark('202', '201', 'Dribbble', 'https://dribbble.com'),
             createBookmark('203', '201', 'Behance', 'https://www.behance.net'),
@@ -126,7 +152,7 @@ export const mockData: IBookmarkItem[] = [
         ]),
 
         // Learning & Courses
-        createFolder('300', '1', '📖 Learning & Courses', [
+        createFolder('300', '2', '📖 Learning & Courses', [
           createFolder('301', '300', 'Online Courses', [
             createBookmark('302', '301', 'Udemy', 'https://www.udemy.com'),
             createBookmark('303', '301', 'Coursera', 'https://www.coursera.org'),
@@ -145,7 +171,7 @@ export const mockData: IBookmarkItem[] = [
         ]),
 
         // Tools & Productivity
-        createFolder('400', '1', '⚙️ Tools & Productivity', [
+        createFolder('400', '2', '⚙️ Tools & Productivity', [
           createFolder('401', '400', 'Development Tools', [
             createBookmark('402', '401', 'GitHub', 'https://github.com'),
             createBookmark('403', '401', 'GitLab', 'https://gitlab.com'),
@@ -168,7 +194,7 @@ export const mockData: IBookmarkItem[] = [
         ]),
 
         // News & Media
-        createFolder('500', '1', '📰 News & Media', [
+        createFolder('500', '2', '📰 News & Media', [
           createFolder('501', '500', 'Tech News', [
             createBookmark('502', '501', 'TechCrunch', 'https://techcrunch.com'),
             createBookmark('503', '501', 'The Verge', 'https://www.theverge.com'),
@@ -185,7 +211,7 @@ export const mockData: IBookmarkItem[] = [
         ]),
 
         // Entertainment
-        createFolder('600', '1', '🎬 Entertainment', [
+        createFolder('600', '2', '🎬 Entertainment', [
           createFolder('601', '600', 'Video Streaming', [
             createBookmark('602', '601', 'YouTube', 'https://www.youtube.com'),
             createBookmark('603', '601', 'Netflix', 'https://www.netflix.com'),
@@ -200,7 +226,7 @@ export const mockData: IBookmarkItem[] = [
         ]),
 
         // Personal & Social
-        createFolder('700', '1', '👤 Personal & Social', [
+        createFolder('700', '2', '👤 Personal & Social', [
           createFolder('701', '700', 'Social Media', [
             createBookmark('702', '701', 'Twitter/X', 'https://twitter.com'),
             createBookmark('703', '701', 'LinkedIn', 'https://www.linkedin.com'),
@@ -215,14 +241,14 @@ export const mockData: IBookmarkItem[] = [
         ]),
 
         // Very Large Folder - Testing performance with many items
-        createFolder('800', '1', '📚 Very Large Folder (50+ items)', [
+        createFolder('800', '2', '📚 Very Large Folder (50+ items)', [
           ...Array.from({ length: 50 }, (_, i) =>
             createBookmark(`800-${i}`, '800', `Bookmark ${i + 1}`, `https://example.com/item-${i + 1}`)
           ),
         ]),
 
         // Deeply nested structure
-        createFolder('900', '1', '🔗 Deep Nesting Test', [
+        createFolder('900', '2', '🔗 Deep Nesting Test', [
           createFolder('901', '900', 'Level 2', [
             createFolder('902', '901', 'Level 3', [
               createFolder('903', '902', 'Level 4', [
@@ -239,7 +265,7 @@ export const mockData: IBookmarkItem[] = [
         ]),
 
         // Edge cases folder
-        createFolder('1000', '1', '⚠️ Edge Cases', [
+        createFolder('1000', '2', '⚠️ Edge Cases', [
           createBookmark(
             '1001',
             '1000',
@@ -261,41 +287,30 @@ export const mockData: IBookmarkItem[] = [
         ]),
 
         // Empty folders at different levels
-        createFolder('1100', '1', '📁 Empty Folders Group', [
+        createFolder('1100', '2', '📁 Empty Folders Group', [
           createFolder('1101', '1100', 'Empty 1', []),
           createFolder('1102', '1100', 'Empty 2', []),
           createFolder('1103', '1100', 'Empty 3', [createFolder('1104', '1103', 'Empty Child', [])]),
         ]),
-      ]),
 
-      // Bookmarks Toolbar
-      createFolder('2', '0', 'Bookmarks Toolbar', [
-        createBookmark('61', '2', 'Gmail', 'https://gmail.com'),
-        createBookmark('62', '2', 'Calendar', 'https://calendar.google.com'),
-        createBookmark('63', '2', 'Google Drive', 'https://drive.google.com'),
-        createBookmark('64', '2', 'Keep', 'https://keep.google.com'),
-      ]),
-
-      // Other Bookmarks - Large folder
-      createFolder('3', '0', 'Other Bookmarks', [
-        createBookmark('21', '3', 'Duplicate ID Bookmark', 'https://duplicate.example.com/'),
-        createFolder('40', '3', '⚙️ Tools & Utilities', [
+        createBookmark('21', '2', 'Duplicate ID Bookmark', 'https://duplicate.example.com/'),
+        createFolder('40', '2', '⚙️ Tools & Utilities', [
           createBookmark('41', '40', 'JSON Formatter', 'https://jsonformatter.org'),
           createBookmark('42', '40', 'RegExr', 'https://regexr.com'),
           createBookmark('43', '40', 'Lorem Ipsum Generator', 'https://lipsum.com'),
           createBookmark('44', '40', 'UUID Generator', 'https://www.uuidgenerator.net'),
           createBookmark('45', '40', 'Base64 Encoder', 'https://www.base64encode.org'),
         ]),
-        createFolder('46', '3', '🎨 Design Inspiration', [
+        createFolder('46', '2', '🎨 Design Inspiration', [
           createBookmark('47', '46', 'Dribbble', 'https://dribbble.com'),
           createBookmark('48', '46', 'Behance', 'https://www.behance.net/'),
         ]),
-        createFolder('49', '3', '📦 Package Managers', [
+        createFolder('49', '2', '📦 Package Managers', [
           createBookmark('50', '49', 'npm', 'https://www.npmjs.com'),
           createBookmark('51', '49', 'Yarn', 'https://yarnpkg.com'),
           createBookmark('52', '49', 'pnpm', 'https://pnpm.io'),
         ]),
-        createFolder('1200', '3', '🌍 International Sites', [
+        createFolder('1200', '2', '🌍 International Sites', [
           createFolder('1201', '1200', 'European Sites', [
             createBookmark('1202', '1201', 'BBC', 'https://www.bbc.com'),
             createBookmark('1203', '1201', 'The Guardian', 'https://www.theguardian.com'),
@@ -314,8 +329,6 @@ export const mockData: IBookmarkItem[] = [
       createBookmark('73', '0', 'Loose Bookmark 4', 'https://example4.com'),
       createBookmark('74', '0', 'Loose Bookmark 5', 'https://example5.com'),
     ],
-    dateAdded: Date.now(),
-    id: '0',
-    title: '',
+    syncing: false,
   },
 ];

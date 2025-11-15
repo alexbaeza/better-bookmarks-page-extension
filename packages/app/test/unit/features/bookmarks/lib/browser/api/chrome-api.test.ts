@@ -1,6 +1,7 @@
 import { vi } from 'vitest';
 
 import { ChromeBookmarkAPI } from '@/features/bookmarks/lib/browser/api/chrome-api';
+import { generateMockChromeBookmarkTree } from '~test/mocks/bookmark-data';
 
 const mockChromeBookmarks = {
   create: vi.fn(),
@@ -64,54 +65,31 @@ describe('ChromeBookmarkAPI', () => {
   });
 
   describe('getBookmarksTree', () => {
-    it('returns normalized bookmark tree', async () => {
-      const mockTree = [
-        {
-          children: [
-            {
-              children: [
-                {
-                  children: [
-                    {
-                      id: '3',
-                      title: 'Google',
-                      url: 'https://google.com',
-                    },
-                  ],
-                  id: '2',
-                  title: 'Test Folder',
-                },
-                {
-                  id: '4',
-                  title: 'Loose Bookmark',
-                  url: 'https://example.com',
-                },
-              ],
-              id: '1',
-              title: 'Bookmarks Menu',
-            },
-            {
-              children: [],
-              id: '5',
-              title: 'Bookmarks Toolbar',
-            },
-          ],
-          id: '0',
-          title: 'Root',
-        },
-      ];
+    it('returns normalized bookmark tree with all default folders', async () => {
+      const mockTree = generateMockChromeBookmarkTree();
 
       mockChromeBookmarks.getTree.mockResolvedValue(mockTree);
 
       const result = await api.getBookmarksTree();
 
       expect(mockChromeBookmarks.getTree).toHaveBeenCalledTimes(1);
-      expect(result.folders).toHaveLength(1);
-      expect(result.folders[0].id).toBe('2');
-      expect(result.folders[0].title).toBe('Test Folder');
-      expect(result.folders[0].children).toHaveLength(1);
-      expect(result.uncategorized).toBeDefined();
-      expect(result.uncategorized?.children).toHaveLength(1);
+
+      // Should have filtered folders Bookmarks Bar and Other Bookmarks
+      expect(result.folders.length).toBe(3);
+
+      // Verify folders are correctly extracted
+      const folderIds = result.folders.map((f) => f.id);
+      expect(folderIds).toContain('bar-folder-1');
+      expect(folderIds).toContain('other-folder-1');
+      expect(folderIds).toContain('other-folder-2');
+
+      expect(result.uncategorized).not.toBeUndefined();
+
+      // biome-ignore lint/style/noNonNullAssertion: Assertion above checks that uncategorized is not undefined
+      const uncategorizedIds = result!.uncategorized!.children?.map((b) => b.id) || [];
+      expect(uncategorizedIds).toContain('bar-bookmark-3');
+      expect(uncategorizedIds).toContain('other-bookmark-4');
+      expect(uncategorizedIds).toContain('other-bookmark-5');
     });
 
     it('handles empty bookmark tree', async () => {

@@ -1,5 +1,15 @@
 import type { BrowserBookmarkAPI, NormalizedBookmarkItem, NormalizedBookmarkTree } from '../types';
+import type { MockBookmarksAPI } from './mock-bookmarks-api';
 
+const BUILT_IN_FOLDER_IDS = new Set([
+  'root________', // Root Folder
+  'menu________', // Bookmarks Menu
+  'toolbar_____', // Bookmarks Toolbar
+  'unfiled_____', // Other Bookmarks
+  'mobile______', // Mobile Bookmarks
+]);
+
+export type FirefoxBookmarks = browser.bookmarks.BookmarkTreeNode;
 /**
  * Firefox-specific implementation of the browser bookmark API
  * Accepts an optional mock bookmarks API for testing/development
@@ -7,10 +17,10 @@ import type { BrowserBookmarkAPI, NormalizedBookmarkItem, NormalizedBookmarkTree
 export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
   private browser: typeof window.browser;
 
-  constructor(mockBookmarks?: typeof window.browser.bookmarks) {
+  constructor(mockBookmarks?: MockBookmarksAPI) {
     if (mockBookmarks) {
       // Use mock API (for dev/test environments)
-      this.browser = { bookmarks: mockBookmarks } as typeof window.browser;
+      this.browser = { bookmarks: mockBookmarks } as unknown as typeof window.browser;
     } else {
       // Use real Firefox API
       this.browser = (window as typeof window & { browser: typeof window.browser }).browser;
@@ -24,56 +34,29 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
     const tree = await this.browser.bookmarks.getTree();
     const root = tree[0];
 
-    // Flatten only direct children of default browser folders
-    const allBookmarks: NormalizedBookmarkItem[] = [];
-    const allFolders: NormalizedBookmarkItem[] = [];
+    const isBuiltInFolder = (node: browser.bookmarks.BookmarkTreeNode): boolean => BUILT_IN_FOLDER_IDS.has(node.id);
 
-    const isDefaultFolder = (node: browser.bookmarks.BookmarkTreeNode): boolean =>
-      node.title === 'Bookmarks Menu' || node.title === 'Bookmarks Toolbar' || node.title === 'Other Bookmarks';
+    // Get built-in folders (direct children of root)
+    const builtInFolders = (root.children ?? []).filter(isBuiltInFolder);
 
-    const processNode = (node: browser.bookmarks.BookmarkTreeNode, parentIsDefault: boolean) => {
-      // Skip the root and default containers themselves; mark their children as under default
-      if (node.id === root.id || isDefaultFolder(node)) {
-        if (node.children) {
-          const underDefault = isDefaultFolder(node);
-          for (const child of node.children) {
-            processNode(child, underDefault);
-          }
-        }
-        return;
-      }
+    // Get direct children of built-in folders
+    const nodesUnderBuiltIn = builtInFolders.flatMap((folder) => folder.children ?? []);
 
-      const normalized = this.normalizeBookmarkItem(node);
+    // Separate folders and bookmarks
+    const allFolders = nodesUnderBuiltIn
+      .filter((node) => node.children)
+      .map((node) => this.normalizeBookmarkItem(node));
 
-      if (node.children) {
-        // Only expose folders that are direct children of default containers
-        if (parentIsDefault) {
-          allFolders.push(normalized);
-        }
-        if (node.children) {
-          for (const child of node.children) {
-            processNode(child, false);
-          }
-        }
-      } else if (node.url) {
-        // Only expose loose bookmarks directly under default containers as uncategorized
-        if (parentIsDefault) {
-          allBookmarks.push(normalized);
-        }
-      }
-    };
-
-    // Process the entire tree starting at root
-    processNode(root, false);
+    const allBookmarks = nodesUnderBuiltIn.filter((node) => node.url).map((node) => this.normalizeBookmarkItem(node));
 
     return {
       folders: allFolders,
       uncategorized:
         allBookmarks.length > 0
           ? {
-              children: allBookmarks,
               id: 'uncategorized',
               title: 'Uncategorized',
+              children: allBookmarks,
             }
           : undefined,
     };
