@@ -18,8 +18,8 @@ export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ fo
     // Default to a reasonable width if containerWidth is 0
     const width = containerWidth || 1200;
     // Match Tailwind breakpoints: sm:640, md:768, lg:1024, 2xl:1536
-    if (width >= 1536) return 4; // 2xl
-    if (width >= 1024) return 3; // lg
+    if (width >= 1536) return 5; // 2xl
+    if (width >= 1024) return 4; // lg
     if (width >= 768) return 2; // md
     if (width >= 640) return 1; // sm
     return 1; // default
