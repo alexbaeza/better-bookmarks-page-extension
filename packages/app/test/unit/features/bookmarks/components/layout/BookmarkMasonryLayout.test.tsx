@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { BookmarkMasonryLayout } from '@/features/bookmarks/components/layout/BookmarkMasonryLayout';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
@@ -7,29 +7,32 @@ import { AllProviders } from '~test/test-utils';
 const mockUseContainerWidth = vi.fn();
 const mockUseMasonryLayout = vi.fn();
 
+type MockColumnProps = {
+  folderId: string;
+  name: string;
+  folderContents: IBookmarkItem[];
+  onHeightChange?: (folderId: string, height: number) => void;
+};
+
+const renderMockColumn = ({ folderId, name, folderContents }: MockColumnProps) => (
+  <div data-testid={`masonry-column-${folderId}`}>
+    <h2>{name}</h2>
+    <span>Items: {folderContents.length}</span>
+  </div>
+);
+
+const mockBookmarkMasonryColumn = vi.fn(renderMockColumn);
+
 vi.mock('@/features/bookmarks/hooks/useContainerWidth', () => ({
   useContainerWidth: () => mockUseContainerWidth(),
 }));
 
 vi.mock('@/features/bookmarks/hooks/useMasonryLayout', () => ({
-  useMasonryLayout: () => mockUseMasonryLayout(),
+  useMasonryLayout: (...args: any[]) => mockUseMasonryLayout(...args),
 }));
 
 vi.mock('@/features/bookmarks/components/layout/BookmarkMasonryColumn', () => ({
-  BookmarkMasonryColumn: ({
-    folderId,
-    name,
-    folderContents,
-  }: {
-    folderId: string;
-    name: string;
-    folderContents: IBookmarkItem[];
-  }) => (
-    <div data-testid={`masonry-column-${folderId}`}>
-      <h2>{name}</h2>
-      <span>Items: {folderContents.length}</span>
-    </div>
-  ),
+  BookmarkMasonryColumn: (props: MockColumnProps) => mockBookmarkMasonryColumn(props),
 }));
 
 const mockFolders: IBookmarkItem[] = [
@@ -56,6 +59,7 @@ const mockFolders: IBookmarkItem[] = [
 describe('BookmarkMasonryLayout', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockBookmarkMasonryColumn.mockImplementation(renderMockColumn);
     mockUseContainerWidth.mockReturnValue({ containerWidth: 1200, containerRef: vi.fn() });
     mockUseMasonryLayout.mockReturnValue([
       { items: [mockFolders[0]], key: 'column-0' },
@@ -64,28 +68,88 @@ describe('BookmarkMasonryLayout', () => {
     ]);
   });
 
-  it('renders single folder without masonry layout when folders length <= 1', () => {
-    render(
-      <AllProviders>
-        <BookmarkMasonryLayout folders={[mockFolders[0]]} />
-      </AllProviders>
-    );
+  describe('height estimation', () => {
+    it('provides getItemHeight estimation to useMasonryLayout', () => {
+      const capturedHeightGetter = vi.fn<(folder: IBookmarkItem) => number>();
 
-    expect(screen.getByTestId('masonry-column-folder1')).toBeInTheDocument();
-    expect(screen.getByText('Folder 1')).toBeInTheDocument();
-    expect(screen.getByText('Items: 2')).toBeInTheDocument();
+      mockUseMasonryLayout.mockImplementationOnce((_items, _options, getItemHeight) => {
+        capturedHeightGetter.mockImplementation(getItemHeight);
+        return [
+          { items: [mockFolders[0]], key: 'column-0' },
+          { items: [mockFolders[1]], key: 'column-1' },
+          { items: [mockFolders[2]], key: 'column-2' },
+        ];
+      });
+
+      render(
+        <AllProviders>
+          <BookmarkMasonryLayout folders={mockFolders} />
+        </AllProviders>
+      );
+
+      expect(capturedHeightGetter(mockFolders[0])).toBe(292); // 180 header/padding + 2 children * 56 each
+    });
+
+    it('updates item heights when columns report measurements', () => {
+      const capturedHeightGetter = vi.fn<(folder: IBookmarkItem) => number>();
+
+      mockUseMasonryLayout.mockImplementation((_items, _options, getItemHeight) => {
+        capturedHeightGetter.mockImplementation(getItemHeight);
+        return [
+          { items: [mockFolders[0]], key: 'column-0' },
+          { items: [mockFolders[1]], key: 'column-1' },
+          { items: [mockFolders[2]], key: 'column-2' },
+        ];
+      });
+
+      const reportHeight = vi.fn();
+
+      mockBookmarkMasonryColumn.mockImplementationOnce((props: MockColumnProps) => {
+        if (props.folderId === 'folder1' && props.onHeightChange) {
+          reportHeight.mockImplementation((height: number) => props.onHeightChange?.(props.folderId, height));
+        }
+        return renderMockColumn(props);
+      });
+
+      render(
+        <AllProviders>
+          <BookmarkMasonryLayout folders={mockFolders} />
+        </AllProviders>
+      );
+
+      act(() => {
+        reportHeight(500);
+      });
+
+      expect(reportHeight).toHaveBeenCalledWith(500);
+      expect(capturedHeightGetter(mockFolders[0])).toBe(500);
+    });
   });
 
-  it('renders multiple folders with masonry layout when folders length > 1', () => {
-    render(
-      <AllProviders>
-        <BookmarkMasonryLayout folders={mockFolders} />
-      </AllProviders>
-    );
+  describe('rendering scenarios', () => {
+    it('renders single folder without masonry layout when folders length <= 1', () => {
+      render(
+        <AllProviders>
+          <BookmarkMasonryLayout folders={[mockFolders[0]]} />
+        </AllProviders>
+      );
 
-    expect(screen.getByTestId('masonry-column-folder1')).toBeInTheDocument();
-    expect(screen.getByTestId('masonry-column-folder2')).toBeInTheDocument();
-    expect(screen.getByTestId('masonry-column-folder3')).toBeInTheDocument();
+      expect(screen.getByTestId('masonry-column-folder1')).toBeInTheDocument();
+      expect(screen.getByText('Folder 1')).toBeInTheDocument();
+      expect(screen.getByText('Items: 2')).toBeInTheDocument();
+    });
+
+    it('renders multiple folders with masonry layout when folders length > 1', () => {
+      render(
+        <AllProviders>
+          <BookmarkMasonryLayout folders={mockFolders} />
+        </AllProviders>
+      );
+
+      expect(screen.getByTestId('masonry-column-folder1')).toBeInTheDocument();
+      expect(screen.getByTestId('masonry-column-folder2')).toBeInTheDocument();
+      expect(screen.getByTestId('masonry-column-folder3')).toBeInTheDocument();
+    });
   });
 
   it.each([
@@ -96,12 +160,15 @@ describe('BookmarkMasonryLayout', () => {
     [1600, 4, '>= 1536'],
   ])('calculates correct column count (%i px width = %i columns) for %s', (width, expectedColumns) => {
     mockUseContainerWidth.mockReturnValue({ containerWidth: width, containerRef: vi.fn() });
-    mockUseMasonryLayout.mockReturnValue(
-      Array.from({ length: expectedColumns }, (_, i) => ({
-        items: [mockFolders[i % mockFolders.length]].filter(Boolean),
+    const mockedColumns = Array.from({ length: expectedColumns }, (_, i) => {
+      const folder = mockFolders[i % mockFolders.length];
+      return {
+        items: folder ? [folder] : [],
         key: `column-${i}`,
-      }))
-    );
+      };
+    });
+
+    mockUseMasonryLayout.mockReturnValue(mockedColumns);
 
     render(
       <AllProviders>
@@ -109,7 +176,7 @@ describe('BookmarkMasonryLayout', () => {
       </AllProviders>
     );
 
-    const columns = document.querySelectorAll('.flex.min-w-0.flex-col.gap-4');
+    const columns = screen.getAllByTestId(/masonry-grid-column-/);
     expect(columns).toHaveLength(expectedColumns);
   });
 
@@ -159,30 +226,35 @@ describe('BookmarkMasonryLayout', () => {
     expect(screen.getByTestId('masonry-column-folder2')).toBeInTheDocument();
   });
 
-  it('applies correct CSS classes for grid layout', () => {
+  it('sets grid classes on grid container', () => {
     render(
       <AllProviders>
         <BookmarkMasonryLayout folders={mockFolders} />
       </AllProviders>
     );
 
-    const gridContainer = document.querySelector(
-      '.grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3.2xl\\:grid-cols-4.gap-4'
+    const gridContainer = screen.getByTestId('bookmark-masonry-grid');
+    expect(gridContainer).toHaveClass(
+      'grid',
+      'grid-cols-1',
+      'md:grid-cols-2',
+      'lg:grid-cols-3',
+      '2xl:grid-cols-4',
+      'gap-4'
     );
-    expect(gridContainer).toBeInTheDocument();
   });
 
-  it('handles empty folders array', () => {
+  it('renders wrapper even when folders array is empty', () => {
     render(
       <AllProviders>
         <BookmarkMasonryLayout folders={[]} />
       </AllProviders>
     );
 
-    expect(document.querySelector('.w-full.p-4')).toBeInTheDocument();
+    expect(screen.getByTestId('bookmark-masonry-wrapper')).toBeInTheDocument();
   });
 
-  it('passes container ref to the container element', () => {
+  it('assigns container ref to the wrapper element', () => {
     const mockRef = vi.fn();
     mockUseContainerWidth.mockReturnValue({ containerWidth: 1200, containerRef: mockRef });
 
@@ -192,7 +264,6 @@ describe('BookmarkMasonryLayout', () => {
       </AllProviders>
     );
 
-    const container = document.querySelector('.w-full.p-4');
-    expect(container).toBeInTheDocument();
+    expect(mockRef).toHaveBeenCalledWith(expect.any(HTMLDivElement));
   });
 });

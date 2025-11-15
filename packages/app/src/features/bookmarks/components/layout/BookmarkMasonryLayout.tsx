@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useContainerWidth } from '@/features/bookmarks/hooks/useContainerWidth';
 import type { MasonryColumn } from '@/features/bookmarks/hooks/useMasonryLayout';
 import { useMasonryLayout } from '@/features/bookmarks/hooks/useMasonryLayout';
@@ -12,6 +12,7 @@ export interface BookmarkMasonryLayoutProps {
 
 export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ folders }) => {
   const { containerWidth, containerRef } = useContainerWidth();
+  const [folderHeights, setFolderHeights] = useState<Record<string, number>>({});
 
   // Calculate column count based on container width
   const columnCount = useMemo(() => {
@@ -25,11 +26,37 @@ export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ fo
     return 1; // default
   }, [containerWidth]);
 
+  const estimateFolderHeight = useCallback((folder: IBookmarkItem) => {
+    const childCount = folder.children?.length ?? 0;
+    const baseHeight = 180; // header + padding
+    const perChildHeight = 56; // approx height per bookmark card
+    return baseHeight + childCount * perChildHeight;
+  }, []);
+
+  const handleHeightChange = useCallback((id: string, height: number) => {
+    setFolderHeights((prev) => {
+      const current = prev[id];
+      if (current && Math.abs(current - height) < 1) {
+        return prev;
+      }
+      return { ...prev, [id]: height };
+    });
+  }, []);
+
+  const getItemHeight = useCallback(
+    (folder: IBookmarkItem) => folderHeights[folder.id] ?? estimateFolderHeight(folder),
+    [folderHeights, estimateFolderHeight]
+  );
+
   // Use masonry layout to distribute folders across columns
-  const masonryColumns = useMasonryLayout(folders, {
-    columnCount,
-    gap: 16, // 1rem = 16px
-  });
+  const masonryColumns = useMasonryLayout(
+    folders,
+    {
+      columnCount,
+      gap: 16, // 1rem = 16px
+    },
+    getItemHeight
+  );
 
   // Get Tailwind grid column classes for responsive breakpoints
   // Ensure all columns have equal width by always rendering all columns
@@ -56,13 +83,14 @@ export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ fo
 
   if (folders.length <= 1) {
     return (
-      <div className="w-full p-4">
+      <div className="w-full p-4" data-testid="bookmark-masonry-wrapper">
         {folders.map((folder) => (
           <BookmarkMasonryColumn
             folderContents={folder.children ?? []}
             folderId={folder.id}
             key={String(folder.id)}
             name={folder.title}
+            onHeightChange={handleHeightChange}
           />
         ))}
       </div>
@@ -70,16 +98,22 @@ export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ fo
   }
 
   return (
-    <div className="w-full p-4" ref={containerRef}>
-      <div className={gridColsClass}>
+    <div className="w-full p-4" data-testid="bookmark-masonry-wrapper" ref={containerRef}>
+      <div className={gridColsClass} data-testid="bookmark-masonry-grid">
         {columns.map((column) => (
-          <div className="flex min-w-0 flex-col gap-4" key={column.key}>
-            {column.items.map((folder) => (
+          <div
+            className="flex min-w-0 flex-col gap-4"
+            data-testid={`masonry-grid-column-${column.key}`}
+            key={column.key}
+          >
+            {column.items.map((folder, i) => (
               <BookmarkMasonryColumn
+                data-testid={`bookmark-masonry-grid-${i}`}
                 folderContents={folder.children ?? []}
                 folderId={folder.id}
                 key={String(folder.id)}
                 name={folder.title}
+                onHeightChange={handleHeightChange}
               />
             ))}
           </div>
