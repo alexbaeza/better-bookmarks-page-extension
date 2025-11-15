@@ -3,6 +3,11 @@ import { describe, expect, it, vi } from 'vitest';
 import { BookmarkGridItem } from '@/features/bookmarks/components/items/grid/BookmarkGridItem';
 import { AllProviders } from '~test/test-utils';
 
+// Mock react-dnd hooks to avoid drag-drop context issues in tests
+vi.mock('react-dnd', () => ({
+  useDrop: () => [{ isOver: false, canDrop: false }, vi.fn()],
+}));
+
 vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
   useBookmarkNavigation: () => ({
     navigateToFolder: vi.fn(),
