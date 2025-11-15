@@ -2,6 +2,38 @@ import { useEffect, useState } from 'react';
 
 import { usePlatform } from './usePlatform';
 
+function normalizeKey(key: string): string {
+  return key === 'control' ? 'ctrl' : key === 'meta' ? 'meta' : key.toLowerCase();
+}
+
+function addModifierKeys(pressedKeys: Set<string>, isMac: boolean, event: KeyboardEvent): void {
+  // Track modifier keys via flags
+  if (isMac && event.metaKey) {
+    pressedKeys.add('meta');
+  } else if (event.ctrlKey) {
+    pressedKeys.add('ctrl');
+  }
+  if (event.shiftKey) {
+    pressedKeys.add('shift');
+  }
+}
+
+function removeModifierKeys(pressedKeys: Set<string>, event: KeyboardEvent): void {
+  // Remove modifier keys based on flags
+  if (!event.metaKey) pressedKeys.delete('meta');
+  if (!event.ctrlKey) pressedKeys.delete('ctrl');
+  if (!event.shiftKey) pressedKeys.delete('shift');
+}
+
+function clearStuckKeys(pressedKeys: Set<string>, normalizedTargetKeys: string[]): void {
+  // Clear regular keys to prevent stuck keys (not modifier keys themselves)
+  normalizedTargetKeys.forEach((targetKey) => {
+    if (targetKey !== 'meta' && targetKey !== 'ctrl' && targetKey !== 'shift') {
+      pressedKeys.delete(targetKey);
+    }
+  });
+}
+
 /**
  * Hook to track keyboard state for specific keys
  * Useful for highlighting keyboard shortcuts as they're pressed
@@ -20,18 +52,10 @@ export function useKeyboardState(targetKeys: string[]): Set<string> {
       setPressedKeys((prev) => {
         const next = new Set(prev);
 
-        // Track modifier keys via flags
-        if (isMac && event.metaKey) {
-          next.add('meta');
-        } else if (event.ctrlKey) {
-          next.add('ctrl');
-        }
-        if (event.shiftKey) {
-          next.add('shift');
-        }
+        addModifierKeys(next, isMac, event);
 
         // Track regular keys (case-insensitive, normalized to lowercase)
-        const normalizedKey = key === 'control' ? 'ctrl' : key === 'meta' ? 'meta' : key;
+        const normalizedKey = normalizeKey(key);
         if (normalizedTargetKeys.includes(normalizedKey)) {
           next.add(normalizedKey);
         }
@@ -46,25 +70,17 @@ export function useKeyboardState(targetKeys: string[]): Set<string> {
       setPressedKeys((prev) => {
         const next = new Set(prev);
 
-        // Remove modifier keys based on flags
-        if (!event.metaKey) next.delete('meta');
-        if (!event.ctrlKey) next.delete('ctrl');
-        if (!event.shiftKey) next.delete('shift');
+        removeModifierKeys(next, event);
 
         // Remove regular keys (case-insensitive)
-        const normalizedKey = key === 'control' ? 'ctrl' : key === 'meta' ? 'meta' : key.toLowerCase();
+        const normalizedKey = normalizeKey(key);
         if (normalizedTargetKeys.includes(normalizedKey)) {
           next.delete(normalizedKey);
         }
 
         // If no modifiers are pressed, also clear regular keys to prevent stuck keys
-        if (!event.metaKey && !event.ctrlKey && !event.shiftKey) {
-          normalizedTargetKeys.forEach((targetKey) => {
-            // Only clear regular keys (not modifier keys themselves)
-            if (targetKey !== 'meta' && targetKey !== 'ctrl' && targetKey !== 'shift') {
-              next.delete(targetKey);
-            }
-          });
+        if (!(event.metaKey || event.ctrlKey || event.shiftKey)) {
+          clearStuckKeys(next, normalizedTargetKeys);
         }
 
         return next;

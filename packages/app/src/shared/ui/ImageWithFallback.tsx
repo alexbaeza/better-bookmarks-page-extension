@@ -30,7 +30,7 @@ export const ImageWithFallback = ({
   }, [src]);
 
   useEffect(() => {
-    if (!isFavicon || !src) {
+    if (!(isFavicon && src)) {
       setActualSrc(src);
       return;
     }

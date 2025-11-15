@@ -27,7 +27,7 @@ export function createBookmarkAPI(): BrowserBookmarkAPI {
 
   let useMockData = false;
   // In dev/test environment or when browser APIs are not available, use mock data
-  if (isDev || isTest || isCypressTest || (!hasChromeAPI && !hasBrowserAPI)) {
+  if (isDev || isTest || isCypressTest || !(hasChromeAPI || hasBrowserAPI)) {
     console.warn(
       `[Bookmarks API] Development mode: Using mock data with ${browserInfo.type === 'firefox' ? 'Firefox' : 'Chrome'} implementation`
     );

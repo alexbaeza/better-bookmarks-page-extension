@@ -58,7 +58,7 @@ function isUsingMockAPI(): boolean {
   const hasBrowserAPI = Boolean(g.browser?.bookmarks);
 
   // Using mock API if in test or if browser APIs are not available
-  return isTest || isCypressTest || (!hasChromeAPI && !hasBrowserAPI);
+  return isTest || isCypressTest || !(hasChromeAPI || hasBrowserAPI);
 }
 
 export async function getBookmarksData(): Promise<BookmarksData> {
