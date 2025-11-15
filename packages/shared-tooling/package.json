@@ -22,7 +22,7 @@
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^10.0.0",
-    "@semantic-release/npm": "^11.0.0",
+    "@semantic-release/npm": "^13.1.2",
     "conventional-changelog-cli": "^4.1.0",
     "husky": "^9.1.6",
     "semantic-release": "^23.0.0"
