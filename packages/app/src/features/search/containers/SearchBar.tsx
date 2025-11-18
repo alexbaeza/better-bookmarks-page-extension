@@ -49,7 +49,7 @@ export const SearchBar: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full p-6">
       <SearchInput
         data-testid="search-input"
         onChange={setSearchTerm}
