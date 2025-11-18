@@ -38,6 +38,7 @@ const CHROME_ID_TO_FOLDER_TYPE_MAP: Record<string, string> = {
  * Note: This implements the browser API interface, not BrowserBookmarkAPI
  * Loads browser-specific mock data based on the browser type passed to the constructor
  */
+//TODO: Should find a way to get rid of this as it causes inconsistent behaviour between real apis and it's difficult to mantain and keep up to date
 class MockBookmarksAPI {
   private data: IBookmarkItem[] = [];
   private listeners: Set<(id: string, changeInfo: { title?: string; url?: string }) => void> = new Set();
@@ -467,7 +468,21 @@ class MockBookmarksAPI {
         | browser.bookmarks.BookmarkTreeNode;
     }
 
-    // Reorder the raw children array
+    // Simulate real Chrome/Firefox API behavior:
+    // The index parameter is interpreted relative to the array BEFORE the item is removed.
+    // This means:
+    // - Remove item at currentIndex
+    // - Insert at destinationIndex
+    // - The insertion index naturally ends up one less than specified when moving down
+    //   because the removal shifted items left
+    //
+    // Example: [A, B, C, D] move B (index 1) to index 3
+    // - Remove B: [A, C, D]
+    // - Insert at 3: [A, C, D, B] ✓ (B is now at index 3)
+    //
+    // Example: [A, B, C, D] move C (index 2) to index 0
+    // - Remove C: [A, B, D]
+    // - Insert at 0: [C, A, B, D] ✓ (C is now at index 0)
     const [movedItem] = folder.children.splice(currentIndex, 1);
     folder.children.splice(destinationIndex, 0, movedItem);
 
@@ -497,11 +512,33 @@ class MockBookmarksAPI {
       orderingService.setOrder(fromParentId, filteredOrder);
     }
 
-    // Add to new parent at specified index
+    // Add to new parent at specified index (or end if undefined)
     this.addToParent(toParentId, bookmark, destinationIndex);
 
-    // Update ordering service
-    orderingService.moveItem(bookmark.id, fromParentId || 'root', toParentId, destinationIndex ?? 0);
+    // Get the actual index where the bookmark was added
+    const parent = this.findById(toParentId);
+    const actualIndex = parent?.children?.findIndex((child) => child.id === bookmark.id) ?? 0;
+
+    // Update ordering service with the actual index
+    orderingService.moveItem(bookmark.id, fromParentId || 'root', toParentId, actualIndex);
+
+    // IMPORTANT: Ensure destination folder ordering includes all children
+    // After moveItem, the ordering service should have the moved item,
+    // but we need to ensure ALL other children are also in the ordering
+    if (parent?.children) {
+      const currentOrder = orderingService.getOrder(toParentId);
+      const actualChildIds = parent.children.map((child) => child.id);
+
+      // Find children that exist in raw data but not in ordering
+      const missingIds = actualChildIds.filter((id) => !currentOrder.includes(id));
+
+      if (missingIds.length > 0) {
+        // Add missing IDs to ordering while preserving existing order
+        // Append missing IDs at the end
+        const updatedOrder = [...currentOrder, ...missingIds];
+        orderingService.setOrder(toParentId, updatedOrder);
+      }
+    }
   }
 
   private updateDestinationFolderTimestamp(parentId: string): void {
@@ -534,10 +571,15 @@ class MockBookmarksAPI {
       result = this.handleSameFolderMove(bookmark, toParentId, destination.index);
     } else {
       // Cross-folder move or move to end
-      this.handleCrossFolderMove(bookmark, fromParentId, toParentId, destination.index);
+      this.handleCrossFolderMove(bookmark, fromParentId ?? undefined, toParentId, destination.index);
       result = this.toBookmarkTreeNode(bookmark) as
         | chrome.bookmarks.BookmarkTreeNode
         | browser.bookmarks.BookmarkTreeNode;
+
+      // Update dateGroupModified for source folder (item was removed)
+      if (fromParentId) {
+        this.updateDestinationFolderTimestamp(fromParentId);
+      }
     }
 
     // Update dateGroupModified for destination folder

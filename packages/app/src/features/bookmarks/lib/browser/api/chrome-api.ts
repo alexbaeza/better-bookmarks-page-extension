@@ -1,4 +1,5 @@
-import type { BrowserBookmarkAPI, NormalizedBookmarkItem, NormalizedBookmarkTree } from '../types';
+import type { IBookmarkItem } from '@/shared/types/bookmarks';
+import type { BookmarkTree, BrowserBookmarkAPI } from '../types';
 import type { MockBookmarksAPI } from './mock-bookmarks-api';
 
 export type ChromeBookmarks = chrome.bookmarks.BookmarkTreeNode;
@@ -22,7 +23,7 @@ export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
     }
   }
 
-  async getBookmarksTree(): Promise<NormalizedBookmarkTree> {
+  async getBookmarksTree(): Promise<BookmarkTree> {
     const tree = await this.chrome.bookmarks.getTree();
     const root = tree[0];
 
@@ -45,7 +46,7 @@ export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
 
     const allBookmarks = nodesUnderBuiltIn.filter((node) => node.url).map((node) => this.normalizeBookmarkItem(node));
 
-    return {
+    const treeData: BookmarkTree = {
       folders: allFolders,
       uncategorized:
         allBookmarks.length > 0
@@ -56,12 +57,11 @@ export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
             }
           : undefined,
     };
+
+    return treeData;
   }
 
-  async createBookmark(
-    parentId: string | null,
-    details: { title: string; url?: string }
-  ): Promise<NormalizedBookmarkItem> {
+  async createBookmark(parentId: string | null, details: { title: string; url?: string }): Promise<IBookmarkItem> {
     const targetParent = parentId && parentId !== '' ? parentId : 'Uncategorized';
 
     const created = await this.chrome.bookmarks.create({
@@ -87,7 +87,7 @@ export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
     await this.chrome.bookmarks.removeTree(id);
   }
 
-  async updateBookmark(id: string, changes: { title?: string; url?: string }): Promise<NormalizedBookmarkItem> {
+  async updateBookmark(id: string, changes: { title?: string; url?: string }): Promise<IBookmarkItem> {
     const updated = await this.chrome.bookmarks.update(id, changes);
     return this.normalizeBookmarkItem(updated);
   }
@@ -99,7 +99,7 @@ export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
     });
   }
 
-  async getBookmark(id: string): Promise<NormalizedBookmarkItem | null> {
+  async getBookmark(id: string): Promise<IBookmarkItem | null> {
     try {
       const bookmarks = await this.chrome.bookmarks.get(id);
       return bookmarks.length > 0 ? this.normalizeBookmarkItem(bookmarks[0]) : null;
@@ -108,7 +108,7 @@ export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
     }
   }
 
-  async searchBookmarks(query: string): Promise<NormalizedBookmarkItem[]> {
+  async searchBookmarks(query: string): Promise<IBookmarkItem[]> {
     const results = await this.chrome.bookmarks.search({ query });
     return results.map(this.normalizeBookmarkItem);
   }
@@ -135,7 +135,7 @@ export class ChromeBookmarkAPI implements BrowserBookmarkAPI {
   /**
    * Normalize Chrome bookmark item to our standard format
    */
-  private normalizeBookmarkItem = (item: chrome.bookmarks.BookmarkTreeNode): NormalizedBookmarkItem => {
+  private normalizeBookmarkItem = (item: chrome.bookmarks.BookmarkTreeNode): IBookmarkItem => {
     return {
       children: item.children?.map(this.normalizeBookmarkItem),
       dateAdded: item.dateAdded,

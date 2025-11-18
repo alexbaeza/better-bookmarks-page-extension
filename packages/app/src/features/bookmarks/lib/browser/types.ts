@@ -1,22 +1,8 @@
-/**
- * Normalized bookmark data structure that works consistently across browsers
- */
-export interface NormalizedBookmarkItem {
-  id: string;
-  parentId?: string;
-  title: string;
-  url?: string;
-  children?: NormalizedBookmarkItem[];
-  dateAdded?: number;
-  dateGroupModified?: number;
-}
+import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
-/**
- * Normalized bookmark tree structure
- */
-export interface NormalizedBookmarkTree {
-  folders: NormalizedBookmarkItem[];
-  uncategorized?: NormalizedBookmarkItem;
+export interface BookmarkTree {
+  folders: IBookmarkItem[];
+  uncategorized?: IBookmarkItem;
 }
 
 /**
@@ -26,12 +12,12 @@ export interface BrowserBookmarkAPI {
   /**
    * Get the complete bookmark tree
    */
-  getBookmarksTree(): Promise<NormalizedBookmarkTree>;
+  getBookmarksTree(): Promise<BookmarkTree>;
 
   /**
    * Create a new bookmark
    */
-  createBookmark(parentId: string | null, details: { title: string; url?: string }): Promise<NormalizedBookmarkItem>;
+  createBookmark(parentId: string | null, details: { title: string; url?: string }): Promise<IBookmarkItem>;
 
   /**
    * Remove a bookmark by ID
@@ -41,7 +27,7 @@ export interface BrowserBookmarkAPI {
   /**
    * Update a bookmark
    */
-  updateBookmark(id: string, changes: { title?: string; url?: string }): Promise<NormalizedBookmarkItem>;
+  updateBookmark(id: string, changes: { title?: string; url?: string }): Promise<IBookmarkItem>;
 
   /**
    * Move a bookmark to a different parent with optional index
@@ -51,12 +37,12 @@ export interface BrowserBookmarkAPI {
   /**
    * Get bookmark by ID
    */
-  getBookmark(id: string): Promise<NormalizedBookmarkItem | null>;
+  getBookmark(id: string): Promise<IBookmarkItem | null>;
 
   /**
    * Search bookmarks
    */
-  searchBookmarks(query: string): Promise<NormalizedBookmarkItem[]>;
+  searchBookmarks(query: string): Promise<IBookmarkItem[]>;
 
   /**
    * Reorder items within a folder

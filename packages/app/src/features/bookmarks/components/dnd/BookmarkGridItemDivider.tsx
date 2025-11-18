@@ -7,7 +7,7 @@ import type { DraggableBookmarkItem } from '@/features/bookmarks/types/dnd';
 export interface BookmarkGridItemDividerProps {
   folderId: string;
   insertIndex: number;
-  onReorder: (fromIndex: number, toIndex: number) => void;
+  onReorder: (itemId: string, toIndex: number) => void;
   className?: string;
   dataTestId?: string;
   position?: 'left' | 'right';
@@ -30,18 +30,16 @@ export const BookmarkGridItemDivider: React.FC<BookmarkGridItemDividerProps> = (
     drop: (item) => {
       // Handle reordering within the same folder (both bookmarks and folders)
       if (item.folderId === folderId) {
+        // Use item ID instead of stale index - the reorder function will find the current index
         // The divider represents inserting at `insertIndex`
-        // After removing item at item.index, adjust target index if needed
-        let targetIndex = insertIndex;
-        if (item.index < insertIndex) {
-          // Dragging right: after removing item at item.index, items shift left
-          // So the insertIndex needs to be adjusted
-          targetIndex = insertIndex - 1;
-        }
+        // After removing the item, adjust target index if needed
+        const targetIndex = insertIndex;
+        // Note: We can't reliably use item.index here as it might be stale
+        // The reorder function will find the item's current index by ID
 
-        // Ensure valid index and different from source
-        if (targetIndex >= 0 && targetIndex !== item.index) {
-          onReorder(item.index, targetIndex);
+        // Ensure valid index
+        if (targetIndex >= 0) {
+          onReorder(item.id, targetIndex);
         }
       }
     },
@@ -50,9 +48,10 @@ export const BookmarkGridItemDivider: React.FC<BookmarkGridItemDividerProps> = (
       draggingItem: monitor.getItem<DraggableBookmarkItem>() ?? null,
     }),
     canDrop: (item) => {
-      // Allow dropping if it's the same folder (for reordering) and not the same position
+      // Allow dropping if it's the same folder (for reordering)
       // Both bookmarks and folders can be reordered
-      return item.folderId === folderId && item.index !== insertIndex && item.index !== insertIndex - 1;
+      // Note: We can't reliably check index here as it might be stale
+      return item.folderId === folderId;
     },
   });
 

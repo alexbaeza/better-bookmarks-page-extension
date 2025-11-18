@@ -1,27 +1,9 @@
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
 import { createBookmarkAPI } from './browser/factory';
-import type { BrowserBookmarkAPI, NormalizedBookmarkItem, NormalizedBookmarkTree } from './browser/types';
+import type { BookmarkTree, BrowserBookmarkAPI } from './browser/types';
 import { faviconFromUrl } from './favicon';
 import { orderingService } from './ordering-service';
-
-// Create browser API instance
-const browserAPI: BrowserBookmarkAPI = createBookmarkAPI();
-
-/**
- * Convert normalized bookmark item to our app's bookmark interface
- */
-function normalizeToAppFormat(item: NormalizedBookmarkItem): IBookmarkItem {
-  return {
-    children: item.children?.map(normalizeToAppFormat),
-    dateAdded: item.dateAdded,
-    dateGroupModified: item.dateGroupModified,
-    id: item.id,
-    parentId: item.parentId,
-    title: item.title,
-    url: item.url,
-  };
-}
 
 export interface BookmarksData {
   folders: IBookmarkItem[];
@@ -61,13 +43,13 @@ function isUsingMockAPI(): boolean {
   return isTest || isCypressTest || !(hasChromeAPI || hasBrowserAPI);
 }
 
-export async function getBookmarksData(): Promise<BookmarksData> {
+export async function loadBookmarksTree(): Promise<BookmarksData> {
   const browserAPI = getAPI();
   // Fetch fresh data from browser API (syncs with browser's bookmark state)
-  const tree: NormalizedBookmarkTree = await browserAPI.getBookmarksTree();
+  const tree: BookmarkTree = await browserAPI.getBookmarksTree();
 
-  const folders = tree.folders.map(normalizeToAppFormat);
-  const uncategorized = tree.uncategorized ? normalizeToAppFormat(tree.uncategorized) : undefined;
+  const folders = tree.folders;
+  const uncategorized = tree.uncategorized ?? undefined;
 
   const usingMock = isUsingMockAPI();
 
@@ -109,41 +91,48 @@ export async function getBookmarksData(): Promise<BookmarksData> {
   };
 }
 
-export async function create(
+export async function createBookmark(
   parentId: string | null,
   details: { title: string; url?: string }
 ): Promise<IBookmarkItem> {
   const browserAPI = getAPI();
-  const created: NormalizedBookmarkItem = await browserAPI.createBookmark(parentId, details);
-  return normalizeToAppFormat(created);
+  const created = await browserAPI.createBookmark(parentId, details);
+  return created;
 }
 
-export async function remove(id: string): Promise<void> {
+export async function removeBookmark(id: string): Promise<void> {
   const browserAPI = getAPI();
   await browserAPI.removeBookmark(id);
 }
 
-export async function update(id: string, changes: { title?: string; url?: string }): Promise<IBookmarkItem> {
+export async function updateBookmark(id: string, changes: { title?: string; url?: string }): Promise<IBookmarkItem> {
   const browserAPI = getAPI();
-  const updated: NormalizedBookmarkItem = await browserAPI.updateBookmark(id, changes);
-  return normalizeToAppFormat(updated);
+  const updated = await browserAPI.updateBookmark(id, changes);
+  return updated;
 }
 
-export async function move(id: string, dest: { parentId: string; index?: number }): Promise<void> {
+export async function moveBookmark(id: string, dest: { parentId: string; index?: number }): Promise<void> {
   const browserAPI = getAPI();
   await browserAPI.moveBookmark(id, dest.parentId, dest.index);
 }
 
-export async function get(id: string): Promise<IBookmarkItem | null> {
+export async function getBookmarkById(id: string): Promise<IBookmarkItem | null> {
   const browserAPI = getAPI();
   const bookmark = await browserAPI.getBookmark(id);
-  return bookmark ? normalizeToAppFormat(bookmark) : null;
+  if (!bookmark) {
+    return null;
+  }
+
+  // Apply ordering to ensure children are in the correct order
+  const ordered = orderingService.applyOrdering([bookmark as IBookmarkItem])[0];
+
+  return ordered;
 }
 
-export async function search(query: string): Promise<IBookmarkItem[]> {
+export async function searchBookmarks(query: string): Promise<IBookmarkItem[]> {
   const browserAPI = getAPI();
   const results = await browserAPI.searchBookmarks(query);
-  return results.map(normalizeToAppFormat);
+  return results as IBookmarkItem[];
 }
 
 /**
@@ -172,12 +161,26 @@ export async function moveItem(
 /**
  * Reorder items within the same folder
  */
-export async function reorderItems(folderId: string, fromIndex: number, toIndex: number): Promise<void> {
-  // Update the ordering service first for immediate UI feedback
-  orderingService.reorderItems(folderId, fromIndex, toIndex);
+export async function reorderItemsById(folderId: string, itemId: string, toIndex: number): Promise<void> {
+  const folder = await getBookmarkById(folderId);
+  if (!folder) {
+    throw new Error(`Folder ${folderId} not found`);
+  }
 
-  // Then update the browser API
-  await browserAPI.reorderItems(folderId, fromIndex, toIndex);
+  const orderedChildren = folder.children || [];
+  const currentFromIndex = orderedChildren.findIndex((child) => child.id === itemId);
+  if (currentFromIndex === -1) {
+    throw new Error(`Item ${itemId} not found in folder ${folderId}`);
+  }
+
+  // Adjust target index when dragging right (removing item shifts indices left)
+  const adjustedToIndex = currentFromIndex < toIndex ? toIndex - 1 : toIndex;
+
+  if (currentFromIndex === adjustedToIndex) {
+    return;
+  }
+
+  orderingService.reorderItems(folderId, currentFromIndex, adjustedToIndex);
 }
 
 /**

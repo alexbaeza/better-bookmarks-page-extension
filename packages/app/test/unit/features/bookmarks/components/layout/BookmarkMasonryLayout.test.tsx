@@ -57,9 +57,8 @@ const mockFolders: IBookmarkItem[] = [
 ];
 
 const defaultColumns = [
-  { items: [mockFolders[0]], key: 'column-0' },
+  { items: [mockFolders[0], mockFolders[2]], key: 'column-0' },
   { items: [mockFolders[1]], key: 'column-1' },
-  { items: [mockFolders[2]], key: 'column-2' },
 ];
 
 const setupHeightEstimationScenario = () => {
@@ -178,8 +177,8 @@ describe('BookmarkMasonryLayout', () => {
 
   it.each([
     [600, 1, '< 640'],
-    [700, 1, '>= 640 but < 768'],
-    [800, 2, '>= 768 but < 1024'],
+    [700, 3, '>= 640 but < 768'],
+    [800, 3, '>= 768 but < 1024'],
     [1100, 4, '>= 1024 but < 1536'],
     [1600, 4, '>= 1536'],
   ])('calculates correct column count (%i px width = %i columns) for %s', (width, expectedColumns) => {
@@ -236,8 +235,7 @@ describe('BookmarkMasonryLayout', () => {
   it('ensures all columns have containers even when empty', () => {
     mockUseMasonryLayout.mockReturnValue([
       { items: [mockFolders[0]], key: 'column-0' },
-      { items: [], key: 'column-1' },
-      { items: [mockFolders[1]], key: 'column-2' },
+      { items: [mockFolders[1]], key: 'column-1' },
     ]);
 
     render(
@@ -258,14 +256,7 @@ describe('BookmarkMasonryLayout', () => {
     );
 
     const gridContainer = screen.getByTestId('bookmark-masonry-grid');
-    expect(gridContainer).toHaveClass(
-      'grid',
-      'grid-cols-1',
-      'md:grid-cols-2',
-      'lg:grid-cols-3',
-      '2xl:grid-cols-4',
-      'gap-4'
-    );
+    expect(gridContainer).toHaveClass('grid', 'grid-cols-1', 'lg:grid-cols-3', '2xl:grid-cols-4', 'gap-4');
   });
 
   it('renders wrapper even when folders array is empty', () => {

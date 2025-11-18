@@ -1,4 +1,5 @@
-import type { BrowserBookmarkAPI, NormalizedBookmarkItem, NormalizedBookmarkTree } from '../types';
+import type { IBookmarkItem } from '@/shared/types/bookmarks';
+import type { BookmarkTree, BrowserBookmarkAPI } from '../types';
 import type { MockBookmarksAPI } from './mock-bookmarks-api';
 
 const BUILT_IN_FOLDER_IDS = new Set([
@@ -30,9 +31,9 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
     }
   }
 
-  async getBookmarksTree(): Promise<NormalizedBookmarkTree> {
-    const tree = await this.browser.bookmarks.getTree();
-    const root = tree[0];
+  async getBookmarksTree(): Promise<BookmarkTree> {
+    const rootTree = await this.browser.bookmarks.getTree();
+    const root = rootTree[0];
 
     const isBuiltInFolder = (node: browser.bookmarks.BookmarkTreeNode): boolean => BUILT_IN_FOLDER_IDS.has(node.id);
 
@@ -49,7 +50,7 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
 
     const allBookmarks = nodesUnderBuiltIn.filter((node) => node.url).map((node) => this.normalizeBookmarkItem(node));
 
-    return {
+    const tree: BookmarkTree = {
       folders: allFolders,
       uncategorized:
         allBookmarks.length > 0
@@ -60,12 +61,11 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
             }
           : undefined,
     };
+
+    return tree;
   }
 
-  async createBookmark(
-    parentId: string | null,
-    details: { title: string; url?: string }
-  ): Promise<NormalizedBookmarkItem> {
+  async createBookmark(parentId: string | null, details: { title: string; url?: string }): Promise<IBookmarkItem> {
     const targetParent = parentId && parentId !== '' ? parentId : 'Uncategorized';
 
     const created = await this.browser.bookmarks.create({
@@ -91,7 +91,7 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
     await this.browser.bookmarks.removeTree(id);
   }
 
-  async updateBookmark(id: string, changes: { title?: string; url?: string }): Promise<NormalizedBookmarkItem> {
+  async updateBookmark(id: string, changes: { title?: string; url?: string }): Promise<IBookmarkItem> {
     const updated = await this.browser.bookmarks.update(id, changes);
     return this.normalizeBookmarkItem(updated);
   }
@@ -103,7 +103,7 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
     });
   }
 
-  async getBookmark(id: string): Promise<NormalizedBookmarkItem | null> {
+  async getBookmark(id: string): Promise<IBookmarkItem | null> {
     try {
       const bookmarks = await this.browser.bookmarks.get(id);
       return bookmarks.length > 0 ? this.normalizeBookmarkItem(bookmarks[0]) : null;
@@ -112,7 +112,7 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
     }
   }
 
-  async searchBookmarks(query: string): Promise<NormalizedBookmarkItem[]> {
+  async searchBookmarks(query: string): Promise<IBookmarkItem[]> {
     const results = await this.browser.bookmarks.search({ query });
     return results.map(this.normalizeBookmarkItem);
   }
@@ -139,7 +139,7 @@ export class FirefoxBookmarkAPI implements BrowserBookmarkAPI {
   /**
    * Normalize Firefox bookmark item to our standard format
    */
-  private normalizeBookmarkItem = (item: browser.bookmarks.BookmarkTreeNode): NormalizedBookmarkItem => {
+  private normalizeBookmarkItem = (item: browser.bookmarks.BookmarkTreeNode): IBookmarkItem => {
     return {
       children: item.children?.map(this.normalizeBookmarkItem),
       dateAdded: item.dateAdded,

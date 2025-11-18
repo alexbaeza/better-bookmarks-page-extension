@@ -12,13 +12,14 @@ const mockUseAtomValue = vi.fn();
 const mockUseAppStateContext = vi.fn();
 const mockUseContainerWidth = vi.fn();
 
-vi.mock('@/features/bookmarks/lib/bookmarks', () => ({
-  reorderItems: vi.fn(),
-}));
+vi.mock('@/features/bookmarks/lib/bookmarks', () => {
+  const reorderItemsById = vi.fn();
+  return { reorderItemsById };
+});
 
-import { reorderItems } from '@/features/bookmarks/lib/bookmarks';
+import { reorderItemsById } from '@/features/bookmarks/lib/bookmarks';
 
-const mockReorderItems = vi.mocked(reorderItems);
+const mockReorderItemsById = vi.mocked(reorderItemsById);
 
 vi.mock('jotai', () => ({
   atom: vi.fn((defaultValue: any) => ({ defaultValue })),
@@ -60,7 +61,7 @@ vi.mock('@/features/bookmarks/components/dnd/BookmarkGridItemDivider', () => ({
     dataTestId: string;
     position: string;
     index: number;
-    onReorder: (fromIndex: number, toIndex: number) => void;
+    onReorder: (itemId: string, toIndex: number) => void;
     _folderId: string;
     insertIndex: number;
   }) => (
@@ -68,7 +69,7 @@ vi.mock('@/features/bookmarks/components/dnd/BookmarkGridItemDivider', () => ({
       <button
         data-testid={`grid-divider-button-${insertIndex}`}
         onClick={() => {
-          onReorder(0, 1);
+          onReorder('item-1', 1);
         }}
         type="button"
       >
@@ -90,7 +91,7 @@ vi.mock('@/features/bookmarks/components/dnd/BookmarkListItemDivider', () => ({
     dataTestId: string;
     position: string;
     index: number;
-    onReorder: (fromIndex: number, toIndex: number) => void;
+    onReorder: (itemId: string, toIndex: number) => void;
     _folderId: string;
     insertIndex: number;
   }) => (
@@ -98,7 +99,7 @@ vi.mock('@/features/bookmarks/components/dnd/BookmarkListItemDivider', () => ({
       <button
         data-testid={`list-divider-button-${insertIndex}`}
         onClick={() => {
-          onReorder(0, 1);
+          onReorder('item-1', 1);
         }}
         type="button"
       >
@@ -164,7 +165,7 @@ describe('BookmarkDisplayArea', () => {
     mockUseAtomValue.mockReturnValue(BookmarkDisplayMode.Grid);
     mockUseAppStateContext.mockReturnValue({ refreshBookmarks: vi.fn() });
     mockUseContainerWidth.mockReturnValue({ containerWidth: 1200, containerRef: vi.fn() });
-    mockReorderItems.mockResolvedValue(undefined);
+    mockReorderItemsById.mockResolvedValue(undefined);
   });
 
   it('renders grid container by default', () => {
@@ -235,7 +236,7 @@ describe('BookmarkDisplayArea', () => {
   });
 
   it('calls reorderItems when divider is used', async () => {
-    mockReorderItems.mockResolvedValue(undefined);
+    mockReorderItemsById.mockResolvedValue(undefined);
 
     render(
       <AllProviders>
@@ -310,7 +311,7 @@ describe('BookmarkDisplayArea', () => {
 
   it('calls handleReorder when grid divider is clicked', async () => {
     const user = userEvent.setup();
-    mockReorderItems.mockResolvedValue(undefined);
+    mockReorderItemsById.mockResolvedValue(undefined);
     mockUseAppStateContext.mockReturnValue({ refreshBookmarks: vi.fn().mockResolvedValue(undefined) });
 
     render(
@@ -322,14 +323,14 @@ describe('BookmarkDisplayArea', () => {
     const gridDividerButton = screen.getByTestId('grid-divider-button-1');
     await user.click(gridDividerButton);
 
-    expect(mockReorderItems).toHaveBeenCalledWith('folder-1', 0, 1);
+    expect(mockReorderItemsById).toHaveBeenCalledWith('folder-1', 'item-1', 1);
     expect(mockUseAppStateContext).toHaveBeenCalled();
   });
 
   it('calls handleReorder when list divider is clicked', async () => {
     const user = userEvent.setup();
     mockUseAtomValue.mockReturnValue(BookmarkDisplayMode.List);
-    mockReorderItems.mockResolvedValue(undefined);
+    mockReorderItemsById.mockResolvedValue(undefined);
     mockUseAppStateContext.mockReturnValue({ refreshBookmarks: vi.fn().mockResolvedValue(undefined) });
 
     render(
@@ -341,7 +342,7 @@ describe('BookmarkDisplayArea', () => {
     const listDividerButton = screen.getByTestId('list-divider-button-1');
     await user.click(listDividerButton);
 
-    expect(mockReorderItems).toHaveBeenCalledWith('folder-1', 0, 1);
+    expect(mockReorderItemsById).toHaveBeenCalledWith('folder-1', 'item-1', 1);
     expect(mockUseAppStateContext).toHaveBeenCalled();
   });
 

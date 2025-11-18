@@ -146,9 +146,6 @@ class BookmarkOrderingService implements OrderingService {
       return;
     }
 
-    // Clean up stale ordering entries
-    this.cleanupStaleOrdering(folder);
-
     // If no ordering exists, initialize with current children
     if (!this.ordering[folder.id]) {
       this.initializeNewOrdering(folder, folder.children);
@@ -173,9 +170,6 @@ class BookmarkOrderingService implements OrderingService {
     bookmarks.forEach((folder) => {
       if (folder.children && folder.children.length > 0) {
         this.reconcileFolderOrdering(folder);
-      } else {
-        // Clean up empty folders
-        this.cleanupStaleOrdering(folder);
       }
     });
 
@@ -201,9 +195,11 @@ class BookmarkOrderingService implements OrderingService {
 
   /**
    * Get children in the correct order
+   * Automatically cleans up stale IDs from ordering when detected
    */
   getOrderedChildren(folder: IBookmarkItem): IBookmarkItem[] | undefined {
     if (!folder.children || folder.children.length === 0) {
+      this.cleanupEmptyFolderOrdering(folder.id);
       return folder.children;
     }
 
@@ -212,31 +208,58 @@ class BookmarkOrderingService implements OrderingService {
       return folder.children;
     }
 
-    // Create a map for quick lookup
-    const childrenMap = new Map(folder.children.map((child) => [child.id, child]));
+    const { orderedChildren, cleanedOrder } = this.buildOrderedChildren(folder, ordering);
 
-    // Order by the stored ordering, with any new items at the end
+    // Automatically clean up stale IDs if any were detected
+    if (cleanedOrder.length !== ordering.length) {
+      this.ordering[folder.id] = cleanedOrder;
+      this.saveToStorage();
+    }
+
+    return orderedChildren;
+  }
+
+  private cleanupEmptyFolderOrdering(folderId: string): void {
+    if (!this.ordering[folderId]) return;
+    delete this.ordering[folderId];
+    this.saveToStorage();
+  }
+
+  private buildOrderedChildren(
+    folder: IBookmarkItem,
+    ordering: string[]
+  ): { orderedChildren: IBookmarkItem[]; cleanedOrder: string[] } {
+    const children = folder.children ?? [];
+
+    // Create a map for quick lookup
+    const childrenMap = new Map(children.map((child) => [child.id, child]));
+    const validIds = new Set(children.map((child) => child.id));
+
     const orderedChildren: IBookmarkItem[] = [];
     const processedIds = new Set<string>();
+    const cleanedOrder: string[] = [];
 
     // Add items in the stored order, but only if they still exist in the folder
     for (const id of ordering) {
       if (processedIds.has(id)) continue; // avoid duplicates in ordering list
+      if (!validIds.has(id)) continue;
+
       const child = childrenMap.get(id);
-      if (child) {
-        orderedChildren.push(child);
-        processedIds.add(id);
-      }
+      if (!child) continue;
+
+      orderedChildren.push(child);
+      processedIds.add(child.id);
+      cleanedOrder.push(id);
     }
 
     // Add any new items that weren't in the ordering
-    for (const child of folder.children) {
-      if (!processedIds.has(child.id)) {
-        orderedChildren.push(child);
-      }
+    for (const child of children) {
+      if (processedIds.has(child.id)) continue;
+      orderedChildren.push(child);
+      cleanedOrder.push(child.id);
     }
 
-    return orderedChildren;
+    return { orderedChildren, cleanedOrder };
   }
 
   /**

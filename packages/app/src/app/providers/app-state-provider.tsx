@@ -6,7 +6,7 @@ import { initialAppState } from '@/app/providers/app-state';
 import { AppStateContext } from '@/app/providers/app-state-context';
 import { appStateReducer } from '@/app/providers/app-state-reducer';
 import { bookmarksAtom } from '@/app/providers/atoms';
-import { getBookmarksData } from '@/features/bookmarks/lib/bookmarks';
+import { loadBookmarksTree } from '@/features/bookmarks/lib/bookmarks';
 
 interface AppStateProviderProps {
   children?: React.ReactNode;
@@ -27,7 +27,7 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
     const fetchData = async () => {
       dispatch({ type: 'LOAD_BOOKMARKS_DATA_START' });
       try {
-        const data = await getBookmarksData();
+        const data = await loadBookmarksTree();
         setPersistedBookmarks(data);
         dispatch({ data, type: 'LOAD_BOOKMARKS_DATA_SUCCESS' });
       } catch (err: unknown) {
@@ -49,7 +49,7 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
       refreshBookmarks: async () => {
         dispatch({ type: 'LOAD_BOOKMARKS_DATA_START' });
         try {
-          const data = await getBookmarksData();
+          const data = await loadBookmarksTree();
           setPersistedBookmarks(data);
           dispatch({ data, type: 'LOAD_BOOKMARKS_DATA_SUCCESS' });
         } catch (err: unknown) {

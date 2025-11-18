@@ -30,8 +30,8 @@ export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ fo
     // Match Tailwind breakpoints: sm:640, md:768, lg:1024, 2xl:1536
     if (width >= 1536) return 4; // 2xl
     if (width >= 1024) return 4; // lg
-    if (width >= 768) return 2; // md
-    if (width >= 640) return 1; // sm
+    if (width >= 768) return 3; // md
+    if (width >= 640) return 3; // sm
     return 1; // default
   }, [containerWidth]);
 
@@ -68,8 +68,8 @@ export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ fo
   // Get Tailwind grid column classes for responsive breakpoints
   // Ensure all columns have equal width by always rendering all columns
   const gridColsClass = useMemo(() => {
-    // Use responsive classes: default 1, md:2, lg:3, 2xl:4
-    return 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4';
+    // Use responsive classes: default 1, md:1, lg:3, 2xl:4
+    return 'grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 gap-4';
   }, []);
 
   // Ensure we always have the correct number of column containers, even if empty

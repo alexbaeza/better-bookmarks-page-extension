@@ -1,44 +1,49 @@
 import { useCallback } from 'react';
 
 import { useAppStateContext } from '@/app/providers/app-state-context';
-import { create, move, remove, update } from '@/features/bookmarks/lib/bookmarks';
+import {
+  createBookmark,
+  moveBookmark,
+  removeBookmark as removeBookmarkApi,
+  updateBookmark,
+} from '@/features/bookmarks/lib/bookmarks';
 
 export function useBookmarkActions() {
   const { refreshBookmarks } = useAppStateContext();
 
-  const createBookmark = useCallback(
+  const createBookmarkAction = useCallback(
     async (parentId: string, details: { title: string; url?: string }) => {
-      await create(parentId, details);
+      await createBookmark(parentId, details);
       await refreshBookmarks();
     },
     [refreshBookmarks]
   );
-  const updateBookmark = useCallback(
+  const updateBookmarkAction = useCallback(
     async (id: string, changes: { title?: string; url?: string }) => {
-      await update(id, changes);
+      await updateBookmark(id, changes);
       await refreshBookmarks();
     },
     [refreshBookmarks]
   );
-  const removeBookmark = useCallback(
+  const removeBookmarkAction = useCallback(
     async (id: string) => {
-      await remove(id);
+      await removeBookmarkApi(id);
       await refreshBookmarks();
     },
     [refreshBookmarks]
   );
-  const moveBookmark = useCallback(
+  const moveBookmarkAction = useCallback(
     async (id: string, dest: { parentId: string; index?: number }) => {
-      await move(id, dest);
+      await moveBookmark(id, dest);
       await refreshBookmarks();
     },
     [refreshBookmarks]
   );
 
   return {
-    create: createBookmark,
-    move: moveBookmark,
-    remove: removeBookmark,
-    update: updateBookmark,
+    create: createBookmarkAction,
+    move: moveBookmarkAction,
+    remove: removeBookmarkAction,
+    update: updateBookmarkAction,
   };
 }

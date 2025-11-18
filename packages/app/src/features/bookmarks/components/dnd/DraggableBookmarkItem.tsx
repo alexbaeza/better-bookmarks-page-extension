@@ -53,7 +53,7 @@ export const DraggableBookmarkItem: React.FC<DraggableBookmarkItemProps> = ({
 
   const [{ isOver }, drop] = useDrop<DraggableBookmarkItemType, unknown, { isOver: boolean }>({
     accept: DND_ITEM_TYPES.BOOKMARK,
-    drop: (droppedItem) => {
+    drop: (droppedItem, monitor) => {
       // Only handle drops for cross-folder moves, not reordering within same folder
       // Reordering is handled by dividers
       if (
@@ -62,14 +62,25 @@ export const DraggableBookmarkItem: React.FC<DraggableBookmarkItemProps> = ({
         droppedItem.id !== item.id &&
         droppedItem.folderId !== item.id
       ) {
+        // If a nested child drop target (another folder) already handled this drop, don't process it here
+        // This ensures nested folders win over parent containers for cross-folder moves
+        // Note: We don't check didDrop() for same-folder drops because dividers handle those
+        if (monitor.didDrop()) {
+          return;
+        }
         void handleDrop(droppedItem.id, droppedItem.folderId, droppedItem.index);
       }
     },
     collect: (monitor) => {
       const draggedItem = monitor.getItem<DraggableBookmarkItemType>();
+      // Use shallow isOver to only show visual feedback when this folder is the direct target
       // Only show ring for cross-folder moves, not same-folder reordering
       return {
-        isOver: monitor.isOver() && isFolder && draggedItem?.id !== item.id && draggedItem?.folderId !== folderId,
+        isOver:
+          monitor.isOver({ shallow: true }) &&
+          isFolder &&
+          draggedItem?.id !== item.id &&
+          draggedItem?.folderId !== folderId,
       };
     },
     canDrop: (droppedItem) => {

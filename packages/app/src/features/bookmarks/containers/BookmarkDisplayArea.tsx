@@ -7,7 +7,7 @@ import { BookmarkGridItemDivider } from '@/features/bookmarks/components/dnd/Boo
 import { BookmarkListItemDivider } from '@/features/bookmarks/components/dnd/BookmarkListItemDivider';
 import { DraggableBookmarkItem } from '@/features/bookmarks/components/dnd/DraggableBookmarkItem';
 import { useContainerWidth } from '@/features/bookmarks/hooks/useContainerWidth';
-import { reorderItems } from '@/features/bookmarks/lib/bookmarks';
+import { reorderItemsById } from '@/features/bookmarks/lib/bookmarks';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { BookmarkDisplayMode } from '@/shared/types/ui';
 import { Grid } from '@/shared/ui/Grid';
@@ -30,8 +30,8 @@ export const BookmarkDisplayArea: React.FC<BookmarkDisplayAreaProps> = ({
   const { refreshBookmarks } = useAppStateContext();
 
   const handleReorder = useCallback(
-    async (fromIndex: number, toIndex: number) => {
-      await reorderItems(folderId, fromIndex, toIndex);
+    async (itemId: string, toIndex: number) => {
+      await reorderItemsById(folderId, itemId, toIndex);
       await refreshBookmarks();
     },
     [folderId, refreshBookmarks]

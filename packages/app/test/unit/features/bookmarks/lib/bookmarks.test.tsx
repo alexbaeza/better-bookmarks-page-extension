@@ -19,7 +19,7 @@ describe('bookmarks module', () => {
     vi.spyOn(factory, 'createBookmarkAPI').mockReturnValue(mockAPI);
   });
 
-  describe('getBookmarksData', () => {
+  describe('loadBookmarksTree', () => {
     it('parses bookmark tree correctly', async () => {
       const mockTree = {
         folders: [
@@ -38,7 +38,7 @@ describe('bookmarks module', () => {
 
       mockAPI.getBookmarksTree.mockResolvedValue(mockTree);
 
-      const result = await bookmarksModule.getBookmarksData();
+      const result = await bookmarksModule.loadBookmarksTree();
 
       expect(result.folders).toHaveLength(1);
       expect(result.folders[0].id).toBe('1');
@@ -46,7 +46,7 @@ describe('bookmarks module', () => {
     });
   });
 
-  describe('create', () => {
+  describe('createBookmark', () => {
     it('creates bookmark with valid parent', async () => {
       const createdItem = {
         children: undefined,
@@ -59,14 +59,14 @@ describe('bookmarks module', () => {
       };
       mockAPI.createBookmark.mockResolvedValue(createdItem);
 
-      const result = await bookmarksModule.create('1', { title: 'New Bookmark', url: 'http://new.com' });
+      const result = await bookmarksModule.createBookmark('1', { title: 'New Bookmark', url: 'http://new.com' });
 
       expect(mockAPI.createBookmark).toHaveBeenCalledWith('1', { title: 'New Bookmark', url: 'http://new.com' });
       expect(result).toStrictEqual(createdItem);
     });
   });
 
-  describe('update', () => {
+  describe('updateBookmark', () => {
     it('updates bookmark', async () => {
       const updatedItem = {
         children: undefined,
@@ -79,34 +79,34 @@ describe('bookmarks module', () => {
       };
       mockAPI.updateBookmark.mockResolvedValue(updatedItem);
 
-      const result = await bookmarksModule.update('1', { title: 'Updated Title' });
+      const result = await bookmarksModule.updateBookmark('1', { title: 'Updated Title' });
 
       expect(mockAPI.updateBookmark).toHaveBeenCalledWith('1', { title: 'Updated Title' });
       expect(result).toStrictEqual(updatedItem);
     });
   });
 
-  describe('remove', () => {
+  describe('removeBookmark', () => {
     it('removes bookmark tree', async () => {
       mockAPI.removeBookmark.mockResolvedValue(undefined);
 
-      await bookmarksModule.remove('1');
+      await bookmarksModule.removeBookmark('1');
 
       expect(mockAPI.removeBookmark).toHaveBeenCalledWith('1');
     });
   });
 
-  describe('move', () => {
+  describe('moveBookmark', () => {
     it('moves bookmark', async () => {
       mockAPI.moveBookmark.mockResolvedValue(undefined);
 
-      await bookmarksModule.move('1', { parentId: '2' });
+      await bookmarksModule.moveBookmark('1', { parentId: '2' });
 
       expect(mockAPI.moveBookmark).toHaveBeenCalledWith('1', '2', undefined);
     });
   });
 
-  describe('get', () => {
+  describe('getBookmarkById', () => {
     it('gets bookmark by id', async () => {
       const bookmark = {
         children: undefined,
@@ -119,14 +119,14 @@ describe('bookmarks module', () => {
       };
       mockAPI.getBookmark.mockResolvedValue(bookmark);
 
-      const result = await bookmarksModule.get('1');
+      const result = await bookmarksModule.getBookmarkById('1');
 
       expect(mockAPI.getBookmark).toHaveBeenCalledWith('1');
       expect(result).toStrictEqual(bookmark);
     });
   });
 
-  describe('search', () => {
+  describe('searchBookmarks', () => {
     it('searches bookmarks', async () => {
       const results = [
         {
@@ -141,7 +141,7 @@ describe('bookmarks module', () => {
       ];
       mockAPI.searchBookmarks.mockResolvedValue(results);
 
-      const result = await bookmarksModule.search('test');
+      const result = await bookmarksModule.searchBookmarks('test');
 
       expect(mockAPI.searchBookmarks).toHaveBeenCalledWith('test');
       expect(result).toStrictEqual(results);

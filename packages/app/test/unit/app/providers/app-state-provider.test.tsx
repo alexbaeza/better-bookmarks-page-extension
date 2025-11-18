@@ -8,12 +8,12 @@ import { AppStateProvider } from '@/app/providers/app-state-provider';
 import { bookmarksAtom } from '@/app/providers/atoms';
 
 vi.mock('@/features/bookmarks/lib/bookmarks', () => ({
-  getBookmarksData: vi.fn(),
+  loadBookmarksTree: vi.fn(),
 }));
 
-import { getBookmarksData } from '@/features/bookmarks/lib/bookmarks';
+import { loadBookmarksTree } from '@/features/bookmarks/lib/bookmarks';
 
-const mockGetBookmarksData = vi.mocked(getBookmarksData);
+const mockLoadBookmarksTree = vi.mocked(loadBookmarksTree);
 
 const createWrapper =
   (initialBookmarks?: { folders: any[]; uncategorized?: any }): React.FC<{ children: React.ReactNode }> =>
@@ -42,7 +42,7 @@ describe('AppStateProvider', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockGetBookmarksData.mockResolvedValue(mockBookmarksData);
+    mockLoadBookmarksTree.mockResolvedValue(mockBookmarksData);
   });
 
   afterEach(() => {
@@ -74,26 +74,26 @@ describe('AppStateProvider', () => {
     renderHook(() => useAppStateContext(), { wrapper });
 
     await waitFor(() => {
-      expect(mockGetBookmarksData).toHaveBeenCalled();
+      expect(mockLoadBookmarksTree).toHaveBeenCalled();
     });
   });
 
   it('should call getBookmarksData on mount', async () => {
-    mockGetBookmarksData.mockResolvedValue(mockBookmarksData);
+    mockLoadBookmarksTree.mockResolvedValue(mockBookmarksData);
 
     const wrapper = createWrapper();
     renderHook(() => useAppStateContext(), { wrapper });
 
     await waitFor(
       () => {
-        expect(mockGetBookmarksData).toHaveBeenCalled();
+        expect(mockLoadBookmarksTree).toHaveBeenCalled();
       },
       { timeout: 3000 }
     );
   });
 
   it('should start with loading state and then complete', async () => {
-    mockGetBookmarksData.mockResolvedValue(mockBookmarksData);
+    mockLoadBookmarksTree.mockResolvedValue(mockBookmarksData);
 
     const wrapper = createWrapper();
     const { result } = renderHook(() => useAppStateContext(), { wrapper });
@@ -108,7 +108,7 @@ describe('AppStateProvider', () => {
 
   it('should handle errors during fetch', async () => {
     const mockError = new Error('Failed to load bookmarks');
-    mockGetBookmarksData.mockRejectedValue(mockError);
+    mockLoadBookmarksTree.mockRejectedValue(mockError);
 
     const wrapper = createWrapper();
     const { result } = renderHook(() => useAppStateContext(), { wrapper });
@@ -127,13 +127,13 @@ describe('AppStateProvider', () => {
       uncategorized: undefined,
     };
 
-    mockGetBookmarksData.mockResolvedValue(mockBookmarksData);
+    mockLoadBookmarksTree.mockResolvedValue(mockBookmarksData);
 
     const wrapper = createWrapper(persistedData);
     renderHook(() => useAppStateContext(), { wrapper });
 
     await waitFor(() => {
-      expect(mockGetBookmarksData).toHaveBeenCalled();
+      expect(mockLoadBookmarksTree).toHaveBeenCalled();
     });
   });
 
@@ -148,7 +148,7 @@ describe('AppStateProvider', () => {
 
   it('should handle refresh errors gracefully', async () => {
     const mockError = new Error('Refresh failed');
-    mockGetBookmarksData.mockRejectedValueOnce(mockError);
+    mockLoadBookmarksTree.mockRejectedValueOnce(mockError);
 
     const wrapper = createWrapper();
     const { result } = renderHook(() => useAppStateContext(), { wrapper });
@@ -157,7 +157,7 @@ describe('AppStateProvider', () => {
       expect(result.current.error).toBeDefined();
     });
 
-    mockGetBookmarksData.mockRejectedValueOnce(mockError);
+    mockLoadBookmarksTree.mockRejectedValueOnce(mockError);
 
     await result.current.refreshBookmarks();
 
@@ -180,7 +180,7 @@ describe('AppStateProvider', () => {
   });
 
   it('should provide refreshBookmarks function', async () => {
-    mockGetBookmarksData.mockResolvedValue(mockBookmarksData);
+    mockLoadBookmarksTree.mockResolvedValue(mockBookmarksData);
 
     const wrapper = createWrapper();
     const { result } = renderHook(() => useAppStateContext(), { wrapper });
