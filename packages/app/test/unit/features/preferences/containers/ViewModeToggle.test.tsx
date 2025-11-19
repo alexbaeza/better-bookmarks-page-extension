@@ -39,7 +39,6 @@ vi.mock('@/shared/ui/Toggle', () => ({
 
 describe('ViewModeToggle', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
     mockViewMode = BookmarkDisplayMode.Grid;
   });
 

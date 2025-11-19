@@ -10,10 +10,6 @@ describe('ThemeButton', () => {
     onClick: vi.fn(),
   };
 
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   describe('Default variant', () => {
     it('renders with inactive styling', () => {
       render(<ThemeButton {...defaultProps} />);

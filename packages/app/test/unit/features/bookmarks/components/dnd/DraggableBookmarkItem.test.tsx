@@ -3,13 +3,13 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DraggableBookmarkItem } from '@/features/bookmarks/components/dnd/DraggableBookmarkItem';
 import { AllProviders } from '~test/test-utils';
 
-const mockUseDrag = vi.fn();
-const mockUseDrop = vi.fn();
-const mockMove = vi.fn();
+let mockUseDrag = vi.fn();
+let mockUseDrop = vi.fn();
+let mockMove: ReturnType<typeof vi.fn>;
 
 vi.mock('react-dnd', () => ({
-  useDrag: () => mockUseDrag(),
-  useDrop: () => mockUseDrop(),
+  useDrag: (config: unknown) => mockUseDrag(config),
+  useDrop: (config: unknown) => mockUseDrop(config),
 }));
 
 vi.mock('@/features/bookmarks/hooks/useBookmarkActions', () => ({
@@ -24,15 +24,15 @@ vi.mock('@/features/bookmarks/components/BookmarkItem', () => ({
 
 describe('DraggableBookmarkItem', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockUseDrag.mockReturnValue([
+    mockUseDrag = vi.fn(() => [
       { isDragging: false },
       vi.fn(), // drag function
     ]);
-    mockUseDrop.mockReturnValue([
+    mockUseDrop = vi.fn(() => [
       { isOver: false },
       vi.fn(), // drop function
     ]);
+    mockMove = vi.fn();
   });
 
   it('should render without crashing', () => {

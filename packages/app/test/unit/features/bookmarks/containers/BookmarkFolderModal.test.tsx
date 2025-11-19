@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 import { BookmarkFolderModal } from '@/features/bookmarks/containers/BookmarkFolderModal';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { AllProviders } from '~test/test-utils';
 
-const mockHideModal = vi.fn();
-const mockUseBookmarks = vi.fn();
+let mockHideModal = vi.fn<() => void>();
+let mockUseBookmarks = vi.fn();
 
 vi.mock('@/app/providers/modal-context', () => ({
   useModal: () => ({ hideModal: mockHideModal }),
@@ -75,16 +76,19 @@ describe('BookmarkFolderModal', () => {
   };
 
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockUseBookmarks.mockReturnValue({
-      rawFolders: [
-        {
-          id: 'folder-1',
-          title: 'Test Folder',
-          children: mockFolderContents,
-        },
-      ],
-    });
+    mockHideModal = vi.fn<() => void>();
+    mockUseBookmarks = vi.fn();
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        rawFolders: [
+          {
+            id: 'folder-1',
+            title: 'Test Folder',
+            children: mockFolderContents,
+          },
+        ],
+      });
   });
 
   it('renders modal with correct title and dataTestId', () => {
@@ -151,15 +155,17 @@ describe('BookmarkFolderModal', () => {
       },
     ];
 
-    mockUseBookmarks.mockReturnValue({
-      rawFolders: [
-        {
-          id: 'folder-1',
-          title: 'Test Folder',
-          children: updatedContents,
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        rawFolders: [
+          {
+            id: 'folder-1',
+            title: 'Test Folder',
+            children: updatedContents,
+          },
+        ],
+      });
 
     rerender(
       <AllProviders>
@@ -171,15 +177,17 @@ describe('BookmarkFolderModal', () => {
   });
 
   it('does not update folder contents when folder not found in rawFolders', () => {
-    mockUseBookmarks.mockReturnValue({
-      rawFolders: [
-        {
-          id: 'different-folder',
-          title: 'Different Folder',
-          children: [],
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        rawFolders: [
+          {
+            id: 'different-folder',
+            title: 'Different Folder',
+            children: [],
+          },
+        ],
+      });
 
     render(
       <AllProviders>
@@ -191,15 +199,17 @@ describe('BookmarkFolderModal', () => {
   });
 
   it('handles empty initial folder contents', () => {
-    mockUseBookmarks.mockReturnValue({
-      rawFolders: [
-        {
-          id: 'folder-1',
-          title: 'Test Folder',
-          children: [], // Empty children in mock
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        rawFolders: [
+          {
+            id: 'folder-1',
+            title: 'Test Folder',
+            children: [], // Empty children in mock
+          },
+        ],
+      });
 
     render(
       <AllProviders>

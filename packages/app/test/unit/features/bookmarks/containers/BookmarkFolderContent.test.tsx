@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 import { BookmarkFolderContent } from '@/features/bookmarks/containers/BookmarkFolderContent';
 import type { PageId } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { BookmarkPage } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { AllProviders } from '~test/test-utils';
 
-const mockUseBookmarks = vi.fn();
+let mockUseBookmarks = vi.fn();
 
 vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
   useBookmarks: () => mockUseBookmarks(),
@@ -47,20 +48,22 @@ vi.mock('@/features/navigation/components/NotFoundIllustration', () => ({
 
 describe('BookmarkFolderContent', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockUseBookmarks = vi.fn();
   });
 
   it('renders breadcrumb navigation and view mode toggle in header', () => {
-    mockUseBookmarks.mockReturnValue({
-      currentPage: 'root' as PageId,
-      pageContainers: [
-        {
-          id: 'folder-1',
-          title: 'Test Folder',
-          children: [{ id: 'item-1', title: 'Test Item', url: 'https://example.com' }],
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        currentPage: 'root' as PageId,
+        pageContainers: [
+          {
+            id: 'folder-1',
+            title: 'Test Folder',
+            children: [{ id: 'item-1', title: 'Test Item', url: 'https://example.com' }],
+          },
+        ],
+      });
 
     render(
       <AllProviders>
@@ -73,10 +76,12 @@ describe('BookmarkFolderContent', () => {
   });
 
   it('renders empty state when pageContainers is empty', () => {
-    mockUseBookmarks.mockReturnValue({
-      currentPage: 'root' as PageId,
-      pageContainers: [],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        currentPage: 'root' as PageId,
+        pageContainers: [],
+      });
 
     render(
       <AllProviders>
@@ -92,16 +97,18 @@ describe('BookmarkFolderContent', () => {
   });
 
   it('renders empty state when folder has no children', () => {
-    mockUseBookmarks.mockReturnValue({
-      currentPage: 'root' as PageId,
-      pageContainers: [
-        {
-          id: 'folder-1',
-          title: 'Empty Folder',
-          children: [],
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        currentPage: 'root' as PageId,
+        pageContainers: [
+          {
+            id: 'folder-1',
+            title: 'Empty Folder',
+            children: [],
+          },
+        ],
+      });
 
     render(
       <AllProviders>
@@ -117,21 +124,23 @@ describe('BookmarkFolderContent', () => {
   });
 
   it('renders masonry layout for All bookmarks page', () => {
-    mockUseBookmarks.mockReturnValue({
-      currentPage: BookmarkPage.All,
-      pageContainers: [
-        {
-          id: 'folder-1',
-          title: 'Folder 1',
-          children: [],
-        },
-        {
-          id: 'folder-2',
-          title: 'Folder 2',
-          children: [],
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        currentPage: BookmarkPage.All,
+        pageContainers: [
+          {
+            id: 'folder-1',
+            title: 'Folder 1',
+            children: [],
+          },
+          {
+            id: 'folder-2',
+            title: 'Folder 2',
+            children: [],
+          },
+        ],
+      });
 
     render(
       <AllProviders>
@@ -143,16 +152,18 @@ describe('BookmarkFolderContent', () => {
   });
 
   it('renders masonry layout for Uncategorized bookmarks page', () => {
-    mockUseBookmarks.mockReturnValue({
-      currentPage: BookmarkPage.Uncategorized,
-      pageContainers: [
-        {
-          id: 'uncategorized',
-          title: 'Uncategorized',
-          children: [{ id: 'item-1', title: 'Uncategorized Item', url: 'https://example.com' }],
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        currentPage: BookmarkPage.Uncategorized,
+        pageContainers: [
+          {
+            id: 'uncategorized',
+            title: 'Uncategorized',
+            children: [{ id: 'item-1', title: 'Uncategorized Item', url: 'https://example.com' }],
+          },
+        ],
+      });
 
     render(
       <AllProviders>
@@ -164,16 +175,18 @@ describe('BookmarkFolderContent', () => {
   });
 
   it('renders folder container and display area for regular folders', () => {
-    mockUseBookmarks.mockReturnValue({
-      currentPage: 'root' as PageId,
-      pageContainers: [
-        {
-          id: 'folder-1',
-          title: 'Test Folder',
-          children: [{ id: 'item-1', title: 'Test Item', url: 'https://example.com' }],
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        currentPage: 'root' as PageId,
+        pageContainers: [
+          {
+            id: 'folder-1',
+            title: 'Test Folder',
+            children: [{ id: 'item-1', title: 'Test Item', url: 'https://example.com' }],
+          },
+        ],
+      });
 
     render(
       <AllProviders>
@@ -186,16 +199,18 @@ describe('BookmarkFolderContent', () => {
   });
 
   it('handles folder contents safely when children is undefined', () => {
-    mockUseBookmarks.mockReturnValue({
-      currentPage: 'root' as PageId,
-      pageContainers: [
-        {
-          id: 'folder-1',
-          title: 'Test Folder',
-          children: undefined,
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        currentPage: 'root' as PageId,
+        pageContainers: [
+          {
+            id: 'folder-1',
+            title: 'Test Folder',
+            children: undefined,
+          },
+        ],
+      });
 
     render(
       <AllProviders>
@@ -207,16 +222,18 @@ describe('BookmarkFolderContent', () => {
   });
 
   it('renders empty state when folder has explicit empty children array', () => {
-    mockUseBookmarks.mockReturnValue({
-      currentPage: 'root' as PageId,
-      pageContainers: [
-        {
-          id: 'folder-1',
-          title: 'Test Folder',
-          children: [], // Explicit empty array
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        currentPage: 'root' as PageId,
+        pageContainers: [
+          {
+            id: 'folder-1',
+            title: 'Test Folder',
+            children: [], // Explicit empty array
+          },
+        ],
+      });
 
     render(
       <AllProviders>
@@ -231,16 +248,18 @@ describe('BookmarkFolderContent', () => {
   });
 
   it('renders border between header and content', () => {
-    mockUseBookmarks.mockReturnValue({
-      currentPage: 'root' as PageId,
-      pageContainers: [
-        {
-          id: 'folder-1',
-          title: 'Test Folder',
-          children: [{ id: 'item-1', title: 'Test Item', url: 'https://example.com' }],
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        currentPage: 'root' as PageId,
+        pageContainers: [
+          {
+            id: 'folder-1',
+            title: 'Test Folder',
+            children: [{ id: 'item-1', title: 'Test Item', url: 'https://example.com' }],
+          },
+        ],
+      });
 
     render(
       <AllProviders>

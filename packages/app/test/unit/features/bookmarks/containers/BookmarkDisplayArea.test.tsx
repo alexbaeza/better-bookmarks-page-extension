@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type React from 'react';
 import { describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 
 import { BookmarkDisplayArea } from '@/features/bookmarks/containers/BookmarkDisplayArea';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
@@ -161,11 +162,12 @@ describe('BookmarkDisplayArea', () => {
   };
 
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockUseAtomValue.mockReturnValue(BookmarkDisplayMode.Grid);
-    mockUseAppStateContext.mockReturnValue({ refreshBookmarks: vi.fn() });
-    mockUseContainerWidth.mockReturnValue({ containerWidth: 1200, containerRef: vi.fn() });
-    mockReorderItemsById.mockResolvedValue(undefined);
+    when(mockUseAtomValue).calledWith().thenReturn(BookmarkDisplayMode.Grid);
+    when(mockUseAppStateContext).calledWith().thenReturn({ refreshBookmarks: vi.fn() });
+    when(mockUseContainerWidth).calledWith().thenReturn({ containerWidth: 1200, containerRef: vi.fn() });
+    when(mockReorderItemsById)
+      .calledWith(expect.anything(), expect.anything(), expect.anything())
+      .thenResolve(undefined);
   });
 
   it('renders grid container by default', () => {
@@ -179,7 +181,7 @@ describe('BookmarkDisplayArea', () => {
   });
 
   it('renders list container when view mode is list', () => {
-    mockUseAtomValue.mockReturnValue(BookmarkDisplayMode.List);
+    when(mockUseAtomValue).calledWith().thenReturn(BookmarkDisplayMode.List);
 
     render(
       <AllProviders>
@@ -236,7 +238,9 @@ describe('BookmarkDisplayArea', () => {
   });
 
   it('calls reorderItems when divider is used', async () => {
-    mockReorderItemsById.mockResolvedValue(undefined);
+    when(mockReorderItemsById)
+      .calledWith(expect.anything(), expect.anything(), expect.anything())
+      .thenResolve(undefined);
 
     render(
       <AllProviders>
@@ -261,7 +265,7 @@ describe('BookmarkDisplayArea', () => {
   });
 
   it('uses container width from hook', () => {
-    mockUseContainerWidth.mockReturnValue({ containerWidth: 800, containerRef: vi.fn() });
+    when(mockUseContainerWidth).calledWith().thenReturn({ containerWidth: 800, containerRef: vi.fn() });
 
     render(
       <AllProviders>
@@ -273,8 +277,9 @@ describe('BookmarkDisplayArea', () => {
   });
 
   it('handles async refresh after reorder', async () => {
-    const mockRefreshBookmarks = vi.fn().mockResolvedValue(undefined);
-    mockUseAppStateContext.mockReturnValue({ refreshBookmarks: mockRefreshBookmarks });
+    const mockRefreshBookmarks = vi.fn();
+    when(mockRefreshBookmarks).calledWith().thenResolve(undefined);
+    when(mockUseAppStateContext).calledWith().thenReturn({ refreshBookmarks: mockRefreshBookmarks });
 
     render(
       <AllProviders>
@@ -297,7 +302,7 @@ describe('BookmarkDisplayArea', () => {
   });
 
   it('passes correct props to list dividers', () => {
-    mockUseAtomValue.mockReturnValue(BookmarkDisplayMode.List);
+    when(mockUseAtomValue).calledWith().thenReturn(BookmarkDisplayMode.List);
 
     render(
       <AllProviders>
@@ -311,8 +316,10 @@ describe('BookmarkDisplayArea', () => {
 
   it('calls handleReorder when grid divider is clicked', async () => {
     const user = userEvent.setup();
-    mockReorderItemsById.mockResolvedValue(undefined);
-    mockUseAppStateContext.mockReturnValue({ refreshBookmarks: vi.fn().mockResolvedValue(undefined) });
+    const mockRefreshBookmarks = vi.fn();
+    when(mockReorderItemsById).calledWith('folder-1', 'item-1', 1).thenResolve(undefined);
+    when(mockRefreshBookmarks).calledWith().thenResolve(undefined);
+    when(mockUseAppStateContext).calledWith().thenReturn({ refreshBookmarks: mockRefreshBookmarks });
 
     render(
       <AllProviders>
@@ -329,9 +336,11 @@ describe('BookmarkDisplayArea', () => {
 
   it('calls handleReorder when list divider is clicked', async () => {
     const user = userEvent.setup();
-    mockUseAtomValue.mockReturnValue(BookmarkDisplayMode.List);
-    mockReorderItemsById.mockResolvedValue(undefined);
-    mockUseAppStateContext.mockReturnValue({ refreshBookmarks: vi.fn().mockResolvedValue(undefined) });
+    const mockRefreshBookmarks = vi.fn();
+    when(mockUseAtomValue).calledWith().thenReturn(BookmarkDisplayMode.List);
+    when(mockReorderItemsById).calledWith('folder-1', 'item-1', 1).thenResolve(undefined);
+    when(mockRefreshBookmarks).calledWith().thenResolve(undefined);
+    when(mockUseAppStateContext).calledWith().thenReturn({ refreshBookmarks: mockRefreshBookmarks });
 
     render(
       <AllProviders>
@@ -356,7 +365,7 @@ describe('BookmarkDisplayArea', () => {
     let container = document.querySelector('.flex.flex-col') as HTMLElement;
     expect(container).toHaveAttribute('data-view-mode', 'grid');
 
-    mockUseAtomValue.mockReturnValue(BookmarkDisplayMode.List);
+    when(mockUseAtomValue).calledWith().thenReturn(BookmarkDisplayMode.List);
     rerender(
       <AllProviders>
         <BookmarkDisplayArea {...defaultProps} />

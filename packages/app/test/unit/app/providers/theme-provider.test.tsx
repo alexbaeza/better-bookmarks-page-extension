@@ -13,7 +13,6 @@ describe('ThemeProvider', () => {
   let mockUseApplyTheme: ReturnType<typeof vi.mocked<typeof useApplyTheme>>;
 
   beforeEach(() => {
-    vi.clearAllMocks();
     mockUseApplyTheme = vi.mocked(useApplyTheme);
   });
 

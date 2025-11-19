@@ -1,5 +1,4 @@
 import { renderHook } from '@testing-library/react';
-import { vi } from 'vitest';
 
 import { customThemeAtom, themeAtom } from '@/app/providers/atoms';
 import { useApplyTheme } from '@/shared/hooks/useApplyTheme';
@@ -10,10 +9,6 @@ describe('useApplyTheme', () => {
   const originalAppendChild = document.head.appendChild;
   const originalRemoveChild = document.head.removeChild;
   const originalGetElementById = document.getElementById;
-
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
 
   afterEach(() => {
     document.documentElement.className = originalDocumentElementClassName;

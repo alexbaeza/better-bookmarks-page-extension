@@ -1,5 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 
 import { BookmarkMasonryColumn } from '@/features/bookmarks/components/layout/BookmarkMasonryColumn';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
@@ -113,7 +114,9 @@ describe('BookmarkMasonryColumn', () => {
   });
 
   it('moves dragged items to the current folder when dropped', async () => {
-    moveMock.mockResolvedValue(undefined);
+    when(moveMock)
+      .calledWith('dragged-id', expect.objectContaining({ parentId: folderId }))
+      .thenResolve(undefined);
 
     render(<BookmarkMasonryColumn folderContents={folderContents} folderId={folderId} name="My Folder" />);
 
@@ -126,9 +129,8 @@ describe('BookmarkMasonryColumn', () => {
 
   it('reports height via ResizeObserver and initial measurement', () => {
     const onHeightChange = vi.fn();
-    const getBoundingClientRectSpy = vi
-      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
-      .mockReturnValue(defaultRect);
+    const getBoundingClientRectSpy = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect');
+    when(getBoundingClientRectSpy).calledWith().thenReturn(defaultRect);
 
     render(
       <BookmarkMasonryColumn
@@ -159,9 +161,8 @@ describe('BookmarkMasonryColumn', () => {
   });
 
   it('skips ResizeObserver wiring when onHeightChange is not provided', () => {
-    const getBoundingClientRectSpy = vi
-      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
-      .mockReturnValue(defaultRect);
+    const getBoundingClientRectSpy = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect');
+    when(getBoundingClientRectSpy).calledWith().thenReturn(defaultRect);
 
     render(<BookmarkMasonryColumn folderContents={folderContents} folderId={folderId} name="My Folder" />);
 
@@ -171,9 +172,8 @@ describe('BookmarkMasonryColumn', () => {
 
   it('falls back to getBoundingClientRect when ResizeObserver is unavailable', () => {
     const onHeightChange = vi.fn();
-    const getBoundingClientRectSpy = vi
-      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
-      .mockReturnValue(defaultRect);
+    const getBoundingClientRectSpy = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect');
+    when(getBoundingClientRectSpy).calledWith().thenReturn(defaultRect);
     // @ts-expect-error force undefined
     global.ResizeObserver = undefined;
 

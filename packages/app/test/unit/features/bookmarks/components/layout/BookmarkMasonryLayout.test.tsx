@@ -1,5 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 import { BookmarkMasonryLayout } from '@/features/bookmarks/components/layout/BookmarkMasonryLayout';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { AllProviders } from '~test/test-utils';
@@ -105,10 +106,11 @@ const setupHeightUpdateScenario = () => {
 
 describe('BookmarkMasonryLayout', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
     mockBookmarkMasonryColumn.mockImplementation(renderMockColumn);
-    mockUseContainerWidth.mockReturnValue({ containerWidth: 1200, containerRef: vi.fn() });
-    mockUseMasonryLayout.mockReturnValue(defaultColumns);
+    when(mockUseContainerWidth).calledWith().thenReturn({ containerWidth: 1200, containerRef: vi.fn() });
+    when(mockUseMasonryLayout)
+      .calledWith(expect.anything(), expect.anything(), expect.anything())
+      .thenReturn(defaultColumns);
   });
 
   describe('height estimation', () => {
@@ -182,7 +184,7 @@ describe('BookmarkMasonryLayout', () => {
     [1100, 4, '>= 1024 but < 1536'],
     [1600, 4, '>= 1536'],
   ])('calculates correct column count (%i px width = %i columns) for %s', (width, expectedColumns) => {
-    mockUseContainerWidth.mockReturnValue({ containerWidth: width, containerRef: vi.fn() });
+    when(mockUseContainerWidth).calledWith().thenReturn({ containerWidth: width, containerRef: vi.fn() });
     const mockedColumns = Array.from({ length: expectedColumns }, (_, i) => {
       const folder = mockFolders[i % mockFolders.length];
       return {
@@ -191,7 +193,9 @@ describe('BookmarkMasonryLayout', () => {
       };
     });
 
-    mockUseMasonryLayout.mockReturnValue(mockedColumns);
+    when(mockUseMasonryLayout)
+      .calledWith(expect.anything(), expect.anything(), expect.anything())
+      .thenReturn(mockedColumns);
 
     render(
       <AllProviders>
@@ -204,8 +208,10 @@ describe('BookmarkMasonryLayout', () => {
   });
 
   it('handles zero container width with default value', () => {
-    mockUseContainerWidth.mockReturnValue({ containerWidth: 0, containerRef: vi.fn() });
-    mockUseMasonryLayout.mockReturnValue([{ items: mockFolders, key: 'column-0' }]);
+    when(mockUseContainerWidth).calledWith().thenReturn({ containerWidth: 0, containerRef: vi.fn() });
+    when(mockUseMasonryLayout)
+      .calledWith(expect.anything(), expect.anything(), expect.anything())
+      .thenReturn([{ items: mockFolders, key: 'column-0' }]);
 
     render(
       <AllProviders>
@@ -233,10 +239,12 @@ describe('BookmarkMasonryLayout', () => {
   });
 
   it('ensures all columns have containers even when empty', () => {
-    mockUseMasonryLayout.mockReturnValue([
-      { items: [mockFolders[0]], key: 'column-0' },
-      { items: [mockFolders[1]], key: 'column-1' },
-    ]);
+    when(mockUseMasonryLayout)
+      .calledWith(expect.anything(), expect.anything(), expect.anything())
+      .thenReturn([
+        { items: [mockFolders[0]], key: 'column-0' },
+        { items: [mockFolders[1]], key: 'column-1' },
+      ]);
 
     render(
       <AllProviders>
@@ -271,7 +279,7 @@ describe('BookmarkMasonryLayout', () => {
 
   it('assigns container ref to the wrapper element', () => {
     const mockRef = vi.fn();
-    mockUseContainerWidth.mockReturnValue({ containerWidth: 1200, containerRef: mockRef });
+    when(mockUseContainerWidth).calledWith().thenReturn({ containerWidth: 1200, containerRef: mockRef });
 
     render(
       <AllProviders>

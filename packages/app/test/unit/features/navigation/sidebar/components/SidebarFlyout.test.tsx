@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
+import { when } from 'vitest-when';
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { useFavicon } from '@/features/bookmarks/hooks/useFavicon';
 import { SidebarFlyout } from '@/features/navigation/sidebar/components/SidebarFlyout';
@@ -30,40 +31,46 @@ vi.mock('@/shared/ui/ImageWithFallback', () => ({
 describe('SidebarFlyout', () => {
   let mockUseBookmarkNavigation: ReturnType<typeof vi.mocked<typeof useBookmarkNavigation>>;
   let _mockUseFavicon: ReturnType<typeof vi.mocked<typeof useFavicon>>;
-  const mockFolder = {
-    children: [
-      {
-        children: [],
-        id: 'subfolder-1',
-        title: 'Subfolder 1',
-      },
-      {
-        id: 'bookmark-1',
-        title: 'Test Bookmark',
-        url: 'https://example.com',
-      },
-    ],
-    id: 'folder-1',
-    title: 'Test Folder',
+  let mockOnClose: ReturnType<typeof vi.fn<() => void>>;
+  let mockClickFolder: ReturnType<typeof vi.fn<() => void>>;
+  let mockFolder: {
+    children: Array<{ children?: unknown[]; id: string; title: string; url?: string }>;
+    id: string;
+    title: string;
   };
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockOnClose = vi.fn<() => void>();
+    mockClickFolder = vi.fn<() => void>();
+    mockFolder = {
+      children: [
+        {
+          children: [],
+          id: 'subfolder-1',
+          title: 'Subfolder 1',
+        },
+        {
+          id: 'bookmark-1',
+          title: 'Test Bookmark',
+          url: 'https://example.com',
+        },
+      ],
+      id: 'folder-1',
+      title: 'Test Folder',
+    };
+
     mockUseBookmarkNavigation = vi.mocked(useBookmarkNavigation);
-    mockUseBookmarkNavigation.mockReturnValue({
+    when(mockUseBookmarkNavigation).calledWith().thenReturn({
       currentPage: 'folder-1',
       setCurrentPage: vi.fn(),
     });
     _mockUseFavicon = vi.mocked(useFavicon);
-    _mockUseFavicon.mockReturnValue('https://example.com/favicon.ico');
+    when(_mockUseFavicon).calledWith(expect.anything()).thenReturn('https://example.com/favicon.ico');
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
   });
-
-  const mockOnClose = vi.fn();
-  const mockClickFolder = vi.fn();
 
   it('renders the flyout with folder title and close button', () => {
     render(

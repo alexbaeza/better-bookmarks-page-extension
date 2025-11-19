@@ -4,11 +4,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useClickOutside } from '@/features/bookmarks/hooks/useClickOutside';
 
 describe('useClickOutside', () => {
-  const mockHandler = vi.fn();
+  let mockHandler: ReturnType<typeof vi.fn<() => void>>;
   let containerRef: React.RefObject<HTMLDivElement>;
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockHandler = vi.fn<() => void>();
     containerRef = { current: document.createElement('div') };
     document.body.appendChild(containerRef.current);
   });

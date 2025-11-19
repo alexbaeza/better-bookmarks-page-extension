@@ -35,10 +35,6 @@ vi.mock('@/app/providers/modal-context', () => ({
 }));
 
 describe('AppProviders', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   afterEach(() => {
     vi.restoreAllMocks();
   });

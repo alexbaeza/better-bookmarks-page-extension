@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import type React from 'react';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/app/providers/app-state-context', async () => {
   return await vi.importActual('@/app/providers/app-state-context');
@@ -11,9 +11,11 @@ import { AppStateContext, initialContext, useAppStateContext } from '@/app/provi
 const originalConsoleError = console.error;
 
 describe('AppStateContext', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
+  const createWrapper = () => {
+    return ({ children }: { children: React.ReactNode }) => (
+      <AppStateContext.Provider value={initialContext}>{children}</AppStateContext.Provider>
+    );
+  };
 
   afterEach(() => {
     vi.restoreAllMocks();
@@ -21,10 +23,7 @@ describe('AppStateContext', () => {
   });
 
   it('returns context when wrapped with provider', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <AppStateContext.Provider value={initialContext}>{children}</AppStateContext.Provider>
-    );
-
+    const wrapper = createWrapper();
     const { result } = renderHook(() => useAppStateContext(), { wrapper });
 
     expect(result.current).toBe(initialContext);
@@ -44,11 +43,8 @@ describe('AppStateContext', () => {
     expect(typeof initialContext.refreshBookmarks).toBe('function');
   });
 
-  it('exposes correct context shape', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <AppStateContext.Provider value={initialContext}>{children}</AppStateContext.Provider>
-    );
-
+  it('exposes correct context shape when wrapped with provider', () => {
+    const wrapper = createWrapper();
     const { result } = renderHook(() => useAppStateContext(), { wrapper });
 
     expect(result.current.bookmarks).toStrictEqual({ folders: [], uncategorized: undefined });
@@ -77,7 +73,6 @@ describe('AppStateContext', () => {
 
   it('throws when context is null from Provider', () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
     const TestProvider = ({ children }: { children: React.ReactNode }) => (
       <AppStateContext.Provider value={null as unknown as typeof initialContext}>{children}</AppStateContext.Provider>
     );

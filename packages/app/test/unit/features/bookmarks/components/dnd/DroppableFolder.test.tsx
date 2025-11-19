@@ -3,8 +3,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DroppableFolder } from '@/features/bookmarks/components/dnd/DroppableFolder';
 import { AllProviders } from '~test/test-utils';
 
-const mockUseDrop = vi.fn();
-const mockOnDrop = vi.fn();
+let mockUseDrop = vi.fn();
+let mockOnDrop: ReturnType<typeof vi.fn<() => void>>;
 
 vi.mock('react-dnd', () => ({
   useDrop: (config: any) => mockUseDrop(config),
@@ -12,11 +12,11 @@ vi.mock('react-dnd', () => ({
 
 describe('DroppableFolder', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockUseDrop.mockReturnValue([
+    mockUseDrop = vi.fn(() => [
       { isOver: false, canDrop: false },
       vi.fn(), // drop function
     ]);
+    mockOnDrop = vi.fn<() => void>();
   });
 
   it('should render without crashing', () => {

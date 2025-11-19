@@ -47,8 +47,10 @@ const createWrapper = () => {
 };
 
 describe('useBookmarkSearch', () => {
+  let wrapper: ReturnType<typeof createWrapper>;
+
   beforeEach(() => {
-    vi.clearAllMocks();
+    wrapper = createWrapper();
   });
 
   afterEach(() => {
@@ -56,7 +58,6 @@ describe('useBookmarkSearch', () => {
   });
 
   it('should return initial state', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(
       () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
       { wrapper }
@@ -68,7 +69,6 @@ describe('useBookmarkSearch', () => {
   });
 
   it('should provide search term setter', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(
       () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
       { wrapper }
@@ -78,7 +78,6 @@ describe('useBookmarkSearch', () => {
   });
 
   it('should return counts object', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(
       () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
       { wrapper }
@@ -89,7 +88,6 @@ describe('useBookmarkSearch', () => {
   });
 
   it('should return page containers', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(
       () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
       { wrapper }
@@ -99,7 +97,6 @@ describe('useBookmarkSearch', () => {
   });
 
   it('should return items array', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(
       () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
       { wrapper }
@@ -109,7 +106,6 @@ describe('useBookmarkSearch', () => {
   });
 
   it('should handle empty folders', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(() => useBookmarkSearch({ rawFolders: [], rawUncategorized: undefined }), {
       wrapper,
     });
@@ -118,7 +114,6 @@ describe('useBookmarkSearch', () => {
   });
 
   it('should handle undefined uncategorized', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(() => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: undefined }), {
       wrapper,
     });
@@ -127,7 +122,6 @@ describe('useBookmarkSearch', () => {
   });
 
   it('should handle All page', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(
       () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
       { wrapper }
@@ -137,7 +131,6 @@ describe('useBookmarkSearch', () => {
   });
 
   it('should return empty items for All page', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(
       () => useBookmarkSearch({ rawFolders: mockFolders, rawUncategorized: mockUncategorized }),
       { wrapper }

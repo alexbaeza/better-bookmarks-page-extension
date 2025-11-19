@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 import { MainLayout } from '@/app/layouts/MainLayout';
 
 const mockUseAtomValue = vi.fn();
@@ -30,43 +31,43 @@ vi.mock('@/app/layouts/MainContent', () => ({
 
 describe('MainLayout', () => {
   it('should render without crashing', () => {
-    mockUseAtomValue.mockReturnValue(false);
+    when(mockUseAtomValue).calledWith().thenReturn(false);
     render(<MainLayout />);
     expect(screen.getByTestId('main-content')).toBeInTheDocument();
   });
 
   it('should render MainContent component', () => {
-    mockUseAtomValue.mockReturnValue(false);
+    when(mockUseAtomValue).calledWith().thenReturn(false);
     render(<MainLayout />);
     expect(screen.getByTestId('main-content')).toBeInTheDocument();
   });
 
   it('should render Sidebar when sidebar is enabled', () => {
-    mockUseAtomValue.mockReturnValue(true);
+    when(mockUseAtomValue).calledWith().thenReturn(true);
     render(<MainLayout />);
     expect(screen.getByTestId('sidebar')).toBeInTheDocument();
   });
 
   it('should not render Sidebar when sidebar is disabled', () => {
-    mockUseAtomValue.mockReturnValue(false);
+    when(mockUseAtomValue).calledWith().thenReturn(false);
     render(<MainLayout />);
     expect(screen.queryByTestId('sidebar')).not.toBeInTheDocument();
   });
 
   it('should render Sidebar with correct title', () => {
-    mockUseAtomValue.mockReturnValue(true);
+    when(mockUseAtomValue).calledWith().thenReturn(true);
     render(<MainLayout />);
     expect(screen.getByTestId('sidebar-title')).toHaveTextContent('Better Bookmarks');
   });
 
   it('should render SidebarFooter in Sidebar', () => {
-    mockUseAtomValue.mockReturnValue(true);
+    when(mockUseAtomValue).calledWith().thenReturn(true);
     render(<MainLayout />);
     expect(screen.getByTestId('sidebar-footer')).toBeInTheDocument();
   });
 
   it('should render children in MainContent', () => {
-    mockUseAtomValue.mockReturnValue(false);
+    when(mockUseAtomValue).calledWith().thenReturn(false);
     render(
       <MainLayout>
         <div data-testid="test-child">Test Child</div>
@@ -76,14 +77,14 @@ describe('MainLayout', () => {
   });
 
   it('should have flex layout classes', () => {
-    mockUseAtomValue.mockReturnValue(false);
+    when(mockUseAtomValue).calledWith().thenReturn(false);
     const { container } = render(<MainLayout />);
     const mainDiv = container.firstChild;
     expect(mainDiv).toHaveClass('flex', 'flex-1', 'overflow-hidden');
   });
 
   it('should render both Sidebar and MainContent when sidebar is enabled', () => {
-    mockUseAtomValue.mockReturnValue(true);
+    when(mockUseAtomValue).calledWith().thenReturn(true);
     render(<MainLayout />);
     expect(screen.getByTestId('sidebar')).toBeInTheDocument();
     expect(screen.getByTestId('main-content')).toBeInTheDocument();

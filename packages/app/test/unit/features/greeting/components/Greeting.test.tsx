@@ -1,14 +1,9 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { greetingEnabledAtom, greetingNameAtom } from '@/app/providers/atoms';
 import { Greeting } from '@/features/greeting/components/Greeting';
 import { render, screen } from '~test/test-utils';
 
 describe('Greeting component', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.restoreAllMocks();
-  });
-
   it('renders greeting component', () => {
     render(<Greeting />, {
       initialValues: [

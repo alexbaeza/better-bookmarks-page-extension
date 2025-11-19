@@ -1,27 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 import { BreadcrumbNavigation } from '@/features/bookmarks/components/BreadcrumbNavigation';
 import { AllProviders } from '~test/test-utils';
 
 const mockNavigateToPage = vi.fn();
 const mockNavigateBack = vi.fn();
-const mockUseBookmarkNavigation = vi.fn(() => ({
-  navigationStack: ['All', 'folder-1'],
-  navigateToPage: mockNavigateToPage,
-  navigateBack: mockNavigateBack,
-  canGoBack: true,
-}));
-
-const mockUseBookmarks = vi.fn(() => ({
-  rawFolders: [
-    {
-      id: 'folder-1',
-      title: 'Test Folder',
-      children: [],
-    },
-  ],
-}));
+const mockUseBookmarkNavigation = vi.fn();
+const mockUseBookmarks = vi.fn();
 
 vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
   useBookmarkNavigation: () => mockUseBookmarkNavigation(),
@@ -33,16 +20,27 @@ vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
 
 describe('BreadcrumbNavigation', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('should render without crashing', () => {
-    render(
-      <AllProviders>
-        <BreadcrumbNavigation />
-      </AllProviders>
-    );
-    expect(screen.getByTestId('breadcrumb-back')).toBeInTheDocument();
+    mockNavigateToPage.mockClear();
+    mockNavigateBack.mockClear();
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn({
+        navigationStack: ['All', 'folder-1'],
+        navigateToPage: mockNavigateToPage,
+        navigateBack: mockNavigateBack,
+        canGoBack: true,
+      });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        rawFolders: [
+          {
+            id: 'folder-1',
+            title: 'Test Folder',
+            children: [],
+          },
+        ],
+      });
   });
 
   it('should render back button when canGoBack is true', () => {
@@ -121,23 +119,27 @@ describe('BreadcrumbNavigation', () => {
   });
 
   it('should show ellipsis when path length exceeds 5', () => {
-    mockUseBookmarkNavigation.mockReturnValueOnce({
-      navigationStack: ['All', 'folder-1', 'folder-2', 'folder-3', 'folder-4', 'folder-5', 'folder-6'],
-      navigateToPage: mockNavigateToPage,
-      navigateBack: mockNavigateBack,
-      canGoBack: true,
-    });
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn({
+        navigationStack: ['All', 'folder-1', 'folder-2', 'folder-3', 'folder-4', 'folder-5', 'folder-6'],
+        navigateToPage: mockNavigateToPage,
+        navigateBack: mockNavigateBack,
+        canGoBack: true,
+      });
 
-    mockUseBookmarks.mockReturnValueOnce({
-      rawFolders: [
-        { id: 'folder-1', title: 'Folder 1', children: [] },
-        { id: 'folder-2', title: 'Folder 2', children: [] },
-        { id: 'folder-3', title: 'Folder 3', children: [] },
-        { id: 'folder-4', title: 'Folder 4', children: [] },
-        { id: 'folder-5', title: 'Folder 5', children: [] },
-        { id: 'folder-6', title: 'Folder 6', children: [] },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        rawFolders: [
+          { id: 'folder-1', title: 'Folder 1', children: [] },
+          { id: 'folder-2', title: 'Folder 2', children: [] },
+          { id: 'folder-3', title: 'Folder 3', children: [] },
+          { id: 'folder-4', title: 'Folder 4', children: [] },
+          { id: 'folder-5', title: 'Folder 5', children: [] },
+          { id: 'folder-6', title: 'Folder 6', children: [] },
+        ],
+      });
 
     render(
       <AllProviders>
@@ -149,22 +151,26 @@ describe('BreadcrumbNavigation', () => {
   });
 
   it('should render Untitled for folder without title', () => {
-    mockUseBookmarkNavigation.mockReturnValueOnce({
-      navigationStack: ['All', 'folder-1'],
-      navigateToPage: mockNavigateToPage,
-      navigateBack: mockNavigateBack,
-      canGoBack: true,
-    });
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn({
+        navigationStack: ['All', 'folder-1'],
+        navigateToPage: mockNavigateToPage,
+        navigateBack: mockNavigateBack,
+        canGoBack: true,
+      });
 
-    mockUseBookmarks.mockReturnValueOnce({
-      rawFolders: [
-        {
-          id: 'folder-1',
-          title: '',
-          children: [],
-        },
-      ],
-    });
+    when(mockUseBookmarks)
+      .calledWith()
+      .thenReturn({
+        rawFolders: [
+          {
+            id: 'folder-1',
+            title: '',
+            children: [],
+          },
+        ],
+      });
 
     render(
       <AllProviders>
@@ -176,14 +182,16 @@ describe('BreadcrumbNavigation', () => {
   });
 
   it('should render Uncategorized breadcrumb', () => {
-    mockUseBookmarkNavigation.mockReturnValueOnce({
-      navigationStack: ['Uncategorized'],
-      navigateToPage: mockNavigateToPage,
-      navigateBack: mockNavigateBack,
-      canGoBack: false,
-    });
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn({
+        navigationStack: ['Uncategorized'],
+        navigateToPage: mockNavigateToPage,
+        navigateBack: mockNavigateBack,
+        canGoBack: false,
+      });
 
-    mockUseBookmarks.mockReturnValueOnce({
+    when(mockUseBookmarks).calledWith().thenReturn({
       rawFolders: [],
     });
 
@@ -197,14 +205,16 @@ describe('BreadcrumbNavigation', () => {
   });
 
   it('should not render back button when canGoBack is false', () => {
-    mockUseBookmarkNavigation.mockReturnValueOnce({
-      navigationStack: ['All'],
-      navigateToPage: mockNavigateToPage,
-      navigateBack: mockNavigateBack,
-      canGoBack: false,
-    });
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn({
+        navigationStack: ['All'],
+        navigateToPage: mockNavigateToPage,
+        navigateBack: mockNavigateBack,
+        canGoBack: false,
+      });
 
-    mockUseBookmarks.mockReturnValueOnce({
+    when(mockUseBookmarks).calledWith().thenReturn({
       rawFolders: [],
     });
 

@@ -1,6 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import type React from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 
 import { ModalProvider } from '@/app/providers/modal-context';
 import * as bookmarkActions from '@/features/bookmarks/hooks/useBookmarkActions';
@@ -29,8 +30,29 @@ const mockFolder = {
 };
 
 describe('useBookmarkModals', () => {
+  let mockCreate: ReturnType<typeof vi.fn>;
+  let mockUpdate: ReturnType<typeof vi.fn>;
+  let mockRemove: ReturnType<typeof vi.fn>;
+  let mockMove: ReturnType<typeof vi.fn>;
+  let mockUpdateLayout: ReturnType<typeof vi.fn>;
+  let wrapper: React.FC<{ children: React.ReactNode }>;
+
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockCreate = vi.fn();
+    mockUpdate = vi.fn();
+    mockRemove = vi.fn();
+    mockMove = vi.fn();
+    mockUpdateLayout = vi.fn();
+
+    when(vi.mocked(bookmarkActions.useBookmarkActions)).calledWith().thenReturn({
+      create: mockCreate,
+      update: mockUpdate,
+      remove: mockRemove,
+      move: mockMove,
+      updateLayout: mockUpdateLayout,
+    });
+
+    wrapper = ({ children }) => <ModalProvider>{children}</ModalProvider>;
   });
 
   afterEach(() => {
@@ -38,22 +60,6 @@ describe('useBookmarkModals', () => {
   });
 
   it('returns all modal functions', () => {
-    const mockCreate = vi.fn().mockResolvedValue(undefined);
-    const mockUpdate = vi.fn().mockResolvedValue(undefined);
-    const mockRemove = vi.fn().mockResolvedValue(undefined);
-
-    vi.mocked(bookmarkActions.useBookmarkActions).mockReturnValue({
-      create: mockCreate,
-      update: mockUpdate,
-      remove: mockRemove,
-      move: vi.fn(),
-      updateLayout: vi.fn(),
-    });
-
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-      <ModalProvider>{children}</ModalProvider>
-    );
-
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
     expect(result.current.openCreateModal).toBeDefined();
@@ -63,22 +69,6 @@ describe('useBookmarkModals', () => {
   });
 
   it('calls create when openCreateModal is invoked', async () => {
-    const mockCreate = vi.fn().mockResolvedValue(undefined);
-    const mockUpdate = vi.fn().mockResolvedValue(undefined);
-    const mockRemove = vi.fn().mockResolvedValue(undefined);
-
-    vi.mocked(bookmarkActions.useBookmarkActions).mockReturnValue({
-      create: mockCreate,
-      update: mockUpdate,
-      remove: mockRemove,
-      move: vi.fn(),
-      updateLayout: vi.fn(),
-    });
-
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-      <ModalProvider>{children}</ModalProvider>
-    );
-
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
     await act(async () => {
@@ -89,22 +79,6 @@ describe('useBookmarkModals', () => {
   });
 
   it('calls update when openEditModal is invoked', async () => {
-    const mockCreate = vi.fn().mockResolvedValue(undefined);
-    const mockUpdate = vi.fn().mockResolvedValue(undefined);
-    const mockRemove = vi.fn().mockResolvedValue(undefined);
-
-    vi.mocked(bookmarkActions.useBookmarkActions).mockReturnValue({
-      create: mockCreate,
-      update: mockUpdate,
-      remove: mockRemove,
-      move: vi.fn(),
-      updateLayout: vi.fn(),
-    });
-
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-      <ModalProvider>{children}</ModalProvider>
-    );
-
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
     await act(async () => {
@@ -115,22 +89,6 @@ describe('useBookmarkModals', () => {
   });
 
   it('opens folder modal when openFolderModal is invoked', async () => {
-    const mockCreate = vi.fn().mockResolvedValue(undefined);
-    const mockUpdate = vi.fn().mockResolvedValue(undefined);
-    const mockRemove = vi.fn().mockResolvedValue(undefined);
-
-    vi.mocked(bookmarkActions.useBookmarkActions).mockReturnValue({
-      create: mockCreate,
-      update: mockUpdate,
-      remove: mockRemove,
-      move: vi.fn(),
-      updateLayout: vi.fn(),
-    });
-
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-      <ModalProvider>{children}</ModalProvider>
-    );
-
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
     await act(async () => {
@@ -141,44 +99,12 @@ describe('useBookmarkModals', () => {
   });
 
   it('returns remove function from useBookmarkActions', () => {
-    const mockCreate = vi.fn().mockResolvedValue(undefined);
-    const mockUpdate = vi.fn().mockResolvedValue(undefined);
-    const mockRemove = vi.fn().mockResolvedValue(undefined);
-
-    vi.mocked(bookmarkActions.useBookmarkActions).mockReturnValue({
-      create: mockCreate,
-      update: mockUpdate,
-      remove: mockRemove,
-      move: vi.fn(),
-      updateLayout: vi.fn(),
-    });
-
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-      <ModalProvider>{children}</ModalProvider>
-    );
-
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
     expect(result.current.remove).toBe(mockRemove);
   });
 
   it('passes correct initial values for create modal', () => {
-    const mockCreate = vi.fn().mockResolvedValue(undefined);
-    const mockUpdate = vi.fn().mockResolvedValue(undefined);
-    const mockRemove = vi.fn().mockResolvedValue(undefined);
-
-    vi.mocked(bookmarkActions.useBookmarkActions).mockReturnValue({
-      create: mockCreate,
-      update: mockUpdate,
-      remove: mockRemove,
-      move: vi.fn(),
-      updateLayout: vi.fn(),
-    });
-
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-      <ModalProvider>{children}</ModalProvider>
-    );
-
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
     expect(typeof result.current.openCreateModal).toBe('function');
@@ -188,26 +114,10 @@ describe('useBookmarkModals', () => {
   });
 
   it('handles folder with undefined children', async () => {
-    const mockCreate = vi.fn().mockResolvedValue(undefined);
-    const mockUpdate = vi.fn().mockResolvedValue(undefined);
-    const mockRemove = vi.fn().mockResolvedValue(undefined);
-
-    vi.mocked(bookmarkActions.useBookmarkActions).mockReturnValue({
-      create: mockCreate,
-      update: mockUpdate,
-      remove: mockRemove,
-      move: vi.fn(),
-      updateLayout: vi.fn(),
-    });
-
     const folderWithUndefinedChildren = {
       ...mockFolder,
       children: undefined,
     };
-
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-      <ModalProvider>{children}</ModalProvider>
-    );
 
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 

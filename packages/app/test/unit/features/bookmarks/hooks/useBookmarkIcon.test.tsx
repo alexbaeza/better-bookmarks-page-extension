@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { isValidElement } from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { useBookmarkIcon } from '@/features/bookmarks/hooks/useBookmarkIcon';
 
 vi.mock('../../../../../../../src/features/bookmarks/hooks/useFavicon', () => ({
@@ -26,10 +26,6 @@ vi.mock('@/shared/ui/ImageWithFallback', () => ({
 }));
 
 describe('useBookmarkIcon', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   describe('for bookmarks with URL', () => {
     it('should return ImageWithFallback for bookmark with URL', () => {
       const { result } = renderHook(() => useBookmarkIcon('https://example.com', 'Example'));

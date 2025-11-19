@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { SearchBar } from '@/features/search/containers/SearchBar';
 
 const mockSetSearchTerm = vi.fn();
@@ -32,10 +32,6 @@ vi.mock('@/shared/ui/SearchInput', () => ({
 }));
 
 describe('SearchBar', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('should render without crashing', () => {
     render(<SearchBar />);
     expect(screen.getByTestId('search-input')).toBeInTheDocument();

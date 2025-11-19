@@ -1,6 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 import type React from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { ModalProvider, useModal } from '@/app/providers/modal-context';
 
@@ -23,10 +23,6 @@ const TestChild: React.FC = () => {
 };
 
 describe('ModalProvider', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   afterEach(() => {
     vi.restoreAllMocks();
   });
