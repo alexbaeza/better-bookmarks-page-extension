@@ -4,7 +4,7 @@ import { BookmarkFormModal } from '@/features/bookmarks/containers/BookmarkFormM
 import { useBookmarkActions } from '@/features/bookmarks/hooks/useBookmarkActions';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
-export function useBookmarkModals() {
+export const useBookmarkModals = () => {
   const { showModal, hideModal } = useModal();
   const { create, update, remove } = useBookmarkActions();
 
@@ -38,4 +38,4 @@ export function useBookmarkModals() {
     openFolderModal,
     remove,
   };
-}
+};

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SearchBar } from '@/features/search/containers/SearchBar';
@@ -53,7 +53,9 @@ describe('SearchBar', () => {
     const input = screen.getByTestId('search-input');
     await user.type(input, 'test query');
 
-    expect(mockSetSearchTerm).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(mockSetSearchTerm).toHaveBeenCalled();
+    });
   });
 
   it('should display current search term', () => {

@@ -17,7 +17,7 @@ export interface BookmarkGridItemProps {
 }
 
 export const BookmarkGridItem = memo<BookmarkGridItemProps>(({ item, dataTestId, onFolderClick }) => {
-  const { openEditModal } = useBookmarkModals();
+  const { openEditModal, remove } = useBookmarkModals();
   const { navigateToFolder } = useBookmarkNavigation();
   const { searchTerm } = useBookmarks();
   const { move } = useBookmarkActions();
@@ -26,12 +26,8 @@ export const BookmarkGridItem = memo<BookmarkGridItemProps>(({ item, dataTestId,
     openEditModal(item);
   };
 
-  const handleClick = (): void => {
-    if (onFolderClick) {
-      onFolderClick(item);
-    } else if (item.children) {
-      navigateToFolder(item.id);
-    }
+  const handleDelete = (): void => {
+    void remove(item.id);
   };
 
   const handleDrop = async (draggedItemId: string, _fromFolderId: string, _fromIndex: number): Promise<void> => {
@@ -51,7 +47,21 @@ export const BookmarkGridItem = memo<BookmarkGridItemProps>(({ item, dataTestId,
     onMouseEnter,
     onMouseLeave,
     onClick,
-  } = useBaseBookmarkItem(item, dataTestId, handleEdit, handleEdit, handleClick, onFolderClick, 12, 'grid');
+  } = useBaseBookmarkItem({
+    item,
+    dataTestId,
+    onEdit: handleEdit,
+    onDelete: handleDelete,
+    onFolderClick: (folder) => {
+      if (onFolderClick) {
+        onFolderClick(folder);
+      } else {
+        navigateToFolder(folder.id);
+      }
+    },
+    iconSize: 12,
+    dragHandleVariant: 'grid',
+  });
 
   const content = (
     <Bookmark.Root

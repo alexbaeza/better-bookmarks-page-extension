@@ -32,7 +32,8 @@ describe('Stack', () => {
     ['xl', 'space-y-6'],
   ])('should apply space-y class "%s" when gap="%s"', (gap, expectedClass) => {
     render(
-      <Stack data-testid="stack" gap={gap as any}>
+      // @ts-expect-error - Testing invalid prop value
+      <Stack data-testid="stack" gap={gap}>
         Content
       </Stack>
     );

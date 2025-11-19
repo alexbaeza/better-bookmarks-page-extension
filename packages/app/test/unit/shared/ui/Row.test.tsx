@@ -31,7 +31,8 @@ describe('Row', () => {
     ['xl', 'gap-6'],
   ])('should apply gap class "%s" when gap="%s"', (gap, expectedClass) => {
     render(
-      <Row data-testid="row" gap={gap as any}>
+      // @ts-expect-error - Testing invalid prop value
+      <Row data-testid="row" gap={gap}>
         Content
       </Row>
     );
@@ -47,7 +48,8 @@ describe('Row', () => {
     ['baseline', 'items-baseline'],
   ])('should apply alignItems class "%s" when alignItems="%s"', (alignment, expectedClass) => {
     render(
-      <Row alignItems={alignment as any} data-testid="row">
+      // @ts-expect-error - Testing invalid prop value
+      <Row alignItems={alignment} data-testid="row">
         Content
       </Row>
     );
@@ -64,7 +66,8 @@ describe('Row', () => {
     ['evenly', 'justify-evenly'],
   ])('should apply justifyContent class "%s" when justifyContent="%s"', (justification, expectedClass) => {
     render(
-      <Row data-testid="row" justifyContent={justification as any}>
+      // @ts-expect-error - Testing invalid prop value
+      <Row data-testid="row" justifyContent={justification}>
         Content
       </Row>
     );

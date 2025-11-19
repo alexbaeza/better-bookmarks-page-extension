@@ -2,9 +2,13 @@ import { Bookmark as BookmarkIcon } from 'lucide-react';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
+import { type PageId, useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
-import { findFolderById, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
+import {
+  buildPathToFolder,
+  findFolderById,
+  onlyFolders,
+} from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import { SidebarSection } from '@/features/navigation/sidebar/components/SideBarSection';
 import { SidebarFlyout } from '@/features/navigation/sidebar/components/SidebarFlyout';
 import { SidebarFolderNode } from '@/features/navigation/sidebar/components/SidebarFolderNode';
@@ -18,7 +22,7 @@ export interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', footer }) => {
   const { counts, rawFolders, isLoading } = useBookmarks();
-  const { currentPage, setCurrentPage } = useBookmarkNavigation();
+  const { currentPage, navigateToPage, navigateToFolderWithPath } = useBookmarkNavigation();
 
   const isAll = currentPage === 'All';
   const isUncat = currentPage === 'Uncategorized';
@@ -42,15 +46,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
     });
   }, []);
 
-  const handleClickAll = useCallback(() => setCurrentPage('All'), [setCurrentPage]);
-  const handleClickUncategorized = useCallback(() => setCurrentPage('Uncategorized'), [setCurrentPage]);
+  const handleClickAll = useCallback(() => navigateToPage('All'), [navigateToPage]);
+  const handleClickUncategorized = useCallback(() => navigateToPage('Uncategorized'), [navigateToPage]);
 
   const clickFolder = useCallback(
     (id: string) => {
       setOpenFolderId(id);
-      setCurrentPage(id);
+      const path = buildPathToFolder(rawFolders, id);
+      const fullPath: PageId[] = ['All', ...path];
+      navigateToFolderWithPath(id, fullPath);
     },
-    [setCurrentPage]
+    [navigateToFolderWithPath, rawFolders]
   );
 
   const selectedFolder = useMemo(() => findFolderById(rawFolders, openFolderId), [rawFolders, openFolderId]);

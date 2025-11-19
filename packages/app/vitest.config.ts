@@ -44,6 +44,31 @@ export default defineConfig((config) => {
             lines: 100,
             statements: 100,
           },
+          // Per-file thresholds for core classes - enforce 100% coverage
+          'src/features/bookmarks/lib/ordering-service.ts': {
+            branches: 100,
+            functions: 100,
+            lines: 100,
+            statements: 100,
+          },
+          'src/features/bookmarks/lib/browser/api/firefox-api.ts': {
+            branches: 100,
+            functions: 100,
+            lines: 100,
+            statements: 100,
+          },
+          'src/features/bookmarks/lib/browser/api/chrome-api.ts': {
+            branches: 100,
+            functions: 100,
+            lines: 100,
+            statements: 100,
+          },
+          'src/features/bookmarks/lib/favicon-cache.ts': {
+            branches: 100,
+            functions: 100,
+            lines: 100,
+            statements: 100,
+          },
         },
       },
       css: true,

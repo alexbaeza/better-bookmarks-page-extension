@@ -4,7 +4,7 @@ import { useBookmarkActions } from './useBookmarkActions';
 import { useBookmarkSearch } from './useBookmarkSearch';
 import { useRawBookmarkData } from './useRawBookmarkData';
 
-export function useBookmarks() {
+export const useBookmarks = () => {
   const data = useRawBookmarkData();
   const { currentPage, setCurrentPage } = useBookmarkNavigation();
   const { searchTerm, setSearchTerm, pageContainers, items, counts } = useBookmarkSearch({
@@ -26,4 +26,4 @@ export function useBookmarks() {
     setSearchTerm,
     ...actions,
   };
-}
+};

@@ -41,7 +41,7 @@ export const updateChildrenInTree = (
   });
 };
 
-export function findFolderById(folders: IBookmarkItem[], id: string | null): IBookmarkItem | undefined {
+export const findFolderById = (folders: IBookmarkItem[], id: string | null): IBookmarkItem | undefined => {
   if (!id) return undefined;
   for (const f of folders) {
     if (f.id === id) return f;
@@ -51,10 +51,39 @@ export function findFolderById(folders: IBookmarkItem[], id: string | null): IBo
     }
   }
   return undefined;
-}
+};
 
 export const countItems = (f: IBookmarkItem) => f.children?.filter((c) => !Array.isArray(c.children)).length || 0;
 
 export const countFolders = (f: IBookmarkItem) => f.children?.filter((c) => Array.isArray(c.children)).length || 0;
 
 export const onlyFolders = (f: IBookmarkItem) => Array.isArray(f.children);
+
+/**
+ * Build the path from root to a folder by finding all ancestors
+ * Returns an array of folder IDs from root to the target folder
+ */
+export const buildPathToFolder = (tree: IBookmarkItem[], targetId: string): string[] => {
+  const path: string[] = [];
+
+  const findPath = (items: IBookmarkItem[], target: string, currentPath: string[]): boolean => {
+    for (const item of items) {
+      const newPath = [...currentPath, item.id];
+
+      if (item.id === target) {
+        path.push(...newPath);
+        return true;
+      }
+
+      if (item.children) {
+        if (findPath(item.children, target, newPath)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  findPath(tree, targetId, []);
+  return path;
+};

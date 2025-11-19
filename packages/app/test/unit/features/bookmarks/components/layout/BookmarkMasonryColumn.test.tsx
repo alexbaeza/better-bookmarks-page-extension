@@ -3,6 +3,7 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } 
 
 import { BookmarkMasonryColumn } from '@/features/bookmarks/components/layout/BookmarkMasonryColumn';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
+import type { TestGlobal } from '~test/test-types';
 
 const moveMock = vi.fn();
 const droppableProps: { onDrop?: (id: string, parentId: string, index: number) => void } = {};
@@ -64,7 +65,8 @@ let resizeObservers: Array<{
   observe: ReturnType<typeof vi.fn>;
   disconnect: ReturnType<typeof vi.fn>;
 }> = [];
-const originalResizeObserver = global.ResizeObserver;
+const originalResizeObserver = (globalThis as typeof globalThis & { ResizeObserver?: typeof ResizeObserver })
+  .ResizeObserver;
 
 beforeAll(() => {
   class MockResizeObserver {
@@ -78,11 +80,14 @@ beforeAll(() => {
       resizeObservers.push({ callback, observe: this.observe, disconnect: this.disconnect });
     }
   }
-  (global as any).ResizeObserver = MockResizeObserver;
+  (global as TestGlobal).ResizeObserver = MockResizeObserver;
 });
 
 afterAll(() => {
-  global.ResizeObserver = originalResizeObserver;
+  if (originalResizeObserver !== undefined) {
+    (globalThis as typeof globalThis & { ResizeObserver: typeof ResizeObserver }).ResizeObserver =
+      originalResizeObserver;
+  }
 });
 
 beforeEach(() => {

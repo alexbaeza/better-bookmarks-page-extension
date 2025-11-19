@@ -32,7 +32,8 @@ describe('List', () => {
     ['xl', 'gap-6'],
   ])('should apply gap class "%s" when gap="%s"', (gap, expectedClass) => {
     render(
-      <List data-testid="list" gap={gap as any}>
+      // @ts-expect-error - Testing invalid prop value
+      <List data-testid="list" gap={gap}>
         Content
       </List>
     );

@@ -10,14 +10,14 @@ export interface MasonryColumn<T> {
   key: string;
 }
 
-function createColumns<T>(columnCount: number): MasonryColumn<T>[] {
+const createColumns = <T,>(columnCount: number): MasonryColumn<T>[] => {
   return Array.from({ length: columnCount }, (_, index) => ({
     items: [],
     key: `column-${index}`,
   }));
-}
+};
 
-function findShortestColumnIndex(columnHeights: number[]): number {
+const findShortestColumnIndex = (columnHeights: number[]): number => {
   let shortestColumnIndex = 0;
   let shortestHeight = columnHeights[0];
 
@@ -29,15 +29,15 @@ function findShortestColumnIndex(columnHeights: number[]): number {
   }
 
   return shortestColumnIndex;
-}
+};
 
-function distributeItemsAcrossColumns<T>(
+const distributeItemsAcrossColumns = <T,>(
   items: T[],
   columns: MasonryColumn<T>[],
   columnHeights: number[],
   gap: number,
   getItemHeight?: (item: T) => number
-): void {
+): void => {
   for (const item of items) {
     const shortestColumnIndex = findShortestColumnIndex(columnHeights);
 
@@ -48,18 +48,18 @@ function distributeItemsAcrossColumns<T>(
     const itemHeight = getItemHeight ? getItemHeight(item) : 200; // Default estimated height
     columnHeights[shortestColumnIndex] += itemHeight + gap;
   }
-}
+};
 
 /**
  * Custom hook that distributes items into masonry columns
  * Fills columns from left to right, always adding to the shortest column
  * This prevents empty columns in the middle
  */
-export function useMasonryLayout<T>(
+export const useMasonryLayout = <T,>(
   items: T[],
   options: UseMasonryLayoutOptions,
   getItemHeight?: (item: T) => number
-): MasonryColumn<T>[] {
+): MasonryColumn<T>[] => {
   const { columnCount, gap = 16 } = options;
 
   return useMemo(() => {
@@ -79,4 +79,4 @@ export function useMasonryLayout<T>(
 
     return columns;
   }, [items, columnCount, gap, getItemHeight]);
-}
+};

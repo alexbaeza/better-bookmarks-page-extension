@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { customThemeAtom, themeAtom } from '@/app/providers/atoms';
 
-export function useApplyTheme() {
+export const useApplyTheme = () => {
   const theme = useAtomValue(themeAtom);
   const customTheme = useAtomValue(customThemeAtom);
 
@@ -65,4 +65,4 @@ ${cssVariables.replace(/;/g, ' !important;')}
       }
     }
   }, [theme, customTheme]);
-}
+};

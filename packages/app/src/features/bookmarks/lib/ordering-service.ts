@@ -15,7 +15,7 @@ export interface OrderingService {
   getOrderedChildren(folder: IBookmarkItem): IBookmarkItem[] | undefined;
 }
 
-class BookmarkOrderingService implements OrderingService {
+export class BookmarkOrderingService implements OrderingService {
   private ordering: OrderingData = {};
   private readonly STORAGE_KEY = storageKey('bookmark-ordering');
 

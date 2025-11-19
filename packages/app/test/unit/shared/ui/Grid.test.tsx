@@ -91,7 +91,8 @@ describe('Grid', () => {
     ['xl', 'gap-6'],
   ])('should apply gap class "%s" when gap="%s"', (gap, expectedClass) => {
     render(
-      <Grid data-testid="grid" gap={gap as any}>
+      // @ts-expect-error - Testing invalid prop value
+      <Grid data-testid="grid" gap={gap}>
         Content
       </Grid>
     );

@@ -35,9 +35,10 @@ describe('Page', () => {
         navigateToFolder: vi.fn(),
         navigateToPage: vi.fn(),
         navigateBack: vi.fn(),
+        navigateToFolderWithPath: vi.fn(),
         canGoBack: false,
         navigationStack: ['All'],
-      } as any);
+      } as ReturnType<typeof useBookmarkNavigation>);
 
     render(<Page pageId="All" />);
     expect(screen.getByTestId('content')).toBeInTheDocument();
@@ -53,9 +54,10 @@ describe('Page', () => {
         navigateToFolder: vi.fn(),
         navigateToPage: vi.fn(),
         navigateBack: vi.fn(),
+        navigateToFolderWithPath: vi.fn(),
         canGoBack: false,
         navigationStack: ['All'],
-      } as any);
+      } as ReturnType<typeof useBookmarkNavigation>);
 
     render(<Page pageId="All" />);
 
@@ -72,9 +74,10 @@ describe('Page', () => {
         navigateToFolder: vi.fn(),
         navigateToPage: vi.fn(),
         navigateBack: vi.fn(),
+        navigateToFolderWithPath: vi.fn(),
         canGoBack: false,
         navigationStack: ['All', 'Uncategorized'],
-      } as any);
+      } as ReturnType<typeof useBookmarkNavigation>);
 
     render(<Page pageId="Uncategorized" />);
 
@@ -91,9 +94,10 @@ describe('Page', () => {
         navigateToFolder: vi.fn(),
         navigateToPage: vi.fn(),
         navigateBack: vi.fn(),
+        navigateToFolderWithPath: vi.fn(),
         canGoBack: true,
         navigationStack: ['All', 'test-folder'],
-      } as any);
+      } as ReturnType<typeof useBookmarkNavigation>);
 
     render(<Page pageId="test-folder" />);
 
@@ -110,9 +114,10 @@ describe('Page', () => {
         navigateToFolder: vi.fn(),
         navigateToPage: vi.fn(),
         navigateBack: vi.fn(),
+        navigateToFolderWithPath: vi.fn(),
         canGoBack: false,
         navigationStack: ['All'],
-      } as any);
+      } as ReturnType<typeof useBookmarkNavigation>);
 
     const { rerender } = render(<Page pageId="All" />);
     expect(setCurrentPage).toHaveBeenCalledWith('All');

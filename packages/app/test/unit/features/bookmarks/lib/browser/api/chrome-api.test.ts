@@ -1,7 +1,9 @@
 import { vi } from 'vitest';
 
 import { ChromeBookmarkAPI } from '@/features/bookmarks/lib/browser/api/chrome-api';
+import type { MockBookmarksAPI } from '@/features/bookmarks/lib/browser/api/mock-bookmarks-api';
 import { generateMockChromeBookmarkTree } from '~test/mocks/bookmark-data';
+import type { TestWindow } from '~test/test-types';
 
 const mockChromeBookmarks = {
   create: vi.fn(),
@@ -18,7 +20,7 @@ const mockChromeBookmarks = {
 
 const mockChrome = {
   bookmarks: mockChromeBookmarks,
-};
+} as { bookmarks: typeof mockChromeBookmarks; notifications?: { create: unknown } };
 
 Object.defineProperty(window, 'chrome', {
   configurable: true,
@@ -31,7 +33,7 @@ describe('ChromeBookmarkAPI', () => {
 
   describe('constructor', () => {
     it('throws error when Chrome bookmarks API is not available', () => {
-      delete (window as any).chrome;
+      Reflect.deleteProperty(window, 'chrome');
 
       expect(() => new ChromeBookmarkAPI()).toThrow('Chrome bookmarks API not available');
 
@@ -43,7 +45,7 @@ describe('ChromeBookmarkAPI', () => {
     });
 
     it('throws error when Chrome bookmarks API is undefined', () => {
-      (window as any).chrome = {};
+      (window as TestWindow).chrome = { bookmarks: undefined } as TestWindow['chrome'];
 
       expect(() => new ChromeBookmarkAPI()).toThrow('Chrome bookmarks API not available');
 
@@ -62,6 +64,23 @@ describe('ChromeBookmarkAPI', () => {
       writable: true,
     });
     api = new ChromeBookmarkAPI();
+  });
+
+  it('uses provided mock bookmarks API when constructed with mock instance', async () => {
+    const mockBookmarks = {
+      getTree: vi.fn().mockResolvedValue([
+        {
+          children: [],
+          id: '0',
+          title: 'Root',
+        },
+      ]),
+    } as Partial<MockBookmarksAPI> as MockBookmarksAPI;
+
+    const apiWithMock = new ChromeBookmarkAPI(mockBookmarks);
+    await apiWithMock.getBookmarksTree();
+
+    expect(mockBookmarks.getTree).toHaveBeenCalledTimes(1);
   });
 
   describe('getBookmarksTree', () => {
@@ -96,6 +115,62 @@ describe('ChromeBookmarkAPI', () => {
       mockChromeBookmarks.getTree.mockResolvedValue([
         {
           children: [],
+          id: '0',
+          title: 'Root',
+        },
+      ]);
+
+      const result = await api.getBookmarksTree();
+
+      expect(result.folders).toHaveLength(0);
+      expect(result.uncategorized).toBeUndefined();
+    });
+
+    it('handles root with non-built-in folder children', async () => {
+      mockChromeBookmarks.getTree.mockResolvedValue([
+        {
+          children: [
+            {
+              id: 'custom-folder',
+              title: 'Custom Folder',
+              children: [],
+            },
+          ],
+          id: '0',
+          title: 'Root',
+        },
+      ]);
+
+      const result = await api.getBookmarksTree();
+
+      expect(result.folders).toHaveLength(0);
+      expect(result.uncategorized).toBeUndefined();
+    });
+
+    it('handles root with undefined children', async () => {
+      mockChromeBookmarks.getTree.mockResolvedValue([
+        {
+          id: '0',
+          title: 'Root',
+        },
+      ]);
+
+      const result = await api.getBookmarksTree();
+
+      expect(result.folders).toHaveLength(0);
+      expect(result.uncategorized).toBeUndefined();
+    });
+
+    it('handles built-in folders with undefined children', async () => {
+      mockChromeBookmarks.getTree.mockResolvedValue([
+        {
+          children: [
+            {
+              folderType: 'bookmarks-bar',
+              id: '1',
+              title: 'Bookmarks Bar',
+            },
+          ],
           id: '0',
           title: 'Root',
         },
@@ -154,6 +229,30 @@ describe('ChromeBookmarkAPI', () => {
       expect(result.id).toBe('5');
       expect(result.title).toBe('New Folder');
       expect(result.url).toBeUndefined();
+    });
+
+    it('falls back to Uncategorized parent and shows notification when parentId is null', async () => {
+      const mockFolder = {
+        id: '5',
+        parentId: 'Uncategorized',
+        title: 'New Folder',
+      };
+
+      mockChromeBookmarks.create.mockResolvedValue(mockFolder);
+
+      const notificationsCreate = vi.fn();
+      mockChrome.notifications = { create: notificationsCreate };
+
+      const result = await api.createBookmark(null, {
+        title: 'New Folder',
+      });
+
+      expect(mockChromeBookmarks.create).toHaveBeenCalledWith({
+        parentId: 'Uncategorized',
+        title: 'New Folder',
+      });
+      expect(result.parentId).toBe('Uncategorized');
+      expect(notificationsCreate).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -259,6 +358,14 @@ describe('ChromeBookmarkAPI', () => {
 
       expect(result).toBeNull();
     });
+
+    it('returns null when get throws', async () => {
+      mockChromeBookmarks.get.mockRejectedValue(new Error('boom'));
+
+      const result = await api.getBookmark('4');
+
+      expect(result).toBeNull();
+    });
   });
 
   describe('searchBookmarks', () => {
@@ -316,6 +423,34 @@ describe('ChromeBookmarkAPI', () => {
 
       expect(mockChromeBookmarks.getSubTree).toHaveBeenCalledWith('1');
       expect(mockChromeBookmarks.move).toHaveBeenCalledWith('item1', { index: 2 });
+    });
+
+    it('throws when fromIndex is out of bounds', async () => {
+      const mockFolder = [
+        {
+          children: [{ id: 'item1', title: 'Item 1' }],
+          id: '1',
+          title: 'Test Folder',
+        },
+      ];
+
+      mockChromeBookmarks.getSubTree.mockResolvedValue(mockFolder);
+
+      await expect(api.reorderItems('1', 3, 0)).rejects.toThrow('Invalid folder or index: 1, 3');
+    });
+
+    it('throws when no item exists at fromIndex', async () => {
+      const mockFolder = [
+        {
+          children: [undefined],
+          id: '1',
+          title: 'Test Folder',
+        },
+      ];
+
+      mockChromeBookmarks.getSubTree.mockResolvedValue(mockFolder as unknown as chrome.bookmarks.BookmarkTreeNode[]);
+
+      await expect(api.reorderItems('1', 0, 1)).rejects.toThrow('Item not found at index 0');
     });
   });
 });

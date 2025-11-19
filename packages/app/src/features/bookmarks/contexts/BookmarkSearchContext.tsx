@@ -21,10 +21,10 @@ export const BookmarkSearchProvider: React.FC<{ children: ReactNode }> = ({ chil
   return <BookmarkSearchContext.Provider value={value}>{children}</BookmarkSearchContext.Provider>;
 };
 
-export function useBookmarkSearchTerm(): SearchContextType {
+export const useBookmarkSearchTerm = (): SearchContextType => {
   const ctx = useContext(BookmarkSearchContext);
   if (!ctx) {
     throw new Error('useBookmarkSearchTerm must be used within BookmarkSearchProvider');
   }
   return ctx;
-}
+};

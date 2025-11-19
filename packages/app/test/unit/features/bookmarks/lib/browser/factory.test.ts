@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createBookmarkAPI } from '@/features/bookmarks/lib/browser/factory';
-import { detectBrowser } from '@/features/bookmarks/lib/browser/utils/browser-detector';
+import { type BrowserInfo, detectBrowser } from '@/features/bookmarks/lib/browser/utils/browser-detector';
+import type { TestGlobalThis } from '~test/test-types';
 
 vi.mock('@/features/bookmarks/lib/browser/api/chrome-api', () => ({
   ChromeBookmarkAPI: class {
@@ -26,34 +27,34 @@ describe('createBookmarkAPI (Vite + Vitest)', () => {
     vi.clearAllMocks();
     vi.unstubAllEnvs();
     originalGlobals = {
-      Cypress: (globalThis as any).Cypress,
-      chrome: (globalThis as any).chrome,
-      browser: (globalThis as any).browser,
+      Cypress: (globalThis as TestGlobalThis).Cypress,
+      chrome: (globalThis as TestGlobalThis).chrome,
+      browser: (globalThis as TestGlobalThis).browser,
     };
-    delete (globalThis as any).Cypress;
-    delete (globalThis as any).chrome;
-    delete (globalThis as any).browser;
+    Reflect.deleteProperty(globalThis, 'Cypress');
+    Reflect.deleteProperty(globalThis, 'chrome');
+    Reflect.deleteProperty(globalThis, 'browser');
   });
 
   afterEach(() => {
     vi.unstubAllEnvs();
-    if (originalGlobals.Cypress !== undefined) (globalThis as any).Cypress = originalGlobals.Cypress;
-    if (originalGlobals.chrome !== undefined) (globalThis as any).chrome = originalGlobals.chrome;
-    if (originalGlobals.browser !== undefined) (globalThis as any).browser = originalGlobals.browser;
+    if (originalGlobals.Cypress !== undefined) (globalThis as TestGlobalThis).Cypress = originalGlobals.Cypress;
+    if (originalGlobals.chrome !== undefined) (globalThis as TestGlobalThis).chrome = originalGlobals.chrome;
+    if (originalGlobals.browser !== undefined) (globalThis as TestGlobalThis).browser = originalGlobals.browser;
   });
 
   it('returns ChromeBookmarkAPI with mock in test environment', () => {
     vi.stubEnv('NODE_ENV', 'test');
-    vi.mocked(detectBrowser).mockReturnValue({ type: 'chrome' } as any);
+    vi.mocked(detectBrowser).mockReturnValue({ type: 'chrome', isExtension: false } as BrowserInfo);
 
     const result = createBookmarkAPI();
     expect(result).toEqual({ type: 'chrome-api' });
   });
 
   it('returns ChromeBookmarkAPI with mock when Cypress is present', () => {
-    (globalThis as any).Cypress = {};
+    (globalThis as TestGlobalThis).Cypress = {};
     vi.stubEnv('NODE_ENV', 'production');
-    vi.mocked(detectBrowser).mockReturnValue({ type: 'chrome' } as any);
+    vi.mocked(detectBrowser).mockReturnValue({ type: 'chrome', isExtension: false } as BrowserInfo);
 
     const result = createBookmarkAPI();
     expect(result).toEqual({ type: 'chrome-api' });
@@ -61,25 +62,25 @@ describe('createBookmarkAPI (Vite + Vitest)', () => {
 
   it('returns ChromeBookmarkAPI with mock when no browser APIs exist', () => {
     vi.stubEnv('NODE_ENV', 'production');
-    vi.mocked(detectBrowser).mockReturnValue({ type: 'chrome' } as any);
+    vi.mocked(detectBrowser).mockReturnValue({ type: 'chrome', isExtension: false } as BrowserInfo);
 
     const result = createBookmarkAPI();
     expect(result).toEqual({ type: 'chrome-api' });
   });
 
   it('returns ChromeBookmarkAPI when chrome.bookmarks exists', () => {
-    (globalThis as any).chrome = { bookmarks: {} };
+    (globalThis as TestGlobalThis).chrome = { bookmarks: {} } as TestGlobalThis['chrome'];
     vi.stubEnv('NODE_ENV', 'production');
-    vi.mocked(detectBrowser).mockReturnValue({ type: 'chrome' } as any);
+    vi.mocked(detectBrowser).mockReturnValue({ type: 'chrome', isExtension: false } as BrowserInfo);
 
     const result = createBookmarkAPI();
     expect(result).toEqual({ type: 'chrome-api' });
   });
 
   it('returns FirefoxBookmarkAPI when browser.bookmarks exists', () => {
-    (globalThis as any).browser = { bookmarks: {} };
+    (globalThis as TestGlobalThis).browser = { bookmarks: {} } as TestGlobalThis['browser'];
     vi.stubEnv('MODE', 'production');
-    vi.mocked(detectBrowser).mockReturnValue({ type: 'firefox' } as any);
+    vi.mocked(detectBrowser).mockReturnValue({ type: 'firefox', isExtension: false } as BrowserInfo);
 
     const result = createBookmarkAPI();
     expect(result).toEqual({ type: 'firefox-api' });
@@ -87,8 +88,8 @@ describe('createBookmarkAPI (Vite + Vitest)', () => {
 
   it('throws error for unknown browser type', () => {
     vi.stubEnv('NODE_ENV', 'production');
-    vi.mocked(detectBrowser).mockReturnValue({ type: 'unknown' } as any);
-    (globalThis as any).chrome = { bookmarks: {} };
+    vi.mocked(detectBrowser).mockReturnValue({ type: 'unknown', isExtension: false } as BrowserInfo);
+    (globalThis as TestGlobalThis).chrome = { bookmarks: {} } as TestGlobalThis['chrome'];
 
     expect(() => createBookmarkAPI()).toThrow('Unsupported browser');
   });

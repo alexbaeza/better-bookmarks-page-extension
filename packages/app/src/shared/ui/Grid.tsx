@@ -55,22 +55,22 @@ const gridColsMap: Record<number, string> = {
   12: 'grid-cols-12',
 };
 
-function getColumnsClass(breakpoint: string, columns: number | undefined): string {
+const getColumnsClass = (breakpoint: string, columns: number | undefined): string => {
   if (!(columns && gridColsMap[columns])) return '';
   const baseClass = gridColsMap[columns];
   return breakpoint === '' ? baseClass : `${breakpoint}:${baseClass}`;
-}
+};
 
-function calculateOptimalColumns(containerWidth: number, minItemWidth: string, gapValue: number): number {
+const calculateOptimalColumns = (containerWidth: number, minItemWidth: string, gapValue: number): number => {
   const minWidth = Number.parseInt(minItemWidth, 10);
   const availableWidth = containerWidth - gapValue;
   return Math.max(1, Math.floor(availableWidth / (minWidth + gapValue)));
-}
+};
 
-function getGridTemplateColumns(
+const getGridTemplateColumns = (
   columns: number | 'auto' | 'auto-fit' | 'auto-fill' | undefined,
   minItemWidth: string
-): string | undefined {
+): string | undefined => {
   if (!columns) return undefined;
 
   switch (columns) {
@@ -86,7 +86,7 @@ function getGridTemplateColumns(
       }
       return undefined;
   }
-}
+};
 
 export const Grid: React.FC<GridProps> = ({
   children,

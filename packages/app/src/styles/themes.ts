@@ -62,7 +62,7 @@ export const themes: Record<string, ThemeColors> = {
     'bgColor-primary': '#2E3440',
     'bgColor-secondary': '#3B4252',
     'bgColor-tertiary': '#434C5E',
-    'fgColor-accent': '#88C0D0',
+    'fgColor-accent': '#539BCD',
     'fgColor-active': '#4C566A',
     'fgColor-danger': '#BF616A',
     'fgColor-hover': '#5E81AC',

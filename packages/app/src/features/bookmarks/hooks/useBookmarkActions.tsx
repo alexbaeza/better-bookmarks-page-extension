@@ -1,14 +1,9 @@
 import { useCallback } from 'react';
 
 import { useAppStateContext } from '@/app/providers/app-state-context';
-import {
-  createBookmark,
-  moveBookmark,
-  removeBookmark as removeBookmarkApi,
-  updateBookmark,
-} from '@/features/bookmarks/lib/bookmarks';
+import { createBookmark, moveBookmark, removeBookmark, updateBookmark } from '@/features/bookmarks/lib/bookmarks';
 
-export function useBookmarkActions() {
+export const useBookmarkActions = () => {
   const { refreshBookmarks } = useAppStateContext();
 
   const createBookmarkAction = useCallback(
@@ -27,7 +22,7 @@ export function useBookmarkActions() {
   );
   const removeBookmarkAction = useCallback(
     async (id: string) => {
-      await removeBookmarkApi(id);
+      await removeBookmark(id);
       await refreshBookmarks();
     },
     [refreshBookmarks]
@@ -46,4 +41,4 @@ export function useBookmarkActions() {
     remove: removeBookmarkAction,
     update: updateBookmarkAction,
   };
-}
+};

@@ -41,7 +41,12 @@ describe('AppRoutes', () => {
       currentPage: 'All',
       setCurrentPage: vi.fn(),
       navigationStack: ['All'],
-    } as any);
+      navigateToFolder: vi.fn(),
+      navigateBack: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
+      canGoBack: false,
+    });
 
     render(<AppRoutes />);
 
@@ -54,7 +59,12 @@ describe('AppRoutes', () => {
       currentPage: 'Uncategorized',
       setCurrentPage: vi.fn(),
       navigationStack: ['All', 'Uncategorized'],
-    } as any);
+      navigateToFolder: vi.fn(),
+      navigateBack: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
+      canGoBack: false,
+    });
 
     render(<AppRoutes />);
 
@@ -67,7 +77,12 @@ describe('AppRoutes', () => {
       currentPage: 'folder-123',
       setCurrentPage: vi.fn(),
       navigationStack: ['All', 'folder-123'],
-    } as any);
+      navigateToFolder: vi.fn(),
+      navigateBack: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
+      canGoBack: false,
+    });
 
     render(<AppRoutes />);
 
@@ -80,7 +95,12 @@ describe('AppRoutes', () => {
       currentPage: 'another-folder',
       setCurrentPage: vi.fn(),
       navigationStack: ['All', 'another-folder'],
-    } as any);
+      navigateToFolder: vi.fn(),
+      navigateBack: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
+      canGoBack: false,
+    });
 
     render(<AppRoutes />);
 
@@ -95,7 +115,12 @@ describe('AppRoutes', () => {
         currentPage: folderId,
         setCurrentPage: vi.fn(),
         navigationStack: ['All', folderId],
-      } as any);
+        navigateToFolder: vi.fn(),
+        navigateBack: vi.fn(),
+        navigateToPage: vi.fn(),
+        navigateToFolderWithPath: vi.fn(),
+        canGoBack: false,
+      });
 
       render(<AppRoutes />);
 
@@ -109,7 +134,12 @@ describe('AppRoutes', () => {
       currentPage: 'All',
       setCurrentPage: vi.fn(),
       navigationStack: ['All'],
-    } as any);
+      navigateToFolder: vi.fn(),
+      navigateBack: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
+      canGoBack: false,
+    });
 
     render(<AppRoutes />);
 
@@ -121,7 +151,12 @@ describe('AppRoutes', () => {
       currentPage: null as unknown as string, // TypeScript will complain but we're testing runtime behavior
       setCurrentPage: vi.fn(),
       navigationStack: [],
-    } as any);
+      navigateToFolder: vi.fn(),
+      navigateBack: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
+      canGoBack: false,
+    });
 
     render(<AppRoutes />);
 

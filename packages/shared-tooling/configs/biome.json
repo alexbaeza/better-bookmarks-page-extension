@@ -62,7 +62,6 @@
     "enabled": true,
     "rules": {
       "complexity": {
-        "recommended": true,
         "useArrowFunction": "error",
         "noExcessiveCognitiveComplexity": "error",
         "useSimplifiedLogicExpression": "error"

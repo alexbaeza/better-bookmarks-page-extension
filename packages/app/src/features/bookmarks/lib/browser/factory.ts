@@ -9,7 +9,7 @@ import { detectBrowser } from './utils/browser-detector';
  * In dev/test, uses mock data with Chrome/Firefox implementations
  * In production, uses real browser APIs
  */
-export function createBookmarkAPI(): BrowserBookmarkAPI {
+export const createBookmarkAPI = (): BrowserBookmarkAPI => {
   const browserInfo = detectBrowser();
   const isDev = import.meta.env.DEV;
   const isTest = import.meta.env.MODE === 'test';
@@ -42,4 +42,4 @@ export function createBookmarkAPI(): BrowserBookmarkAPI {
     default:
       throw new Error(`Unsupported browser please open an issue and report it: ${browserInfo.type}`);
   }
-}
+};

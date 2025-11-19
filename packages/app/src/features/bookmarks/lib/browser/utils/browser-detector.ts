@@ -1,7 +1,7 @@
 /**
  * Browser detection utility
  */
-export function detectBrowser(): BrowserInfo {
+export const detectBrowser = (): BrowserInfo => {
   const ua = navigator.userAgent;
   const isFirefox = /firefox|fxios/i.test(ua);
   const isChrome = /chrome/i.test(ua) && !/edge/i.test(ua);
@@ -42,12 +42,12 @@ export function detectBrowser(): BrowserInfo {
     isExtension: false,
     type: 'unknown',
   };
-}
+};
 
-function extractVersion(userAgent: string, browser: string): string | undefined {
+const extractVersion = (userAgent: string, browser: string): string | undefined => {
   const match = userAgent.match(new RegExp(`${browser}/([0-9.]+)`));
   return match ? match[1] : undefined;
-}
+};
 
 export interface BrowserInfo {
   type: 'chrome' | 'firefox' | 'unknown';

@@ -1,7 +1,9 @@
 import { vi } from 'vitest';
 
 import { FirefoxBookmarkAPI } from '@/features/bookmarks/lib/browser/api/firefox-api';
+import type { MockBookmarksAPI } from '@/features/bookmarks/lib/browser/api/mock-bookmarks-api';
 import { generateMockFirefoxBookmarkTree } from '~test/mocks/bookmark-data';
+import type { TestWindow } from '~test/test-types';
 
 const mockBrowserBookmarks = {
   create: vi.fn(),
@@ -18,7 +20,7 @@ const mockBrowserBookmarks = {
 
 const mockBrowser = {
   bookmarks: mockBrowserBookmarks,
-};
+} as { bookmarks: typeof mockBrowserBookmarks; notifications?: { create: unknown } };
 
 Object.defineProperty(window, 'browser', {
   configurable: true,
@@ -31,7 +33,7 @@ describe('FirefoxBookmarkAPI', () => {
 
   describe('constructor', () => {
     it('throws error when Firefox bookmarks API is not available', () => {
-      delete (window as any).browser;
+      Reflect.deleteProperty(window, 'browser');
 
       expect(() => new FirefoxBookmarkAPI()).toThrow('Firefox bookmarks API not available');
 
@@ -43,7 +45,7 @@ describe('FirefoxBookmarkAPI', () => {
     });
 
     it('throws error when Firefox bookmarks API is undefined', () => {
-      (window as any).browser = {};
+      (window as TestWindow).browser = { bookmarks: undefined } as TestWindow['browser'];
 
       expect(() => new FirefoxBookmarkAPI()).toThrow('Firefox bookmarks API not available');
 
@@ -62,6 +64,23 @@ describe('FirefoxBookmarkAPI', () => {
       writable: true,
     });
     api = new FirefoxBookmarkAPI();
+  });
+
+  it('uses provided mock bookmarks API when constructed with mock instance', async () => {
+    const mockBookmarks = {
+      getTree: vi.fn().mockResolvedValue([
+        {
+          children: [],
+          id: 'root',
+          title: 'Root',
+        },
+      ]),
+    } as Partial<MockBookmarksAPI> as MockBookmarksAPI;
+
+    const apiWithMock = new FirefoxBookmarkAPI(mockBookmarks);
+    await apiWithMock.getBookmarksTree();
+
+    expect(mockBookmarks.getTree).toHaveBeenCalledTimes(1);
   });
 
   describe('getBookmarksTree', () => {
@@ -96,6 +115,61 @@ describe('FirefoxBookmarkAPI', () => {
       mockBrowserBookmarks.getTree.mockResolvedValue([
         {
           children: [],
+          id: '0',
+          title: 'Root',
+        },
+      ]);
+
+      const result = await api.getBookmarksTree();
+
+      expect(result.folders).toHaveLength(0);
+      expect(result.uncategorized).toBeUndefined();
+    });
+
+    it('handles root with non-built-in folder children', async () => {
+      mockBrowserBookmarks.getTree.mockResolvedValue([
+        {
+          children: [
+            {
+              id: 'custom-folder',
+              title: 'Custom Folder',
+              children: [],
+            },
+          ],
+          id: '0',
+          title: 'Root',
+        },
+      ]);
+
+      const result = await api.getBookmarksTree();
+
+      expect(result.folders).toHaveLength(0);
+      expect(result.uncategorized).toBeUndefined();
+    });
+
+    it('handles root with undefined children', async () => {
+      mockBrowserBookmarks.getTree.mockResolvedValue([
+        {
+          id: '0',
+          title: 'Root',
+        },
+      ]);
+
+      const result = await api.getBookmarksTree();
+
+      expect(result.folders).toHaveLength(0);
+      expect(result.uncategorized).toBeUndefined();
+    });
+
+    it('handles built-in folders with undefined children', async () => {
+      mockBrowserBookmarks.getTree.mockResolvedValue([
+        {
+          children: [
+            {
+              id: 'toolbar_____',
+              title: 'Bookmarks Toolbar',
+            },
+          ],
           id: '0',
           title: 'Root',
         },
@@ -154,6 +228,30 @@ describe('FirefoxBookmarkAPI', () => {
       expect(result.id).toBe('5');
       expect(result.title).toBe('New Folder');
       expect(result.url).toBeUndefined();
+    });
+
+    it('falls back to Uncategorized parent and shows notification when parentId is null', async () => {
+      const mockFolder = {
+        id: '5',
+        parentId: 'Uncategorized',
+        title: 'New Folder',
+      };
+
+      mockBrowserBookmarks.create.mockResolvedValue(mockFolder);
+
+      const notificationsCreate = vi.fn();
+      mockBrowser.notifications = { create: notificationsCreate };
+
+      const result = await api.createBookmark(null, {
+        title: 'New Folder',
+      });
+
+      expect(mockBrowserBookmarks.create).toHaveBeenCalledWith({
+        parentId: 'Uncategorized',
+        title: 'New Folder',
+      });
+      expect(result.parentId).toBe('Uncategorized');
+      expect(notificationsCreate).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -259,6 +357,14 @@ describe('FirefoxBookmarkAPI', () => {
 
       expect(result).toBeNull();
     });
+
+    it('returns null when get throws', async () => {
+      mockBrowserBookmarks.get.mockRejectedValue(new Error('boom'));
+
+      const result = await api.getBookmark('4');
+
+      expect(result).toBeNull();
+    });
   });
 
   describe('searchBookmarks', () => {
@@ -316,6 +422,34 @@ describe('FirefoxBookmarkAPI', () => {
 
       expect(mockBrowserBookmarks.getSubTree).toHaveBeenCalledWith('1');
       expect(mockBrowserBookmarks.move).toHaveBeenCalledWith('item1', { index: 2 });
+    });
+
+    it('throws when fromIndex is out of bounds', async () => {
+      const mockFolder = [
+        {
+          children: [{ id: 'item1', title: 'Item 1' }],
+          id: '1',
+          title: 'Test Folder',
+        },
+      ];
+
+      mockBrowserBookmarks.getSubTree.mockResolvedValue(mockFolder);
+
+      await expect(api.reorderItems('1', 2, 0)).rejects.toThrow('Invalid folder or index: 1, 2');
+    });
+
+    it('throws when no item exists at fromIndex', async () => {
+      const mockFolder = [
+        {
+          children: [undefined],
+          id: '1',
+          title: 'Test Folder',
+        },
+      ];
+
+      mockBrowserBookmarks.getSubTree.mockResolvedValue(mockFolder as unknown as browser.bookmarks.BookmarkTreeNode[]);
+
+      await expect(api.reorderItems('1', 0, 1)).rejects.toThrow('Item not found at index 0');
     });
   });
 });

@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { viewModeAtom } from '@/app/providers/atoms';
 import { BookmarkItem } from '@/features/bookmarks/components/BookmarkItem';
+import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { AllProviders } from '~test/test-utils';
 
 vi.mock('@/features/bookmarks/components/items/grid/BookmarkGridItem', () => ({
@@ -56,7 +57,7 @@ describe('BookmarkItem', () => {
   it('should render skeleton when item is null', () => {
     render(
       <AllProviders>
-        <BookmarkItem dataTestId="test-skeleton" item={null as any} />
+        <BookmarkItem dataTestId="test-skeleton" item={null as unknown as IBookmarkItem} />
       </AllProviders>
     );
     expect(screen.getByTestId('test-skeleton')).toBeInTheDocument();

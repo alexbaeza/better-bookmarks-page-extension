@@ -8,13 +8,14 @@ export enum BookmarkPage {
 
 export type PageId = BookmarkPage | string;
 
-interface NavigationContextType {
+export interface NavigationContextType {
   currentPage: PageId;
   navigationStack: PageId[];
   setCurrentPage: (page: PageId) => void;
   navigateToFolder: (folderId: string) => void;
   navigateBack: () => void;
   navigateToPage: (pageId: PageId) => void;
+  navigateToFolderWithPath: (folderId: string, path: PageId[]) => void;
   canGoBack: boolean;
 }
 
@@ -56,6 +57,11 @@ export const BookmarkNavigationProvider: React.FC<{ children: ReactNode }> = ({ 
     setCurrentPage(pageId);
   };
 
+  const navigateToFolderWithPath = (folderId: string, path: PageId[]) => {
+    setNavigationStack(path);
+    setCurrentPage(folderId);
+  };
+
   const canGoBack = navigationStack.length > 1;
 
   return (
@@ -67,6 +73,7 @@ export const BookmarkNavigationProvider: React.FC<{ children: ReactNode }> = ({ 
         navigateToFolder,
         navigateBack,
         navigateToPage,
+        navigateToFolderWithPath,
         canGoBack,
       }}
     >
@@ -75,10 +82,10 @@ export const BookmarkNavigationProvider: React.FC<{ children: ReactNode }> = ({ 
   );
 };
 
-export function useBookmarkNavigation() {
+export const useBookmarkNavigation = () => {
   const ctx = useContext(BookmarkNavigationContext);
   if (!ctx) {
     throw new Error('useBookmarkNavigation must be used within BookmarkNavigationProvider');
   }
   return ctx;
-}
+};

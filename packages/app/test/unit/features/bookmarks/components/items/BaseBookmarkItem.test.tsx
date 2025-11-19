@@ -11,9 +11,17 @@ describe('useBaseBookmarkItem', () => {
   };
 
   it('should return default values', () => {
-    const { result } = renderHook(() => useBaseBookmarkItem(mockItem, undefined, vi.fn(), vi.fn()), {
-      wrapper: AllProviders,
-    });
+    const { result } = renderHook(
+      () =>
+        useBaseBookmarkItem({
+          item: mockItem,
+          onEdit: vi.fn(),
+          onDelete: vi.fn(),
+        }),
+      {
+        wrapper: AllProviders,
+      }
+    );
 
     expect(result.current.dataTestId).toBe('bookmark-item-1');
     expect(result.current.actions).toBeDefined();
@@ -22,18 +30,36 @@ describe('useBaseBookmarkItem', () => {
   });
 
   it('should use custom dataTestId when provided', () => {
-    const { result } = renderHook(() => useBaseBookmarkItem(mockItem, 'custom-id', vi.fn(), vi.fn()), {
-      wrapper: AllProviders,
-    });
+    const { result } = renderHook(
+      () =>
+        useBaseBookmarkItem({
+          item: mockItem,
+          dataTestId: 'custom-id',
+          onEdit: vi.fn(),
+          onDelete: vi.fn(),
+        }),
+      {
+        wrapper: AllProviders,
+      }
+    );
 
     expect(result.current.dataTestId).toBe('custom-id');
   });
 
   it('should call onClick when provided', () => {
     const onClick = vi.fn();
-    const { result } = renderHook(() => useBaseBookmarkItem(mockItem, undefined, vi.fn(), vi.fn(), onClick), {
-      wrapper: AllProviders,
-    });
+    const { result } = renderHook(
+      () =>
+        useBaseBookmarkItem({
+          item: mockItem,
+          onEdit: vi.fn(),
+          onDelete: vi.fn(),
+          onClick,
+        }),
+      {
+        wrapper: AllProviders,
+      }
+    );
 
     result.current.onClick();
     expect(onClick).toHaveBeenCalled();
@@ -43,7 +69,13 @@ describe('useBaseBookmarkItem', () => {
     const onFolderClick = vi.fn();
     const folderItem = { ...mockItem, children: [] };
     const { result } = renderHook(
-      () => useBaseBookmarkItem(folderItem, undefined, vi.fn(), vi.fn(), undefined, onFolderClick),
+      () =>
+        useBaseBookmarkItem({
+          item: folderItem,
+          onEdit: vi.fn(),
+          onDelete: vi.fn(),
+          onFolderClick,
+        }),
       { wrapper: AllProviders }
     );
 
@@ -53,9 +85,17 @@ describe('useBaseBookmarkItem', () => {
 
   it('should use folder dataTestId for folders', () => {
     const folderItem = { ...mockItem, children: [] };
-    const { result } = renderHook(() => useBaseBookmarkItem(folderItem, undefined, vi.fn(), vi.fn()), {
-      wrapper: AllProviders,
-    });
+    const { result } = renderHook(
+      () =>
+        useBaseBookmarkItem({
+          item: folderItem,
+          onEdit: vi.fn(),
+          onDelete: vi.fn(),
+        }),
+      {
+        wrapper: AllProviders,
+      }
+    );
 
     expect(result.current.dataTestId).toBe('bookmark-folder-item-1');
   });

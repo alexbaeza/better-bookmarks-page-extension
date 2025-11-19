@@ -18,7 +18,7 @@ export interface BookmarkListItemProps {
 }
 
 export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId, onFolderClick }) => {
-  const { openEditModal } = useBookmarkModals();
+  const { openEditModal, remove } = useBookmarkModals();
   const { navigateToFolder } = useBookmarkNavigation();
   const { searchTerm } = useBookmarks();
   const { move } = useBookmarkActions();
@@ -27,12 +27,8 @@ export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId,
     openEditModal(item);
   };
 
-  const handleClick = (): void => {
-    if (onFolderClick) {
-      onFolderClick(item);
-    } else if (item.children) {
-      navigateToFolder(item.id);
-    }
+  const handleDelete = (): void => {
+    void remove(item.id);
   };
 
   const handleDrop = async (draggedItemId: string, _fromFolderId: string, _fromIndex: number): Promise<void> => {
@@ -52,7 +48,21 @@ export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId,
     onMouseEnter,
     onMouseLeave,
     onClick,
-  } = useBaseBookmarkItem(item, dataTestId, handleEdit, handleEdit, handleClick, onFolderClick, 16, 'list');
+  } = useBaseBookmarkItem({
+    item,
+    dataTestId,
+    onEdit: handleEdit,
+    onDelete: handleDelete,
+    onFolderClick: (folder) => {
+      if (onFolderClick) {
+        onFolderClick(folder);
+      } else {
+        navigateToFolder(folder.id);
+      }
+    },
+    iconSize: 16,
+    dragHandleVariant: 'list',
+  });
 
   const content = (
     <Bookmark.Root

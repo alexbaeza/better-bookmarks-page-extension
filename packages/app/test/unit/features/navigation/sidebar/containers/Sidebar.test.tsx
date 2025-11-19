@@ -38,11 +38,17 @@ vi.mock('@/features/navigation/sidebar/components/SidebarItem', () => ({
 }));
 
 vi.mock('@/features/navigation/sidebar/components/SidebarFolderNode', () => ({
-  SidebarFolderNode: ({ folder, clickFolder }: { folder: any; clickFolder: (id: string) => void }) => (
-    <button data-testid={`sidebar-folder-${folder.id}`} onClick={() => clickFolder(folder.id)} type="button">
-      {folder.title}
-    </button>
-  ),
+  SidebarFolderNode: ({ folder, clickFolder }: { folder: any; clickFolder: (id: string) => void }) => {
+    const renderFolder = (f: any) => (
+      <div key={f.id}>
+        <button data-testid={`sidebar-folder-${f.id}`} onClick={() => clickFolder(f.id)} type="button">
+          {f.title}
+        </button>
+        {f.children?.filter((c: any) => Array.isArray(c.children)).map((child: any) => renderFolder(child))}
+      </div>
+    );
+    return renderFolder(folder);
+  },
 }));
 
 describe('Sidebar', () => {
@@ -59,6 +65,7 @@ describe('Sidebar', () => {
       navigateToFolder: vi.fn(),
       navigateToPage: vi.fn(),
       navigateBack: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
       canGoBack: false,
       navigationStack: ['All'],
     });
@@ -133,7 +140,7 @@ describe('Sidebar', () => {
     mockUseBookmarks.mockReturnValue({
       ...mockBookmarksData,
       isLoading: true,
-    } as any);
+    } as Partial<ReturnType<typeof useBookmarks>>);
 
     render(
       <AllProviders>
@@ -164,6 +171,7 @@ describe('Sidebar', () => {
       navigateToFolder: vi.fn(),
       navigateToPage: vi.fn(),
       navigateBack: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
       canGoBack: false,
       navigationStack: ['All'],
     });
@@ -179,7 +187,19 @@ describe('Sidebar', () => {
     expect(screen.getByText('Test Folder 2')).toBeInTheDocument();
   });
 
-  it('calls setCurrentPage when All Items is clicked', () => {
+  it('calls navigateToPage when All Items is clicked', () => {
+    const mockNavigateToPage = vi.fn();
+    mockUseBookmarkNavigation.mockReturnValue({
+      currentPage: 'All',
+      setCurrentPage: mockSetCurrentPage,
+      navigateToFolder: vi.fn(),
+      navigateToPage: mockNavigateToPage,
+      navigateBack: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
+      canGoBack: false,
+      navigationStack: ['All'],
+    });
+
     render(
       <AllProviders>
         <Sidebar />
@@ -189,10 +209,22 @@ describe('Sidebar', () => {
     const allItemsButton = screen.getByTestId('sidebar-item-all-items');
     fireEvent.click(allItemsButton);
 
-    expect(mockSetCurrentPage).toHaveBeenCalledWith('All');
+    expect(mockNavigateToPage).toHaveBeenCalledWith('All');
   });
 
-  it('calls setCurrentPage when Uncategorized is clicked', () => {
+  it('calls navigateToPage when Uncategorized is clicked', () => {
+    const mockNavigateToPage = vi.fn();
+    mockUseBookmarkNavigation.mockReturnValue({
+      currentPage: 'All',
+      setCurrentPage: mockSetCurrentPage,
+      navigateToFolder: vi.fn(),
+      navigateToPage: mockNavigateToPage,
+      navigateBack: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
+      canGoBack: false,
+      navigationStack: ['All'],
+    });
+
     render(
       <AllProviders>
         <Sidebar />
@@ -202,7 +234,85 @@ describe('Sidebar', () => {
     const uncategorizedButton = screen.getByTestId('sidebar-item-uncategorized');
     fireEvent.click(uncategorizedButton);
 
-    expect(mockSetCurrentPage).toHaveBeenCalledWith('Uncategorized');
+    expect(mockNavigateToPage).toHaveBeenCalledWith('Uncategorized');
+  });
+
+  it('calls navigateToFolderWithPath with correct path when root folder is clicked', () => {
+    const mockNavigateToFolderWithPath = vi.fn();
+    mockUseBookmarkNavigation.mockReturnValue({
+      currentPage: 'All',
+      setCurrentPage: mockSetCurrentPage,
+      navigateToFolder: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateBack: vi.fn(),
+      navigateToFolderWithPath: mockNavigateToFolderWithPath,
+      canGoBack: false,
+      navigationStack: ['All'],
+    });
+
+    mockUseBookmarks.mockReturnValue({
+      ...mockBookmarksData,
+      rawFolders: [
+        {
+          id: 'folder-1',
+          title: 'Folder 1',
+          children: [],
+        },
+      ],
+    } as Partial<ReturnType<typeof useBookmarks>>);
+
+    render(
+      <AllProviders>
+        <Sidebar />
+      </AllProviders>
+    );
+
+    const folderButton = screen.getByTestId('sidebar-folder-folder-1');
+    fireEvent.click(folderButton);
+
+    expect(mockNavigateToFolderWithPath).toHaveBeenCalledWith('folder-1', ['All', 'folder-1']);
+  });
+
+  it('calls navigateToFolderWithPath with correct nested path when nested folder is clicked', () => {
+    const mockNavigateToFolderWithPath = vi.fn();
+    mockUseBookmarkNavigation.mockReturnValue({
+      currentPage: 'All',
+      setCurrentPage: mockSetCurrentPage,
+      navigateToFolder: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateBack: vi.fn(),
+      navigateToFolderWithPath: mockNavigateToFolderWithPath,
+      canGoBack: false,
+      navigationStack: ['All'],
+    });
+
+    mockUseBookmarks.mockReturnValue({
+      ...mockBookmarksData,
+      rawFolders: [
+        {
+          id: 'folder-1',
+          title: 'Folder 1',
+          children: [
+            {
+              id: 'subfolder-1',
+              title: 'Subfolder 1',
+              children: [],
+            },
+          ],
+        },
+      ],
+    } as Partial<ReturnType<typeof useBookmarks>>);
+
+    render(
+      <AllProviders>
+        <Sidebar />
+      </AllProviders>
+    );
+
+    const folderButton = screen.getByTestId('sidebar-folder-subfolder-1');
+    fireEvent.click(folderButton);
+
+    expect(mockNavigateToFolderWithPath).toHaveBeenCalledWith('subfolder-1', ['All', 'folder-1', 'subfolder-1']);
   });
 
   it('shows selected state for All Items when currentPage is All', () => {
@@ -212,6 +322,7 @@ describe('Sidebar', () => {
       navigateToFolder: vi.fn(),
       navigateToPage: vi.fn(),
       navigateBack: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
       canGoBack: false,
       navigationStack: ['All'],
     });
@@ -233,6 +344,7 @@ describe('Sidebar', () => {
       navigateToFolder: vi.fn(),
       navigateToPage: vi.fn(),
       navigateBack: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
       canGoBack: false,
       navigationStack: ['All', 'Uncategorized'],
     });
@@ -305,6 +417,7 @@ describe('Sidebar', () => {
       navigateToFolder: vi.fn(),
       navigateToPage: vi.fn(),
       navigateBack: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
       canGoBack: false,
       navigationStack: ['All'],
     });
@@ -325,6 +438,7 @@ describe('Sidebar', () => {
       navigateToFolder: vi.fn(),
       navigateToPage: vi.fn(),
       navigateBack: vi.fn(),
+      navigateToFolderWithPath: vi.fn(),
       canGoBack: false,
       navigationStack: ['All', 'Uncategorized'],
     });
@@ -342,7 +456,7 @@ describe('Sidebar', () => {
     mockUseBookmarks.mockReturnValue({
       ...mockBookmarksData,
       rawFolders: [],
-    } as any);
+    } as Partial<ReturnType<typeof useBookmarks>>);
 
     render(
       <AllProviders>

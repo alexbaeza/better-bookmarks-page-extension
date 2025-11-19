@@ -4,7 +4,7 @@ export interface UseHoverOptions {
   hideDelay?: number;
 }
 
-export function useHover(options: UseHoverOptions = {}) {
+export const useHover = (options: UseHoverOptions = {}) => {
   const { hideDelay = 200 } = options;
   const [hovered, setHovered] = useState(false);
   const hideTimeout = useRef<number | undefined>(undefined);
@@ -37,4 +37,4 @@ export function useHover(options: UseHoverOptions = {}) {
     onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
   };
-}
+};
