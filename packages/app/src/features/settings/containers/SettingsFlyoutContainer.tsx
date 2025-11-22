@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useTranslation } from '@/i18n/hooks';
 import { Flyout } from '@/shared/ui/Flyout';
 import { IconButton } from '@/shared/ui/IconButton';
+import { Scrollable } from '@/shared/ui/Scrollable';
 import { Text } from '@/shared/ui/Text';
 
 interface SettingsFlyoutContainerProps {
@@ -39,7 +40,7 @@ export const SettingsFlyoutContainer: React.FC<SettingsFlyoutContainerProps> = (
           <IconButton dataTestId="modal-close-button" icon={<X size={16} />} onClick={closeFlyout} />
         </div>
         <div className="flex-1 overflow-y-auto p-4" style={{ overflowY: 'auto' }}>
-          {children}
+          <Scrollable className="h-full p-1">{children}</Scrollable>
         </div>
       </Flyout>
     </>

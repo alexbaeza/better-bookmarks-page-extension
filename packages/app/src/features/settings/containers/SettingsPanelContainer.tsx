@@ -1,4 +1,4 @@
-import { Heart, Layout, Palette, Settings, Trash2 } from 'lucide-react';
+import { Heart, Palette, Settings, Trash2 } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
 import { LOCAL_STORAGE_PREFIX_KEY } from '@/config/constants';
@@ -9,7 +9,6 @@ import { CollapsibleSection } from '@/shared/ui/CollapsibleSection';
 import { Content } from '@/shared/ui/Content';
 import { Modal } from '@/shared/ui/Modal';
 import { Row } from '@/shared/ui/Row';
-import { Scrollable } from '@/shared/ui/Scrollable';
 import { Sponsor } from '@/shared/ui/Sponsor';
 import { Stack } from '@/shared/ui/Stack';
 import { Text } from '@/shared/ui/Text';
@@ -36,22 +35,10 @@ export const SettingsPanelContainer: React.FC = () => {
   };
 
   return (
-    <Scrollable className="h-full">
-      <Content padding>
-        <Stack gap="lg">
-          {/* Layout Section - Moved Zoom here as it affects layout scale */}
-          <CollapsibleSection
-            dataTestId="layout-section"
-            defaultOpen={false}
-            icon={<Layout size={16} />}
-            title={t('settings.sections.layout')}
-          >
-            <SidebarSettings dataTestId="sidebar-settings" />
-            <SearchBarSettings dataTestId="search-bar-settings" />
-            <ZoomSettings dataTestId="zoom-settings-flyout" />
-          </CollapsibleSection>
-
-          {/* Personalization Section */}
+    <>
+      <Content>
+        <Stack>
+          {/* Personalization Section - Merged Layout and Personalization */}
           <CollapsibleSection
             dataTestId="personalization-section"
             defaultOpen={false}
@@ -59,7 +46,10 @@ export const SettingsPanelContainer: React.FC = () => {
             title={t('settings.sections.personalization')}
           >
             <LanguageSettings dataTestId="language-settings" />
+            <SidebarSettings dataTestId="sidebar-settings" />
+            <SearchBarSettings dataTestId="search-bar-settings" />
             <GreetingSettings dataTestId="greeting-settings" />
+            <ZoomSettings dataTestId="zoom-settings-flyout" />
           </CollapsibleSection>
 
           {/* Appearance Section - Grouped theme-related settings */}
@@ -131,6 +121,6 @@ export const SettingsPanelContainer: React.FC = () => {
           </Stack>
         </Modal>
       )}
-    </Scrollable>
+    </>
   );
 };
