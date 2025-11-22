@@ -199,12 +199,12 @@ class MockBookmarksAPI {
    */
   private removeById(id: string): void {
     const removeFromArray = (items: IBookmarkItem[]): boolean => {
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].id === id) {
-          items.splice(i, 1);
+      for (let index = 0; index < items.length; index++) {
+        if (items[index].id === id) {
+          items.splice(index, 1);
           return true;
         }
-        const children = items[i].children;
+        const children = items[index].children;
         if (children && children.length > 0) {
           if (removeFromArray(children)) {
             return true;

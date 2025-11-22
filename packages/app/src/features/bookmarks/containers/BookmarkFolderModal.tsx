@@ -28,7 +28,7 @@ export const BookmarkFolderModal: React.FC<BookmarkFolderModalProps> = ({
 
   // Refresh folder contents when rawFolders changes
   useEffect(() => {
-    const currentFolder = rawFolders.find((f) => f.id === folderId);
+    const currentFolder = rawFolders.find((folder) => folder.id === folderId);
     if (currentFolder?.children) {
       setFolderContents(currentFolder.children);
     }

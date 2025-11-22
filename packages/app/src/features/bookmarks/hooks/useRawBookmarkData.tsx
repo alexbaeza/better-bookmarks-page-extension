@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useAppStateContext } from '@/app/providers/app-state-context';
 
-export function useRawBookmarkData() {
+export const useRawBookmarkData = () => {
   const { providerInitialised, bookmarks, isLoading, error, refreshBookmarks } = useAppStateContext();
 
   useEffect(() => {
@@ -18,4 +18,4 @@ export function useRawBookmarkData() {
     rawUncategorized: bookmarks.uncategorized,
     refresh: refreshBookmarks,
   };
-}
+};

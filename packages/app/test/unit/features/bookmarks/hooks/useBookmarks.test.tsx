@@ -38,12 +38,13 @@ const createWrapper = () => {
 };
 
 describe('useBookmarks', () => {
+  let wrapper: ReturnType<typeof createWrapper>;
+
   beforeEach(() => {
-    vi.clearAllMocks();
+    wrapper = createWrapper();
   });
 
   it('should return bookmark data and actions', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(() => useBookmarks(), { wrapper });
 
     expect(result.current).toHaveProperty('counts');
@@ -62,28 +63,24 @@ describe('useBookmarks', () => {
   });
 
   it('should return isLoading from raw data', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(() => useBookmarks(), { wrapper });
 
     expect(result.current.isLoading).toBe(false);
   });
 
   it('should return error from raw data', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(() => useBookmarks(), { wrapper });
 
     expect(result.current.error).toBeNull();
   });
 
   it('should return rawFolders from raw data', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(() => useBookmarks(), { wrapper });
 
     expect(Array.isArray(result.current.rawFolders)).toBe(true);
   });
 
   it('should return search functionality', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(() => useBookmarks(), { wrapper });
 
     expect(typeof result.current.setSearchTerm).toBe('function');
@@ -91,7 +88,6 @@ describe('useBookmarks', () => {
   });
 
   it('should return navigation functionality', () => {
-    const wrapper = createWrapper();
     const { result } = renderHook(() => useBookmarks(), { wrapper });
 
     expect(typeof result.current.currentPage).toBe('string');

@@ -10,6 +10,7 @@ import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
 import { highlighter } from '@/features/bookmarks/lib/highlighter';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { Row } from '@/shared/ui/Row';
+import { isBookmarkFolder } from '@/shared/utils/bookmark-utils';
 
 export interface BookmarkListItemProps {
   item: IBookmarkItem;
@@ -18,7 +19,7 @@ export interface BookmarkListItemProps {
 }
 
 export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId, onFolderClick }) => {
-  const { openEditModal } = useBookmarkModals();
+  const { openEditModal, remove } = useBookmarkModals();
   const { navigateToFolder } = useBookmarkNavigation();
   const { searchTerm } = useBookmarks();
   const { move } = useBookmarkActions();
@@ -27,12 +28,8 @@ export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId,
     openEditModal(item);
   };
 
-  const handleClick = (): void => {
-    if (onFolderClick) {
-      onFolderClick(item);
-    } else if (item.children) {
-      navigateToFolder(item.id);
-    }
+  const handleDelete = (): void => {
+    void remove(item.id);
   };
 
   const handleDrop = async (draggedItemId: string, _fromFolderId: string, _fromIndex: number): Promise<void> => {
@@ -41,7 +38,7 @@ export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId,
   };
 
   const highlightedTitle = highlighter(item.title, searchTerm);
-  const isFolder = Boolean(item.children);
+  const isFolder = isBookmarkFolder(item);
   const bookmarkIcon = useBookmarkIcon(item.url, 'sm');
 
   const {
@@ -52,7 +49,21 @@ export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId,
     onMouseEnter,
     onMouseLeave,
     onClick,
-  } = useBaseBookmarkItem(item, dataTestId, handleEdit, handleEdit, handleClick, onFolderClick, 16, 'list');
+  } = useBaseBookmarkItem({
+    item,
+    dataTestId,
+    onEdit: handleEdit,
+    onDelete: handleDelete,
+    onFolderClick: (folder) => {
+      if (onFolderClick) {
+        onFolderClick(folder);
+      } else {
+        navigateToFolder(folder.id);
+      }
+    },
+    iconSize: 16,
+    dragHandleVariant: 'list',
+  });
 
   const content = (
     <Bookmark.Root

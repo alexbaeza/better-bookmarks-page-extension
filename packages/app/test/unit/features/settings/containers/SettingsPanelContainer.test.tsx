@@ -40,14 +40,11 @@ vi.mock('@/features/settings/components/BackgroundOverlaySettings', () => ({
 
 describe('SettingsPanelContainer', () => {
   beforeEach(() => {
-    Object.defineProperty(window, 'location', {
-      configurable: true,
-      value: { reload: vi.fn() },
-      writable: true,
-    });
+    vi.stubGlobal('location', { reload: vi.fn() });
   });
 
   afterEach(() => {
+    vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
 
@@ -133,11 +130,7 @@ describe('SettingsPanelContainer', () => {
     Object.defineProperty(mockLocalStorage, 'BB-theme', { configurable: true, enumerable: true, value: 'dark' });
     Object.defineProperty(mockLocalStorage, 'BB-sidebar', { configurable: true, enumerable: true, value: 'true' });
 
-    Object.defineProperty(window, 'localStorage', {
-      configurable: true,
-      value: mockLocalStorage,
-      writable: true,
-    });
+    vi.stubGlobal('localStorage', mockLocalStorage);
 
     render(
       <AllProviders>

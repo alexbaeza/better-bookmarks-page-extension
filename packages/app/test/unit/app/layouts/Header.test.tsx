@@ -17,10 +17,6 @@ vi.mock('@/features/settings/containers/SettingsToggle', () => ({
 }));
 
 describe('Header', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('renders greeting and search when enabled', () => {
     render(<Header />, {
       initialValues: [

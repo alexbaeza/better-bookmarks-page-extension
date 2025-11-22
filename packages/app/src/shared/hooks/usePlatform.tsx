@@ -10,7 +10,7 @@ export interface PlatformInfo {
  * Hook to detect the current platform/OS
  * Useful for displaying platform-specific keyboard shortcuts and UI elements
  */
-export function usePlatform(): PlatformInfo {
+export const usePlatform = (): PlatformInfo => {
   return useMemo(() => {
     if (typeof window === 'undefined' || typeof navigator === 'undefined') {
       return {
@@ -38,13 +38,13 @@ export function usePlatform(): PlatformInfo {
       isLinux,
     };
   }, []);
-}
+};
 
 /**
  * Hook to get the platform-specific modifier key name
  * Returns "⌘" for Mac, "Ctrl" for Windows/Linux
  */
-export function useModifierKey(): string {
+export const useModifierKey = (): string => {
   const { isMac } = usePlatform();
   return useMemo(() => (isMac ? '⌘' : 'Ctrl'), [isMac]);
-}
+};

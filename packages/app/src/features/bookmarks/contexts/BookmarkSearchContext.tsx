@@ -1,5 +1,5 @@
-import type React from 'react';
-import { createContext, type ReactNode, useCallback, useContext, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
+import { createContext, use, useCallback, useMemo, useState } from 'react';
 
 interface SearchContextType {
   searchTerm: string;
@@ -9,7 +9,7 @@ interface SearchContextType {
 
 const BookmarkSearchContext = createContext<SearchContextType | undefined>(undefined);
 
-export const BookmarkSearchProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const BookmarkSearchProvider = ({ children }: { children: ReactNode }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const resetSearch = useCallback(() => {
@@ -21,10 +21,7 @@ export const BookmarkSearchProvider: React.FC<{ children: ReactNode }> = ({ chil
   return <BookmarkSearchContext.Provider value={value}>{children}</BookmarkSearchContext.Provider>;
 };
 
-export function useBookmarkSearchTerm(): SearchContextType {
-  const ctx = useContext(BookmarkSearchContext);
-  if (!ctx) {
-    throw new Error('useBookmarkSearchTerm must be used within BookmarkSearchProvider');
-  }
-  return ctx;
-}
+export const useBookmarkSearchTerm = (): SearchContextType => {
+  // use() throws if context is undefined, so this is safe
+  return use(BookmarkSearchContext) as SearchContextType;
+};

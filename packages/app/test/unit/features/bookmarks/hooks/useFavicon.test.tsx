@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 import { useFavicon } from '@/features/bookmarks/hooks/useFavicon';
 import * as bookmarksLib from '@/features/bookmarks/lib/bookmarks';
 
@@ -8,10 +9,6 @@ vi.mock('@/features/bookmarks/lib/bookmarks', () => ({
 }));
 
 describe('useFavicon', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -19,17 +16,19 @@ describe('useFavicon', () => {
   it('returns empty string when url is undefined', () => {
     const { result } = renderHook(() => useFavicon(undefined));
     expect(result.current).toBe('');
-    expect(bookmarksLib.getFaviconUrl).not.toHaveBeenCalled();
+    expect(bookmarksLib.getFaviconUrl).toHaveBeenCalledTimes(0);
   });
 
   it('returns empty string when url is empty string', () => {
     const { result } = renderHook(() => useFavicon(''));
     expect(result.current).toBe('');
-    expect(bookmarksLib.getFaviconUrl).not.toHaveBeenCalled();
+    expect(bookmarksLib.getFaviconUrl).toHaveBeenCalledTimes(0);
   });
 
   it('calls getFaviconUrl with the url and returns result', () => {
-    vi.mocked(bookmarksLib.getFaviconUrl).mockReturnValue('https://favicon.example.com/icon.png');
+    when(vi.mocked(bookmarksLib.getFaviconUrl))
+      .calledWith('https://example.com')
+      .thenReturn('https://favicon.example.com/icon.png');
     const url = 'https://example.com';
     const { result } = renderHook(() => useFavicon(url));
 

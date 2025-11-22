@@ -1,6 +1,8 @@
-import { vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 
 import { ChromeBookmarkAPI } from '@/features/bookmarks/lib/browser/api/chrome-api';
+import type { MockBookmarksAPI } from '@/features/bookmarks/lib/browser/api/mock-bookmarks-api';
 import { generateMockChromeBookmarkTree } from '~test/mocks/bookmark-data';
 
 const mockChromeBookmarks = {
@@ -18,57 +20,60 @@ const mockChromeBookmarks = {
 
 const mockChrome = {
   bookmarks: mockChromeBookmarks,
-};
-
-Object.defineProperty(window, 'chrome', {
-  configurable: true,
-  value: mockChrome,
-  writable: true,
-});
+} as { bookmarks: typeof mockChromeBookmarks; notifications?: { create: unknown } };
 
 describe('ChromeBookmarkAPI', () => {
   let api: ChromeBookmarkAPI;
 
+  beforeEach(() => {
+    vi.stubGlobal('chrome', mockChrome);
+    api = new ChromeBookmarkAPI();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   describe('constructor', () => {
     it('throws error when Chrome bookmarks API is not available', () => {
-      delete (window as any).chrome;
+      vi.stubGlobal('chrome', undefined);
 
       expect(() => new ChromeBookmarkAPI()).toThrow('Chrome bookmarks API not available');
-
-      Object.defineProperty(window, 'chrome', {
-        configurable: true,
-        value: mockChrome,
-        writable: true,
-      });
     });
 
     it('throws error when Chrome bookmarks API is undefined', () => {
-      (window as any).chrome = {};
+      vi.stubGlobal('chrome', { bookmarks: undefined });
 
       expect(() => new ChromeBookmarkAPI()).toThrow('Chrome bookmarks API not available');
-
-      Object.defineProperty(window, 'chrome', {
-        configurable: true,
-        value: mockChrome,
-        writable: true,
-      });
     });
   });
 
-  beforeEach(() => {
-    Object.defineProperty(window, 'chrome', {
-      configurable: true,
-      value: mockChrome,
-      writable: true,
-    });
-    api = new ChromeBookmarkAPI();
+  it('uses provided mock bookmarks API when constructed with mock instance', async () => {
+    const mockGetTree = vi.fn();
+    when(mockGetTree)
+      .calledWith()
+      .thenResolve([
+        {
+          children: [],
+          id: '0',
+          title: 'Root',
+        },
+      ]);
+    const mockBookmarks = {
+      getTree: mockGetTree,
+    } as Partial<MockBookmarksAPI> as MockBookmarksAPI;
+
+    const apiWithMock = new ChromeBookmarkAPI(mockBookmarks);
+    await apiWithMock.getBookmarksTree();
+
+    expect(mockBookmarks.getTree).toHaveBeenCalledTimes(1);
   });
 
   describe('getBookmarksTree', () => {
     it('returns normalized bookmark tree with all default folders', async () => {
       const mockTree = generateMockChromeBookmarkTree();
 
-      mockChromeBookmarks.getTree.mockResolvedValue(mockTree);
+      when(mockChromeBookmarks.getTree).calledWith().thenResolve(mockTree);
 
       const result = await api.getBookmarksTree();
 
@@ -93,13 +98,77 @@ describe('ChromeBookmarkAPI', () => {
     });
 
     it('handles empty bookmark tree', async () => {
-      mockChromeBookmarks.getTree.mockResolvedValue([
-        {
-          children: [],
-          id: '0',
-          title: 'Root',
-        },
-      ]);
+      when(mockChromeBookmarks.getTree)
+        .calledWith()
+        .thenResolve([
+          {
+            children: [],
+            id: '0',
+            title: 'Root',
+          },
+        ]);
+
+      const result = await api.getBookmarksTree();
+
+      expect(result.folders).toHaveLength(0);
+      expect(result.uncategorized).toBeUndefined();
+    });
+
+    it('handles root with non-built-in folder children', async () => {
+      when(mockChromeBookmarks.getTree)
+        .calledWith()
+        .thenResolve([
+          {
+            children: [
+              {
+                id: 'custom-folder',
+                title: 'Custom Folder',
+                children: [],
+              },
+            ],
+            id: '0',
+            title: 'Root',
+          },
+        ]);
+
+      const result = await api.getBookmarksTree();
+
+      expect(result.folders).toHaveLength(0);
+      expect(result.uncategorized).toBeUndefined();
+    });
+
+    it('handles root with undefined children', async () => {
+      when(mockChromeBookmarks.getTree)
+        .calledWith()
+        .thenResolve([
+          {
+            id: '0',
+            title: 'Root',
+          },
+        ]);
+
+      const result = await api.getBookmarksTree();
+
+      expect(result.folders).toHaveLength(0);
+      expect(result.uncategorized).toBeUndefined();
+    });
+
+    it('handles built-in folders with undefined children', async () => {
+      when(mockChromeBookmarks.getTree)
+        .calledWith()
+        .thenResolve([
+          {
+            children: [
+              {
+                folderType: 'bookmarks-bar',
+                id: '1',
+                title: 'Bookmarks Bar',
+              },
+            ],
+            id: '0',
+            title: 'Root',
+          },
+        ]);
 
       const result = await api.getBookmarksTree();
 
@@ -117,13 +186,16 @@ describe('ChromeBookmarkAPI', () => {
         url: 'https://example.com',
       };
 
-      mockChromeBookmarks.create.mockResolvedValue(mockBookmark);
+      when(mockChromeBookmarks.create)
+        .calledWith(expect.objectContaining({ parentId: '1', title: 'New Bookmark', url: 'https://example.com' }))
+        .thenResolve(mockBookmark);
 
       const result = await api.createBookmark('1', {
         title: 'New Bookmark',
         url: 'https://example.com',
       });
 
+      expect(mockChromeBookmarks.create).toHaveBeenCalledTimes(1);
       expect(mockChromeBookmarks.create).toHaveBeenCalledWith({
         parentId: '1',
         title: 'New Bookmark',
@@ -141,12 +213,15 @@ describe('ChromeBookmarkAPI', () => {
         title: 'New Folder',
       };
 
-      mockChromeBookmarks.create.mockResolvedValue(mockFolder);
+      when(mockChromeBookmarks.create)
+        .calledWith(expect.objectContaining({ parentId: '1', title: 'New Folder' }))
+        .thenResolve(mockFolder);
 
       const result = await api.createBookmark('1', {
         title: 'New Folder',
       });
 
+      expect(mockChromeBookmarks.create).toHaveBeenCalledTimes(1);
       expect(mockChromeBookmarks.create).toHaveBeenCalledWith({
         parentId: '1',
         title: 'New Folder',
@@ -155,14 +230,42 @@ describe('ChromeBookmarkAPI', () => {
       expect(result.title).toBe('New Folder');
       expect(result.url).toBeUndefined();
     });
+
+    it('falls back to Uncategorized parent and shows notification when parentId is null', async () => {
+      const mockFolder = {
+        id: '5',
+        parentId: 'Uncategorized',
+        title: 'New Folder',
+      };
+
+      when(mockChromeBookmarks.create)
+        .calledWith(expect.objectContaining({ parentId: 'Uncategorized', title: 'New Folder' }))
+        .thenResolve(mockFolder);
+
+      const notificationsCreate = vi.fn();
+      mockChrome.notifications = { create: notificationsCreate };
+
+      const result = await api.createBookmark(null, {
+        title: 'New Folder',
+      });
+
+      expect(mockChromeBookmarks.create).toHaveBeenCalledTimes(1);
+      expect(mockChromeBookmarks.create).toHaveBeenCalledWith({
+        parentId: 'Uncategorized',
+        title: 'New Folder',
+      });
+      expect(result.parentId).toBe('Uncategorized');
+      expect(notificationsCreate).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('removeBookmark', () => {
     it('removes a bookmark', async () => {
-      mockChromeBookmarks.removeTree.mockResolvedValue(undefined);
+      when(mockChromeBookmarks.removeTree).calledWith('4').thenResolve(undefined);
 
       await api.removeBookmark('4');
 
+      expect(mockChromeBookmarks.removeTree).toHaveBeenCalledTimes(1);
       expect(mockChromeBookmarks.removeTree).toHaveBeenCalledWith('4');
     });
   });
@@ -175,13 +278,16 @@ describe('ChromeBookmarkAPI', () => {
         url: 'https://updated.com',
       };
 
-      mockChromeBookmarks.update.mockResolvedValue(mockBookmark);
+      when(mockChromeBookmarks.update)
+        .calledWith('4', expect.objectContaining({ title: 'Updated Bookmark', url: 'https://updated.com' }))
+        .thenResolve(mockBookmark);
 
       const result = await api.updateBookmark('4', {
         title: 'Updated Bookmark',
         url: 'https://updated.com',
       });
 
+      expect(mockChromeBookmarks.update).toHaveBeenCalledTimes(1);
       expect(mockChromeBookmarks.update).toHaveBeenCalledWith('4', {
         title: 'Updated Bookmark',
         url: 'https://updated.com',
@@ -198,12 +304,15 @@ describe('ChromeBookmarkAPI', () => {
         url: 'https://example.com',
       };
 
-      mockChromeBookmarks.update.mockResolvedValue(mockBookmark);
+      when(mockChromeBookmarks.update)
+        .calledWith('4', expect.objectContaining({ title: 'Updated Title' }))
+        .thenResolve(mockBookmark);
 
       const result = await api.updateBookmark('4', {
         title: 'Updated Title',
       });
 
+      expect(mockChromeBookmarks.update).toHaveBeenCalledTimes(1);
       expect(mockChromeBookmarks.update).toHaveBeenCalledWith('4', {
         title: 'Updated Title',
       });
@@ -213,20 +322,26 @@ describe('ChromeBookmarkAPI', () => {
 
   describe('moveBookmark', () => {
     it('moves a bookmark', async () => {
-      mockChromeBookmarks.move.mockResolvedValue(undefined);
+      when(mockChromeBookmarks.move)
+        .calledWith('4', expect.objectContaining({ parentId: '2' }))
+        .thenResolve(undefined);
 
       await api.moveBookmark('4', '2');
 
+      expect(mockChromeBookmarks.move).toHaveBeenCalledTimes(1);
       expect(mockChromeBookmarks.move).toHaveBeenCalledWith('4', {
         parentId: '2',
       });
     });
 
     it('moves a bookmark with index', async () => {
-      mockChromeBookmarks.move.mockResolvedValue(undefined);
+      when(mockChromeBookmarks.move)
+        .calledWith('4', expect.objectContaining({ parentId: '2', index: 1 }))
+        .thenResolve(undefined);
 
       await api.moveBookmark('4', '2', 1);
 
+      expect(mockChromeBookmarks.move).toHaveBeenCalledTimes(1);
       expect(mockChromeBookmarks.move).toHaveBeenCalledWith('4', {
         index: 1,
         parentId: '2',
@@ -242,10 +357,11 @@ describe('ChromeBookmarkAPI', () => {
         url: 'https://example.com',
       };
 
-      mockChromeBookmarks.get.mockResolvedValue([mockBookmark]);
+      when(mockChromeBookmarks.get).calledWith('4').thenResolve([mockBookmark]);
 
       const result = await api.getBookmark('4');
 
+      expect(mockChromeBookmarks.get).toHaveBeenCalledTimes(1);
       expect(mockChromeBookmarks.get).toHaveBeenCalledWith('4');
       expect(result?.id).toBe('4');
       expect(result?.title).toBe('Test Bookmark');
@@ -253,9 +369,17 @@ describe('ChromeBookmarkAPI', () => {
     });
 
     it('returns null when bookmark not found', async () => {
-      mockChromeBookmarks.get.mockResolvedValue([]);
+      when(mockChromeBookmarks.get).calledWith('999').thenResolve([]);
 
       const result = await api.getBookmark('999');
+
+      expect(result).toBeNull();
+    });
+
+    it('returns null when get throws', async () => {
+      when(mockChromeBookmarks.get).calledWith('4').thenReject(new Error('boom'));
+
+      const result = await api.getBookmark('4');
 
       expect(result).toBeNull();
     });
@@ -276,10 +400,13 @@ describe('ChromeBookmarkAPI', () => {
         },
       ];
 
-      mockChromeBookmarks.search.mockResolvedValue(mockResults);
+      when(mockChromeBookmarks.search)
+        .calledWith(expect.objectContaining({ query: 'google' }))
+        .thenResolve(mockResults);
 
       const result = await api.searchBookmarks('google');
 
+      expect(mockChromeBookmarks.search).toHaveBeenCalledTimes(1);
       expect(mockChromeBookmarks.search).toHaveBeenCalledWith({ query: 'google' });
       expect(result).toHaveLength(2);
       expect(result[0].title).toBe('Google Search');
@@ -287,7 +414,9 @@ describe('ChromeBookmarkAPI', () => {
     });
 
     it('returns empty array when no results', async () => {
-      mockChromeBookmarks.search.mockResolvedValue([]);
+      when(mockChromeBookmarks.search)
+        .calledWith(expect.objectContaining({ query: 'nonexistent' }))
+        .thenResolve([]);
 
       const result = await api.searchBookmarks('nonexistent');
 
@@ -309,13 +438,47 @@ describe('ChromeBookmarkAPI', () => {
         },
       ];
 
-      mockChromeBookmarks.getSubTree.mockResolvedValue(mockFolder);
-      mockChromeBookmarks.move.mockResolvedValue(undefined);
+      when(mockChromeBookmarks.getSubTree).calledWith('1').thenResolve(mockFolder);
+      when(mockChromeBookmarks.move)
+        .calledWith('item1', expect.objectContaining({ index: 2 }))
+        .thenResolve(undefined);
 
       await api.reorderItems('1', 0, 2);
 
+      expect(mockChromeBookmarks.getSubTree).toHaveBeenCalledTimes(1);
       expect(mockChromeBookmarks.getSubTree).toHaveBeenCalledWith('1');
+      expect(mockChromeBookmarks.move).toHaveBeenCalledTimes(1);
       expect(mockChromeBookmarks.move).toHaveBeenCalledWith('item1', { index: 2 });
+    });
+
+    it('throws when fromIndex is out of bounds', async () => {
+      const mockFolder = [
+        {
+          children: [{ id: 'item1', title: 'Item 1' }],
+          id: '1',
+          title: 'Test Folder',
+        },
+      ];
+
+      when(mockChromeBookmarks.getSubTree).calledWith('1').thenResolve(mockFolder);
+
+      await expect(api.reorderItems('1', 3, 0)).rejects.toThrow('Invalid folder or index: 1, 3');
+    });
+
+    it('throws when no item exists at fromIndex', async () => {
+      const mockFolder = [
+        {
+          children: [undefined],
+          id: '1',
+          title: 'Test Folder',
+        },
+      ];
+
+      when(mockChromeBookmarks.getSubTree)
+        .calledWith('1')
+        .thenResolve(mockFolder as unknown as chrome.bookmarks.BookmarkTreeNode[]);
+
+      await expect(api.reorderItems('1', 0, 1)).rejects.toThrow('Item not found at index 0');
     });
   });
 });

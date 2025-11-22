@@ -6,11 +6,6 @@ import { IconButton } from '@/shared/ui/IconButton';
 describe('IconButton', () => {
   const mockIcon = <span data-testid="mock-icon">Icon</span>;
 
-  it('should render without crashing', () => {
-    render(<IconButton icon={mockIcon} />);
-    expect(screen.getByRole('button')).toBeInTheDocument();
-  });
-
   it('should render the provided icon', () => {
     render(<IconButton icon={mockIcon} />);
     expect(screen.getByTestId('mock-icon')).toBeInTheDocument();
@@ -33,7 +28,7 @@ describe('IconButton', () => {
     render(<IconButton disabled icon={mockIcon} onClick={handleClick} />);
     await user.click(screen.getByRole('button'));
 
-    expect(handleClick).not.toHaveBeenCalled();
+    expect(handleClick).toHaveBeenCalledTimes(0);
   });
 
   it('should apply disabled styling when disabled', () => {

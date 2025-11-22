@@ -4,11 +4,6 @@ import { APP_REPO_URL } from '@/config/constants';
 import { BuiltWith } from '@/shared/ui/BuiltWith';
 
 describe('BuiltWith', () => {
-  it('should render without crashing', () => {
-    render(<BuiltWith />);
-    expect(screen.getByTestId('built-with')).toBeInTheDocument();
-  });
-
   it('should display "Built with" text', () => {
     render(<BuiltWith />);
     expect(screen.getByText(/Built with/i)).toBeInTheDocument();

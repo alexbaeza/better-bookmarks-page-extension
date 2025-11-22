@@ -19,10 +19,6 @@ const TestProvider = ({ initialValues, children }: { initialValues: any; childre
 );
 
 describe('BackgroundOverlay', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   afterEach(() => {
     vi.restoreAllMocks();
   });

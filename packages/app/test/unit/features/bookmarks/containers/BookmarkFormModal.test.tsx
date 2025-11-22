@@ -4,10 +4,17 @@ import { describe, expect, it, vi } from 'vitest';
 import { BookmarkFormModal } from '@/features/bookmarks/containers/BookmarkFormModal';
 import { AllProviders } from '~test/test-utils';
 
-const mockOnClose = vi.fn();
-const mockOnSave = vi.fn();
-
-const mockFormik = {
+let mockOnClose = vi.fn<() => void>();
+let mockOnSave = vi.fn<() => void>();
+let mockFormik: {
+  values: { title: string; url: string | undefined };
+  errors: Record<string, unknown>;
+  touched: Record<string, unknown>;
+  handleChange: ReturnType<typeof vi.fn>;
+  handleSubmit: ReturnType<typeof vi.fn>;
+  resetForm: ReturnType<typeof vi.fn>;
+  setValues: ReturnType<typeof vi.fn>;
+} = {
   values: { title: '', url: '' },
   errors: {},
   touched: {},
@@ -44,17 +51,44 @@ vi.mock('@/shared/ui/Modal', () => ({
 }));
 
 describe('BookmarkFormModal', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
+  let folderProps: {
+    onClose: ReturnType<typeof vi.fn<() => void>>;
+    onSave: ReturnType<typeof vi.fn<() => void>>;
+    initialValues: { title: string; url: undefined };
+  };
+  let bookmarkProps: {
+    onClose: ReturnType<typeof vi.fn<() => void>>;
+    onSave: ReturnType<typeof vi.fn<() => void>>;
+    initialValues: { title: string; url: string };
+  };
 
-  describe('Folder mode (url is undefined)', () => {
-    const folderProps = {
+  beforeEach(() => {
+    mockOnClose = vi.fn<() => void>();
+    mockOnSave = vi.fn<() => void>();
+    mockFormik = {
+      values: { title: '', url: '' },
+      errors: {},
+      touched: {},
+      handleChange: vi.fn(),
+      handleSubmit: vi.fn(),
+      resetForm: vi.fn(),
+      setValues: vi.fn(),
+    };
+
+    folderProps = {
       onClose: mockOnClose,
       onSave: mockOnSave,
       initialValues: { title: '', url: undefined },
     };
 
+    bookmarkProps = {
+      onClose: mockOnClose,
+      onSave: mockOnSave,
+      initialValues: { title: '', url: '' },
+    };
+  });
+
+  describe('Folder mode (url is undefined)', () => {
     it('renders modal with correct title for adding folder', () => {
       mockFormik.values = { title: '', url: undefined };
 
@@ -124,12 +158,6 @@ describe('BookmarkFormModal', () => {
   });
 
   describe('Bookmark mode (url is string)', () => {
-    const bookmarkProps = {
-      onClose: mockOnClose,
-      onSave: mockOnSave,
-      initialValues: { title: '', url: '' },
-    };
-
     it('renders modal with correct title for adding bookmark', () => {
       mockFormik.values = { title: '', url: '' };
 

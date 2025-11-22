@@ -59,26 +59,26 @@ describe('themes', () => {
       const theme = themes[themeName];
       const themeKeys = Object.keys(theme);
 
-      for (const key of requiredColorKeys) {
+      requiredColorKeys.forEach((key) => {
         expect(themeKeys).toContain(key);
-      }
+      });
     });
 
     it('should have valid hex color values', () => {
       const theme = themes[themeName];
       const hexColorRegex = /^#[0-9A-F]{6}$/i;
 
-      for (const [_key, value] of Object.entries(theme)) {
+      Object.values(theme).forEach((value) => {
         expect(value).toMatch(hexColorRegex);
-      }
+      });
     });
 
     it('should have uppercase hex color values', () => {
       const theme = themes[themeName];
 
-      for (const value of Object.values(theme)) {
+      Object.values(theme).forEach((value) => {
         expect(value).toBe(value.toUpperCase());
-      }
+      });
     });
 
     it('should have exactly 11 color properties', () => {
@@ -87,21 +87,22 @@ describe('themes', () => {
   });
 
   describe('specific theme validations', () => {
-    it('default theme should have expected primary background color', () => {
-      expect(themes.default['bgColor-primary']).toBe('#1F1E25');
-    });
-
-    it('dracula theme should have expected accent color', () => {
-      expect(themes.dracula['fgColor-accent']).toBe('#BD93F9');
-    });
-
-    it('github-light theme should have light background', () => {
-      expect(themes['github-light']['bgColor-primary']).toBe('#FFFFFF');
-    });
-
-    it('nord theme should have expected color palette', () => {
-      expect(themes.nord['bgColor-accent']).toBe('#88C0D0');
-      expect(themes.nord['fgColor-primary']).toBe('#ECEFF4');
+    it.each([
+      ['default', { 'bgColor-primary': '#1F1E25' }],
+      ['dracula', { 'fgColor-accent': '#BD93F9' }],
+      ['github-light', { 'bgColor-primary': '#FFFFFF' }],
+      [
+        'nord',
+        {
+          'bgColor-accent': '#88C0D0',
+          'fgColor-primary': '#ECEFF4',
+        },
+      ],
+    ])('%s theme should have expected palette', (themeName, expectedColors) => {
+      const theme = themes[themeName];
+      Object.entries(expectedColors).forEach(([key, expectedValue]) => {
+        expect(theme[key]).toBe(expectedValue);
+      });
     });
   });
 
@@ -114,18 +115,14 @@ describe('themes', () => {
   });
 
   describe('color contrast and accessibility', () => {
-    it('should have different primary and secondary background colors', () => {
-      for (const themeName of themeNames) {
-        const theme = themes[themeName];
-        expect(theme['bgColor-primary']).not.toBe(theme['bgColor-secondary']);
-      }
+    it.each(themeNames)('%s should have different primary and secondary background colors', (themeName) => {
+      const theme = themes[themeName];
+      expect(theme['bgColor-primary']).not.toBe(theme['bgColor-secondary']);
     });
 
-    it('should have different primary and secondary foreground colors', () => {
-      for (const themeName of themeNames) {
-        const theme = themes[themeName];
-        expect(theme['fgColor-primary']).not.toBe(theme['fgColor-secondary']);
-      }
+    it.each(themeNames)('%s should have different primary and secondary foreground colors', (themeName) => {
+      const theme = themes[themeName];
+      expect(theme['fgColor-primary']).not.toBe(theme['fgColor-secondary']);
     });
   });
 });

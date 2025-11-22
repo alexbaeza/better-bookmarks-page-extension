@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { usePlatform } from './usePlatform';
 
-function normalizeKey(key: string): string {
+const normalizeKey = (key: string): string => {
   return key === 'control' ? 'ctrl' : key === 'meta' ? 'meta' : key.toLowerCase();
-}
+};
 
-function addModifierKeys(pressedKeys: Set<string>, isMac: boolean, event: KeyboardEvent): void {
+const addModifierKeys = (pressedKeys: Set<string>, isMac: boolean, event: KeyboardEvent): void => {
   // Track modifier keys via flags
   if (isMac && event.metaKey) {
     pressedKeys.add('meta');
@@ -16,34 +16,34 @@ function addModifierKeys(pressedKeys: Set<string>, isMac: boolean, event: Keyboa
   if (event.shiftKey) {
     pressedKeys.add('shift');
   }
-}
+};
 
-function removeModifierKeys(pressedKeys: Set<string>, event: KeyboardEvent): void {
+const removeModifierKeys = (pressedKeys: Set<string>, event: KeyboardEvent): void => {
   // Remove modifier keys based on flags
   if (!event.metaKey) pressedKeys.delete('meta');
   if (!event.ctrlKey) pressedKeys.delete('ctrl');
   if (!event.shiftKey) pressedKeys.delete('shift');
-}
+};
 
-function clearStuckKeys(pressedKeys: Set<string>, normalizedTargetKeys: string[]): void {
+const clearStuckKeys = (pressedKeys: Set<string>, normalizedTargetKeys: string[]): void => {
   // Clear regular keys to prevent stuck keys (not modifier keys themselves)
   normalizedTargetKeys.forEach((targetKey) => {
     if (targetKey !== 'meta' && targetKey !== 'ctrl' && targetKey !== 'shift') {
       pressedKeys.delete(targetKey);
     }
   });
-}
+};
 
 /**
  * Hook to track keyboard state for specific keys
  * Useful for highlighting keyboard shortcuts as they're pressed
  */
-export function useKeyboardState(targetKeys: string[]): Set<string> {
+export const useKeyboardState = (targetKeys: string[]): Set<string> => {
   const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
   const { isMac } = usePlatform();
 
   // Normalize target keys to lowercase for comparison
-  const normalizedTargetKeys = targetKeys.map((k) => k.toLowerCase());
+  const normalizedTargetKeys = targetKeys.map((key) => key.toLowerCase());
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -104,16 +104,16 @@ export function useKeyboardState(targetKeys: string[]): Set<string> {
   }, [normalizedTargetKeys, isMac]);
 
   return pressedKeys;
-}
+};
 
 /**
  * Hook specifically for tracking Cmd/Ctrl+Shift+K shortcut
  */
-export function useSearchShortcutState(): {
+export const useSearchShortcutState = (): {
   isModifierPressed: boolean;
   isShiftPressed: boolean;
   isKPressed: boolean;
-} {
+} => {
   const pressedKeys = useKeyboardState(['meta', 'ctrl', 'shift', 'k']);
 
   const isModifierPressed = pressedKeys.has('meta') || pressedKeys.has('ctrl');
@@ -125,4 +125,4 @@ export function useSearchShortcutState(): {
     isShiftPressed,
     isKPressed,
   };
-}
+};

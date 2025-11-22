@@ -5,15 +5,9 @@ import { Text } from '@/shared/ui/Text';
 
 const getGreeting = () => {
   const hour = new Date().getHours();
-  let greeting: string;
-  if (hour >= 5 && hour < 12) {
-    greeting = 'Good Morning';
-  } else if (hour >= 12 && hour < 18) {
-    greeting = 'Good Afternoon';
-  } else {
-    greeting = 'Good Evening';
-  }
-  return greeting;
+  if (hour >= 5 && hour < 12) return 'Good Morning';
+  if (hour >= 12 && hour < 18) return 'Good Afternoon';
+  return 'Good Evening';
 };
 
 export const Greeting = () => {

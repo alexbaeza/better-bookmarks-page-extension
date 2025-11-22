@@ -1,6 +1,6 @@
 import { GRID_MIN_ITEM_WIDTH } from '@/config/constants';
 
-export function useOptimalColumns(containerWidth: number, isList: boolean): number {
+export const useOptimalColumns = (containerWidth: number, isList: boolean): number => {
   if (isList) {
     return 1;
   }
@@ -14,4 +14,4 @@ export function useOptimalColumns(containerWidth: number, isList: boolean): numb
 
   // Return calculated columns to fill the row based on available width
   return columns;
-}
+};

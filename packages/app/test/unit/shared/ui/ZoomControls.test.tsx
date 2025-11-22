@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 import { ZoomControls } from '@/shared/ui/ZoomControls';
 
 const mockUseAtom = vi.fn(() => [1.0, vi.fn()]);
@@ -20,14 +21,8 @@ vi.mock('@/app/providers/atoms', () => ({
 
 describe('ZoomControls', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockUseAtom.mockReturnValue([1.0, vi.fn()]);
-    mockUseSetAtom.mockReturnValue(vi.fn());
-  });
-
-  it('should render without crashing', () => {
-    render(<ZoomControls />);
-    expect(screen.getByTestId('zoom-controls')).toBeInTheDocument();
+    when(mockUseAtom).calledWith().thenReturn([1.0, vi.fn()]);
+    when(mockUseSetAtom).calledWith().thenReturn(vi.fn());
   });
 
   it('should display "Scale" label', () => {

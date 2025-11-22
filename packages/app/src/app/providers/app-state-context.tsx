@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, use } from 'react';
 
 import type { BookmarksData } from '@/features/bookmarks/lib/bookmarks';
 
@@ -27,7 +27,5 @@ export const initialContext: AppStateContextProps = {
 export const AppStateContext = createContext<AppStateContextProps>(initialContext);
 
 export const useAppStateContext = (): AppStateContextProps => {
-  const ctx = useContext(AppStateContext);
-  if (!ctx) stub();
-  return ctx;
+  return use(AppStateContext);
 };

@@ -1,6 +1,5 @@
 import { ChromeBookmarkAPI } from './api/chrome-api';
 import { FirefoxBookmarkAPI } from './api/firefox-api';
-import { MockBookmarksAPI } from './api/mock-bookmarks-api';
 import type { BrowserBookmarkAPI } from './types';
 import { detectBrowser } from './utils/browser-detector';
 
@@ -8,8 +7,9 @@ import { detectBrowser } from './utils/browser-detector';
  * Factory for creating browser-specific bookmark API instances
  * In dev/test, uses mock data with Chrome/Firefox implementations
  * In production, uses real browser APIs
+ * Mock files are dynamically imported only when needed, excluding them from production builds
  */
-export function createBookmarkAPI(): BrowserBookmarkAPI {
+export const createBookmarkAPI = async (): Promise<BrowserBookmarkAPI> => {
   const browserInfo = detectBrowser();
   const isDev = import.meta.env.DEV;
   const isTest = import.meta.env.MODE === 'test';
@@ -35,11 +35,21 @@ export function createBookmarkAPI(): BrowserBookmarkAPI {
   }
 
   switch (browserInfo.type) {
-    case 'chrome':
-      return useMockData ? new ChromeBookmarkAPI(new MockBookmarksAPI(browserInfo.type)) : new ChromeBookmarkAPI();
-    case 'firefox':
-      return useMockData ? new FirefoxBookmarkAPI(new MockBookmarksAPI(browserInfo.type)) : new FirefoxBookmarkAPI();
+    case 'chrome': {
+      if (useMockData) {
+        const { MockBookmarksAPI } = await import('./api/mock-bookmarks-api');
+        return new ChromeBookmarkAPI(new MockBookmarksAPI(browserInfo.type));
+      }
+      return new ChromeBookmarkAPI();
+    }
+    case 'firefox': {
+      if (useMockData) {
+        const { MockBookmarksAPI } = await import('./api/mock-bookmarks-api');
+        return new FirefoxBookmarkAPI(new MockBookmarksAPI(browserInfo.type));
+      }
+      return new FirefoxBookmarkAPI();
+    }
     default:
       throw new Error(`Unsupported browser please open an issue and report it: ${browserInfo.type}`);
   }
-}
+};

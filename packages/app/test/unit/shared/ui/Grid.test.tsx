@@ -3,11 +3,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { Grid } from '@/shared/ui/Grid';
 
 describe('Grid', () => {
-  it('should render without crashing', () => {
-    render(<Grid>Content</Grid>);
-    expect(screen.getByText('Content')).toBeInTheDocument();
-  });
-
   it('should apply default classes', () => {
     render(<Grid data-testid="grid">Content</Grid>);
     const grid = screen.getByTestId('grid');
@@ -91,7 +86,8 @@ describe('Grid', () => {
     ['xl', 'gap-6'],
   ])('should apply gap class "%s" when gap="%s"', (gap, expectedClass) => {
     render(
-      <Grid data-testid="grid" gap={gap as any}>
+      // @ts-expect-error - Testing invalid prop value
+      <Grid data-testid="grid" gap={gap}>
         Content
       </Grid>
     );
@@ -112,17 +108,6 @@ describe('Grid', () => {
   it('should apply data-testid', () => {
     render(<Grid data-testid="test-grid">Content</Grid>);
     expect(screen.getByTestId('test-grid')).toBeInTheDocument();
-  });
-
-  it('should render children correctly', () => {
-    render(
-      <Grid>
-        <div data-testid="child1">Child 1</div>
-        <div data-testid="child2">Child 2</div>
-      </Grid>
-    );
-    expect(screen.getByTestId('child1')).toBeInTheDocument();
-    expect(screen.getByTestId('child2')).toBeInTheDocument();
   });
 
   it('should calculate optimal columns from container width', () => {

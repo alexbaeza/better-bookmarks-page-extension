@@ -4,11 +4,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useClickOutside } from '@/features/bookmarks/hooks/useClickOutside';
 
 describe('useClickOutside', () => {
-  const mockHandler = vi.fn();
+  let mockHandler: ReturnType<typeof vi.fn<() => void>>;
   let containerRef: React.RefObject<HTMLDivElement>;
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockHandler = vi.fn<() => void>();
     containerRef = { current: document.createElement('div') };
     document.body.appendChild(containerRef.current);
   });
@@ -17,6 +17,7 @@ describe('useClickOutside', () => {
     if (containerRef.current) {
       document.body.removeChild(containerRef.current);
     }
+    vi.restoreAllMocks();
   });
 
   it('should call handler when clicking outside element', () => {
@@ -42,7 +43,7 @@ describe('useClickOutside', () => {
     const event = new MouseEvent('mousedown', { bubbles: true });
     insideElement.dispatchEvent(event);
 
-    expect(mockHandler).not.toHaveBeenCalled();
+    expect(mockHandler).toHaveBeenCalledTimes(0);
   });
 
   it('should call handler when Escape key is pressed', () => {
@@ -60,7 +61,7 @@ describe('useClickOutside', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
     document.dispatchEvent(event);
 
-    expect(mockHandler).not.toHaveBeenCalled();
+    expect(mockHandler).toHaveBeenCalledTimes(0);
   });
 
   it('should cleanup event listeners on unmount', () => {
@@ -69,10 +70,9 @@ describe('useClickOutside', () => {
 
     unmount();
 
+    expect(removeEventListenerSpy).toHaveBeenCalledTimes(2);
     expect(removeEventListenerSpy).toHaveBeenCalledWith('mousedown', expect.any(Function));
     expect(removeEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
-
-    removeEventListenerSpy.mockRestore();
   });
 
   it('should handle null ref gracefully', () => {
@@ -86,7 +86,7 @@ describe('useClickOutside', () => {
     const event = new MouseEvent('mousedown', { bubbles: true });
     outsideElement.dispatchEvent(event);
 
-    expect(mockHandler).not.toHaveBeenCalled();
+    expect(mockHandler).toHaveBeenCalledTimes(0);
 
     document.body.removeChild(outsideElement);
   });

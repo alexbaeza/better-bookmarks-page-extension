@@ -14,11 +14,17 @@ vi.mock('@/app/providers/theme-provider', () => ({
   ThemeProvider: ({ children }: { children: React.ReactNode }) => <div data-testid="theme-provider">{children}</div>,
 }));
 
-vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
-  BookmarkNavigationProvider: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="bookmark-navigation-provider">{children}</div>
-  ),
-}));
+vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', async () => {
+  const actual = await vi.importActual<typeof import('@/features/bookmarks/contexts/BookmarkNavigationContext')>(
+    '@/features/bookmarks/contexts/BookmarkNavigationContext'
+  );
+  return {
+    ...actual,
+    BookmarkNavigationProvider: ({ children }: { children: React.ReactNode }) => (
+      <div data-testid="bookmark-navigation-provider">{children}</div>
+    ),
+  };
+});
 
 vi.mock('@/features/bookmarks/contexts/BookmarkSearchContext', () => ({
   BookmarkSearchProvider: ({ children }: { children: React.ReactNode }) => (
@@ -35,10 +41,6 @@ vi.mock('@/app/providers/modal-context', () => ({
 }));
 
 describe('AppProviders', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   afterEach(() => {
     vi.restoreAllMocks();
   });

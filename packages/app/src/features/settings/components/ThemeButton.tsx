@@ -8,7 +8,12 @@ interface ThemeButtonProps {
   variant?: 'default' | 'rainbow';
 }
 
-function DefaultThemeButton({ children, isActive, onClick, 'data-testid': testId }: Omit<ThemeButtonProps, 'variant'>) {
+const DefaultThemeButton = ({
+  children,
+  isActive,
+  onClick,
+  'data-testid': testId,
+}: Omit<ThemeButtonProps, 'variant'>) => {
   return (
     <button
       className={`p-3 rounded-lg border text-sm font-medium transition-colors ${
@@ -23,9 +28,14 @@ function DefaultThemeButton({ children, isActive, onClick, 'data-testid': testId
       {children}
     </button>
   );
-}
+};
 
-function RainbowThemeButton({ children, isActive, onClick, 'data-testid': testId }: Omit<ThemeButtonProps, 'variant'>) {
+const RainbowThemeButton = ({
+  children,
+  isActive,
+  onClick,
+  'data-testid': testId,
+}: Omit<ThemeButtonProps, 'variant'>) => {
   if (isActive) {
     return (
       <button
@@ -54,15 +64,15 @@ function RainbowThemeButton({ children, isActive, onClick, 'data-testid': testId
       </div>
     </button>
   );
-}
+};
 
-export function ThemeButton({
+export const ThemeButton = ({
   children,
   isActive,
   onClick,
   'data-testid': testId,
   variant = 'default',
-}: ThemeButtonProps) {
+}: ThemeButtonProps) => {
   if (variant === 'rainbow') {
     return (
       <RainbowThemeButton data-testid={testId} isActive={isActive} onClick={onClick}>
@@ -76,4 +86,4 @@ export function ThemeButton({
       {children}
     </DefaultThemeButton>
   );
-}
+};

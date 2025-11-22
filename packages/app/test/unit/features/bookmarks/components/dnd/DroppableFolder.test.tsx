@@ -3,8 +3,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DroppableFolder } from '@/features/bookmarks/components/dnd/DroppableFolder';
 import { AllProviders } from '~test/test-utils';
 
-const mockUseDrop = vi.fn();
-const mockOnDrop = vi.fn();
+let mockUseDrop = vi.fn();
+let mockOnDrop: ReturnType<typeof vi.fn<() => void>>;
 
 vi.mock('react-dnd', () => ({
   useDrop: (config: any) => mockUseDrop(config),
@@ -12,23 +12,11 @@ vi.mock('react-dnd', () => ({
 
 describe('DroppableFolder', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockUseDrop.mockReturnValue([
+    mockUseDrop = vi.fn(() => [
       { isOver: false, canDrop: false },
       vi.fn(), // drop function
     ]);
-  });
-
-  it('should render without crashing', () => {
-    render(
-      <AllProviders>
-        <DroppableFolder folderId="folder-1" onDrop={mockOnDrop}>
-          Content
-        </DroppableFolder>
-      </AllProviders>
-    );
-
-    expect(screen.getByText('Content')).toBeInTheDocument();
+    mockOnDrop = vi.fn<() => void>();
   });
 
   it('should apply dataTestId', () => {
@@ -114,7 +102,7 @@ describe('DroppableFolder', () => {
       );
 
       // onDrop should not be called because child already handled it
-      expect(mockOnDrop).not.toHaveBeenCalled();
+      expect(mockOnDrop).toHaveBeenCalledTimes(0);
     });
 
     it('should call onDrop when this folder is the direct target and child did not handle it', () => {

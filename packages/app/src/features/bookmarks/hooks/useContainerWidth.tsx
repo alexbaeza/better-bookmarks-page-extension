@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-export function useContainerWidth() {
+export const useContainerWidth = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
 
@@ -24,4 +24,4 @@ export function useContainerWidth() {
   }, [updateWidth]);
 
   return { containerRef, containerWidth };
-}
+};

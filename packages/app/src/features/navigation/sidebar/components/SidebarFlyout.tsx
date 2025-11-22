@@ -11,6 +11,7 @@ import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { InlineFlyout } from '@/shared/ui/Flyout';
 import { ImageWithFallback } from '@/shared/ui/ImageWithFallback';
 import { Text } from '@/shared/ui/Text';
+import { isBookmarkFolder } from '@/shared/utils/bookmark-utils';
 
 interface SidebarFlyoutProps {
   folder: IBookmarkItem;
@@ -106,7 +107,7 @@ export const SidebarFlyout: React.FC<SidebarFlyoutProps> = ({ folder, onClose, c
           {/* Nested Items */}
           <SidebarSection icon={<BookmarkIcon size={14} />} title={`Items (${countItems(folder)})`}>
             {folder.children
-              ?.filter((c: IBookmarkItem) => !Array.isArray(c.children))
+              ?.filter((child: IBookmarkItem) => !isBookmarkFolder(child))
               .map((leaf: IBookmarkItem) => (
                 <div className="mb-1" key={leaf.id}>
                   <BookmarkLeaf clickFolder={clickFolder} currentPage={currentPage} leaf={leaf} />

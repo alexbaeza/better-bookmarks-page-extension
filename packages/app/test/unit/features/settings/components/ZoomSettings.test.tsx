@@ -1,15 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
 
 import { zoomAtom } from '@/app/providers/atoms';
 import { ZoomSettings } from '@/features/settings/components/ZoomSettings';
 import { AllProviders } from '~test/test-utils';
 
 describe('ZoomSettings', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('renders with default dataTestId', () => {
     render(
       <AllProviders>

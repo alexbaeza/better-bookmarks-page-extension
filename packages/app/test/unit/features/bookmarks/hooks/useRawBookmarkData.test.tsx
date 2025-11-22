@@ -3,15 +3,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useRawBookmarkData } from '@/features/bookmarks/hooks/useRawBookmarkData';
 
 const mockRefreshBookmarks = vi.fn();
-const mockAppStateContext = {
-  providerInitialised: true,
-  bookmarks: {
-    folders: [],
-    uncategorized: undefined,
-  },
-  isLoading: false,
-  error: undefined,
-  refreshBookmarks: mockRefreshBookmarks,
+let mockAppStateContext: {
+  providerInitialised: boolean;
+  bookmarks: { folders: unknown[]; uncategorized: unknown };
+  isLoading: boolean;
+  error: unknown;
+  refreshBookmarks: ReturnType<typeof vi.fn>;
 };
 
 vi.mock('@/app/providers/app-state-context', () => ({
@@ -20,14 +17,17 @@ vi.mock('@/app/providers/app-state-context', () => ({
 
 describe('useRawBookmarkData', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockAppStateContext.providerInitialised = true;
-    mockAppStateContext.bookmarks = {
-      folders: [],
-      uncategorized: undefined,
+    mockRefreshBookmarks.mockClear();
+    mockAppStateContext = {
+      providerInitialised: true,
+      bookmarks: {
+        folders: [],
+        uncategorized: undefined,
+      },
+      isLoading: false,
+      error: undefined,
+      refreshBookmarks: mockRefreshBookmarks,
     };
-    mockAppStateContext.isLoading = false;
-    mockAppStateContext.error = undefined;
   });
 
   it('should return bookmark data', () => {
@@ -74,6 +74,6 @@ describe('useRawBookmarkData', () => {
     mockAppStateContext.providerInitialised = true;
     renderHook(() => useRawBookmarkData());
 
-    expect(mockRefreshBookmarks).not.toHaveBeenCalled();
+    expect(mockRefreshBookmarks).toHaveBeenCalledTimes(0);
   });
 });

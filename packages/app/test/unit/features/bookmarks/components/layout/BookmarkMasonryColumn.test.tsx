@@ -1,8 +1,10 @@
 import { act, render, screen } from '@testing-library/react';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 
 import { BookmarkMasonryColumn } from '@/features/bookmarks/components/layout/BookmarkMasonryColumn';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
+import type { TestGlobal } from '~test/test-types';
 
 const moveMock = vi.fn();
 const droppableProps: { onDrop?: (id: string, parentId: string, index: number) => void } = {};
@@ -64,7 +66,8 @@ let resizeObservers: Array<{
   observe: ReturnType<typeof vi.fn>;
   disconnect: ReturnType<typeof vi.fn>;
 }> = [];
-const originalResizeObserver = global.ResizeObserver;
+const originalResizeObserver = (globalThis as typeof globalThis & { ResizeObserver?: typeof ResizeObserver })
+  .ResizeObserver;
 
 beforeAll(() => {
   class MockResizeObserver {
@@ -78,11 +81,14 @@ beforeAll(() => {
       resizeObservers.push({ callback, observe: this.observe, disconnect: this.disconnect });
     }
   }
-  (global as any).ResizeObserver = MockResizeObserver;
+  (global as TestGlobal).ResizeObserver = MockResizeObserver;
 });
 
 afterAll(() => {
-  global.ResizeObserver = originalResizeObserver;
+  if (originalResizeObserver !== undefined) {
+    (globalThis as typeof globalThis & { ResizeObserver: typeof ResizeObserver }).ResizeObserver =
+      originalResizeObserver;
+  }
 });
 
 beforeEach(() => {
@@ -108,7 +114,9 @@ describe('BookmarkMasonryColumn', () => {
   });
 
   it('moves dragged items to the current folder when dropped', async () => {
-    moveMock.mockResolvedValue(undefined);
+    when(moveMock)
+      .calledWith('dragged-id', expect.objectContaining({ parentId: folderId }))
+      .thenResolve(undefined);
 
     render(<BookmarkMasonryColumn folderContents={folderContents} folderId={folderId} name="My Folder" />);
 
@@ -116,14 +124,14 @@ describe('BookmarkMasonryColumn', () => {
       await droppableProps.onDrop?.('dragged-id', 'from-folder', 0);
     });
 
+    expect(moveMock).toHaveBeenCalledTimes(1);
     expect(moveMock).toHaveBeenCalledWith('dragged-id', { parentId: folderId });
   });
 
   it('reports height via ResizeObserver and initial measurement', () => {
     const onHeightChange = vi.fn();
-    const getBoundingClientRectSpy = vi
-      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
-      .mockReturnValue(defaultRect);
+    const getBoundingClientRectSpy = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect');
+    when(getBoundingClientRectSpy).calledWith().thenReturn(defaultRect);
 
     render(
       <BookmarkMasonryColumn
@@ -134,6 +142,7 @@ describe('BookmarkMasonryColumn', () => {
       />
     );
 
+    expect(onHeightChange).toHaveBeenCalledTimes(1);
     expect(onHeightChange).toHaveBeenCalledWith(folderId, 250);
     expect(resizeObservers).toHaveLength(1);
 
@@ -149,26 +158,23 @@ describe('BookmarkMasonryColumn', () => {
       );
     });
 
+    expect(onHeightChange).toHaveBeenCalledTimes(2);
     expect(onHeightChange).toHaveBeenCalledWith(folderId, 375);
-    getBoundingClientRectSpy.mockRestore();
   });
 
   it('skips ResizeObserver wiring when onHeightChange is not provided', () => {
-    const getBoundingClientRectSpy = vi
-      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
-      .mockReturnValue(defaultRect);
+    const getBoundingClientRectSpy = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect');
+    when(getBoundingClientRectSpy).calledWith().thenReturn(defaultRect);
 
     render(<BookmarkMasonryColumn folderContents={folderContents} folderId={folderId} name="My Folder" />);
 
     expect(resizeObservers).toHaveLength(0);
-    getBoundingClientRectSpy.mockRestore();
   });
 
   it('falls back to getBoundingClientRect when ResizeObserver is unavailable', () => {
     const onHeightChange = vi.fn();
-    const getBoundingClientRectSpy = vi
-      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
-      .mockReturnValue(defaultRect);
+    const getBoundingClientRectSpy = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect');
+    when(getBoundingClientRectSpy).calledWith().thenReturn(defaultRect);
     // @ts-expect-error force undefined
     global.ResizeObserver = undefined;
 
@@ -181,8 +187,7 @@ describe('BookmarkMasonryColumn', () => {
       />
     );
 
+    expect(onHeightChange).toHaveBeenCalledTimes(1);
     expect(onHeightChange).toHaveBeenCalledWith(folderId, 250);
-
-    getBoundingClientRectSpy.mockRestore();
   });
 });

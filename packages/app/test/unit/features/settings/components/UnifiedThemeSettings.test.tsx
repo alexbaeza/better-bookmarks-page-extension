@@ -1,15 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
 
 import { customThemeAtom, themeAtom } from '@/app/providers/atoms';
 import { UnifiedThemeSettings } from '@/features/settings/components/UnifiedThemeSettings';
 import { AllProviders } from '~test/test-utils';
 
 describe('UnifiedThemeSettings', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('renders theme settings with testid', () => {
     render(
       <AllProviders

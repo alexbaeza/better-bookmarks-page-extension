@@ -23,14 +23,15 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({
   initialValues = { title: '', url: '' },
 }) => {
   const isFolder = initialValues.url === undefined;
-  const isEditing = Boolean(initialValues.title);
+  const isEditing = !!initialValues.title;
 
-  const getModalTitle = () => {
-    if (isEditing) {
-      return isFolder ? 'Edit Folder' : 'Edit Bookmark';
-    }
-    return isFolder ? 'Add Folder' : 'Add Bookmark';
-  };
+  const modalTitle = isEditing
+    ? isFolder
+      ? 'Edit Folder'
+      : 'Edit Bookmark'
+    : isFolder
+      ? 'Add Folder'
+      : 'Add Bookmark';
 
   const formik = useFormik({
     initialValues,
@@ -54,7 +55,7 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({
   }, [initialValues, formik]);
 
   return (
-    <Modal dataTestId="bookmark-form-modal" onClose={onClose} title={getModalTitle()}>
+    <Modal dataTestId="bookmark-form-modal" onClose={onClose} title={modalTitle}>
       <form onSubmit={formik.handleSubmit}>
         <Stack gap="xl">
           {/* Title Field */}

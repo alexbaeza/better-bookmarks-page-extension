@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 import * as bookmarksModule from '@/features/bookmarks/lib/bookmarks';
 import * as factory from '@/features/bookmarks/lib/browser/factory';
 
@@ -15,8 +16,11 @@ describe('bookmarks module', () => {
   };
 
   beforeEach(() => {
-    vi.clearAllMocks();
-    vi.spyOn(factory, 'createBookmarkAPI').mockReturnValue(mockAPI);
+    when(vi.spyOn(factory, 'createBookmarkAPI')).calledWith().thenResolve(mockAPI);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe('loadBookmarksTree', () => {
@@ -36,7 +40,7 @@ describe('bookmarks module', () => {
         },
       };
 
-      mockAPI.getBookmarksTree.mockResolvedValue(mockTree);
+      when(mockAPI.getBookmarksTree).calledWith().thenResolve(mockTree);
 
       const result = await bookmarksModule.loadBookmarksTree();
 
@@ -57,10 +61,13 @@ describe('bookmarks module', () => {
         title: 'New Bookmark',
         url: 'http://new.com',
       };
-      mockAPI.createBookmark.mockResolvedValue(createdItem);
+      when(mockAPI.createBookmark)
+        .calledWith('1', expect.objectContaining({ title: 'New Bookmark', url: 'http://new.com' }))
+        .thenResolve(createdItem);
 
       const result = await bookmarksModule.createBookmark('1', { title: 'New Bookmark', url: 'http://new.com' });
 
+      expect(mockAPI.createBookmark).toHaveBeenCalledTimes(1);
       expect(mockAPI.createBookmark).toHaveBeenCalledWith('1', { title: 'New Bookmark', url: 'http://new.com' });
       expect(result).toStrictEqual(createdItem);
     });
@@ -77,10 +84,13 @@ describe('bookmarks module', () => {
         title: 'Updated Title',
         url: 'http://example.com',
       };
-      mockAPI.updateBookmark.mockResolvedValue(updatedItem);
+      when(mockAPI.updateBookmark)
+        .calledWith('1', expect.objectContaining({ title: 'Updated Title' }))
+        .thenResolve(updatedItem);
 
       const result = await bookmarksModule.updateBookmark('1', { title: 'Updated Title' });
 
+      expect(mockAPI.updateBookmark).toHaveBeenCalledTimes(1);
       expect(mockAPI.updateBookmark).toHaveBeenCalledWith('1', { title: 'Updated Title' });
       expect(result).toStrictEqual(updatedItem);
     });
@@ -88,20 +98,22 @@ describe('bookmarks module', () => {
 
   describe('removeBookmark', () => {
     it('removes bookmark tree', async () => {
-      mockAPI.removeBookmark.mockResolvedValue(undefined);
+      when(mockAPI.removeBookmark).calledWith('1').thenResolve(undefined);
 
       await bookmarksModule.removeBookmark('1');
 
+      expect(mockAPI.removeBookmark).toHaveBeenCalledTimes(1);
       expect(mockAPI.removeBookmark).toHaveBeenCalledWith('1');
     });
   });
 
   describe('moveBookmark', () => {
     it('moves bookmark', async () => {
-      mockAPI.moveBookmark.mockResolvedValue(undefined);
+      when(mockAPI.moveBookmark).calledWith('1', '2', undefined).thenResolve(undefined);
 
       await bookmarksModule.moveBookmark('1', { parentId: '2' });
 
+      expect(mockAPI.moveBookmark).toHaveBeenCalledTimes(1);
       expect(mockAPI.moveBookmark).toHaveBeenCalledWith('1', '2', undefined);
     });
   });
@@ -117,10 +129,11 @@ describe('bookmarks module', () => {
         title: 'Test Bookmark',
         url: 'http://example.com',
       };
-      mockAPI.getBookmark.mockResolvedValue(bookmark);
+      when(mockAPI.getBookmark).calledWith('1').thenResolve(bookmark);
 
       const result = await bookmarksModule.getBookmarkById('1');
 
+      expect(mockAPI.getBookmark).toHaveBeenCalledTimes(1);
       expect(mockAPI.getBookmark).toHaveBeenCalledWith('1');
       expect(result).toStrictEqual(bookmark);
     });
@@ -139,10 +152,11 @@ describe('bookmarks module', () => {
           url: 'http://example.com',
         },
       ];
-      mockAPI.searchBookmarks.mockResolvedValue(results);
+      when(mockAPI.searchBookmarks).calledWith('test').thenResolve(results);
 
       const result = await bookmarksModule.searchBookmarks('test');
 
+      expect(mockAPI.searchBookmarks).toHaveBeenCalledTimes(1);
       expect(mockAPI.searchBookmarks).toHaveBeenCalledWith('test');
       expect(result).toStrictEqual(results);
     });

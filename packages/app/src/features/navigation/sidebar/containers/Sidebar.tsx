@@ -2,14 +2,19 @@ import { Bookmark as BookmarkIcon } from 'lucide-react';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
+import { type PageId, useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
-import { findFolderById, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
+import {
+  buildPathToFolder,
+  findFolderById,
+  onlyFolders,
+} from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import { SidebarSection } from '@/features/navigation/sidebar/components/SideBarSection';
 import { SidebarFlyout } from '@/features/navigation/sidebar/components/SidebarFlyout';
 import { SidebarFolderNode } from '@/features/navigation/sidebar/components/SidebarFolderNode';
 import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarItem';
 import { Text } from '@/shared/ui/Text';
+import { isAllPage, isRootPage, isUncategorizedPage } from '@/shared/utils/page-utils';
 
 export interface SidebarProps {
   title?: string;
@@ -18,19 +23,20 @@ export interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', footer }) => {
   const { counts, rawFolders, isLoading } = useBookmarks();
-  const { currentPage, setCurrentPage } = useBookmarkNavigation();
+  const { currentPage, navigateToPage, navigateToFolderWithPath } = useBookmarkNavigation();
 
-  const isAll = currentPage === 'All';
-  const isUncat = currentPage === 'Uncategorized';
+  const isRoot = isRootPage(currentPage);
+  const isAll = isAllPage(currentPage);
+  const isUncat = isUncategorizedPage(currentPage);
 
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [openFolderId, setOpenFolderId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isAll || isUncat) {
+    if (isRoot) {
       setOpenFolderId(null);
     }
-  }, [isAll, isUncat]);
+  }, [isRoot]);
 
   const roots = useMemo(() => rawFolders.filter(onlyFolders), [rawFolders]);
 
@@ -42,15 +48,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
     });
   }, []);
 
-  const handleClickAll = useCallback(() => setCurrentPage('All'), [setCurrentPage]);
-  const handleClickUncategorized = useCallback(() => setCurrentPage('Uncategorized'), [setCurrentPage]);
+  const handleClickAll = useCallback(() => navigateToPage('All'), [navigateToPage]);
+  const handleClickUncategorized = useCallback(() => navigateToPage('Uncategorized'), [navigateToPage]);
 
   const clickFolder = useCallback(
     (id: string) => {
       setOpenFolderId(id);
-      setCurrentPage(id);
+      const path = buildPathToFolder(rawFolders, id);
+      const fullPath: PageId[] = ['All', ...path];
+      navigateToFolderWithPath(id, fullPath);
     },
-    [setCurrentPage]
+    [navigateToFolderWithPath, rawFolders]
   );
 
   const selectedFolder = useMemo(() => findFolderById(rawFolders, openFolderId), [rawFolders, openFolderId]);
@@ -110,12 +118,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
           <div className="border-t border-bgColor-tertiary py-6" />
 
           <SidebarSection title="Folders">
-            {roots.map((f) => (
+            {roots.map((folder) => (
               <SidebarFolderNode
                 clickFolder={clickFolder}
                 expandedIds={expandedIds}
-                folder={f}
-                key={f.id}
+                folder={folder}
+                key={folder.id}
                 level={0}
                 openFolderId={openFolderId}
                 toggleFolder={toggleFolder}

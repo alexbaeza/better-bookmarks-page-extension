@@ -4,6 +4,7 @@ import { useContainerWidth } from '@/features/bookmarks/hooks/useContainerWidth'
 import type { MasonryColumn } from '@/features/bookmarks/hooks/useMasonryLayout';
 import { useMasonryLayout } from '@/features/bookmarks/hooks/useMasonryLayout';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
+import { calculateColumnCount } from '@/shared/utils/layout-utils';
 import { BookmarkMasonryColumn } from './BookmarkMasonryColumn';
 
 export interface BookmarkMasonryLayoutProps {
@@ -24,16 +25,7 @@ export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ fo
   folderHeightsRef.current = folderHeights;
 
   // Calculate column count based on container width
-  const columnCount = useMemo(() => {
-    // Default to a reasonable width if containerWidth is 0
-    const width = containerWidth || 1200;
-    // Match Tailwind breakpoints: sm:640, md:768, lg:1024, 2xl:1536
-    if (width >= 1536) return 4; // 2xl
-    if (width >= 1024) return 4; // lg
-    if (width >= 768) return 3; // md
-    if (width >= 640) return 3; // sm
-    return 1; // default
-  }, [containerWidth]);
+  const columnCount = useMemo(() => calculateColumnCount(containerWidth), [containerWidth]);
 
   const estimateFolderHeight = useCallback((folder: IBookmarkItem) => {
     const childCount = folder.children?.length ?? 0;
@@ -76,12 +68,12 @@ export const BookmarkMasonryLayout: React.FC<BookmarkMasonryLayoutProps> = ({ fo
   // This guarantees equal width columns
   const columns = useMemo(() => {
     const result: MasonryColumn<IBookmarkItem>[] = [];
-    for (let i = 0; i < columnCount; i++) {
-      const existingColumn = masonryColumns[i];
+    for (let columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+      const existingColumn = masonryColumns[columnIndex];
       result.push(
         existingColumn ?? {
           items: [],
-          key: `column-${i}`,
+          key: `column-${columnIndex}`,
         }
       );
     }

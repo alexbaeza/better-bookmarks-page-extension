@@ -4,8 +4,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ViewModeToggle } from '@/features/preferences/containers/ViewModeToggle';
 import { BookmarkDisplayMode } from '@/shared/types/ui';
 
-const mockSetViewMode = vi.fn();
-let mockViewMode = BookmarkDisplayMode.Grid;
+let mockSetViewMode: ReturnType<typeof vi.fn>;
+let mockViewMode: BookmarkDisplayMode;
 
 vi.mock('jotai', async (importOriginal) => {
   const actual = await importOriginal<typeof import('jotai')>();
@@ -39,13 +39,8 @@ vi.mock('@/shared/ui/Toggle', () => ({
 
 describe('ViewModeToggle', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockSetViewMode = vi.fn();
     mockViewMode = BookmarkDisplayMode.Grid;
-  });
-
-  it('should render without crashing', () => {
-    render(<ViewModeToggle />);
-    expect(screen.getByTestId('view-toggle')).toBeInTheDocument();
   });
 
   it('should render list and grid icons', () => {

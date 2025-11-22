@@ -23,9 +23,9 @@ export const SettingsPanelContainer: React.FC = () => {
 
   const handleResetAll = () => {
     // Clear app-specific localStorage keys only
-    const keys = Object.keys(localStorage).filter((k) => k.startsWith(LOCAL_STORAGE_PREFIX_KEY));
-    for (const k of keys) {
-      localStorage.removeItem(k);
+    const keys = Object.keys(localStorage).filter((key) => key.startsWith(LOCAL_STORAGE_PREFIX_KEY));
+    for (const key of keys) {
+      localStorage.removeItem(key);
     }
     // Force a reload so atoms rehydrate to defaults
     window.location.reload();

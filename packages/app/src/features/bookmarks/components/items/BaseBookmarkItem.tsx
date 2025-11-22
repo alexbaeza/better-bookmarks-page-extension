@@ -15,22 +15,33 @@ export interface BaseBookmarkItemRenderProps {
   onClick: () => void;
 }
 
-export const useBaseBookmarkItem = (
-  item: IBookmarkItem,
-  dataTestId: string | undefined,
-  onEdit: () => void,
-  onDelete: () => void,
-  onClick?: () => void,
-  onFolderClick?: (item: IBookmarkItem) => void,
+export interface BaseBookmarkItemOptions {
+  item: IBookmarkItem;
+  dataTestId?: string;
+  onEdit: () => void;
+  onDelete: () => void;
+  onClick?: () => void;
+  onFolderClick?: (item: IBookmarkItem) => void;
+  iconSize?: number;
+  dragHandleVariant?: 'grid' | 'list';
+}
+
+export const useBaseBookmarkItem = ({
+  item,
+  dataTestId,
+  onEdit,
+  onDelete,
+  onClick,
+  onFolderClick,
   iconSize = 16,
-  dragHandleVariant: 'grid' | 'list' = 'grid'
-) => {
+  dragHandleVariant = 'grid',
+}: BaseBookmarkItemOptions) => {
   const { hovered, onMouseEnter, onMouseLeave } = useHover();
 
   const handleClick = (): void => {
     if (onClick) {
       onClick();
-    } else if (onFolderClick) {
+    } else if (onFolderClick && item.children) {
       onFolderClick(item);
     }
   };

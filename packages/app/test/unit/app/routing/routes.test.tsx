@@ -1,14 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { when } from 'vitest-when';
 import { AppRoutes } from '@/app/routing/routes';
 
-vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
-  useBookmarkNavigation: vi.fn(),
-  BookmarkPage: {
-    All: 'All',
-    Uncategorized: 'Uncategorized',
-  },
-}));
+vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', async () => {
+  const actual = await vi.importActual<typeof import('@/features/bookmarks/contexts/BookmarkNavigationContext')>(
+    '@/features/bookmarks/contexts/BookmarkNavigationContext'
+  );
+  return {
+    ...actual,
+    useBookmarkNavigation: vi.fn(),
+  };
+});
 
 vi.mock('@/app/routing/Page', () => ({
   Page: ({ pageId }: { pageId: string }) => {
@@ -27,8 +30,18 @@ import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNav
 describe('AppRoutes', () => {
   let mockUseBookmarkNavigation: ReturnType<typeof vi.mocked<typeof useBookmarkNavigation>>;
 
+  const createMockReturn = (currentPage: string, navigationStack: string[]) => ({
+    currentPage,
+    setCurrentPage: vi.fn(),
+    navigationStack,
+    navigateToFolder: vi.fn(),
+    navigateBack: vi.fn(),
+    navigateToPage: vi.fn(),
+    navigateToFolderWithPath: vi.fn(),
+    canGoBack: navigationStack.length > 1,
+  });
+
   beforeEach(() => {
-    vi.clearAllMocks();
     mockUseBookmarkNavigation = vi.mocked(useBookmarkNavigation);
   });
 
@@ -37,11 +50,9 @@ describe('AppRoutes', () => {
   });
 
   it('should render AllPage when currentPage is "All"', () => {
-    mockUseBookmarkNavigation.mockReturnValue({
-      currentPage: 'All',
-      setCurrentPage: vi.fn(),
-      navigationStack: ['All'],
-    } as any);
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn(createMockReturn('All', ['All']));
 
     render(<AppRoutes />);
 
@@ -50,11 +61,9 @@ describe('AppRoutes', () => {
   });
 
   it('should render UncategorizedPage when currentPage is "Uncategorized"', () => {
-    mockUseBookmarkNavigation.mockReturnValue({
-      currentPage: 'Uncategorized',
-      setCurrentPage: vi.fn(),
-      navigationStack: ['All', 'Uncategorized'],
-    } as any);
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn(createMockReturn('Uncategorized', ['All', 'Uncategorized']));
 
     render(<AppRoutes />);
 
@@ -63,11 +72,9 @@ describe('AppRoutes', () => {
   });
 
   it('should render FolderPage when currentPage is a folder ID string', () => {
-    mockUseBookmarkNavigation.mockReturnValue({
-      currentPage: 'folder-123',
-      setCurrentPage: vi.fn(),
-      navigationStack: ['All', 'folder-123'],
-    } as any);
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn(createMockReturn('folder-123', ['All', 'folder-123']));
 
     render(<AppRoutes />);
 
@@ -76,11 +83,9 @@ describe('AppRoutes', () => {
   });
 
   it('should render FolderPage for any string that is not "All" or "Uncategorized"', () => {
-    mockUseBookmarkNavigation.mockReturnValue({
-      currentPage: 'another-folder',
-      setCurrentPage: vi.fn(),
-      navigationStack: ['All', 'another-folder'],
-    } as any);
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn(createMockReturn('another-folder', ['All', 'another-folder']));
 
     render(<AppRoutes />);
 
@@ -91,11 +96,9 @@ describe('AppRoutes', () => {
   it.each(['folder-1', 'my-folder', '123', 'special-folder-name'])(
     'should handle folder ID "%s" correctly',
     (folderId) => {
-      mockUseBookmarkNavigation.mockReturnValue({
-        currentPage: folderId,
-        setCurrentPage: vi.fn(),
-        navigationStack: ['All', folderId],
-      } as any);
+      when(mockUseBookmarkNavigation)
+        .calledWith()
+        .thenReturn(createMockReturn(folderId, ['All', folderId]));
 
       render(<AppRoutes />);
 
@@ -105,23 +108,22 @@ describe('AppRoutes', () => {
   );
 
   it('should call useBookmarkNavigation hook', () => {
-    mockUseBookmarkNavigation.mockReturnValue({
-      currentPage: 'All',
-      setCurrentPage: vi.fn(),
-      navigationStack: ['All'],
-    } as any);
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn(createMockReturn('All', ['All']));
 
     render(<AppRoutes />);
 
-    expect(mockUseBookmarkNavigation).toHaveBeenCalled();
+    expect(mockUseBookmarkNavigation).toHaveBeenCalledTimes(1);
   });
 
   it('should render NotFoundPage in default fallback case', () => {
-    mockUseBookmarkNavigation.mockReturnValue({
-      currentPage: null as unknown as string, // TypeScript will complain but we're testing runtime behavior
-      setCurrentPage: vi.fn(),
-      navigationStack: [],
-    } as any);
+    when(mockUseBookmarkNavigation)
+      .calledWith()
+      .thenReturn({
+        ...createMockReturn('', []),
+        currentPage: '' as unknown as string, // Empty string should trigger NotFoundPage
+      });
 
     render(<AppRoutes />);
 

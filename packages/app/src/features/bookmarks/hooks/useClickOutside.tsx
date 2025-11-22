@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useEffect } from 'react';
 
-export function useClickOutside(ref: React.RefObject<HTMLElement | null>, handler: () => void) {
+export const useClickOutside = (ref: React.RefObject<HTMLElement | null>, handler: () => void) => {
   useEffect(() => {
     const onMouseDown = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -18,4 +18,4 @@ export function useClickOutside(ref: React.RefObject<HTMLElement | null>, handle
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [ref, handler]);
-}
+};

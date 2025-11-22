@@ -5,11 +5,12 @@ import { DeleteConfirmationModal } from '@/features/bookmarks/components/items/o
 import { AllProviders } from '~test/test-utils';
 
 describe('DeleteConfirmationModal', () => {
-  const mockOnClose = vi.fn();
-  const mockOnConfirm = vi.fn();
+  let mockOnClose: ReturnType<typeof vi.fn<() => void>>;
+  let mockOnConfirm: ReturnType<typeof vi.fn<() => void>>;
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockOnClose = vi.fn<() => void>();
+    mockOnConfirm = vi.fn<() => void>();
   });
 
   it('should not render when isOpen is false', () => {
@@ -65,7 +66,7 @@ describe('DeleteConfirmationModal', () => {
     );
     await user.click(screen.getByTestId('bookmark-delete-cancel-button'));
     expect(mockOnClose).toHaveBeenCalled();
-    expect(mockOnConfirm).not.toHaveBeenCalled();
+    expect(mockOnConfirm).toHaveBeenCalledTimes(0);
   });
 
   it('should call onConfirm and onClose when delete button is clicked', async () => {

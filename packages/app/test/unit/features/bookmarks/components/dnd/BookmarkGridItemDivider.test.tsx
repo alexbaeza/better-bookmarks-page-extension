@@ -3,31 +3,20 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { BookmarkGridItemDivider } from '@/features/bookmarks/components/dnd/BookmarkGridItemDivider';
 import { AllProviders } from '~test/test-utils';
 
-const mockUseDrop = vi.fn();
-const mockOnReorder = vi.fn();
+let mockUseDrop = vi.fn();
+let mockOnReorder: ReturnType<typeof vi.fn<() => void>>;
 
 vi.mock('react-dnd', () => ({
-  useDrop: () => mockUseDrop(),
+  useDrop: (config: unknown) => mockUseDrop(config),
 }));
 
 describe('BookmarkGridItemDivider', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockUseDrop.mockReturnValue([
+    mockUseDrop = vi.fn(() => [
       { isOver: false, draggingItem: null },
       vi.fn(), // drop function
     ]);
-  });
-
-  it('should render without crashing', () => {
-    const { container } = render(
-      <AllProviders>
-        <BookmarkGridItemDivider folderId="folder-1" insertIndex={0} onReorder={mockOnReorder} />
-      </AllProviders>
-    );
-
-    const divider = container.querySelector('.absolute');
-    expect(divider).toBeInTheDocument();
+    mockOnReorder = vi.fn<() => void>();
   });
 
   it('should apply dataTestId', () => {
@@ -46,7 +35,7 @@ describe('BookmarkGridItemDivider', () => {
   });
 
   it('should show indicator when dragging over', () => {
-    mockUseDrop.mockReturnValue([
+    mockUseDrop.mockReturnValueOnce([
       {
         isOver: true,
         draggingItem: {

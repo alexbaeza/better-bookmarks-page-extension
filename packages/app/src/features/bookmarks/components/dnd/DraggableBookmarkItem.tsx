@@ -7,6 +7,8 @@ import { BookmarkItem } from '@/features/bookmarks/components/BookmarkItem';
 import { useBookmarkActions } from '@/features/bookmarks/hooks/useBookmarkActions';
 import type { DraggableBookmarkItem as DraggableBookmarkItemType } from '@/features/bookmarks/types/dnd';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
+import { isBookmarkFolder } from '@/shared/utils/bookmark-utils';
+import { isValidCrossFolderDrop } from '@/shared/utils/dnd-utils';
 
 export interface DraggableBookmarkItemProps {
   item: IBookmarkItem;
@@ -24,7 +26,7 @@ export const DraggableBookmarkItem: React.FC<DraggableBookmarkItemProps> = ({
   onFolderClick,
 }) => {
   const { move } = useBookmarkActions();
-  const isFolder = Boolean(item.children);
+  const isFolder = isBookmarkFolder(item);
 
   // Make item draggable
   const [{ isDragging }, drag] = useDrag<DraggableBookmarkItemType, unknown, { isDragging: boolean }>({
@@ -56,12 +58,7 @@ export const DraggableBookmarkItem: React.FC<DraggableBookmarkItemProps> = ({
     drop: (droppedItem, monitor) => {
       // Only handle drops for cross-folder moves, not reordering within same folder
       // Reordering is handled by dividers
-      if (
-        isFolder &&
-        droppedItem.folderId !== folderId &&
-        droppedItem.id !== item.id &&
-        droppedItem.folderId !== item.id
-      ) {
+      if (isValidCrossFolderDrop(droppedItem, folderId, item.id, isFolder)) {
         // If a nested child drop target (another folder) already handled this drop, don't process it here
         // This ensures nested folders win over parent containers for cross-folder moves
         // Note: We don't check didDrop() for same-folder drops because dividers handle those
@@ -78,18 +75,15 @@ export const DraggableBookmarkItem: React.FC<DraggableBookmarkItemProps> = ({
       return {
         isOver:
           monitor.isOver({ shallow: true }) &&
-          isFolder &&
-          draggedItem?.id !== item.id &&
-          draggedItem?.folderId !== folderId,
+          draggedItem !== null &&
+          isValidCrossFolderDrop(draggedItem, folderId, item.id, isFolder),
       };
     },
     canDrop: (droppedItem) => {
       // Only folders can be drop targets
       // Prevent dropping into the same folder (reordering is handled by dividers)
       // Prevent dropping the item onto itself
-      return (
-        isFolder && droppedItem.folderId !== folderId && droppedItem.folderId !== item.id && droppedItem.id !== item.id
-      );
+      return isValidCrossFolderDrop(droppedItem, folderId, item.id, isFolder);
     },
   });
 

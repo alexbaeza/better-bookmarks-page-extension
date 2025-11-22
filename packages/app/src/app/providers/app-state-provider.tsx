@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import type React from 'react';
+import type { ReactNode } from 'react';
 import { useEffect, useMemo, useReducer } from 'react';
 
 import { initialAppState } from '@/app/providers/app-state';
@@ -9,7 +9,7 @@ import { bookmarksAtom } from '@/app/providers/atoms';
 import { loadBookmarksTree } from '@/features/bookmarks/lib/bookmarks';
 
 interface AppStateProviderProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) => {
@@ -53,7 +53,7 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
           setPersistedBookmarks(data);
           dispatch({ data, type: 'LOAD_BOOKMARKS_DATA_SUCCESS' });
         } catch (err: unknown) {
-          dispatch({ error: err, type: 'ERROR' });
+          dispatch({ error: err as Error, type: 'ERROR' });
         } finally {
           dispatch({ type: 'LOAD_BOOKMARKS_DATA_FINISHED' });
         }

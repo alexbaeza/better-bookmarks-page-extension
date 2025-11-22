@@ -39,12 +39,13 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(
     const isSelected = openFolderId === folder.id;
     const hasKids = folder.children ? countFolders(folder) > 0 : false;
 
-    const getFolderIcon = () => {
-      if (!hasKids) {
-        return <FolderDotIcon size={16} />;
-      }
-      return isOpen ? <FolderOpenIcon size={16} /> : <FolderIcon size={16} />;
-    };
+    const folderIcon = !hasKids ? (
+      <FolderDotIcon size={16} />
+    ) : isOpen ? (
+      <FolderOpenIcon size={16} />
+    ) : (
+      <FolderIcon size={16} />
+    );
 
     return (
       <li
@@ -61,7 +62,7 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(
             badge={countItems(folder) + countFolders(folder)}
             className="cursor-pointer"
             data-testid={`sidebar-folder-item-${folder.id}`}
-            icon={getFolderIcon()}
+            icon={folderIcon}
             isSelected={isSelected}
             label={folder.title || 'Untitled'}
             onClick={() => {

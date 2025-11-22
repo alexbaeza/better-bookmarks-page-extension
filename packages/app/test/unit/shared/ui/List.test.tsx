@@ -3,11 +3,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { List } from '@/shared/ui/List';
 
 describe('List', () => {
-  it('should render without crashing', () => {
-    render(<List>Content</List>);
-    expect(screen.getByText('Content')).toBeInTheDocument();
-  });
-
   it('should apply default classes', () => {
     render(<List data-testid="list">Content</List>);
     const list = screen.getByTestId('list');
@@ -32,7 +27,8 @@ describe('List', () => {
     ['xl', 'gap-6'],
   ])('should apply gap class "%s" when gap="%s"', (gap, expectedClass) => {
     render(
-      <List data-testid="list" gap={gap as any}>
+      // @ts-expect-error - Testing invalid prop value
+      <List data-testid="list" gap={gap}>
         Content
       </List>
     );

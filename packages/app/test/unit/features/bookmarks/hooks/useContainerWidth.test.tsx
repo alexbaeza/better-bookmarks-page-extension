@@ -3,11 +3,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useContainerWidth } from '@/features/bookmarks/hooks/useContainerWidth';
 
-const mockDisconnect = vi.fn();
-const mockObserve = vi.fn();
-const mockUnobserve = vi.fn();
+let mockDisconnect: ReturnType<typeof vi.fn>;
+let mockObserve: ReturnType<typeof vi.fn>;
+let mockUnobserve: ReturnType<typeof vi.fn>;
 
 beforeAll(() => {
+  mockDisconnect = vi.fn();
+  mockObserve = vi.fn();
+  mockUnobserve = vi.fn();
+
   global.ResizeObserver = class MockResizeObserver {
     constructor(callback: ResizeObserverCallback) {
       this.callback = callback;
@@ -21,7 +25,9 @@ beforeAll(() => {
 
 describe('useContainerWidth', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockDisconnect.mockClear();
+    mockObserve.mockClear();
+    mockUnobserve.mockClear();
   });
 
   afterEach(() => {

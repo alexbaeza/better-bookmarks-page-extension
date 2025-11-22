@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { detectBrowser } from '@/features/bookmarks/lib/browser/utils/browser-detector';
 
@@ -6,13 +6,13 @@ const mockNavigator = {
   userAgent: '',
 };
 
-Object.defineProperty(window, 'navigator', {
-  value: mockNavigator,
-  writable: true,
-});
-
 describe('browser-detector', () => {
+  beforeEach(() => {
+    vi.stubGlobal('navigator', mockNavigator);
+  });
+
   afterEach(() => {
+    vi.unstubAllGlobals();
     vi.unstubAllEnvs();
   });
 
@@ -20,8 +20,8 @@ describe('browser-detector', () => {
     it('detects Firefox browser', () => {
       vi.stubEnv('MODE', 'production');
       mockNavigator.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0';
-      delete (window as any).chrome;
-      delete (window as any).browser;
+      Reflect.deleteProperty(window, 'chrome');
+      Reflect.deleteProperty(window, 'browser');
 
       const result = detectBrowser();
 
@@ -34,8 +34,8 @@ describe('browser-detector', () => {
       vi.stubEnv('MODE', 'production');
       mockNavigator.userAgent =
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
-      delete (window as any).chrome;
-      delete (window as any).browser;
+      Reflect.deleteProperty(window, 'chrome');
+      Reflect.deleteProperty(window, 'browser');
 
       const result = detectBrowser();
 
@@ -48,13 +48,10 @@ describe('browser-detector', () => {
       mockNavigator.userAgent =
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
 
-      Object.defineProperty(window, 'chrome', {
-        value: {
-          runtime: {
-            id: 'test-extension-id',
-          },
+      vi.stubGlobal('chrome', {
+        runtime: {
+          id: 'test-extension-id',
         },
-        writable: true,
       });
 
       const result = detectBrowser();
@@ -66,13 +63,10 @@ describe('browser-detector', () => {
     it('detects Firefox extension context', () => {
       mockNavigator.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0';
 
-      Object.defineProperty(window, 'browser', {
-        value: {
-          runtime: {
-            id: 'test-extension-id',
-          },
+      vi.stubGlobal('browser', {
+        runtime: {
+          id: 'test-extension-id',
         },
-        writable: true,
       });
 
       const result = detectBrowser();
@@ -95,8 +89,8 @@ describe('browser-detector', () => {
       vi.stubEnv('MODE', 'production');
       vi.stubEnv('DEV', false);
       mockNavigator.userAgent = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)';
-      (window as any).chrome = undefined;
-      (window as any).browser = undefined;
+      Reflect.deleteProperty(window, 'chrome');
+      Reflect.deleteProperty(window, 'browser');
 
       const result = detectBrowser();
 
