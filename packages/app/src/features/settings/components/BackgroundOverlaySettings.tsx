@@ -30,7 +30,9 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
   const renderImage = (image: string, text: string, index: number) => {
     const isSelected = selectedBackground === image;
     const imgClasses = `h-16 w-24 rounded-lg border-2 bg-bgColor-secondary object-cover transition-all ${
-      isSelected ? 'border-fgColor-accent shadow-lg scale-105' : 'border-fgColor-active hover:border-fgColor-secondary'
+      isSelected
+        ? 'border-fgColor-accent shadow-lg scale-105'
+        : 'border-fgColor-secondary/30 hover:border-fgColor-secondary'
     }`;
     const containerClasses = 'cursor-pointer flex flex-col items-center justify-center relative group';
 
@@ -113,7 +115,7 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
             tabIndex={0}
           >
             <input checked={isOverlayEnabled} className="peer sr-only" onChange={handleToggleChange} type="checkbox" />
-            <div className="peer h-6 w-11 rounded-full bg-bgColor-tertiary peer-checked:bg-bgColor-accent after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-fgColor-primary after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-fgColor-primary" />
+            <div className="peer h-6 w-11 rounded-full bg-bgColor-secondary peer-checked:bg-bgColor-accent after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-fgColor-primary after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-fgColor-primary" />
           </div>
         }
       />
@@ -146,7 +148,7 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
 
           <Stack gap="sm">
             <input
-              className="w-full h-2 bg-bgColor-tertiary rounded-lg appearance-none cursor-pointer accent-fgColor-accent"
+              className="w-full h-2 bg-bgColor-secondary rounded-lg appearance-none cursor-pointer accent-fgColor-accent"
               data-testid="background-overlay-opacity-slider"
               max="100"
               min="0"

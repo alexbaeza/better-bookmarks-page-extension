@@ -15,8 +15,8 @@ const sizeClasses = {
 };
 
 const variantClasses = {
-  default: 'bg-bgColor-tertiary text-fgColor-primary',
-  tertiary: 'bg-bgColor-tertiary text-fgColor-primary',
+  default: 'bg-bgColor-primary/40 text-fgColor-primary',
+  tertiary: 'bg-bgColor-primary/40 text-fgColor-primary',
 };
 
 export const Badge: React.FC<BadgeProps> = ({

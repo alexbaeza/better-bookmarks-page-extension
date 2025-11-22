@@ -19,13 +19,13 @@ export const Button = memo<ButtonProps>(
     const variants: Record<ButtonVariant, string> = {
       primary: `
       bg-bgColor-accent text-fgColor-primary
-      hover:bg-fgColor-hover-emphasis
-      disabled:bg-bgColor-muted disabled:text-fgColor-secondary
+      hover:bg-bgColor-accent/90
+      disabled:bg-bgColor-secondary/50 disabled:text-fgColor-secondary
     `,
       secondary: `
       bg-bgColor-secondary text-fgColor-secondary
-      hover:text-fgColor-primary hover:bg-bgColor-tertiary
-      disabled:text-fgColor-muted disabled:bg-transparent
+      hover:text-fgColor-primary hover:bg-bgColor-secondary/60
+      disabled:text-fgColor-secondary/50 disabled:bg-transparent
     `,
     };
 

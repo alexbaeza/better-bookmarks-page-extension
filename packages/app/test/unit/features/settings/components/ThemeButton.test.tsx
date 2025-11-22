@@ -23,10 +23,10 @@ describe('ThemeButton', () => {
         'text-sm',
         'font-medium',
         'transition-colors',
-        'border-fgColor-active',
+        'border-fgColor-secondary/30',
         'bg-bgColor-secondary',
         'text-fgColor-primary',
-        'hover:bg-bgColor-tertiary'
+        'hover:bg-bgColor-secondary/80'
       );
     });
 
@@ -100,7 +100,7 @@ describe('ThemeButton', () => {
         'rounded-[6px]',
         'bg-bgColor-secondary',
         'text-fgColor-primary',
-        'hover:bg-bgColor-tertiary'
+        'hover:bg-bgColor-secondary/80'
       );
     });
 

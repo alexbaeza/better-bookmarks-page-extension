@@ -19,7 +19,7 @@ export const BookmarkFolderContainer: React.FC<BookmarkFolderContainerProps> = (
     <div
       className={`min-h-64 w-full ${
         overflowVisible ? 'overflow-visible' : 'overflow-hidden'
-      } rounded-lg border-4 border-bgColor-tertiary ${className}`}
+      } rounded-lg border-4 border-bgColor-secondary/30 ${className}`}
     >
       {children}
     </div>

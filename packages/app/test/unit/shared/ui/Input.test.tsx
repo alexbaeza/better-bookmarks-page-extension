@@ -9,7 +9,7 @@ describe('Input', () => {
 
     const input = screen.getByTestId('test-input');
     expect(input).toHaveClass(
-      'w-full rounded-lg px-3 py-2 text-fgColor-primary placeholder:text-fgColor-secondary focus:outline-none focus:ring-2 focus:ring-fgColor-accent bg-bgColor-tertiary border border-fgColor-muted cursor-text'
+      'w-full rounded-lg px-3 py-2 text-fgColor-primary placeholder:text-fgColor-secondary focus:outline-none focus:ring-2 focus:ring-fgColor-accent bg-bgColor-secondary border border-fgColor-secondary/30 cursor-text'
     );
   });
 
@@ -50,14 +50,16 @@ describe('Input', () => {
 
     const input = screen.getByTestId('test-input');
     expect(input).toBeDisabled();
-    expect(input).toHaveClass('bg-bgColor-muted border border-fgColor-muted cursor-not-allowed opacity-50');
+    expect(input).toHaveClass(
+      'bg-bgColor-secondary/50 border border-fgColor-secondary/20 cursor-not-allowed opacity-50'
+    );
   });
 
   it('applies enabled styles when not disabled', () => {
     render(<Input dataTestId="test-input" />);
 
     const input = screen.getByTestId('test-input');
-    expect(input).toHaveClass('bg-bgColor-tertiary border border-fgColor-muted cursor-text');
+    expect(input).toHaveClass('bg-bgColor-secondary border border-fgColor-secondary/30 cursor-text');
     expect(input).not.toHaveClass('cursor-not-allowed opacity-50');
   });
 

@@ -3,7 +3,7 @@ import type React from 'react';
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div';
   size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
-  color?: 'primary' | 'secondary' | 'tertiary' | 'hover' | 'danger' | 'accent';
+  color?: 'primary' | 'secondary' | 'accent';
   weight?: 'normal' | 'medium' | 'semibold' | 'bold';
   align?: 'left' | 'center' | 'right' | 'justify';
   lineClamp?: 1 | 2 | 3;
@@ -26,9 +26,6 @@ const sizeClasses = {
 const colorClasses = {
   primary: 'text-fgColor-primary',
   secondary: 'text-fgColor-secondary',
-  tertiary: 'text-fgColor-tertiary',
-  hover: 'text-fgColor-hover',
-  danger: 'text-fgColor-danger',
   accent: 'text-fgColor-accent',
 };
 

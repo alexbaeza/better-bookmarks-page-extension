@@ -101,7 +101,7 @@ export const SidebarFlyout: React.FC<SidebarFlyoutProps> = ({ folder, onClose, c
 
           {/* Divider */}
           <div className="py-3">
-            <hr className="border-t border-bgColor-tertiary" />
+            <hr className="border-t border-bgColor-secondary/30" />
           </div>
 
           {/* Nested Items */}

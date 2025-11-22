@@ -63,11 +63,11 @@ code {
 
   /* Button utilities */
   .btn-menu-item {
-    @apply flex w-full items-center space-x-2 rounded-lg p-2 text-sm text-fgColor-primary hover:bg-fgColor-hover;
+    @apply flex w-full items-center space-x-2 rounded-lg p-2 text-sm text-fgColor-primary hover:bg-bgColor-secondary/60;
   }
 
   .btn-icon {
-    @apply inline-flex items-center rounded-lg bg-bgColor-secondary p-1.5 text-sm text-fgColor-primary hover:bg-fgColor-hover hover:text-white disabled:opacity-50;
+    @apply inline-flex items-center rounded-lg bg-bgColor-secondary p-1.5 text-sm text-fgColor-primary hover:bg-bgColor-secondary/60 hover:text-white disabled:opacity-50;
   }
 
   /* Keep only essential utilities that can't be components */

@@ -267,7 +267,7 @@ describe('BookmarkFolderContent', () => {
       </AllProviders>
     );
 
-    const borderElement = document.querySelector('.w-full.border-b.border-bgColor-tertiary');
+    const borderElement = document.querySelector('.w-full.border-b.border-bgColor-secondary\\/30');
     expect(borderElement).toBeInTheDocument();
   });
 });

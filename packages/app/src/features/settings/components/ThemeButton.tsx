@@ -19,7 +19,7 @@ const DefaultThemeButton = ({
       className={`p-3 rounded-lg border text-sm font-medium transition-colors ${
         isActive
           ? 'border-fgColor-accent bg-fgColor-accent/10 text-fgColor-accent'
-          : 'border-fgColor-active bg-bgColor-secondary text-fgColor-primary hover:bg-bgColor-tertiary'
+          : 'border-fgColor-secondary/30 bg-bgColor-secondary text-fgColor-primary hover:bg-bgColor-secondary/60'
       }`}
       data-testid={testId}
       onClick={onClick}
@@ -59,7 +59,7 @@ const RainbowThemeButton = ({
       }}
       type="button"
     >
-      <div className="p-3 rounded-[6px] bg-bgColor-secondary text-fgColor-primary hover:bg-bgColor-tertiary">
+      <div className="p-3 rounded-[6px] bg-bgColor-secondary text-fgColor-primary hover:bg-bgColor-secondary/60">
         {children}
       </div>
     </button>

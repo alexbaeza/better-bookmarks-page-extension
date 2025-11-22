@@ -88,7 +88,7 @@ export const BookmarkItemMenu: React.FC<BookmarkItemMenuProps> = ({
     <div
       {...getFloatingProps()}
       aria-label="Item options menu"
-      className="w-40 rounded bg-bgColor-secondary p-2 shadow-lg border border-bgColor-tertiary"
+      className="w-40 rounded bg-bgColor-primary p-2 shadow-lg border border-bgColor-secondary"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       ref={refs.setFloating}

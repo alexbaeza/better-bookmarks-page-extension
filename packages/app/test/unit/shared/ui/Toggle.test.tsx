@@ -66,7 +66,7 @@ describe('Toggle', () => {
     const checkbox = screen.getByTestId('toggle-input');
     const toggle = checkbox.nextElementSibling;
     expect(toggle).not.toBeNull();
-    expect(toggle).toHaveClass('peer h-6 w-11 rounded-full bg-bgColor-tertiary');
+    expect(toggle).toHaveClass('peer h-6 w-11 rounded-full bg-bgColor-secondary');
   });
 
   it('has correct toggle classes when checked', () => {
@@ -75,7 +75,7 @@ describe('Toggle', () => {
     const checkbox = screen.getByTestId('toggle-input');
     const toggle = checkbox.nextElementSibling;
     expect(toggle).not.toBeNull();
-    expect(toggle).toHaveClass('peer h-6 w-11 rounded-full bg-bgColor-tertiary peer-checked:bg-bgColor-accent');
+    expect(toggle).toHaveClass('peer h-6 w-11 rounded-full bg-bgColor-secondary peer-checked:bg-bgColor-accent');
   });
 
   it('forwards other props to input', () => {

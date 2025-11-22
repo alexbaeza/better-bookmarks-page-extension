@@ -81,7 +81,7 @@ describe('Button', () => {
     );
 
     const button = screen.getByTestId('test-button');
-    expect(button).toHaveClass('disabled:text-fgColor-muted disabled:bg-transparent');
+    expect(button).toHaveClass('disabled:text-fgColor-secondary/50 disabled:bg-transparent');
   });
 
   it('has base styles', () => {
