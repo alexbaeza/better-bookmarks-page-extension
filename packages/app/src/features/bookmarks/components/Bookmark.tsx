@@ -1,5 +1,6 @@
 import type React from 'react';
 
+import { useTranslation } from '@/i18n/hooks';
 import { Text } from '@/shared/ui/Text';
 import { BookmarkDragHandle } from './items/BookmarkDragHandle';
 
@@ -51,9 +52,10 @@ const BookmarkContent: React.FC<{
 };
 
 const BookmarkActions: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => {
+  const { t } = useTranslation();
   return (
     <div
-      aria-label="Item actions"
+      aria-label={t('bookmarks.actions.label')}
       className={className}
       onClick={(e) => e.stopPropagation()}
       onKeyDown={(e) => e.stopPropagation()}

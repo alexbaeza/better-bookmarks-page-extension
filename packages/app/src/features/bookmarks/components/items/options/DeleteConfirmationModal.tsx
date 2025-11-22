@@ -1,4 +1,5 @@
 import type React from 'react';
+import { useTranslation } from '@/i18n/hooks';
 import { Button } from '@/shared/ui/Button';
 import { Modal } from '@/shared/ui/Modal';
 import { Row } from '@/shared/ui/Row';
@@ -18,10 +19,14 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
   isOpen,
   onClose,
   onConfirm,
-  title = 'Delete item?',
-  message = 'This action cannot be undone.',
+  title,
+  message,
   dataTestId = 'delete-confirmation-modal',
 }) => {
+  const { t } = useTranslation();
+  const modalTitle = title ?? t('bookmarks.actions.deleteItem');
+  const modalMessage =
+    message ?? t('bookmarks.actions.deleteMessage', { defaultValue: 'This action cannot be undone.' });
   if (!isOpen) return null;
 
   const handleConfirm = () => {
@@ -30,17 +35,17 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
   };
 
   return (
-    <Modal dataTestId={dataTestId} onClose={onClose} size="sm" title={title}>
+    <Modal dataTestId={dataTestId} onClose={onClose} size="sm" title={modalTitle}>
       <Stack data-testid={`${dataTestId}-container`} gap="lg">
         <Text color="secondary" size="sm">
-          {message}
+          {modalMessage}
         </Text>
         <Row gap="sm" justifyContent="end">
           <Button data-testid="bookmark-delete-cancel-button" onClick={onClose} variant="secondary">
-            Cancel
+            {t('common.buttons.cancel')}
           </Button>
           <Button data-testid="bookmark-delete-confirm-button" onClick={handleConfirm} variant="primary">
-            Delete
+            {t('common.buttons.delete')}
           </Button>
         </Row>
       </Stack>

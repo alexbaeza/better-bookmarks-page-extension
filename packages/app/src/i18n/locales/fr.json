@@ -1,0 +1,111 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "save": "Enregistrer",
+      "delete": "Supprimer",
+      "edit": "Modifier",
+      "close": "Fermer"
+    },
+    "actions": {
+      "resetAllSettings": "Réinitialiser tous les paramètres (efface le stockage local)"
+    }
+  },
+  "sidebar": {
+    "pages": "Pages",
+    "folders": "Dossiers",
+    "allItems": "Tous les éléments",
+    "uncategorized": "Non classé",
+    "ariaLabels": {
+      "navigation": "Navigation des signets",
+      "folders": "Dossiers de signets"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Il semble que vous n'ayez aucun signet, ajoutez-en pour voir la magie ! 🪄✨",
+    "form": {
+      "addTitle": "Ajouter un signet",
+      "editTitle": "Modifier le signet",
+      "titleLabel": "Titre",
+      "titlePlaceholder": "Entrez le titre"
+    },
+    "actions": {
+      "label": "Actions de l'élément",
+      "menuLabel": "Menu des options de l'élément",
+      "deleteItem": "Supprimer l'élément ?",
+      "deleteMessage": "Cette action ne peut pas être annulée.",
+      "edit": "Modifier",
+      "delete": "Supprimer"
+    },
+    "dragHandle": "Poignée de déplacement"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "sections": {
+      "layout": "Mise en page",
+      "personalization": "Personnalisation",
+      "appearance": "Apparence",
+      "support": "Support",
+      "maintenance": "Maintenance"
+    },
+    "greeting": {
+      "description": "Ajoutez une touche personnelle à votre expérience de signets",
+      "enableTitle": "Activer la salutation",
+      "enabled": "La salutation est activée",
+      "hidden": "La salutation est masquée",
+      "nameLabel": "Comment devrions-nous vous appeler ?",
+      "namePlaceholder": "Entrez votre nom...",
+      "preview": "Aperçu : \"Bonjour, {{name}} ! 👋\""
+    },
+    "theme": {
+      "customizeColors": "Personnaliser les couleurs",
+      "colorPicker": "Sélecteur de couleur {{color}}"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Activer la superposition d'arrière-plan",
+      "enabled": "La superposition est activée",
+      "disabled": "La superposition est désactivée"
+    },
+    "sidebar": {
+      "description": "Afficher ou masquer la barre latérale avec vos dossiers de signets",
+      "enableTitle": "Activer la barre latérale",
+      "visible": "La barre latérale est visible",
+      "hidden": "La barre latérale est masquée"
+    },
+    "searchBar": {
+      "description": "Contrôler la visibilité de la fonctionnalité de recherche",
+      "enableTitle": "Activer la barre de recherche",
+      "visible": "La barre de recherche sera affichée",
+      "hidden": "La barre de recherche est masquée"
+    },
+    "zoom": {
+      "scale": "Échelle",
+      "decrease": "Diminuer l'échelle",
+      "increase": "Augmenter l'échelle"
+    },
+    "reset": {
+      "title": "Réinitialiser tous les paramètres",
+      "description": "Cela effacera toutes les préférences enregistrées et rechargera la page. Cette action ne peut pas être annulée."
+    },
+    "support": {
+      "message": "Gratuit et open-source — alimenté par trop de café et des choix douteux. Si cela vous aide, envisagez d'alimenter le cycle en m'offrant un café !",
+      "buyCoffee": "Offrez-moi un café"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Bonjour",
+    "goodAfternoon": "Bon après-midi",
+    "goodEvening": "Bonsoir"
+  },
+  "language": {
+    "title": "Langue"
+  },
+  "flyout": {
+    "close": "Fermer le panneau"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Page non trouvée"
+  }
+}

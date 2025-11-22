@@ -4,6 +4,7 @@ import { useHydrateAtoms } from 'jotai/utils';
 import type React from 'react';
 
 import { ModalProvider } from '@/app/providers/modal-context';
+import { I18nProvider } from '@/i18n/provider';
 
 const MockModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <ModalProvider>{children}</ModalProvider>
@@ -39,11 +40,13 @@ const AllProviders: React.FC<{ children: React.ReactNode; initialValues?: any }>
   children,
   initialValues = [],
 }) => (
-  <MockJotaiProvider initialValues={initialValues}>
-    <MockProvider>
-      <MockModalProvider>{children}</MockModalProvider>
-    </MockProvider>
-  </MockJotaiProvider>
+  <I18nProvider>
+    <MockJotaiProvider initialValues={initialValues}>
+      <MockProvider>
+        <MockModalProvider>{children}</MockModalProvider>
+      </MockProvider>
+    </MockJotaiProvider>
+  </I18nProvider>
 );
 
 const customRender = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wrapper'> & { initialValues?: any }) => {

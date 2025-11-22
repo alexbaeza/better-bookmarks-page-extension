@@ -7,17 +7,20 @@ import { ModalProvider } from '@/app/providers/modal-context';
 import { ThemeProvider } from '@/app/providers/theme-provider';
 import { BookmarkNavigationProvider } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { BookmarkSearchProvider } from '@/features/bookmarks/contexts/BookmarkSearchContext';
+import { I18nProvider } from '@/i18n/provider';
 
 export const AppProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <AppStateProvider>
-    <ThemeProvider>
-      <DndProvider backend={HTML5Backend}>
-        <BookmarkNavigationProvider>
-          <BookmarkSearchProvider>
-            <ModalProvider>{children}</ModalProvider>
-          </BookmarkSearchProvider>
-        </BookmarkNavigationProvider>
-      </DndProvider>
-    </ThemeProvider>
-  </AppStateProvider>
+  <I18nProvider>
+    <AppStateProvider>
+      <ThemeProvider>
+        <DndProvider backend={HTML5Backend}>
+          <BookmarkNavigationProvider>
+            <BookmarkSearchProvider>
+              <ModalProvider>{children}</ModalProvider>
+            </BookmarkSearchProvider>
+          </BookmarkNavigationProvider>
+        </DndProvider>
+      </ThemeProvider>
+    </AppStateProvider>
+  </I18nProvider>
 );

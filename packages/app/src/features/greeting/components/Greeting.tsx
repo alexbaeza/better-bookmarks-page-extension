@@ -1,18 +1,20 @@
 import { useAtom } from 'jotai';
 
 import { greetingEnabledAtom, greetingNameAtom } from '@/app/providers/atoms';
+import { useTranslation } from '@/i18n/hooks';
 import { Text } from '@/shared/ui/Text';
 
-const getGreeting = () => {
-  const hour = new Date().getHours();
-  if (hour >= 5 && hour < 12) return 'Good Morning';
-  if (hour >= 12 && hour < 18) return 'Good Afternoon';
-  return 'Good Evening';
-};
-
 export const Greeting = () => {
+  const { t } = useTranslation();
   const [greetingEnabled] = useAtom(greetingEnabledAtom);
   const [greetingName] = useAtom(greetingNameAtom);
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return t('greeting.goodMorning');
+    if (hour >= 12 && hour < 18) return t('greeting.goodAfternoon');
+    return t('greeting.goodEvening');
+  };
 
   return (
     <div className="flex p-6" data-testid="greeting">

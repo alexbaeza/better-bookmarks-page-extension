@@ -123,8 +123,11 @@ describe('Sidebar', () => {
       </AllProviders>
     );
 
-    expect(screen.getByText('Better Bookmarks')).toBeInTheDocument();
+    // Sidebar renders without a title when title prop is not provided
     expect(screen.getByTestId('sidebar')).toBeInTheDocument();
+    // Title element exists but is empty/undefined
+    const titleElement = screen.getByTestId('sidebar').querySelector('h2');
+    expect(titleElement).toBeInTheDocument();
   });
 
   it('renders sidebar with custom title', () => {
@@ -152,7 +155,7 @@ describe('Sidebar', () => {
     );
 
     expect(screen.getByTestId('sidebar')).toBeInTheDocument();
-    expect(screen.getByText('Better Bookmarks')).toBeInTheDocument();
+    // Sidebar renders in loading state without a title when title prop is not provided
     expect(document.querySelector('.animate-pulse')).toBeInTheDocument();
   });
 

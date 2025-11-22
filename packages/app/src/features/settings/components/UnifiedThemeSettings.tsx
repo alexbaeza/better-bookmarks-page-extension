@@ -3,6 +3,7 @@ import { ArrowRight, Star } from 'lucide-react';
 import type React from 'react';
 
 import { customThemeAtom, themeAtom } from '@/app/providers/atoms';
+import { useTranslation } from '@/i18n/hooks';
 import { Button } from '@/shared/ui/Button';
 import { Divider } from '@/shared/ui/Divider';
 import { Text } from '@/shared/ui/Text';
@@ -10,6 +11,7 @@ import { themes } from '@/styles/themes';
 import { ThemeButton } from './ThemeButton';
 
 export const UnifiedThemeSettings: React.FC = () => {
+  const { t } = useTranslation();
   const [theme, setTheme] = useAtom(themeAtom);
   const [customTheme, setCustomTheme] = useAtom(customThemeAtom);
   const handleThemeChange = (selectedTheme: string) => {
@@ -125,7 +127,7 @@ export const UnifiedThemeSettings: React.FC = () => {
       {/* Custom Theme Editor */}
       {theme === 'custom' && (
         <>
-          <Divider title="Customize Colors" />
+          <Divider title={t('settings.theme.customizeColors')} />
 
           <div className="space-y-4">
             <div className="space-y-2">
@@ -158,7 +160,7 @@ export const UnifiedThemeSettings: React.FC = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <input
-                          aria-label={`${formatKey(key)} color picker`}
+                          aria-label={t('settings.theme.colorPicker', { color: formatKey(key) })}
                           className="w-8 h-8 rounded border border-fgColor-secondary/30 cursor-pointer"
                           id={`color-input-${key}`}
                           onChange={(e) => handleColorChange(key, e.target.value)}

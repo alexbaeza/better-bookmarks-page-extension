@@ -4,6 +4,7 @@ import type React from 'react';
 import { useEffect, useRef } from 'react';
 import * as Yup from 'yup';
 
+import { useTranslation } from '@/i18n/hooks';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { Modal } from '@/shared/ui/Modal';
@@ -22,16 +23,11 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({
   onSave,
   initialValues = { title: '', url: '' },
 }) => {
+  const { t } = useTranslation();
   const isFolder = initialValues.url === undefined;
   const isEditing = !!initialValues.title;
 
-  const modalTitle = isEditing
-    ? isFolder
-      ? 'Edit Folder'
-      : 'Edit Bookmark'
-    : isFolder
-      ? 'Add Folder'
-      : 'Add Bookmark';
+  const modalTitle = isEditing ? t('bookmarks.form.editTitle') : t('bookmarks.form.addTitle');
 
   const formik = useFormik({
     initialValues,
@@ -62,7 +58,7 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({
           <div>
             <label className="block" htmlFor="title">
               <Text className="mb-1" size="sm">
-                Title
+                {t('bookmarks.form.titleLabel')}
               </Text>
             </label>
             <div className="relative">
@@ -79,7 +75,7 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({
                 id="title"
                 name="title"
                 onChange={formik.handleChange}
-                placeholder="Enter title"
+                placeholder={t('bookmarks.form.titlePlaceholder')}
                 value={formik.values.title}
               />
             </div>
@@ -123,9 +119,9 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({
           {/* Actions */}
           <Row gap="md" justifyContent="end">
             <Button onClick={onClose} variant="secondary">
-              Cancel
+              {t('common.buttons.cancel')}
             </Button>
-            <Button type="submit">Save</Button>
+            <Button type="submit">{t('common.buttons.save')}</Button>
           </Row>
         </Stack>
       </form>

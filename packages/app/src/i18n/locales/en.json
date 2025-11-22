@@ -1,0 +1,111 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "save": "Save",
+      "delete": "Delete",
+      "edit": "Edit",
+      "close": "Close"
+    },
+    "actions": {
+      "resetAllSettings": "Reset all settings (clears local storage)"
+    }
+  },
+  "sidebar": {
+    "pages": "Pages",
+    "folders": "Folders",
+    "allItems": "All Items",
+    "uncategorized": "Uncategorized",
+    "ariaLabels": {
+      "navigation": "Bookmarks navigation",
+      "folders": "Bookmark folders"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Looks like you don't have any Bookmarks, add some to see the magic! 🪄✨",
+    "form": {
+      "addTitle": "Add Bookmark",
+      "editTitle": "Edit Bookmark",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Enter title"
+    },
+    "actions": {
+      "label": "Item actions",
+      "menuLabel": "Item options menu",
+      "deleteItem": "Delete item?",
+      "deleteMessage": "This action cannot be undone.",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "dragHandle": "Drag handle"
+  },
+  "settings": {
+    "title": "Settings",
+    "sections": {
+      "layout": "Layout",
+      "personalization": "Personalization",
+      "appearance": "Appearance",
+      "support": "Support",
+      "maintenance": "Maintenance"
+    },
+    "greeting": {
+      "description": "Add a personal touch to your bookmark experience",
+      "enableTitle": "Enable Greeting",
+      "enabled": "Greeting is enabled",
+      "hidden": "Greeting is hidden",
+      "nameLabel": "What should we call you?",
+      "namePlaceholder": "Enter your name...",
+      "preview": "Preview: \"Hello, {{name}}! 👋\""
+    },
+    "theme": {
+      "customizeColors": "Customize Colors",
+      "colorPicker": "{{color}} color picker"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Enable Background Overlay",
+      "enabled": "Overlay is enabled",
+      "disabled": "Overlay is disabled"
+    },
+    "sidebar": {
+      "description": "Show or hide the sidebar with your bookmark folders",
+      "enableTitle": "Enable Sidebar",
+      "visible": "Sidebar is visible",
+      "hidden": "Sidebar is hidden"
+    },
+    "searchBar": {
+      "description": "Control the visibility of the search functionality",
+      "enableTitle": "Enable Search Bar",
+      "visible": "Search bar will be shown",
+      "hidden": "Search bar is hidden"
+    },
+    "zoom": {
+      "scale": "Scale",
+      "decrease": "Decrease scale",
+      "increase": "Increase scale"
+    },
+    "reset": {
+      "title": "Reset all settings",
+      "description": "This will clear all saved preferences and reload the page. This action cannot be undone."
+    },
+    "support": {
+      "message": "Free and open-source — powered by too much coffee and questionable choices. If it helps you, consider fueling the cycle by buying me a coffee!",
+      "buyCoffee": "Buy me a coffee"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Good Morning",
+    "goodAfternoon": "Good Afternoon",
+    "goodEvening": "Good Evening"
+  },
+  "language": {
+    "title": "Language"
+  },
+  "flyout": {
+    "close": "Close flyout"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Page not found"
+  }
+}

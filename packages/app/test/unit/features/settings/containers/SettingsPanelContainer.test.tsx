@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { SettingsPanelContainer } from '@/features/settings/containers/SettingsPanelContainer';
@@ -62,13 +63,36 @@ describe('SettingsPanelContainer', () => {
     expect(screen.getByText('Maintenance')).toBeInTheDocument();
   });
 
-  it('renders all settings components', () => {
+  it('renders all settings components', async () => {
+    const user = userEvent.setup();
     render(
       <AllProviders>
         <SettingsPanelContainer />
       </AllProviders>
     );
 
+    // Expand Layout section
+    const layoutSection = screen.getByTestId('layout-section');
+    const layoutButton = layoutSection.querySelector('button');
+    if (layoutButton) {
+      await user.click(layoutButton);
+    }
+
+    // Expand Personalization section
+    const personalizationSection = screen.getByTestId('personalization-section');
+    const personalizationButton = personalizationSection?.querySelector('button');
+    if (personalizationButton) {
+      await user.click(personalizationButton);
+    }
+
+    // Expand Appearance section
+    const appearanceSection = screen.getByTestId('appearance-section');
+    const appearanceButton = appearanceSection?.querySelector('button');
+    if (appearanceButton) {
+      await user.click(appearanceButton);
+    }
+
+    // Support section is open by default
     expect(screen.getByTestId('sidebar-settings')).toBeInTheDocument();
     expect(screen.getByTestId('search-bar-settings')).toBeInTheDocument();
     expect(screen.getByTestId('greeting-settings')).toBeInTheDocument();
@@ -79,15 +103,23 @@ describe('SettingsPanelContainer', () => {
     expect(screen.getByTestId('built-with')).toBeInTheDocument();
   });
 
-  it('opens reset confirmation modal when reset button is clicked', () => {
+  it('opens reset confirmation modal when reset button is clicked', async () => {
+    const user = userEvent.setup();
     render(
       <AllProviders>
         <SettingsPanelContainer />
       </AllProviders>
     );
 
+    // Expand Maintenance section
+    const maintenanceSection = screen.getByTestId('maintenance-section');
+    const maintenanceButton = maintenanceSection?.querySelector('button');
+    if (maintenanceButton) {
+      await user.click(maintenanceButton);
+    }
+
     const resetButton = screen.getByTestId('settings-reset-open-button');
-    fireEvent.click(resetButton);
+    await user.click(resetButton);
 
     expect(screen.getByTestId('settings-reset-modal-title')).toBeInTheDocument();
     expect(
@@ -96,14 +128,22 @@ describe('SettingsPanelContainer', () => {
   });
 
   it('closes reset confirmation modal when cancel is clicked', async () => {
+    const user = userEvent.setup();
     render(
       <AllProviders>
         <SettingsPanelContainer />
       </AllProviders>
     );
 
+    // Expand Maintenance section
+    const maintenanceSection = screen.getByTestId('maintenance-section');
+    const maintenanceButton = maintenanceSection?.querySelector('button');
+    if (maintenanceButton) {
+      await user.click(maintenanceButton);
+    }
+
     const resetButton = screen.getByTestId('settings-reset-open-button');
-    fireEvent.click(resetButton);
+    await user.click(resetButton);
 
     const cancelButton = screen.getByTestId('settings-reset-cancel-button');
     fireEvent.click(cancelButton);
@@ -132,17 +172,25 @@ describe('SettingsPanelContainer', () => {
 
     vi.stubGlobal('localStorage', mockLocalStorage);
 
+    const user = userEvent.setup();
     render(
       <AllProviders>
         <SettingsPanelContainer />
       </AllProviders>
     );
 
+    // Expand Maintenance section
+    const maintenanceSection = screen.getByTestId('maintenance-section');
+    const maintenanceButton = maintenanceSection?.querySelector('button');
+    if (maintenanceButton) {
+      await user.click(maintenanceButton);
+    }
+
     const resetButton = screen.getByTestId('settings-reset-open-button');
-    fireEvent.click(resetButton);
+    await user.click(resetButton);
 
     const confirmButton = screen.getByTestId('settings-reset-confirm-button');
-    fireEvent.click(confirmButton);
+    await user.click(confirmButton);
 
     await waitFor(() => {
       expect(mockRemoveItem).toHaveBeenCalledWith('BB-theme');
