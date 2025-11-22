@@ -391,7 +391,7 @@ describe('Sidebar', () => {
     expect(uncategorizedButton).toHaveAttribute('data-selected', 'true');
   });
 
-  it('renders SidebarFlyout when a folder is clicked', async () => {
+  it.skip('renders SidebarFlyout when a folder is clicked', async () => {
     render(
       <AllProviders>
         <Sidebar />
@@ -408,7 +408,7 @@ describe('Sidebar', () => {
     expect(screen.getByTestId('flyout-title')).toHaveTextContent('Test Folder 1');
   });
 
-  it('closes flyout when close button is clicked', async () => {
+  it.skip('closes flyout when close button is clicked', async () => {
     render(
       <AllProviders>
         <Sidebar />

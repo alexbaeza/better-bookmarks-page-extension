@@ -4,13 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { type PageId, useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
-import {
-  buildPathToFolder,
-  findFolderById,
-  onlyFolders,
-} from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
+import { buildPathToFolder, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import { SidebarSection } from '@/features/navigation/sidebar/components/SideBarSection';
-import { SidebarFlyout } from '@/features/navigation/sidebar/components/SidebarFlyout';
 import { SidebarFolderNode } from '@/features/navigation/sidebar/components/SidebarFolderNode';
 import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarItem';
 import { Text } from '@/shared/ui/Text';
@@ -61,7 +56,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
     [navigateToFolderWithPath, rawFolders]
   );
 
-  const selectedFolder = useMemo(() => findFolderById(rawFolders, openFolderId), [rawFolders, openFolderId]);
+  // const selectedFolder = useMemo(() => findFolderById(rawFolders, openFolderId), [rawFolders, openFolderId]);
 
   if (isLoading) {
     return (
@@ -134,9 +129,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
         {footer && <div className="shrink-0 mt-auto">{footer}</div>}
       </nav>
 
-      {openFolderId && selectedFolder && (
-        <SidebarFlyout clickFolder={clickFolder} folder={selectedFolder} onClose={() => setOpenFolderId(null)} />
-      )}
+      {/* {openFolderId && selectedFolder && ( */}
+      {/* <SidebarFlyout clickFolder={clickFolder} folder={selectedFolder} onClose={() => setOpenFolderId(null)} /> */}
+      {/* )} */}
     </div>
   );
 };
