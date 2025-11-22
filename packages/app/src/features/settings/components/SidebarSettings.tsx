@@ -1,9 +1,9 @@
 import { useAtom } from 'jotai';
 
 import { sidebarEnabledAtom } from '@/app/providers/atoms';
+import { useTranslation } from '@/i18n/hooks';
 import { SettingCard } from '@/shared/ui/SettingCard';
-import { Stack } from '@/shared/ui/Stack';
-import { Text } from '@/shared/ui/Text';
+import { SettingItem } from '@/shared/ui/SettingItem';
 import { Toggle } from '@/shared/ui/Toggle';
 
 interface SidebarSettingsProps {
@@ -11,19 +11,16 @@ interface SidebarSettingsProps {
 }
 
 export const SidebarSettings = ({ dataTestId }: SidebarSettingsProps) => {
+  const { t } = useTranslation();
   const [sidebarEnabled, setSidebarEnabled] = useAtom(sidebarEnabledAtom);
 
   return (
-    <Stack data-testid={dataTestId} gap="lg">
-      <Text color="secondary" size="sm">
-        Show or hide the sidebar with your bookmark folders
-      </Text>
-
+    <SettingItem dataTestId={dataTestId} description={t('settings.sidebar.description')}>
       <SettingCard
-        description={sidebarEnabled ? 'Sidebar is visible' : 'Sidebar is hidden'}
-        title="Enable Sidebar"
+        description={sidebarEnabled ? t('settings.sidebar.visible') : t('settings.sidebar.hidden')}
+        title={t('settings.sidebar.enableTitle')}
         toggle={<Toggle checked={sidebarEnabled} data-testid="sidebar-settings-toggle" onChange={setSidebarEnabled} />}
       />
-    </Stack>
+    </SettingItem>
   );
 };

@@ -3,6 +3,7 @@ import { ArrowRight, Star } from 'lucide-react';
 import type React from 'react';
 
 import { customThemeAtom, themeAtom } from '@/app/providers/atoms';
+import { useTranslation } from '@/i18n/hooks';
 import { Button } from '@/shared/ui/Button';
 import { Divider } from '@/shared/ui/Divider';
 import { Text } from '@/shared/ui/Text';
@@ -10,6 +11,7 @@ import { themes } from '@/styles/themes';
 import { ThemeButton } from './ThemeButton';
 
 export const UnifiedThemeSettings: React.FC = () => {
+  const { t } = useTranslation();
   const [theme, setTheme] = useAtom(themeAtom);
   const [customTheme, setCustomTheme] = useAtom(customThemeAtom);
   const handleThemeChange = (selectedTheme: string) => {
@@ -41,8 +43,8 @@ export const UnifiedThemeSettings: React.FC = () => {
   };
 
   const colorGroups = {
-    'Background Colors': ['bgColor-primary', 'bgColor-secondary', 'bgColor-accent'],
-    'Foreground Colors': ['fgColor-primary', 'fgColor-secondary', 'fgColor-accent'],
+    [t('settings.theme.backgroundColors')]: ['bgColor-primary', 'bgColor-secondary', 'bgColor-accent'],
+    [t('settings.theme.foregroundColors')]: ['fgColor-primary', 'fgColor-secondary', 'fgColor-accent'],
   };
 
   const formatKey = (key: string) => {
@@ -63,13 +65,11 @@ export const UnifiedThemeSettings: React.FC = () => {
 
   return (
     <div className="space-y-4" data-testid="theme-settings">
-      <div className="text-sm text-fgColor-secondary">
-        Choose from preset themes or create your own custom theme with personalized colors.
-      </div>
+      <div className="text-sm text-fgColor-secondary">{t('settings.theme.description')}</div>
 
       {/* Theme Selection */}
       <div className="space-y-4">
-        <div className="text-sm font-medium text-fgColor-primary">Choose a theme</div>
+        <div className="text-sm font-medium text-fgColor-primary">{t('settings.theme.chooseTheme')}</div>
         <div className="flex flex-col gap-3">
           {/* Preset themes */}
           <div className="grid grid-cols-2 gap-3">
@@ -92,10 +92,10 @@ export const UnifiedThemeSettings: React.FC = () => {
               <div className="flex items-center gap-2 animate-pulse">
                 <div className="flex flex-col items-end">
                   <div className="text-xs text-fgColor-secondary bg-bgColor-primary px-2 py-1 rounded-md border border-fgColor-secondary/30 whitespace-nowrap">
-                    Not convinced?
+                    {t('settings.theme.notConvinced')}
                   </div>
                   <div className="text-xs text-fgColor-secondary bg-bgColor-primary px-2 py-1 rounded-md border border-fgColor-secondary/30 whitespace-nowrap">
-                    Try building your own theme
+                    {t('settings.theme.tryBuilding')}
                   </div>
                 </div>
                 <ArrowRight className="text-fgColor-accent" size={16} />
@@ -113,7 +113,7 @@ export const UnifiedThemeSettings: React.FC = () => {
                 <div className="flex items-center justify-center gap-2">
                   <Star className={theme === 'custom' ? 'text-fgColor-accent' : 'text-fgColor-primary'} size={14} />
                   <span className={theme === 'custom' ? 'text-fgColor-accent' : 'text-fgColor-primary font-semibold'}>
-                    Custom Theme
+                    {t('settings.theme.customTheme')}
                   </span>
                 </div>
               </ThemeButton>
@@ -125,19 +125,17 @@ export const UnifiedThemeSettings: React.FC = () => {
       {/* Custom Theme Editor */}
       {theme === 'custom' && (
         <>
-          <Divider title="Customize Colors" />
+          <Divider title={t('settings.theme.customizeColors')} />
 
           <div className="space-y-4">
             <div className="space-y-2">
               <Text as="h4" color="primary" size="sm" weight="medium">
-                Customize Your Theme
+                {t('settings.theme.customizeTitle')}
               </Text>
-              <p className="text-xs text-fgColor-secondary">
-                Adjust colors below to create your perfect theme. Changes are applied instantly and saved automatically.
-              </p>
+              <p className="text-xs text-fgColor-secondary">{t('settings.theme.customizeDescription')}</p>
               <div className="flex gap-2">
                 <Button dataTestId="theme-reset-all-colors" onClick={resetToDefault} variant="secondary">
-                  Reset All Colors
+                  {t('settings.theme.resetAllColors')}
                 </Button>
               </div>
             </div>
@@ -158,7 +156,7 @@ export const UnifiedThemeSettings: React.FC = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <input
-                          aria-label={`${formatKey(key)} color picker`}
+                          aria-label={t('settings.theme.colorPicker', { color: formatKey(key) })}
                           className="w-8 h-8 rounded border border-fgColor-secondary/30 cursor-pointer"
                           id={`color-input-${key}`}
                           onChange={(e) => handleColorChange(key, e.target.value)}

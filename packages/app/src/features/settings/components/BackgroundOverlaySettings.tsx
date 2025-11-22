@@ -3,8 +3,10 @@ import { CheckIcon } from 'lucide-react';
 import type React from 'react';
 
 import { backgroundOverlayAtom, backgroundOverlayOpacityAtom } from '@/app/providers/atoms';
+import { useTranslation } from '@/i18n/hooks';
 import { Row } from '@/shared/ui/Row';
 import { SettingCard } from '@/shared/ui/SettingCard';
+import { SettingItem } from '@/shared/ui/SettingItem';
 import { Stack } from '@/shared/ui/Stack';
 import { Text } from '@/shared/ui/Text';
 
@@ -13,6 +15,7 @@ interface BackgroundOverlaySettingsProps {
 }
 
 export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySettingsProps) => {
+  const { t } = useTranslation();
   const [selectedBackground, setSelectedBackground] = useAtom(backgroundOverlayAtom);
   const [backgroundOverlayOpacity, setBackgroundOverlayOpacity] = useAtom(backgroundOverlayOpacityAtom);
 
@@ -95,58 +98,57 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
   };
 
   return (
-    <Stack data-testid={dataTestId} gap="lg">
-      <Text color="secondary" size="sm">
-        Add some personality to your background
-      </Text>
-
-      {/* Enable/Disable Background Overlay */}
-      <SettingCard
-        description={isOverlayEnabled ? 'Overlay is enabled' : 'Overlay is disabled'}
-        title="Enable Background Overlay"
-        toggle={
-          <div
-            aria-checked={isOverlayEnabled}
-            className="relative inline-flex cursor-pointer items-center"
-            data-testid="background-overlay-toggle"
-            onClick={toggleOverlay}
-            onKeyDown={handleToggleKeyDown}
-            role="switch"
-            tabIndex={0}
-          >
-            <input checked={isOverlayEnabled} className="peer sr-only" onChange={handleToggleChange} type="checkbox" />
-            <div className="peer h-6 w-11 rounded-full bg-bgColor-secondary peer-checked:bg-bgColor-accent after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-fgColor-primary after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-fgColor-primary" />
-          </div>
-        }
-      />
+    <Stack data-testid={dataTestId} gap="md">
+      <SettingItem description={t('settings.backgroundOverlay.description')}>
+        <SettingCard
+          description={
+            isOverlayEnabled
+              ? t('settings.backgroundOverlay.enabled', { defaultValue: 'Overlay is enabled' })
+              : t('settings.backgroundOverlay.disabled', { defaultValue: 'Overlay is disabled' })
+          }
+          title={t('settings.backgroundOverlay.enableTitle')}
+          toggle={
+            <div
+              aria-checked={isOverlayEnabled}
+              className="relative inline-flex cursor-pointer items-center"
+              data-testid="background-overlay-toggle"
+              onClick={toggleOverlay}
+              onKeyDown={handleToggleKeyDown}
+              role="switch"
+              tabIndex={0}
+            >
+              <input
+                checked={isOverlayEnabled}
+                className="peer sr-only"
+                onChange={handleToggleChange}
+                type="checkbox"
+              />
+              <div className="peer h-6 w-11 rounded-full bg-bgColor-secondary peer-checked:bg-bgColor-accent after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-fgColor-primary after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-fgColor-primary" />
+            </div>
+          }
+        />
+      </SettingItem>
 
       {/* Overlay Selection - only when overlay is enabled */}
       {isOverlayEnabled && (
-        <Stack gap="lg">
-          <Text size="sm" weight="medium">
-            Choose an overlay
-          </Text>
+        <SettingItem label={t('settings.backgroundOverlay.chooseOverlay')}>
           <div className="grid grid-cols-3 gap-4">
             {overlayOptions.map((opt, idx) => (
               <div key={opt.image}>{renderImage(opt.image, opt.text, idx)}</div>
             ))}
           </div>
-        </Stack>
+        </SettingItem>
       )}
 
       {/* Opacity Control */}
       {isOverlayEnabled && (
-        <Stack gap="lg">
-          <Row alignItems="center" justifyContent="space-between">
-            <Text size="sm" weight="medium">
-              Overlay Opacity
-            </Text>
-            <Text color="secondary" size="xs">
-              {backgroundOverlayOpacity}%
-            </Text>
-          </Row>
-
+        <SettingItem label={t('settings.backgroundOverlay.overlayOpacity')}>
           <Stack gap="sm">
+            <Row alignItems="center" justifyContent="between">
+              <Text color="secondary" size="xs">
+                {backgroundOverlayOpacity}%
+              </Text>
+            </Row>
             <input
               className="w-full h-2 bg-bgColor-secondary rounded-lg appearance-none cursor-pointer accent-fgColor-accent"
               data-testid="background-overlay-opacity-slider"
@@ -157,16 +159,16 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
               type="range"
               value={backgroundOverlayOpacity}
             />
-            <Row gap="none" justifyContent="space-between">
+            <Row gap="none" justifyContent="between">
               <Text color="secondary" size="xs">
-                Subtle
+                {t('settings.backgroundOverlay.subtle')}
               </Text>
               <Text color="secondary" size="xs">
-                Bold
+                {t('settings.backgroundOverlay.bold')}
               </Text>
             </Row>
           </Stack>
-        </Stack>
+        </SettingItem>
       )}
     </Stack>
   );

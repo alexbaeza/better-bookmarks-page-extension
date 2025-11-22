@@ -8,12 +8,14 @@ Feature: Theme Builder
 
   Scenario: Enable custom theme builder
     When I click "settings-toggle"
+    And I click "appearance-section-toggle"
     Then I should see the "theme-settings" section
     When I click "theme-custom"
     Then the app should have custom theme with "bgColor-primary" color
 
   Scenario Outline: Change color in custom theme
     When I click "settings-toggle"
+    And I click "appearance-section-toggle"
     Then I should see the "theme-settings" section
     When I select the "default" theme
     When I click "theme-custom"
@@ -34,6 +36,7 @@ Feature: Theme Builder
 
   Scenario: Switch from custom theme to preset theme
     When I click "settings-toggle"
+    And I click "appearance-section-toggle"
     Then I should see the "theme-settings" section
     When I click "theme-custom"
     Then the app should have custom theme with "bgColor-primary" color
@@ -43,6 +46,7 @@ Feature: Theme Builder
 
   Scenario: Create complete custom theme
     When I click "settings-toggle"
+    And I click "appearance-section-toggle"
     Then I should see the "theme-settings" section
     When I click "theme-custom"
     Then the app should have custom theme with "bgColor-primary" color

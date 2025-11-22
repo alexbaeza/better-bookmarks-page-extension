@@ -99,7 +99,7 @@ describe('BookmarkFormModal', () => {
       );
 
       expect(screen.getByTestId('bookmark-form-modal')).toBeInTheDocument();
-      expect(screen.getByText('Add Folder')).toBeInTheDocument();
+      expect(screen.getByText('Add Bookmark')).toBeInTheDocument();
     });
 
     it('renders modal with correct title for editing folder', () => {
@@ -111,7 +111,7 @@ describe('BookmarkFormModal', () => {
         </AllProviders>
       );
 
-      expect(screen.getByText('Edit Folder')).toBeInTheDocument();
+      expect(screen.getByText('Edit Bookmark')).toBeInTheDocument();
     });
 
     it('renders folder icon in title input', () => {

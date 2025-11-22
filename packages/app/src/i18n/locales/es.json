@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "save": "Guardar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "close": "Cerrar"
+    },
+    "actions": {
+      "resetAllSettings": "Restablecer todas las configuraciones (borra el almacenamiento local)"
+    },
+    "builtWith": {
+      "text": "Hecho con ",
+      "by": "por"
+    }
+  },
+  "sidebar": {
+    "pages": "Páginas",
+    "folders": "Carpetas",
+    "allItems": "Todos los elementos",
+    "uncategorized": "Sin categorizar",
+    "subfoldersOf": "Subcarpetas de {{folderName}}",
+    "untitled": "Sin título",
+    "ariaLabels": {
+      "navigation": "Navegación de marcadores",
+      "folders": "Carpetas de marcadores"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Parece que no tienes ningún marcador, ¡agrega algunos para ver la magia! 🪄✨",
+    "form": {
+      "addTitle": "Agregar marcador",
+      "editTitle": "Editar marcador",
+      "titleLabel": "Título",
+      "titlePlaceholder": "Ingresa el título",
+      "required": "Requerido",
+      "invalidUrl": "URL inválida"
+    },
+    "actions": {
+      "label": "Acciones del elemento",
+      "menuLabel": "Menú de opciones del elemento",
+      "deleteItem": "¿Eliminar elemento?",
+      "deleteMessage": "Esta acción no se puede deshacer.",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    },
+    "dragHandle": "Asa de arrastre"
+  },
+  "settings": {
+    "title": "Configuración",
+    "sections": {
+      "layout": "Diseño",
+      "personalization": "Personalización",
+      "appearance": "Apariencia",
+      "support": "Soporte",
+      "maintenance": "Mantenimiento"
+    },
+    "greeting": {
+      "description": "Agrega un toque personal a tu experiencia de marcadores",
+      "enableTitle": "Habilitar saludo",
+      "enabled": "El saludo está habilitado",
+      "hidden": "El saludo está oculto",
+      "nameLabel": "¿Cómo deberíamos llamarte?",
+      "namePlaceholder": "Ingresa tu nombre...",
+      "preview": "Vista previa: \"Hola, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Elige entre temas predefinidos o crea tu propio tema personalizado con colores personalizados.",
+      "chooseTheme": "Elige un tema",
+      "notConvinced": "¿No estás convencido?",
+      "tryBuilding": "Intenta crear tu propio tema",
+      "customTheme": "Tema personalizado",
+      "customizeColors": "Personalizar colores",
+      "customizeTitle": "Personaliza tu tema",
+      "customizeDescription": "Ajusta los colores a continuación para crear tu tema perfecto. Los cambios se aplican instantáneamente y se guardan automáticamente.",
+      "resetAllColors": "Restablecer todos los colores",
+      "backgroundColors": "Colores de fondo",
+      "foregroundColors": "Colores de primer plano",
+      "colorPicker": "Selector de color {{color}}"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Habilitar superposición de fondo",
+      "description": "Añade personalidad a tu fondo",
+      "enabled": "La superposición está habilitada",
+      "disabled": "La superposición está deshabilitada",
+      "chooseOverlay": "Elige una superposición",
+      "overlayOpacity": "Opacidad de la superposición",
+      "subtle": "Sutil",
+      "bold": "Audaz",
+      "doodle1": "Garabato 1",
+      "doodle2": "Garabato 2"
+    },
+    "sidebar": {
+      "description": "Mostrar u ocultar la barra lateral con tus carpetas de marcadores",
+      "enableTitle": "Habilitar barra lateral",
+      "visible": "La barra lateral está visible",
+      "hidden": "La barra lateral está oculta"
+    },
+    "searchBar": {
+      "description": "Controlar la visibilidad de la funcionalidad de búsqueda",
+      "enableTitle": "Habilitar barra de búsqueda",
+      "visible": "La barra de búsqueda se mostrará",
+      "hidden": "La barra de búsqueda está oculta"
+    },
+    "zoom": {
+      "scale": "Escala",
+      "decrease": "Disminuir escala",
+      "increase": "Aumentar escala"
+    },
+    "reset": {
+      "title": "Restablecer todas las configuraciones",
+      "description": "Esto borrará todas las preferencias guardadas y recargará la página. Esta acción no se puede deshacer."
+    },
+    "support": {
+      "message": "Gratis y de código abierto — impulsado por demasiado café y decisiones cuestionables. Si te ayuda, ¡considera alimentar el ciclo comprándome un café!",
+      "buyCoffee": "Cómprame un café"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Buenos días",
+    "goodAfternoon": "Buenas tardes",
+    "goodEvening": "Buenas noches"
+  },
+  "language": {
+    "title": "Idioma"
+  },
+  "flyout": {
+    "close": "Cerrar panel"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Página no encontrada"
+  },
+  "searchBar": {
+    "placeholderWithin": "Buscar en \"{{pageName}}\"",
+    "clearSearch": "Limpiar búsqueda"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

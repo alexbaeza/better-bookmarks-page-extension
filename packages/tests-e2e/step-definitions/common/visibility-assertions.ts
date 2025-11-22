@@ -47,6 +47,12 @@ Then('I should see {string} in the app', (text: string) => {
   cy.contains(text).should('be.visible');
 });
 
+Then('I should see {string} in the sidebar', (text: string) => {
+  cy.get('[data-testid="sidebar"]').within(() => {
+    cy.contains(text).should('be.visible');
+  });
+});
+
 Then('the {string} input should be ready', (inputTestId: string) => {
   cy.get(`[data-testid="${inputTestId}"]`).should('be.visible').should('be.enabled');
 });

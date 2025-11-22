@@ -8,6 +8,7 @@ Feature: Preferences
 
   Scenario: Toggle sidebar
     When I click "settings-toggle"
+    And I click "personalization-section-toggle"
     Then I should see the "sidebar-settings" section
     When I toggle "sidebar-settings-toggle"
     Then "sidebar" should not exist

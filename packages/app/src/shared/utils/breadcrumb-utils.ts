@@ -9,18 +9,22 @@ export type BreadcrumbItem = { id: string; title: string };
  * Builds breadcrumb path from navigation stack
  * Converts page IDs to breadcrumb items with titles
  */
-export const buildBreadcrumbPath = (navigationStack: PageId[], rawFolders: IBookmarkItem[]): BreadcrumbItem[] => {
+export const buildBreadcrumbPath = (
+  navigationStack: PageId[],
+  rawFolders: IBookmarkItem[],
+  t: (key: string) => string
+): BreadcrumbItem[] => {
   const path: BreadcrumbItem[] = [];
 
   for (const pageId of navigationStack) {
     if (isAllPage(pageId)) {
-      path.push({ id: 'All', title: 'All Bookmarks' });
+      path.push({ id: 'All', title: t('sidebar.allItems') });
     } else if (isUncategorizedPage(pageId)) {
-      path.push({ id: 'Uncategorized', title: 'Uncategorized' });
+      path.push({ id: 'Uncategorized', title: t('sidebar.uncategorized') });
     } else {
       const folder = findItemById(rawFolders, pageId);
       if (folder) {
-        path.push({ id: folder.id, title: folder.title || 'Untitled' });
+        path.push({ id: folder.id, title: folder.title || t('sidebar.untitled') });
       }
     }
   }

@@ -1,6 +1,8 @@
 import { GripVertical } from 'lucide-react';
 import type React from 'react';
 
+import { useTranslation } from '@/i18n/hooks';
+
 export interface BookmarkDragHandleProps {
   hovered?: boolean;
   size?: number;
@@ -14,9 +16,10 @@ export const BookmarkDragHandle: React.FC<BookmarkDragHandleProps> = ({
   className = '',
   variant = 'grid',
 }) => {
+  const { t } = useTranslation();
   const handleElement = (
     <div
-      aria-label="Drag handle"
+      aria-label={t('bookmarks.dragHandle')}
       className={`cursor-grab flex items-center justify-center focus:outline-none ${hovered ? 'text-fgColor-primary' : 'text-fgColor-secondary'} ${className}`}
       data-testid="drag-handle-button"
       onClick={(e) => e.stopPropagation()}

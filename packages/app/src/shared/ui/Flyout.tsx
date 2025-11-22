@@ -2,6 +2,8 @@ import type React from 'react';
 import { memo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useTranslation } from '@/i18n/hooks';
+
 type Side = 'left' | 'right';
 
 interface FlyoutProps {
@@ -26,6 +28,7 @@ export const Flyout = memo<FlyoutProps>(
     children,
     'data-testid': dataTestId,
   }) => {
+    const { t } = useTranslation();
     const handleOverlayKeyDown = (event: React.KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
@@ -57,7 +60,7 @@ export const Flyout = memo<FlyoutProps>(
       <>
         {withOverlay && (
           <div
-            aria-label="Close flyout"
+            aria-label={t('flyout.close')}
             className="fixed inset-0 z-[100] bg-black bg-opacity-50"
             data-testid="flyout-overlay"
             onClick={onClose}

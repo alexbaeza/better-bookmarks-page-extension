@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { BookmarkItemMenu } from '@/features/bookmarks/components/items/options/BookmarkItemMenu';
 import { BookmarkItemMenuItem } from '@/features/bookmarks/components/items/options/BookmarkItemMenuItem';
 import { DeleteConfirmationModal } from '@/features/bookmarks/components/items/options/DeleteConfirmationModal';
+import { useTranslation } from '@/i18n/hooks';
 import { IconButton } from '@/shared/ui/IconButton';
 
 export interface ItemActionsMenuProps {
@@ -25,6 +26,7 @@ export const ItemActionsMenu: React.FC<ItemActionsMenuProps> = ({
   onMouseEnter,
   onMouseLeave,
 }) => {
+  const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -76,10 +78,10 @@ export const ItemActionsMenu: React.FC<ItemActionsMenuProps> = ({
               onEdit?.();
             }}
           >
-            Edit
+            {t('bookmarks.actions.edit')}
           </BookmarkItemMenuItem>
           <BookmarkItemMenuItem icon={<Trash2 size={14} />} onClick={handleDeleteClick}>
-            Delete
+            {t('bookmarks.actions.delete')}
           </BookmarkItemMenuItem>
         </BookmarkItemMenu>
       )}
@@ -87,10 +89,10 @@ export const ItemActionsMenu: React.FC<ItemActionsMenuProps> = ({
       <DeleteConfirmationModal
         dataTestId="delete-confirmation-modal"
         isOpen={deleteModalOpen}
-        message="This action cannot be undone."
+        message={t('bookmarks.actions.deleteMessage', { defaultValue: 'This action cannot be undone.' })}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={handleDeleteConfirm}
-        title="Delete item?"
+        title={t('bookmarks.actions.deleteItem')}
       />
     </>
   );

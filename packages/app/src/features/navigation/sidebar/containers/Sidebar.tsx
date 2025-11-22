@@ -8,6 +8,7 @@ import { buildPathToFolder, onlyFolders } from '@/features/bookmarks/lib/browser
 import { SidebarSection } from '@/features/navigation/sidebar/components/SideBarSection';
 import { SidebarFolderNode } from '@/features/navigation/sidebar/components/SidebarFolderNode';
 import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarItem';
+import { useTranslation } from '@/i18n/hooks';
 import { Text } from '@/shared/ui/Text';
 import { isAllPage, isRootPage, isUncategorizedPage } from '@/shared/utils/page-utils';
 
@@ -16,7 +17,8 @@ export interface SidebarProps {
   footer?: React.ReactNode;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', footer }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ title, footer }) => {
+  const { t } = useTranslation();
   const { counts, rawFolders, isLoading } = useBookmarks();
   const { currentPage, navigateToPage, navigateToFolderWithPath } = useBookmarkNavigation();
 
@@ -59,7 +61,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
   if (isLoading) {
     return (
       <div className="flex h-screen" data-testid="sidebar">
-        <nav aria-label="Bookmarks navigation" className="w-64 shrink-0 bg-bgColor-secondary p-4">
+        <nav aria-label={t('sidebar.ariaLabels.navigation')} className="w-64 shrink-0 bg-bgColor-secondary p-4">
           <Text as="h2" className="mb-4 flex items-center" color="primary" size="lg" weight="bold">
             {title}
           </Text>
@@ -78,24 +80,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
   return (
     <div className="flex h-screen max-h-screen" data-testid="sidebar">
       <nav
-        aria-label="Bookmarks navigation"
+        aria-label={t('sidebar.ariaLabels.navigation')}
         className="w-64 min-w-64 max-w-64 shrink-0 bg-bgColor-secondary flex h-full max-h-full flex-col pr-2"
       >
         <Text as="h2" className="p-2 mb-4 shrink-0" color="primary" size="lg" weight="bold">
           {title}
         </Text>
         <div
-          aria-label="Bookmark folders"
+          aria-label={t('sidebar.ariaLabels.folders')}
           className="flex-1 min-h-0 overflow-y-auto overflow-x-visible px-1"
           role="tree"
         >
-          <SidebarSection title="Pages">
+          <SidebarSection title={t('sidebar.pages')}>
             <SidebarItem
               badge={counts.all}
               className="cursor-pointer"
               icon={<BookmarkIcon size={16} />}
               isSelected={isAll}
-              label="All Items"
+              label={t('sidebar.allItems')}
               onClick={handleClickAll}
             />
             <SidebarItem
@@ -103,14 +105,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
               className="cursor-pointer"
               icon={<BookmarkIcon size={16} />}
               isSelected={isUncat}
-              label="Uncategorized"
+              label={t('sidebar.uncategorized')}
               onClick={handleClickUncategorized}
             />
           </SidebarSection>
 
           <div className="border-t border-bgColor-secondary/30 py-6" />
 
-          <SidebarSection title="Folders">
+          <SidebarSection title={t('sidebar.folders')}>
             {roots.map((folder) => (
               <SidebarFolderNode
                 clickFolder={clickFolder}

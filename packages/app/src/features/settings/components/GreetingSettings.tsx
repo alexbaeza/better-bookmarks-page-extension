@@ -2,8 +2,10 @@ import { useAtom } from 'jotai';
 import type React from 'react';
 
 import { greetingEnabledAtom, greetingNameAtom } from '@/app/providers/atoms';
+import { useTranslation } from '@/i18n/hooks';
 import { Input } from '@/shared/ui/Input';
 import { SettingCard } from '@/shared/ui/SettingCard';
+import { SettingItem } from '@/shared/ui/SettingItem';
 import { Stack } from '@/shared/ui/Stack';
 import { Text } from '@/shared/ui/Text';
 import { Toggle } from '@/shared/ui/Toggle';
@@ -13,6 +15,7 @@ interface GreetingSettingsProps {
 }
 
 export const GreetingSettings = ({ dataTestId }: GreetingSettingsProps) => {
+  const { t } = useTranslation();
   const [greetingEnabled, setGreetingEnabled] = useAtom(greetingEnabledAtom);
   const [greetingName, setGreetingName] = useAtom(greetingNameAtom);
 
@@ -21,46 +24,38 @@ export const GreetingSettings = ({ dataTestId }: GreetingSettingsProps) => {
   };
 
   return (
-    <Stack data-testid={dataTestId} gap="lg">
-      <Text color="secondary" size="sm">
-        Add a personal touch to your bookmark experience
-      </Text>
-
-      {/* Enable/Disable Greeting (single toggle controls visibility & personalization) */}
-      <SettingCard
-        description={greetingEnabled ? 'Greeting is enabled' : 'Greeting is hidden'}
-        title="Enable Greeting"
-        toggle={
-          <Toggle
-            checked={greetingEnabled}
-            data-testid="greeting-enabled-toggle"
-            onChange={(val) => setGreetingEnabled(val)}
-          />
-        }
-      />
+    <Stack data-testid={dataTestId} gap="md">
+      <SettingItem description={t('settings.greeting.description')}>
+        <SettingCard
+          description={greetingEnabled ? t('settings.greeting.enabled') : t('settings.greeting.hidden')}
+          title={t('settings.greeting.enableTitle')}
+          toggle={
+            <Toggle
+              checked={greetingEnabled}
+              data-testid="greeting-enabled-toggle"
+              onChange={(val) => setGreetingEnabled(val)}
+            />
+          }
+        />
+      </SettingItem>
 
       {/* Name Input (only if greeting shown and personalized) */}
       {greetingEnabled && (
-        <Stack gap="md">
-          <label className="block" data-testid="greeting-settings-title" htmlFor="greeting-settings-input">
-            <Text size="sm" weight="medium">
-              What should we call you?
-            </Text>
-          </label>
+        <SettingItem label={t('settings.greeting.nameLabel')}>
           <Input
             dataTestId="greeting-name-input"
             id="greeting-settings-input"
             onChange={handleGreetingNameChange}
-            placeholder="Enter your name..."
+            placeholder={t('settings.greeting.namePlaceholder')}
             type="text"
             value={greetingName}
           />
           {greetingName && (
-            <Text color="secondary" size="xs">
-              Preview: "Hello, {greetingName}! 👋"
+            <Text className="mt-1" color="secondary" size="xs">
+              {t('settings.greeting.preview', { name: greetingName })}
             </Text>
           )}
-        </Stack>
+        </SettingItem>
       )}
     </Stack>
   );

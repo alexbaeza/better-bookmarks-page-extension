@@ -1,9 +1,9 @@
 import { useAtom } from 'jotai';
 
 import { searchBarEnabledAtom } from '@/app/providers/atoms';
+import { useTranslation } from '@/i18n/hooks';
 import { SettingCard } from '@/shared/ui/SettingCard';
-import { Stack } from '@/shared/ui/Stack';
-import { Text } from '@/shared/ui/Text';
+import { SettingItem } from '@/shared/ui/SettingItem';
 import { Toggle } from '@/shared/ui/Toggle';
 
 interface SearchBarSettingsProps {
@@ -11,21 +11,18 @@ interface SearchBarSettingsProps {
 }
 
 export const SearchBarSettings = ({ dataTestId = 'search-bar-settings' }: SearchBarSettingsProps) => {
+  const { t } = useTranslation();
   const [searchBarEnabled, setSearchBarEnabled] = useAtom(searchBarEnabledAtom);
 
   return (
-    <Stack data-testid={dataTestId} gap="lg">
-      <Text color="secondary" size="sm">
-        Control the visibility of the search functionality
-      </Text>
-
+    <SettingItem dataTestId={dataTestId} description={t('settings.searchBar.description')}>
       <SettingCard
-        description={searchBarEnabled ? 'Search bar will be shown' : 'Search bar is hidden'}
-        title="Enable Search Bar"
+        description={searchBarEnabled ? t('settings.searchBar.visible') : t('settings.searchBar.hidden')}
+        title={t('settings.searchBar.enableTitle')}
         toggle={
           <Toggle checked={searchBarEnabled} data-testid="search-bar-enabled-toggle" onChange={setSearchBarEnabled} />
         }
       />
-    </Stack>
+    </SettingItem>
   );
 };

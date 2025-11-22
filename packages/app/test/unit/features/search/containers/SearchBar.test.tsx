@@ -56,7 +56,7 @@ describe('SearchBar', () => {
 
   it('should display placeholder for "All" page', () => {
     render(<SearchBar />);
-    expect(screen.getByPlaceholderText('Search "All" items…')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search within "All Items"')).toBeInTheDocument();
   });
 
   it('should handle search input changes', async () => {

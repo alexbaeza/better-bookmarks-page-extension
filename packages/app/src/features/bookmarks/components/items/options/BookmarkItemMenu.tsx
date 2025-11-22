@@ -4,6 +4,7 @@ import type React from 'react';
 import { type ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { zoomAtom } from '@/app/providers/atoms';
+import { useTranslation } from '@/i18n/hooks';
 
 export interface BookmarkItemMenuProps {
   onMouseEnter?: () => void;
@@ -20,6 +21,7 @@ export const BookmarkItemMenu: React.FC<BookmarkItemMenuProps> = ({
   anchorRef,
   children,
 }) => {
+  const { t } = useTranslation();
   const zoom = useAtomValue(zoomAtom);
   const { refs, floatingStyles, context, update } = useFloating({
     placement: 'top-end',
@@ -87,7 +89,7 @@ export const BookmarkItemMenu: React.FC<BookmarkItemMenuProps> = ({
   return createPortal(
     <div
       {...getFloatingProps()}
-      aria-label="Item options menu"
+      aria-label={t('bookmarks.actions.menuLabel')}
       className="w-40 rounded bg-bgColor-primary p-2 shadow-lg border border-bgColor-secondary"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

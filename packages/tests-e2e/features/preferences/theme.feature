@@ -8,6 +8,7 @@ Feature: Theme Preference
 
   Scenario Outline: Change to preset theme
     When I click "settings-toggle"
+    And I click "appearance-section-toggle"
     Then I should see the "theme-settings" section
     When I select the "<theme>" theme
     Then the app should have "<theme>" theme

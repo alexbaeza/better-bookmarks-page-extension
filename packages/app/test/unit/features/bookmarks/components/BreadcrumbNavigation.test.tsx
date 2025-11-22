@@ -106,13 +106,13 @@ describe('BreadcrumbNavigation', () => {
     expect(firstItem.querySelector('svg')).toBeInTheDocument();
   });
 
-  it('should render All Bookmarks for All page', () => {
+  it('should render All Items for All page', () => {
     render(
       <AllProviders>
         <BreadcrumbNavigation />
       </AllProviders>
     );
-    expect(screen.getByText('All Bookmarks')).toBeInTheDocument();
+    expect(screen.getByText('All Items')).toBeInTheDocument();
   });
 
   it('should render folder title', () => {

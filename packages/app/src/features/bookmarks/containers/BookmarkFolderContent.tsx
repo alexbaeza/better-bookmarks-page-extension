@@ -7,10 +7,12 @@ import { BookmarkPage } from '@/features/bookmarks/contexts/BookmarkNavigationCo
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
 import { NotFoundIllustration } from '@/features/navigation/components/NotFoundIllustration';
 import { ViewModeToggle } from '@/features/preferences/containers/ViewModeToggle';
+import { useTranslation } from '@/i18n/hooks';
 import { Row } from '@/shared/ui/Row';
 import { Text } from '@/shared/ui/Text';
 
 export const BookmarkFolderContent: React.FC = () => {
+  const { t } = useTranslation();
   const { currentPage, pageContainers } = useBookmarks();
 
   const isEmpty =
@@ -29,7 +31,7 @@ export const BookmarkFolderContent: React.FC = () => {
         >
           <div className="flex flex-col items-center">
             <Text align="center" className="italic" color="primary" data-testid="empty-state-message" size="sm">
-              Looks like you don't have any Bookmarks, add some to see the magic! 🪄✨
+              {t('bookmarks.emptyState')}
             </Text>
             <NotFoundIllustration className="mb-4 text-bgColor-secondary" />
           </div>

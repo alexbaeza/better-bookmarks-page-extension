@@ -3,6 +3,7 @@ import { MinusIcon, PlusIcon } from 'lucide-react';
 import type React from 'react';
 
 import { setZoomAtom, ZOOM_MAX_VALUE, ZOOM_MIN_VALUE, ZOOM_STEP, zoomAtom } from '@/app/providers/atoms';
+import { useTranslation } from '@/i18n/hooks';
 import { IconButton } from '@/shared/ui/IconButton';
 
 export type ZoomControlsVariant = 'settings' | 'inline';
@@ -13,6 +14,7 @@ export interface ZoomControlsProps {
 }
 
 export const ZoomControls: React.FC<ZoomControlsProps> = ({ variant = 'settings', dataTestId = 'zoom-controls' }) => {
+  const { t } = useTranslation();
   const [zoom] = useAtom(zoomAtom);
   const setZoom = useSetAtom(setZoomAtom);
 
@@ -24,10 +26,10 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({ variant = 'settings'
 
   return (
     <div className={containerClass} data-testid={dataTestId}>
-      <div className={`${textSize} text-fgColor-secondary`}>Scale</div>
+      <div className={`${textSize} text-fgColor-secondary`}>{t('settings.zoom.scale')}</div>
       <div className="flex items-center gap-2">
         <IconButton
-          aria-label="Decrease scale"
+          aria-label={t('settings.zoom.decrease')}
           className={`disabled:opacity-50 ${buttonSize}`}
           disabled={zoom <= ZOOM_MIN_VALUE}
           icon={<MinusIcon size={iconSize} />}
@@ -37,7 +39,7 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({ variant = 'settings'
           {Math.round(zoom * 100)}%
         </div>
         <IconButton
-          aria-label="Increase scale"
+          aria-label={t('settings.zoom.increase')}
           className={`disabled:opacity-50 ${buttonSize}`}
           disabled={zoom >= ZOOM_MAX_VALUE}
           icon={<PlusIcon size={iconSize} />}
