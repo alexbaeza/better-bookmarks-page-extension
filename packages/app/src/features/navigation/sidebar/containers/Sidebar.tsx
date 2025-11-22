@@ -56,8 +56,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
     [navigateToFolderWithPath, rawFolders]
   );
 
-  // const selectedFolder = useMemo(() => findFolderById(rawFolders, openFolderId), [rawFolders, openFolderId]);
-
   if (isLoading) {
     return (
       <div className="flex h-screen" data-testid="sidebar">
@@ -67,9 +65,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
           </Text>
           <div className="h-[calc(100vh-4rem)] overflow-y-auto px-2">
             <div className="animate-pulse space-y-4">
-              <div className="h-4 bg-bgColor-tertiary rounded" />
-              <div className="h-4 bg-bgColor-tertiary rounded" />
-              <div className="h-4 bg-bgColor-tertiary rounded" />
+              <div className="h-4 bg-bgColor-secondary/50 rounded" />
+              <div className="h-4 bg-bgColor-secondary/50 rounded" />
+              <div className="h-4 bg-bgColor-secondary/50 rounded" />
             </div>
           </div>
         </nav>
@@ -110,7 +108,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
             />
           </SidebarSection>
 
-          <div className="border-t border-bgColor-tertiary py-6" />
+          <div className="border-t border-bgColor-secondary/30 py-6" />
 
           <SidebarSection title="Folders">
             {roots.map((folder) => (

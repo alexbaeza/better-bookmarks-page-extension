@@ -38,7 +38,7 @@ export const themes: Record<string, ThemeColors> = {
   },
 
   nord: {
-    'bgColor-accent': '#88C0D0',
+    'bgColor-accent': '#539BCD',
     'bgColor-primary': '#2E3440',
     'bgColor-secondary': '#3B4252',
     'fgColor-accent': '#539BCD',

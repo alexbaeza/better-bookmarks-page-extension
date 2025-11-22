@@ -26,7 +26,7 @@ export const BreadcrumbNavigation: React.FC = () => {
     <Fragment key={item.id}>
       {index > 0 && <ChevronRight className="h-4 w-4 text-fgColor-secondary flex-shrink-0" />}
       <button
-        className="flex items-center space-x-2 hover:bg-bgColor-hover px-2 py-1 rounded transition-colors min-w-0"
+        className="flex items-center space-x-2 hover:bg-bgColor-primary/30 px-2 py-1 rounded transition-colors min-w-0"
         data-testid={`breadcrumb-item-${item.id}`}
         onClick={() => handleBreadcrumbClick(item.id)}
         type="button"
