@@ -93,7 +93,6 @@ export const SettingsPanelContainer: React.FC = () => {
           {/* Support Section */}
           <CollapsibleSection
             dataTestId="support-section"
-            defaultOpen={true}
             icon={<Heart size={16} />}
             title={t('settings.sections.support')}
           >
