@@ -10,7 +10,7 @@ export interface CollapsibleSectionProps {
   icon?: React.ReactNode;
   defaultOpen?: boolean;
   children: React.ReactNode;
-  dataTestId?: string;
+  dataTestId: string;
 }
 
 export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
@@ -26,6 +26,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
     <div className="border-b border-fgColor-secondary/20 pb-4 last:border-b-0" data-testid={dataTestId}>
       <button
         className="flex w-full items-center justify-between py-2 text-left hover:opacity-80 transition-opacity"
+        data-testid={`${dataTestId}-toggle`}
         onClick={() => setIsOpen(!isOpen)}
         type="button"
       >

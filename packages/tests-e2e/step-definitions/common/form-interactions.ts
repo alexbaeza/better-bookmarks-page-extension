@@ -26,3 +26,10 @@ Then('the {string} field should contain {string}', (fieldName: string, expectedV
   const selector = fieldName.startsWith('#') ? fieldName : `[data-testid="${fieldName}"]`;
   cy.get(selector).should('have.value', expectedValue);
 });
+
+When('I select {string} from {string}', (optionText: string, selectTestId: string) => {
+  const selector = selectTestId.startsWith('#') ? selectTestId : `[data-testid="${selectTestId}"]`;
+  cy.get(selector).select(optionText, { force: true });
+  // Wait a bit for the language change to apply and UI to re-render
+  cy.wait(200);
+});

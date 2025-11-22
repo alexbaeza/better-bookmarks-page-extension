@@ -8,12 +8,14 @@ Feature: Background Overlay Preference
 
   Scenario: Toggle background overlay
     When I click "settings-toggle"
+    And I click "appearance-section-toggle"
     Then I should see the "background-overlay-settings" section
     When I click "background-overlay-toggle"
     Then I should see "settings-modal"
 
   Scenario: Select Doodle 1 overlay
     When I click "settings-toggle"
+    And I click "appearance-section-toggle"
     Then I should see the "background-overlay-settings" section
     When I click "background-overlay-toggle"
     And I click "background-overlay-option-1"

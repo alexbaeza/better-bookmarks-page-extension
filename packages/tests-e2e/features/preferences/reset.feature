@@ -8,8 +8,8 @@ Feature: Settings Management
     And I click "settings-toggle"
 
   Scenario: Reset all settings
-    Given I have modified various settings
-    When I click the "Reset all settings" button
+    When I click "maintenance-section-toggle"
+    And I click the "Reset all settings" button
     Then I should see "confirmation-modal-container"
     When I click "settings-reset-confirm-button"
     Then I should see "app-content"

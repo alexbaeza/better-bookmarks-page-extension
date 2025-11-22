@@ -8,6 +8,7 @@ Feature: Greeting Preference
 
   Scenario: Set greeting message
     When I click "settings-toggle"
+    And I click "personalization-section-toggle"
     Then I should see the "greeting-settings" section
     When I enter "Hello World" as "greeting-name-input"
     Then the "greeting-name-input" field should contain "Hello World"
