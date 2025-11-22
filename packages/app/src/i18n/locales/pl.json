@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Anuluj",
+      "confirm": "Potwierdź",
+      "save": "Zapisz",
+      "delete": "Usuń",
+      "edit": "Edytuj",
+      "close": "Zamknij"
+    },
+    "actions": {
+      "resetAllSettings": "Resetuj wszystkie ustawienia (czyści magazyn lokalny)"
+    },
+    "builtWith": {
+      "text": "Stworzone z ",
+      "by": "przez"
+    }
+  },
+  "sidebar": {
+    "pages": "Strony",
+    "folders": "Foldery",
+    "allItems": "Wszystkie elementy",
+    "uncategorized": "Nieskategoryzowane",
+    "subfoldersOf": "Podfoldery {{folderName}}",
+    "untitled": "Bez tytułu",
+    "ariaLabels": {
+      "navigation": "Nawigacja zakładek",
+      "folders": "Foldery zakładek"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Wygląda na to, że nie masz żadnych zakładek, dodaj kilka, aby zobaczyć magię! 🪄✨",
+    "form": {
+      "addTitle": "Dodaj zakładkę",
+      "editTitle": "Edytuj zakładkę",
+      "titleLabel": "Tytuł",
+      "titlePlaceholder": "Wprowadź tytuł",
+      "required": "Wymagane",
+      "invalidUrl": "Nieprawidłowy URL"
+    },
+    "actions": {
+      "label": "Akcje elementu",
+      "menuLabel": "Menu opcji elementu",
+      "deleteItem": "Usunąć element?",
+      "deleteMessage": "Tej akcji nie można cofnąć.",
+      "edit": "Edytuj",
+      "delete": "Usuń"
+    },
+    "dragHandle": "Uchwyt przeciągania"
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "sections": {
+      "layout": "Układ",
+      "personalization": "Personalizacja",
+      "appearance": "Wygląd",
+      "support": "Wsparcie",
+      "maintenance": "Konserwacja"
+    },
+    "greeting": {
+      "description": "Dodaj osobisty akcent do swojego doświadczenia z zakładkami",
+      "enableTitle": "Włącz powitanie",
+      "enabled": "Powitanie jest włączone",
+      "hidden": "Powitanie jest ukryte",
+      "nameLabel": "Jak powinniśmy cię nazywać?",
+      "namePlaceholder": "Wprowadź swoje imię...",
+      "preview": "Podgląd: \"Witaj, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Wybierz z gotowych motywów lub stwórz własny niestandardowy motyw z spersonalizowanymi kolorami.",
+      "chooseTheme": "Wybierz motyw",
+      "notConvinced": "Nie przekonany?",
+      "tryBuilding": "Spróbuj stworzyć własny motyw",
+      "customTheme": "Niestandardowy motyw",
+      "customizeColors": "Dostosuj kolory",
+      "customizeTitle": "Dostosuj swój motyw",
+      "customizeDescription": "Dostosuj kolory poniżej, aby stworzyć swój idealny motyw. Zmiany są stosowane natychmiast i zapisywane automatycznie.",
+      "resetAllColors": "Resetuj wszystkie kolory",
+      "backgroundColors": "Kolory tła",
+      "foregroundColors": "Kolory pierwszego planu",
+      "colorPicker": "Wybór koloru {{color}}"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Włącz nakładkę tła",
+      "description": "Dodaj osobowość do swojego tła",
+      "enabled": "Nakładka jest włączona",
+      "disabled": "Nakładka jest wyłączona",
+      "chooseOverlay": "Wybierz nakładkę",
+      "overlayOpacity": "Nieprzezroczystość nakładki",
+      "subtle": "Subtelny",
+      "bold": "Śmiały",
+      "doodle1": "Bazgroły 1",
+      "doodle2": "Bazgroły 2"
+    },
+    "sidebar": {
+      "description": "Pokaż lub ukryj pasek boczny z folderami zakładek",
+      "enableTitle": "Włącz pasek boczny",
+      "visible": "Pasek boczny jest widoczny",
+      "hidden": "Pasek boczny jest ukryty"
+    },
+    "searchBar": {
+      "description": "Kontroluj widoczność funkcji wyszukiwania",
+      "enableTitle": "Włącz pasek wyszukiwania",
+      "visible": "Pasek wyszukiwania będzie pokazany",
+      "hidden": "Pasek wyszukiwania jest ukryty"
+    },
+    "zoom": {
+      "scale": "Skala",
+      "decrease": "Zmniejsz skalę",
+      "increase": "Zwiększ skalę"
+    },
+    "reset": {
+      "title": "Resetuj wszystkie ustawienia",
+      "description": "To wyczyści wszystkie zapisane preferencje i przeładuje stronę. Tej akcji nie można cofnąć."
+    },
+    "support": {
+      "message": "Darmowe i open-source — napędzane zbyt dużą ilością kawy i wątpliwymi wyborami. Jeśli ci to pomaga, rozważ wsparcie cyklu, kupując mi kawę!",
+      "buyCoffee": "Kup mi kawę"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Dzień dobry",
+    "goodAfternoon": "Dzień dobry",
+    "goodEvening": "Dobry wieczór"
+  },
+  "language": {
+    "title": "Język"
+  },
+  "flyout": {
+    "close": "Zamknij panel"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Strona nie znaleziona"
+  },
+  "searchBar": {
+    "placeholderWithin": "Szukaj w \"{{pageName}}\"",
+    "clearSearch": "Wyczyść wyszukiwanie"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

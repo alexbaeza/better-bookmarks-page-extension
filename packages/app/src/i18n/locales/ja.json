@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "キャンセル",
+      "confirm": "確認",
+      "save": "保存",
+      "delete": "削除",
+      "edit": "編集",
+      "close": "閉じる"
+    },
+    "actions": {
+      "resetAllSettings": "すべての設定をリセット（ローカルストレージをクリア）"
+    },
+    "builtWith": {
+      "text": "作成者：",
+      "by": ""
+    }
+  },
+  "sidebar": {
+    "pages": "ページ",
+    "folders": "フォルダ",
+    "allItems": "すべての項目",
+    "uncategorized": "未分類",
+    "subfoldersOf": "{{folderName}}のサブフォルダ",
+    "untitled": "無題",
+    "ariaLabels": {
+      "navigation": "ブックマークナビゲーション",
+      "folders": "ブックマークフォルダ"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "ブックマークがないようです。いくつか追加して魔法を見てください！🪄✨",
+    "form": {
+      "addTitle": "ブックマークを追加",
+      "editTitle": "ブックマークを編集",
+      "titleLabel": "タイトル",
+      "titlePlaceholder": "タイトルを入力",
+      "required": "必須",
+      "invalidUrl": "無効なURL"
+    },
+    "actions": {
+      "label": "項目の操作",
+      "menuLabel": "項目オプションメニュー",
+      "deleteItem": "項目を削除しますか？",
+      "deleteMessage": "この操作は元に戻せません。",
+      "edit": "編集",
+      "delete": "削除"
+    },
+    "dragHandle": "ドラッグハンドル"
+  },
+  "settings": {
+    "title": "設定",
+    "sections": {
+      "layout": "レイアウト",
+      "personalization": "パーソナライズ",
+      "appearance": "外観",
+      "support": "サポート",
+      "maintenance": "メンテナンス"
+    },
+    "greeting": {
+      "description": "ブックマーク体験に個人的なタッチを追加",
+      "enableTitle": "挨拶を有効化",
+      "enabled": "挨拶が有効です",
+      "hidden": "挨拶が非表示です",
+      "nameLabel": "どのようにお呼びしますか？",
+      "namePlaceholder": "お名前を入力...",
+      "preview": "プレビュー：「こんにちは、{{name}}さん！👋」"
+    },
+    "theme": {
+      "description": "プリセットテーマから選択するか、パーソナライズされた色で独自のカスタムテーマを作成します。",
+      "chooseTheme": "テーマを選択",
+      "notConvinced": "納得できませんか？",
+      "tryBuilding": "独自のテーマを作成してみてください",
+      "customTheme": "カスタムテーマ",
+      "customizeColors": "色をカスタマイズ",
+      "customizeTitle": "テーマをカスタマイズ",
+      "customizeDescription": "下の色を調整して、完璧なテーマを作成します。変更は即座に適用され、自動的に保存されます。",
+      "resetAllColors": "すべての色をリセット",
+      "backgroundColors": "背景色",
+      "foregroundColors": "前景色",
+      "colorPicker": "{{color}}カラーピッカー"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "背景オーバーレイを有効化",
+      "description": "背景に個性を追加",
+      "enabled": "オーバーレイが有効です",
+      "disabled": "オーバーレイが無効です",
+      "chooseOverlay": "オーバーレイを選択",
+      "overlayOpacity": "オーバーレイの不透明度",
+      "subtle": "控えめ",
+      "bold": "大胆",
+      "doodle1": "落書き1",
+      "doodle2": "落書き2"
+    },
+    "sidebar": {
+      "description": "ブックマークフォルダを含むサイドバーを表示または非表示",
+      "enableTitle": "サイドバーを有効化",
+      "visible": "サイドバーが表示されています",
+      "hidden": "サイドバーが非表示です"
+    },
+    "searchBar": {
+      "description": "検索機能の表示を制御",
+      "enableTitle": "検索バーを有効化",
+      "visible": "検索バーが表示されます",
+      "hidden": "検索バーが非表示です"
+    },
+    "zoom": {
+      "scale": "スケール",
+      "decrease": "スケールを減らす",
+      "increase": "スケールを増やす"
+    },
+    "reset": {
+      "title": "すべての設定をリセット",
+      "description": "これにより、保存されたすべての設定がクリアされ、ページが再読み込みされます。この操作は元に戻せません。"
+    },
+    "support": {
+      "message": "無料でオープンソース — コーヒーを飲みすぎて疑問のある選択によって動いています。役に立つ場合は、コーヒーを買ってサイクルを支援することを検討してください！",
+      "buyCoffee": "コーヒーを買う"
+    }
+  },
+  "greeting": {
+    "goodMorning": "おはようございます",
+    "goodAfternoon": "こんにちは",
+    "goodEvening": "こんばんは"
+  },
+  "language": {
+    "title": "言語"
+  },
+  "flyout": {
+    "close": "パネルを閉じる"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "ページが見つかりません"
+  },
+  "searchBar": {
+    "placeholderWithin": "「{{pageName}}」内を検索",
+    "clearSearch": "検索をクリア"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

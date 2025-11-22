@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "취소",
+      "confirm": "확인",
+      "save": "저장",
+      "delete": "삭제",
+      "edit": "편집",
+      "close": "닫기"
+    },
+    "actions": {
+      "resetAllSettings": "모든 설정 재설정 (로컬 스토리지 지우기)"
+    },
+    "builtWith": {
+      "text": "제작자: ",
+      "by": ""
+    }
+  },
+  "sidebar": {
+    "pages": "페이지",
+    "folders": "폴더",
+    "allItems": "모든 항목",
+    "uncategorized": "분류되지 않음",
+    "subfoldersOf": "{{folderName}}의 하위 폴더",
+    "untitled": "제목 없음",
+    "ariaLabels": {
+      "navigation": "북마크 탐색",
+      "folders": "북마크 폴더"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "북마크가 없는 것 같습니다. 몇 개 추가해서 마법을 확인하세요! 🪄✨",
+    "form": {
+      "addTitle": "북마크 추가",
+      "editTitle": "북마크 편집",
+      "titleLabel": "제목",
+      "titlePlaceholder": "제목 입력",
+      "required": "필수",
+      "invalidUrl": "잘못된 URL"
+    },
+    "actions": {
+      "label": "항목 작업",
+      "menuLabel": "항목 옵션 메뉴",
+      "deleteItem": "항목을 삭제하시겠습니까?",
+      "deleteMessage": "이 작업은 취소할 수 없습니다.",
+      "edit": "편집",
+      "delete": "삭제"
+    },
+    "dragHandle": "드래그 핸들"
+  },
+  "settings": {
+    "title": "설정",
+    "sections": {
+      "layout": "레이아웃",
+      "personalization": "개인화",
+      "appearance": "모양",
+      "support": "지원",
+      "maintenance": "유지보수"
+    },
+    "greeting": {
+      "description": "북마크 경험에 개인적인 터치를 추가하세요",
+      "enableTitle": "인사말 활성화",
+      "enabled": "인사말이 활성화되었습니다",
+      "hidden": "인사말이 숨겨져 있습니다",
+      "nameLabel": "어떻게 부를까요?",
+      "namePlaceholder": "이름을 입력하세요...",
+      "preview": "미리보기: \"안녕하세요, {{name}}님! 👋\""
+    },
+    "theme": {
+      "description": "사전 설정된 테마 중에서 선택하거나 개인화된 색상으로 나만의 사용자 정의 테마를 만드세요.",
+      "chooseTheme": "테마 선택",
+      "notConvinced": "확신이 서지 않나요?",
+      "tryBuilding": "나만의 테마를 만들어 보세요",
+      "customTheme": "사용자 정의 테마",
+      "customizeColors": "색상 사용자 정의",
+      "customizeTitle": "테마 사용자 정의",
+      "customizeDescription": "아래 색상을 조정하여 완벽한 테마를 만드세요. 변경 사항이 즉시 적용되고 자동으로 저장됩니다.",
+      "resetAllColors": "모든 색상 재설정",
+      "backgroundColors": "배경색",
+      "foregroundColors": "전경색",
+      "colorPicker": "{{color}} 색상 선택기"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "배경 오버레이 활성화",
+      "description": "배경에 개성을 추가하세요",
+      "enabled": "오버레이가 활성화되었습니다",
+      "disabled": "오버레이가 비활성화되었습니다",
+      "chooseOverlay": "오버레이 선택",
+      "overlayOpacity": "오버레이 불투명도",
+      "subtle": "은은한",
+      "bold": "대담한",
+      "doodle1": "낙서 1",
+      "doodle2": "낙서 2"
+    },
+    "sidebar": {
+      "description": "북마크 폴더가 있는 사이드바 표시 또는 숨기기",
+      "enableTitle": "사이드바 활성화",
+      "visible": "사이드바가 표시됩니다",
+      "hidden": "사이드바가 숨겨져 있습니다"
+    },
+    "searchBar": {
+      "description": "검색 기능의 표시 여부 제어",
+      "enableTitle": "검색 표시줄 활성화",
+      "visible": "검색 표시줄이 표시됩니다",
+      "hidden": "검색 표시줄이 숨겨져 있습니다"
+    },
+    "zoom": {
+      "scale": "크기 조정",
+      "decrease": "크기 줄이기",
+      "increase": "크기 늘리기"
+    },
+    "reset": {
+      "title": "모든 설정 재설정",
+      "description": "저장된 모든 기본 설정이 지워지고 페이지가 다시 로드됩니다. 이 작업은 취소할 수 없습니다."
+    },
+    "support": {
+      "message": "무료 및 오픈 소스 — 너무 많은 커피와 의심스러운 선택으로 구동됩니다. 도움이 된다면 커피를 사서 사이클을 지원하는 것을 고려해보세요!",
+      "buyCoffee": "커피 사주기"
+    }
+  },
+  "greeting": {
+    "goodMorning": "좋은 아침",
+    "goodAfternoon": "안녕하세요",
+    "goodEvening": "좋은 저녁"
+  },
+  "language": {
+    "title": "언어"
+  },
+  "flyout": {
+    "close": "패널 닫기"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "페이지를 찾을 수 없습니다"
+  },
+  "searchBar": {
+    "placeholderWithin": "\"{{pageName}}\" 내 검색",
+    "clearSearch": "검색 지우기"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

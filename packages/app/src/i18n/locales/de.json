@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen",
+      "save": "Speichern",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "close": "Schließen"
+    },
+    "actions": {
+      "resetAllSettings": "Alle Einstellungen zurücksetzen (löscht den lokalen Speicher)"
+    },
+    "builtWith": {
+      "text": "Erstellt mit ",
+      "by": "von"
+    }
+  },
+  "sidebar": {
+    "pages": "Seiten",
+    "folders": "Ordner",
+    "allItems": "Alle Elemente",
+    "uncategorized": "Nicht kategorisiert",
+    "subfoldersOf": "Unterordner von {{folderName}}",
+    "untitled": "Unbenannt",
+    "ariaLabels": {
+      "navigation": "Lesezeichen-Navigation",
+      "folders": "Lesezeichen-Ordner"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Es sieht so aus, als hättest du keine Lesezeichen. Füge einige hinzu, um die Magie zu sehen! 🪄✨",
+    "form": {
+      "addTitle": "Lesezeichen hinzufügen",
+      "editTitle": "Lesezeichen bearbeiten",
+      "titleLabel": "Titel",
+      "titlePlaceholder": "Titel eingeben",
+      "required": "Erforderlich",
+      "invalidUrl": "Ungültige URL"
+    },
+    "actions": {
+      "label": "Elementaktionen",
+      "menuLabel": "Elementoptionen-Menü",
+      "deleteItem": "Element löschen?",
+      "deleteMessage": "Diese Aktion kann nicht rückgängig gemacht werden.",
+      "edit": "Bearbeiten",
+      "delete": "Löschen"
+    },
+    "dragHandle": "Ziehgriff"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "sections": {
+      "layout": "Layout",
+      "personalization": "Personalisierung",
+      "appearance": "Aussehen",
+      "support": "Support",
+      "maintenance": "Wartung"
+    },
+    "greeting": {
+      "description": "Füge deiner Lesezeichen-Erfahrung eine persönliche Note hinzu",
+      "enableTitle": "Begrüßung aktivieren",
+      "enabled": "Begrüßung ist aktiviert",
+      "hidden": "Begrüßung ist ausgeblendet",
+      "nameLabel": "Wie sollen wir dich nennen?",
+      "namePlaceholder": "Gib deinen Namen ein...",
+      "preview": "Vorschau: \"Hallo, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Wähle aus vordefinierten Themes oder erstelle dein eigenes benutzerdefiniertes Theme mit personalisierten Farben.",
+      "chooseTheme": "Theme auswählen",
+      "notConvinced": "Nicht überzeugt?",
+      "tryBuilding": "Versuche, dein eigenes Theme zu erstellen",
+      "customTheme": "Benutzerdefiniertes Theme",
+      "customizeColors": "Farben anpassen",
+      "customizeTitle": "Passe dein Theme an",
+      "customizeDescription": "Passe die Farben unten an, um dein perfektes Theme zu erstellen. Änderungen werden sofort angewendet und automatisch gespeichert.",
+      "resetAllColors": "Alle Farben zurücksetzen",
+      "backgroundColors": "Hintergrundfarben",
+      "foregroundColors": "Vordergrundfarben",
+      "colorPicker": "{{color}} Farbauswahl"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Hintergrund-Overlay aktivieren",
+      "description": "Füge deinem Hintergrund etwas Persönlichkeit hinzu",
+      "enabled": "Overlay ist aktiviert",
+      "disabled": "Overlay ist deaktiviert",
+      "chooseOverlay": "Overlay auswählen",
+      "overlayOpacity": "Overlay-Deckkraft",
+      "subtle": "Dezent",
+      "bold": "Kräftig",
+      "doodle1": "Gekritzel 1",
+      "doodle2": "Gekritzel 2"
+    },
+    "sidebar": {
+      "description": "Seitenleiste mit deinen Lesezeichen-Ordnern ein- oder ausblenden",
+      "enableTitle": "Seitenleiste aktivieren",
+      "visible": "Seitenleiste ist sichtbar",
+      "hidden": "Seitenleiste ist ausgeblendet"
+    },
+    "searchBar": {
+      "description": "Sichtbarkeit der Suchfunktion steuern",
+      "enableTitle": "Suchleiste aktivieren",
+      "visible": "Suchleiste wird angezeigt",
+      "hidden": "Suchleiste ist ausgeblendet"
+    },
+    "zoom": {
+      "scale": "Skalierung",
+      "decrease": "Skalierung verringern",
+      "increase": "Skalierung erhöhen"
+    },
+    "reset": {
+      "title": "Alle Einstellungen zurücksetzen",
+      "description": "Dies löscht alle gespeicherten Einstellungen und lädt die Seite neu. Diese Aktion kann nicht rückgängig gemacht werden."
+    },
+    "support": {
+      "message": "Kostenlos und Open-Source — angetrieben von zu viel Kaffee und fragwürdigen Entscheidungen. Wenn es dir hilft, erwäge, den Kreislauf zu fördern, indem du mir einen Kaffee kaufst!",
+      "buyCoffee": "Kauf mir einen Kaffee"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Guten Morgen",
+    "goodAfternoon": "Guten Tag",
+    "goodEvening": "Guten Abend"
+  },
+  "language": {
+    "title": "Sprache"
+  },
+  "flyout": {
+    "close": "Panel schließen"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Seite nicht gefunden"
+  },
+  "searchBar": {
+    "placeholderWithin": "Suche in \"{{pageName}}\"",
+    "clearSearch": "Suche löschen"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

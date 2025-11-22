@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "取消",
+      "confirm": "确认",
+      "save": "保存",
+      "delete": "删除",
+      "edit": "编辑",
+      "close": "关闭"
+    },
+    "actions": {
+      "resetAllSettings": "重置所有设置（清除本地存储）"
+    },
+    "builtWith": {
+      "text": "由 ",
+      "by": "制作"
+    }
+  },
+  "sidebar": {
+    "pages": "页面",
+    "folders": "文件夹",
+    "allItems": "所有项目",
+    "uncategorized": "未分类",
+    "subfoldersOf": "{{folderName}}的子文件夹",
+    "untitled": "无标题",
+    "ariaLabels": {
+      "navigation": "书签导航",
+      "folders": "书签文件夹"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "看起来您还没有书签，添加一些来见证魔法吧！🪄✨",
+    "form": {
+      "addTitle": "添加书签",
+      "editTitle": "编辑书签",
+      "titleLabel": "标题",
+      "titlePlaceholder": "输入标题",
+      "required": "必填",
+      "invalidUrl": "无效的URL"
+    },
+    "actions": {
+      "label": "项目操作",
+      "menuLabel": "项目选项菜单",
+      "deleteItem": "删除项目？",
+      "deleteMessage": "此操作无法撤销。",
+      "edit": "编辑",
+      "delete": "删除"
+    },
+    "dragHandle": "拖动手柄"
+  },
+  "settings": {
+    "title": "设置",
+    "sections": {
+      "layout": "布局",
+      "personalization": "个性化",
+      "appearance": "外观",
+      "support": "支持",
+      "maintenance": "维护"
+    },
+    "greeting": {
+      "description": "为您的书签体验添加个人风格",
+      "enableTitle": "启用问候语",
+      "enabled": "问候语已启用",
+      "hidden": "问候语已隐藏",
+      "nameLabel": "我们应该如何称呼您？",
+      "namePlaceholder": "输入您的姓名...",
+      "preview": "预览：\"你好，{{name}}！👋\""
+    },
+    "theme": {
+      "description": "从预设主题中选择，或使用个性化颜色创建您自己的自定义主题。",
+      "chooseTheme": "选择主题",
+      "notConvinced": "还不确定？",
+      "tryBuilding": "尝试构建您自己的主题",
+      "customTheme": "自定义主题",
+      "customizeColors": "自定义颜色",
+      "customizeTitle": "自定义您的主题",
+      "customizeDescription": "调整下面的颜色以创建您的完美主题。更改会立即应用并自动保存。",
+      "resetAllColors": "重置所有颜色",
+      "backgroundColors": "背景颜色",
+      "foregroundColors": "前景颜色",
+      "colorPicker": "{{color}}颜色选择器"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "启用背景叠加",
+      "description": "为您的背景添加个性",
+      "enabled": "叠加已启用",
+      "disabled": "叠加已禁用",
+      "chooseOverlay": "选择叠加",
+      "overlayOpacity": "叠加不透明度",
+      "subtle": "微妙",
+      "bold": "大胆",
+      "doodle1": "涂鸦1",
+      "doodle2": "涂鸦2"
+    },
+    "sidebar": {
+      "description": "显示或隐藏带有书签文件夹的侧边栏",
+      "enableTitle": "启用侧边栏",
+      "visible": "侧边栏可见",
+      "hidden": "侧边栏已隐藏"
+    },
+    "searchBar": {
+      "description": "控制搜索功能的可见性",
+      "enableTitle": "启用搜索栏",
+      "visible": "将显示搜索栏",
+      "hidden": "搜索栏已隐藏"
+    },
+    "zoom": {
+      "scale": "缩放",
+      "decrease": "减小缩放",
+      "increase": "增大缩放"
+    },
+    "reset": {
+      "title": "重置所有设置",
+      "description": "这将清除所有保存的偏好设置并重新加载页面。此操作无法撤销。"
+    },
+    "support": {
+      "message": "免费和开源 — 由太多咖啡和可疑的选择驱动。如果它对您有帮助，请考虑通过给我买杯咖啡来支持这个循环！",
+      "buyCoffee": "给我买杯咖啡"
+    }
+  },
+  "greeting": {
+    "goodMorning": "早上好",
+    "goodAfternoon": "下午好",
+    "goodEvening": "晚上好"
+  },
+  "language": {
+    "title": "语言"
+  },
+  "flyout": {
+    "close": "关闭面板"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "找不到页面"
+  },
+  "searchBar": {
+    "placeholderWithin": "在\"{{pageName}}\"中搜索",
+    "clearSearch": "清除搜索"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

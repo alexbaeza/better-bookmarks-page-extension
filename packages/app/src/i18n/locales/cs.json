@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Zrušit",
+      "confirm": "Potvrdit",
+      "save": "Uložit",
+      "delete": "Smazat",
+      "edit": "Upravit",
+      "close": "Zavřít"
+    },
+    "actions": {
+      "resetAllSettings": "Obnovit všechna nastavení (vymaže místní úložiště)"
+    },
+    "builtWith": {
+      "text": "Vytvořeno s ",
+      "by": "od"
+    }
+  },
+  "sidebar": {
+    "pages": "Stránky",
+    "folders": "Složky",
+    "allItems": "Všechny položky",
+    "uncategorized": "Nekategorizované",
+    "subfoldersOf": "Podsložky {{folderName}}",
+    "untitled": "Bez názvu",
+    "ariaLabels": {
+      "navigation": "Navigace záložek",
+      "folders": "Složky záložek"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Vypadá to, že nemáte žádné záložky, přidejte některé, abyste viděli magii! 🪄✨",
+    "form": {
+      "addTitle": "Přidat záložku",
+      "editTitle": "Upravit záložku",
+      "titleLabel": "Název",
+      "titlePlaceholder": "Zadejte název",
+      "required": "Povinné",
+      "invalidUrl": "Neplatná URL"
+    },
+    "actions": {
+      "label": "Akce položky",
+      "menuLabel": "Nabídka možností položky",
+      "deleteItem": "Smazat položku?",
+      "deleteMessage": "Tuto akci nelze vrátit zpět.",
+      "edit": "Upravit",
+      "delete": "Smazat"
+    },
+    "dragHandle": "Úchop pro přetažení"
+  },
+  "settings": {
+    "title": "Nastavení",
+    "sections": {
+      "layout": "Rozvržení",
+      "personalization": "Personalizace",
+      "appearance": "Vzhled",
+      "support": "Podpora",
+      "maintenance": "Údržba"
+    },
+    "greeting": {
+      "description": "Přidejte osobní dotek k vašemu zážitku se záložkami",
+      "enableTitle": "Povolit pozdrav",
+      "enabled": "Pozdrav je povolen",
+      "hidden": "Pozdrav je skryt",
+      "nameLabel": "Jak bychom vás měli oslovovat?",
+      "namePlaceholder": "Zadejte své jméno...",
+      "preview": "Náhled: \"Ahoj, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Vyberte z přednastavených motivů nebo vytvořte vlastní přizpůsobený motiv s personalizovanými barvami.",
+      "chooseTheme": "Vybrat motiv",
+      "notConvinced": "Nejste přesvědčeni?",
+      "tryBuilding": "Zkuste vytvořit vlastní motiv",
+      "customTheme": "Vlastní motiv",
+      "customizeColors": "Přizpůsobit barvy",
+      "customizeTitle": "Přizpůsobte svůj motiv",
+      "customizeDescription": "Upravte barvy níže a vytvořte svůj perfektní motiv. Změny se aplikují okamžitě a ukládají automaticky.",
+      "resetAllColors": "Obnovit všechny barvy",
+      "backgroundColors": "Barvy pozadí",
+      "foregroundColors": "Barvy popředí",
+      "colorPicker": "Výběr barvy {{color}}"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Povolit překrytí pozadí",
+      "description": "Přidejte osobnost svému pozadí",
+      "enabled": "Překrytí je povoleno",
+      "disabled": "Překrytí je zakázáno",
+      "chooseOverlay": "Vybrat překrytí",
+      "overlayOpacity": "Neprůhlednost překrytí",
+      "subtle": "Jemné",
+      "bold": "Odvážné",
+      "doodle1": "Čmáranice 1",
+      "doodle2": "Čmáranice 2"
+    },
+    "sidebar": {
+      "description": "Zobrazit nebo skrýt boční panel se složkami záložek",
+      "enableTitle": "Povolit boční panel",
+      "visible": "Boční panel je viditelný",
+      "hidden": "Boční panel je skryt"
+    },
+    "searchBar": {
+      "description": "Ovládat viditelnost funkce vyhledávání",
+      "enableTitle": "Povolit vyhledávací panel",
+      "visible": "Vyhledávací panel bude zobrazen",
+      "hidden": "Vyhledávací panel je skryt"
+    },
+    "zoom": {
+      "scale": "Měřítko",
+      "decrease": "Zmenšit měřítko",
+      "increase": "Zvětšit měřítko"
+    },
+    "reset": {
+      "title": "Obnovit všechna nastavení",
+      "description": "Tím se vymažou všechna uložená nastavení a stránka se znovu načte. Tuto akci nelze vrátit zpět."
+    },
+    "support": {
+      "message": "Zdarma a open-source — poháněno příliš velkým množstvím kávy a pochybnými rozhodnutími. Pokud vám to pomáhá, zvažte podporu cyklu tím, že mi koupíte kávu!",
+      "buyCoffee": "Kupte mi kávu"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Dobré ráno",
+    "goodAfternoon": "Dobré odpoledne",
+    "goodEvening": "Dobrý večer"
+  },
+  "language": {
+    "title": "Jazyk"
+  },
+  "flyout": {
+    "close": "Zavřít panel"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Stránka nenalezena"
+  },
+  "searchBar": {
+    "placeholderWithin": "Hledat v \"{{pageName}}\"",
+    "clearSearch": "Vymazat vyhledávání"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

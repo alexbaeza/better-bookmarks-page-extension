@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Mégse",
+      "confirm": "Megerősítés",
+      "save": "Mentés",
+      "delete": "Törlés",
+      "edit": "Szerkesztés",
+      "close": "Bezárás"
+    },
+    "actions": {
+      "resetAllSettings": "Összes beállítás visszaállítása (törli a helyi tárolót)"
+    },
+    "builtWith": {
+      "text": "Készítette: ",
+      "by": ""
+    }
+  },
+  "sidebar": {
+    "pages": "Oldalak",
+    "folders": "Mappák",
+    "allItems": "Összes elem",
+    "uncategorized": "Kategorizálatlan",
+    "subfoldersOf": "{{folderName}} almappái",
+    "untitled": "Cím nélküli",
+    "ariaLabels": {
+      "navigation": "Könyvjelző navigáció",
+      "folders": "Könyvjelző mappák"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Úgy tűnik, nincs könyvjelződ, adj hozzá néhányat, hogy lásd a varázslatot! 🪄✨",
+    "form": {
+      "addTitle": "Könyvjelző hozzáadása",
+      "editTitle": "Könyvjelző szerkesztése",
+      "titleLabel": "Cím",
+      "titlePlaceholder": "Adja meg a címet",
+      "required": "Kötelező",
+      "invalidUrl": "Érvénytelen URL"
+    },
+    "actions": {
+      "label": "Elem műveletek",
+      "menuLabel": "Elem opciók menü",
+      "deleteItem": "Elem törlése?",
+      "deleteMessage": "Ez a művelet nem vonható vissza.",
+      "edit": "Szerkesztés",
+      "delete": "Törlés"
+    },
+    "dragHandle": "Húzó fogantyú"
+  },
+  "settings": {
+    "title": "Beállítások",
+    "sections": {
+      "layout": "Elrendezés",
+      "personalization": "Személyre szabás",
+      "appearance": "Megjelenés",
+      "support": "Támogatás",
+      "maintenance": "Karbantartás"
+    },
+    "greeting": {
+      "description": "Adj személyes hangulatot a könyvjelző élményedhez",
+      "enableTitle": "Üdvözlés engedélyezése",
+      "enabled": "Az üdvözlés engedélyezve",
+      "hidden": "Az üdvözlés rejtve",
+      "nameLabel": "Hogyan szólítsunk?",
+      "namePlaceholder": "Adja meg a nevét...",
+      "preview": "Előnézet: \"Helló, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Válassz az előre beállított témák közül, vagy hozz létre saját egyedi témát személyre szabott színekkel.",
+      "chooseTheme": "Téma kiválasztása",
+      "notConvinced": "Nem vagy meggyőzve?",
+      "tryBuilding": "Próbáld meg saját témád építését",
+      "customTheme": "Egyedi Téma",
+      "customizeColors": "Színek Testreszabása",
+      "customizeTitle": "Testreszabja a Témáját",
+      "customizeDescription": "Állítsd be az alábbi színeket, hogy létrehozd a tökéletes témádat. A változtatások azonnal érvénybe lépnek és automatikusan mentődnek.",
+      "resetAllColors": "Összes Szín Visszaállítása",
+      "backgroundColors": "Háttérszínek",
+      "foregroundColors": "Előtérszínek",
+      "colorPicker": "{{color}} színválasztó"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Háttér átfedés engedélyezése",
+      "description": "Adj személyiséget a hátteredhez",
+      "enabled": "Az átfedés engedélyezve",
+      "disabled": "Az átfedés letiltva",
+      "chooseOverlay": "Átfedés kiválasztása",
+      "overlayOpacity": "Átfedés Átlátszatlansága",
+      "subtle": "Finom",
+      "bold": "Merész",
+      "doodle1": "Firkálás 1",
+      "doodle2": "Firkálás 2"
+    },
+    "sidebar": {
+      "description": "Oldalsáv megjelenítése vagy elrejtése a könyvjelző mappáiddal",
+      "enableTitle": "Oldalsáv engedélyezése",
+      "visible": "Az oldalsáv látható",
+      "hidden": "Az oldalsáv rejtve"
+    },
+    "searchBar": {
+      "description": "A keresési funkció láthatóságának vezérlése",
+      "enableTitle": "Keresősáv engedélyezése",
+      "visible": "A keresősáv megjelenik",
+      "hidden": "A keresősáv rejtve"
+    },
+    "zoom": {
+      "scale": "Méretezés",
+      "decrease": "Méretezés csökkentése",
+      "increase": "Méretezés növelése"
+    },
+    "reset": {
+      "title": "Összes beállítás visszaállítása",
+      "description": "Ez törli az összes mentett beállítást és újratölti az oldalt. Ez a művelet nem vonható vissza."
+    },
+    "support": {
+      "message": "Ingyenes és nyílt forráskódú — túl sok kávé és kétséges döntések hajtják. Ha segít, fontold meg, hogy támogatod a ciklust egy kávé vásárlásával!",
+      "buyCoffee": "Vegyél nekem egy kávét"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Jó reggelt",
+    "goodAfternoon": "Jó napot",
+    "goodEvening": "Jó estét"
+  },
+  "language": {
+    "title": "Nyelv"
+  },
+  "flyout": {
+    "close": "Panel bezárása"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Az oldal nem található"
+  },
+  "searchBar": {
+    "placeholderWithin": "Keresés a \"{{pageName}}\" oldalon",
+    "clearSearch": "Keresés törlése"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}
