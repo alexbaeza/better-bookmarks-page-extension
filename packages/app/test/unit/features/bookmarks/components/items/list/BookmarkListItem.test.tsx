@@ -49,8 +49,8 @@ vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
 vi.mock('@/features/bookmarks/hooks/useBookmarkModals', () => ({
   useBookmarkModals: () => ({
     openEditModal: vi.fn(),
-    openDeleteModal: vi.fn(),
-    openFolderModal: vi.fn(),
+    openCreateModal: vi.fn(),
+    remove: vi.fn(),
   }),
 }));
 
