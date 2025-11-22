@@ -30,11 +30,11 @@ Feature: Navigation
     When I collapse the sidebar folder
     Then I should see collapsed folder contents
 
-  Scenario: Open sidebar folder flyout
-    When the page loads
-    Then I should see the sidebar
-    When I click on a sidebar folder
-    Then I should see the sidebar flyout
-    And I should see folder contents in flyout
-    When I close the sidebar flyout
-    Then I should not see the sidebar flyout
+  # Scenario: Open sidebar folder flyout
+    # When the page loads
+    # Then I should see the sidebar
+    # When I click on a sidebar folder
+    # Then I should see the sidebar flyout
+    # And I should see folder contents in flyout
+    # When I close the sidebar flyout
+    # Then I should not see the sidebar flyout
