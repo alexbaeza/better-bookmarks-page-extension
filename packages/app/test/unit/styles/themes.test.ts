@@ -89,7 +89,7 @@ describe('themes', () => {
       [
         'nord',
         {
-          'bgColor-accent': '#88C0D0',
+          'bgColor-accent': '#539BCD',
           'fgColor-primary': '#ECEFF4',
         },
       ],
