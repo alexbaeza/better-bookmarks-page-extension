@@ -5,7 +5,7 @@ export interface BadgeProps {
   className?: string;
   dataTestId?: string;
   size?: 'xs' | 'sm' | 'base';
-  variant?: 'default' | 'tertiary';
+  variant?: 'primary' | 'secondary' | 'accent';
 }
 
 const sizeClasses = {
@@ -15,8 +15,9 @@ const sizeClasses = {
 };
 
 const variantClasses = {
-  default: 'bg-bgColor-primary/40 text-fgColor-primary',
-  tertiary: 'bg-bgColor-primary/40 text-fgColor-primary',
+  primary: 'bg-bgColor-primary/40 text-fgColor-primary',
+  secondary: 'bg-bgColor-secondary/60 text-fgColor-primary',
+  accent: 'bg-fgColor-primary text-fgColor-accent',
 };
 
 export const Badge: React.FC<BadgeProps> = ({
@@ -24,7 +25,7 @@ export const Badge: React.FC<BadgeProps> = ({
   className = '',
   dataTestId,
   size = 'sm',
-  variant = 'default',
+  variant = 'primary',
 }) => {
   return (
     <span

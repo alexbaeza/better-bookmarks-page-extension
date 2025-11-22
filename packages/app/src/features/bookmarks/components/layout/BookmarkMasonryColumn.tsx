@@ -72,7 +72,7 @@ export const BookmarkMasonryColumn: React.FC<BookmarkMasonryColumnProps> = ({
             {highlighter(name, searchTerm)}
           </Text>
         </div>
-        <Badge dataTestId={`bookmark-count-${folderId}`} size="base">
+        <Badge dataTestId={`bookmark-count-${folderId}`} size="base" variant="secondary">
           {folderContents.length}
         </Badge>
       </div>

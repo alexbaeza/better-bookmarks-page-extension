@@ -39,9 +39,9 @@ describe('Badge', () => {
     expect(badge).toHaveClass('text-xs', 'px-2.5', 'py-1', 'min-w-[2rem]');
   });
 
-  it('should apply variant classes', () => {
+  it('should apply primary variant classes', () => {
     render(
-      <Badge dataTestId="badge" variant="default">
+      <Badge dataTestId="badge" variant="primary">
         Badge
       </Badge>
     );
@@ -49,14 +49,24 @@ describe('Badge', () => {
     expect(badge).toHaveClass('bg-bgColor-primary/40', 'text-fgColor-primary');
   });
 
-  it('should apply tertiary variant classes', () => {
+  it('should apply secondary variant classes', () => {
     render(
-      <Badge dataTestId="badge" variant="tertiary">
+      <Badge dataTestId="badge" variant="secondary">
         Badge
       </Badge>
     );
     const badge = screen.getByTestId('badge');
-    expect(badge).toHaveClass('bg-bgColor-primary/40', 'text-fgColor-primary');
+    expect(badge).toHaveClass('bg-bgColor-secondary/60', 'text-fgColor-primary');
+  });
+
+  it('should apply accent variant classes', () => {
+    render(
+      <Badge dataTestId="badge" variant="accent">
+        Badge
+      </Badge>
+    );
+    const badge = screen.getByTestId('badge');
+    expect(badge).toHaveClass('bg-fgColor-primary', 'text-fgColor-accent');
   });
 
   it('should apply custom className', () => {

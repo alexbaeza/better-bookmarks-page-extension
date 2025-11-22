@@ -37,7 +37,9 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
       <div className="col-[2] min-w-0 truncate text-left">{label}</div>
       {badge != null && (
         <div className="col-[3]">
-          <Badge size="sm">{badge}</Badge>
+          <Badge size="sm" variant={isSelected ? 'accent' : 'primary'}>
+            {badge}
+          </Badge>
         </div>
       )}
     </button>
