@@ -46,7 +46,7 @@ describe('Badge', () => {
       </Badge>
     );
     const badge = screen.getByTestId('badge');
-    expect(badge).toHaveClass('bg-bgColor-secondary', 'text-fgColor-primary');
+    expect(badge).toHaveClass('bg-bgColor-primary/40', 'text-fgColor-primary');
   });
 
   it('should apply tertiary variant classes', () => {
@@ -56,7 +56,7 @@ describe('Badge', () => {
       </Badge>
     );
     const badge = screen.getByTestId('badge');
-    expect(badge).toHaveClass('bg-bgColor-secondary', 'text-fgColor-primary');
+    expect(badge).toHaveClass('bg-bgColor-primary/40', 'text-fgColor-primary');
   });
 
   it('should apply custom className', () => {
