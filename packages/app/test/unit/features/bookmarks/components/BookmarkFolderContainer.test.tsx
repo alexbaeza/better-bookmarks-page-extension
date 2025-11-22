@@ -12,7 +12,7 @@ describe('BookmarkFolderContainer', () => {
       'overflow-hidden',
       'rounded-lg',
       'border-4',
-      'border-bgColor-secondary/30'
+      'border-bgColor-secondary/80'
     );
   });
 
