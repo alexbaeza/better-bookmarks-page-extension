@@ -73,16 +73,6 @@ export const SettingsPanelContainer: React.FC = () => {
             <BackgroundOverlaySettings dataTestId="background-overlay-settings" />
           </CollapsibleSection>
 
-          {/* Support Section */}
-          <CollapsibleSection
-            dataTestId="support-section"
-            defaultOpen={true}
-            icon={<Heart size={16} />}
-            title={t('settings.sections.support')}
-          >
-            <Sponsor dataTestId="sponsor" />
-          </CollapsibleSection>
-
           {/* Maintenance */}
           <CollapsibleSection
             dataTestId="maintenance-section"
@@ -99,6 +89,15 @@ export const SettingsPanelContainer: React.FC = () => {
             >
               {t('common.actions.resetAllSettings')}
             </Button>
+          </CollapsibleSection>
+          {/* Support Section */}
+          <CollapsibleSection
+            dataTestId="support-section"
+            defaultOpen={true}
+            icon={<Heart size={16} />}
+            title={t('settings.sections.support')}
+          >
+            <Sponsor dataTestId="sponsor" />
           </CollapsibleSection>
 
           {/* Footer */}
