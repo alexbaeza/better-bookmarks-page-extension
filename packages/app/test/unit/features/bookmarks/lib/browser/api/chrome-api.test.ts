@@ -36,7 +36,7 @@ describe('ChromeBookmarkAPI', () => {
 
   describe('constructor', () => {
     it('throws error when Chrome bookmarks API is not available', () => {
-      vi.unstubAllGlobals();
+      vi.stubGlobal('chrome', undefined);
 
       expect(() => new ChromeBookmarkAPI()).toThrow('Chrome bookmarks API not available');
     });
