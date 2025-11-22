@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Annuleren",
+      "confirm": "Bevestigen",
+      "save": "Opslaan",
+      "delete": "Verwijderen",
+      "edit": "Bewerken",
+      "close": "Sluiten"
+    },
+    "actions": {
+      "resetAllSettings": "Alle instellingen resetten (wist lokale opslag)"
+    },
+    "builtWith": {
+      "text": "Gemaakt met ",
+      "by": "door"
+    }
+  },
+  "sidebar": {
+    "pages": "Pagina's",
+    "folders": "Mappen",
+    "allItems": "Alle items",
+    "uncategorized": "Niet gecategoriseerd",
+    "subfoldersOf": "Submappen van {{folderName}}",
+    "untitled": "Zonder titel",
+    "ariaLabels": {
+      "navigation": "Bladwijzernavigatie",
+      "folders": "Bladwijzermappen"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Het lijkt erop dat je geen bladwijzers hebt, voeg er een paar toe om de magie te zien! 🪄✨",
+    "form": {
+      "addTitle": "Bladwijzer toevoegen",
+      "editTitle": "Bladwijzer bewerken",
+      "titleLabel": "Titel",
+      "titlePlaceholder": "Voer titel in",
+      "required": "Verplicht",
+      "invalidUrl": "Ongeldige URL"
+    },
+    "actions": {
+      "label": "Itemacties",
+      "menuLabel": "Itemoptiesmenu",
+      "deleteItem": "Item verwijderen?",
+      "deleteMessage": "Deze actie kan niet ongedaan worden gemaakt.",
+      "edit": "Bewerken",
+      "delete": "Verwijderen"
+    },
+    "dragHandle": "Sleepgreep"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "sections": {
+      "layout": "Indeling",
+      "personalization": "Personalisatie",
+      "appearance": "Weergave",
+      "support": "Ondersteuning",
+      "maintenance": "Onderhoud"
+    },
+    "greeting": {
+      "description": "Voeg een persoonlijke touch toe aan je bladwijzerervaring",
+      "enableTitle": "Begroeting inschakelen",
+      "enabled": "Begroeting is ingeschakeld",
+      "hidden": "Begroeting is verborgen",
+      "nameLabel": "Hoe moeten we je noemen?",
+      "namePlaceholder": "Voer je naam in...",
+      "preview": "Voorbeeld: \"Hallo, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Kies uit vooraf ingestelde thema's of maak je eigen aangepaste thema met gepersonaliseerde kleuren.",
+      "chooseTheme": "Kies een thema",
+      "notConvinced": "Niet overtuigd?",
+      "tryBuilding": "Probeer je eigen thema te bouwen",
+      "customTheme": "Aangepast thema",
+      "customizeColors": "Kleuren aanpassen",
+      "customizeTitle": "Pas je thema aan",
+      "customizeDescription": "Pas de kleuren hieronder aan om je perfecte thema te maken. Wijzigingen worden direct toegepast en automatisch opgeslagen.",
+      "resetAllColors": "Alle kleuren resetten",
+      "backgroundColors": "Achtergrondkleuren",
+      "foregroundColors": "Voorgrondkleuren",
+      "colorPicker": "{{color}} kleurkiezer"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Achtergrondoverlay inschakelen",
+      "description": "Voeg persoonlijkheid toe aan je achtergrond",
+      "enabled": "Overlay is ingeschakeld",
+      "disabled": "Overlay is uitgeschakeld",
+      "chooseOverlay": "Kies een overlay",
+      "overlayOpacity": "Overlayopacity",
+      "subtle": "Subtiel",
+      "bold": "Vet",
+      "doodle1": "Krabbel 1",
+      "doodle2": "Krabbel 2"
+    },
+    "sidebar": {
+      "description": "Zijbalk met je bladwijzermappen tonen of verbergen",
+      "enableTitle": "Zijbalk inschakelen",
+      "visible": "Zijbalk is zichtbaar",
+      "hidden": "Zijbalk is verborgen"
+    },
+    "searchBar": {
+      "description": "Zichtbaarheid van zoekfunctionaliteit beheren",
+      "enableTitle": "Zoekbalk inschakelen",
+      "visible": "Zoekbalk wordt getoond",
+      "hidden": "Zoekbalk is verborgen"
+    },
+    "zoom": {
+      "scale": "Schaal",
+      "decrease": "Schaal verkleinen",
+      "increase": "Schaal vergroten"
+    },
+    "reset": {
+      "title": "Alle instellingen resetten",
+      "description": "Dit wist alle opgeslagen voorkeuren en herlaadt de pagina. Deze actie kan niet ongedaan worden gemaakt."
+    },
+    "support": {
+      "message": "Gratis en open-source — aangedreven door te veel koffie en twijfelachtige keuzes. Als het je helpt, overweeg dan om de cyclus te voeden door me een koffie te kopen!",
+      "buyCoffee": "Koop me een koffie"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Goedemorgen",
+    "goodAfternoon": "Goedemiddag",
+    "goodEvening": "Goedenavond"
+  },
+  "language": {
+    "title": "Taal"
+  },
+  "flyout": {
+    "close": "Paneel sluiten"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Pagina niet gevonden"
+  },
+  "searchBar": {
+    "placeholderWithin": "Zoeken in \"{{pageName}}\"",
+    "clearSearch": "Zoekopdracht wissen"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

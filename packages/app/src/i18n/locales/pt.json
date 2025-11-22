@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "save": "Salvar",
+      "delete": "Excluir",
+      "edit": "Editar",
+      "close": "Fechar"
+    },
+    "actions": {
+      "resetAllSettings": "Redefinir todas as configurações (limpa o armazenamento local)"
+    },
+    "builtWith": {
+      "text": "Feito com ",
+      "by": "por"
+    }
+  },
+  "sidebar": {
+    "pages": "Páginas",
+    "folders": "Pastas",
+    "allItems": "Todos os itens",
+    "uncategorized": "Não categorizado",
+    "subfoldersOf": "Subpastas de {{folderName}}",
+    "untitled": "Sem título",
+    "ariaLabels": {
+      "navigation": "Navegação de favoritos",
+      "folders": "Pastas de favoritos"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Parece que você não tem nenhum favorito, adicione alguns para ver a mágica! 🪄✨",
+    "form": {
+      "addTitle": "Adicionar favorito",
+      "editTitle": "Editar favorito",
+      "titleLabel": "Título",
+      "titlePlaceholder": "Digite o título",
+      "required": "Obrigatório",
+      "invalidUrl": "URL inválida"
+    },
+    "actions": {
+      "label": "Ações do item",
+      "menuLabel": "Menu de opções do item",
+      "deleteItem": "Excluir item?",
+      "deleteMessage": "Esta ação não pode ser desfeita.",
+      "edit": "Editar",
+      "delete": "Excluir"
+    },
+    "dragHandle": "Alça de arrastar"
+  },
+  "settings": {
+    "title": "Configurações",
+    "sections": {
+      "layout": "Layout",
+      "personalization": "Personalização",
+      "appearance": "Aparência",
+      "support": "Suporte",
+      "maintenance": "Manutenção"
+    },
+    "greeting": {
+      "description": "Adicione um toque pessoal à sua experiência de favoritos",
+      "enableTitle": "Ativar saudação",
+      "enabled": "Saudação está ativada",
+      "hidden": "Saudação está oculta",
+      "nameLabel": "Como devemos chamá-lo?",
+      "namePlaceholder": "Digite seu nome...",
+      "preview": "Visualização: \"Olá, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Escolha entre temas predefinidos ou crie seu próprio tema personalizado com cores personalizadas.",
+      "chooseTheme": "Escolher um tema",
+      "notConvinced": "Não está convencido?",
+      "tryBuilding": "Tente criar seu próprio tema",
+      "customTheme": "Tema personalizado",
+      "customizeColors": "Personalizar cores",
+      "customizeTitle": "Personalize seu tema",
+      "customizeDescription": "Ajuste as cores abaixo para criar seu tema perfeito. As alterações são aplicadas instantaneamente e salvas automaticamente.",
+      "resetAllColors": "Redefinir todas as cores",
+      "backgroundColors": "Cores de fundo",
+      "foregroundColors": "Cores de primeiro plano",
+      "colorPicker": "Seletor de cor {{color}}"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Ativar sobreposição de fundo",
+      "description": "Adicione personalidade ao seu fundo",
+      "enabled": "Sobreposição está ativada",
+      "disabled": "Sobreposição está desativada",
+      "chooseOverlay": "Escolher uma sobreposição",
+      "overlayOpacity": "Opacidade da sobreposição",
+      "subtle": "Sutil",
+      "bold": "Ousado",
+      "doodle1": "Rabisco 1",
+      "doodle2": "Rabisco 2"
+    },
+    "sidebar": {
+      "description": "Mostrar ou ocultar a barra lateral com suas pastas de favoritos",
+      "enableTitle": "Ativar barra lateral",
+      "visible": "Barra lateral está visível",
+      "hidden": "Barra lateral está oculta"
+    },
+    "searchBar": {
+      "description": "Controlar a visibilidade da funcionalidade de pesquisa",
+      "enableTitle": "Ativar barra de pesquisa",
+      "visible": "Barra de pesquisa será exibida",
+      "hidden": "Barra de pesquisa está oculta"
+    },
+    "zoom": {
+      "scale": "Escala",
+      "decrease": "Diminuir escala",
+      "increase": "Aumentar escala"
+    },
+    "reset": {
+      "title": "Redefinir todas as configurações",
+      "description": "Isso limpará todas as preferências salvas e recarregará a página. Esta ação não pode ser desfeita."
+    },
+    "support": {
+      "message": "Gratuito e de código aberto — alimentado por muito café e escolhas questionáveis. Se isso te ajudar, considere alimentar o ciclo comprando-me um café!",
+      "buyCoffee": "Compre-me um café"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Bom dia",
+    "goodAfternoon": "Boa tarde",
+    "goodEvening": "Boa noite"
+  },
+  "language": {
+    "title": "Idioma"
+  },
+  "flyout": {
+    "close": "Fechar painel"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Página não encontrada"
+  },
+  "searchBar": {
+    "placeholderWithin": "Pesquisar em \"{{pageName}}\"",
+    "clearSearch": "Limpar pesquisa"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

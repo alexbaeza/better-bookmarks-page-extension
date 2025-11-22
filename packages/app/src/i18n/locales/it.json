@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Annulla",
+      "confirm": "Conferma",
+      "save": "Salva",
+      "delete": "Elimina",
+      "edit": "Modifica",
+      "close": "Chiudi"
+    },
+    "actions": {
+      "resetAllSettings": "Reimposta tutte le impostazioni (cancella l'archiviazione locale)"
+    },
+    "builtWith": {
+      "text": "Creato con ",
+      "by": "da"
+    }
+  },
+  "sidebar": {
+    "pages": "Pagine",
+    "folders": "Cartelle",
+    "allItems": "Tutti gli elementi",
+    "uncategorized": "Non categorizzato",
+    "subfoldersOf": "Sottocartelle di {{folderName}}",
+    "untitled": "Senza titolo",
+    "ariaLabels": {
+      "navigation": "Navigazione segnalibri",
+      "folders": "Cartelle segnalibri"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Sembra che tu non abbia segnalibri, aggiungine alcuni per vedere la magia! 🪄✨",
+    "form": {
+      "addTitle": "Aggiungi segnalibro",
+      "editTitle": "Modifica segnalibro",
+      "titleLabel": "Titolo",
+      "titlePlaceholder": "Inserisci il titolo",
+      "required": "Obbligatorio",
+      "invalidUrl": "URL non valido"
+    },
+    "actions": {
+      "label": "Azioni elemento",
+      "menuLabel": "Menu opzioni elemento",
+      "deleteItem": "Eliminare l'elemento?",
+      "deleteMessage": "Questa azione non può essere annullata.",
+      "edit": "Modifica",
+      "delete": "Elimina"
+    },
+    "dragHandle": "Maniglia di trascinamento"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "sections": {
+      "layout": "Layout",
+      "personalization": "Personalizzazione",
+      "appearance": "Aspetto",
+      "support": "Supporto",
+      "maintenance": "Manutenzione"
+    },
+    "greeting": {
+      "description": "Aggiungi un tocco personale alla tua esperienza con i segnalibri",
+      "enableTitle": "Abilita saluto",
+      "enabled": "Il saluto è abilitato",
+      "hidden": "Il saluto è nascosto",
+      "nameLabel": "Come dovremmo chiamarti?",
+      "namePlaceholder": "Inserisci il tuo nome...",
+      "preview": "Anteprima: \"Ciao, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Scegli tra temi predefiniti o crea il tuo tema personalizzato con colori personalizzati.",
+      "chooseTheme": "Scegli un tema",
+      "notConvinced": "Non convinto?",
+      "tryBuilding": "Prova a creare il tuo tema",
+      "customTheme": "Tema personalizzato",
+      "customizeColors": "Personalizza colori",
+      "customizeTitle": "Personalizza il tuo tema",
+      "customizeDescription": "Regola i colori qui sotto per creare il tuo tema perfetto. Le modifiche vengono applicate istantaneamente e salvate automaticamente.",
+      "resetAllColors": "Reimposta tutti i colori",
+      "backgroundColors": "Colori di sfondo",
+      "foregroundColors": "Colori in primo piano",
+      "colorPicker": "Selettore colore {{color}}"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Abilita sovrapposizione sfondo",
+      "description": "Aggiungi personalità al tuo sfondo",
+      "enabled": "La sovrapposizione è abilitata",
+      "disabled": "La sovrapposizione è disabilitata",
+      "chooseOverlay": "Scegli una sovrapposizione",
+      "overlayOpacity": "Opacità sovrapposizione",
+      "subtle": "Sottile",
+      "bold": "Audace",
+      "doodle1": "Scarabocchio 1",
+      "doodle2": "Scarabocchio 2"
+    },
+    "sidebar": {
+      "description": "Mostra o nascondi la barra laterale con le tue cartelle di segnalibri",
+      "enableTitle": "Abilita barra laterale",
+      "visible": "La barra laterale è visibile",
+      "hidden": "La barra laterale è nascosta"
+    },
+    "searchBar": {
+      "description": "Controlla la visibilità della funzionalità di ricerca",
+      "enableTitle": "Abilita barra di ricerca",
+      "visible": "La barra di ricerca sarà mostrata",
+      "hidden": "La barra di ricerca è nascosta"
+    },
+    "zoom": {
+      "scale": "Scala",
+      "decrease": "Riduci scala",
+      "increase": "Aumenta scala"
+    },
+    "reset": {
+      "title": "Reimposta tutte le impostazioni",
+      "description": "Questo cancellerà tutte le preferenze salvate e ricaricherà la pagina. Questa azione non può essere annullata."
+    },
+    "support": {
+      "message": "Gratuito e open-source — alimentato da troppo caffè e scelte discutibili. Se ti aiuta, considera di alimentare il ciclo comprandomi un caffè!",
+      "buyCoffee": "Comprami un caffè"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Buongiorno",
+    "goodAfternoon": "Buon pomeriggio",
+    "goodEvening": "Buonasera"
+  },
+  "language": {
+    "title": "Lingua"
+  },
+  "flyout": {
+    "close": "Chiudi pannello"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Pagina non trovata"
+  },
+  "searchBar": {
+    "placeholderWithin": "Cerca in \"{{pageName}}\"",
+    "clearSearch": "Cancella ricerca"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

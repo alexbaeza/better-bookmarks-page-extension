@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Ləğv et",
+      "confirm": "Təsdiqlə",
+      "save": "Saxla",
+      "delete": "Sil",
+      "edit": "Redaktə et",
+      "close": "Bağla"
+    },
+    "actions": {
+      "resetAllSettings": "Bütün parametrləri sıfırla (yerli saxlama sahəsini təmizləyir)"
+    },
+    "builtWith": {
+      "text": "Yaradılıb ",
+      "by": "tərəfindən"
+    }
+  },
+  "sidebar": {
+    "pages": "Səhifələr",
+    "folders": "Qovluqlar",
+    "allItems": "Bütün elementlər",
+    "uncategorized": "Kateqoriyasız",
+    "subfoldersOf": "{{folderName}} alt qovluqları",
+    "untitled": "Başlıqsız",
+    "ariaLabels": {
+      "navigation": "Əlfəcin naviqasiyası",
+      "folders": "Əlfəcin qovluqları"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Görünür ki, heç bir əlfəciniz yoxdur, sehr görmək üçün bir neçə əlavə edin! 🪄✨",
+    "form": {
+      "addTitle": "Əlfəcin əlavə et",
+      "editTitle": "Əlfəcini redaktə et",
+      "titleLabel": "Başlıq",
+      "titlePlaceholder": "Başlıq daxil edin",
+      "required": "Tələb olunur",
+      "invalidUrl": "Yanlış URL"
+    },
+    "actions": {
+      "label": "Element hərəkətləri",
+      "menuLabel": "Element seçimləri menyusu",
+      "deleteItem": "Elementi sil?",
+      "deleteMessage": "Bu hərəkət geri qaytarıla bilməz.",
+      "edit": "Redaktə et",
+      "delete": "Sil"
+    },
+    "dragHandle": "Sürükləmə tutacağı"
+  },
+  "settings": {
+    "title": "Parametrlər",
+    "sections": {
+      "layout": "Düzülüş",
+      "personalization": "Fərdiləşdirmə",
+      "appearance": "Görünüş",
+      "support": "Dəstək",
+      "maintenance": "Baxım"
+    },
+    "greeting": {
+      "description": "Əlfəcin təcrübənizə şəxsi bir toxunuş əlavə edin",
+      "enableTitle": "Salamlamanı aktivləşdir",
+      "enabled": "Salamlama aktivdir",
+      "hidden": "Salamlama gizlidir",
+      "nameLabel": "Sizə necə müraciət etməliyik?",
+      "namePlaceholder": "Adınızı daxil edin...",
+      "preview": "Önizləmə: \"Salam, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Əvvəlcədən təyin edilmiş temalardan seçin və ya fərdiləşdirilmiş rənglərlə öz xüsusi temanızı yaradın.",
+      "chooseTheme": "Tema seçin",
+      "notConvinced": "İnandırılmadınız?",
+      "tryBuilding": "Öz temanızı yaratmağı sınayın",
+      "customTheme": "Xüsusi Tema",
+      "customizeColors": "Rəngləri Fərdiləşdirin",
+      "customizeTitle": "Temanızı Fərdiləşdirin",
+      "customizeDescription": "Mükəmməl temanızı yaratmaq üçün aşağıdakı rəngləri tənzimləyin. Dəyişikliklər dərhal tətbiq olunur və avtomatik olaraq saxlanılır.",
+      "resetAllColors": "Bütün Rəngləri Sıfırla",
+      "backgroundColors": "Fon Rəngləri",
+      "foregroundColors": "Ön Plan Rəngləri",
+      "colorPicker": "{{color}} rəng seçicisi"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Fon örtüyünü aktivləşdir",
+      "description": "Fonunuza şəxsiyyət əlavə edin",
+      "enabled": "Örtük aktivdir",
+      "disabled": "Örtük deaktivdir",
+      "chooseOverlay": "Örtük seçin",
+      "overlayOpacity": "Örtüyün Şəffaflığı",
+      "subtle": "İncə",
+      "bold": "Cəsarətli",
+      "doodle1": "Çizik 1",
+      "doodle2": "Çizik 2"
+    },
+    "sidebar": {
+      "description": "Əlfəcin qovluqlarınızla yan paneli göstərin və ya gizlədin",
+      "enableTitle": "Yan paneli aktivləşdir",
+      "visible": "Yan panel görünür",
+      "hidden": "Yan panel gizlidir"
+    },
+    "searchBar": {
+      "description": "Axtarış funksiyasının görünürlüyünü idarə edin",
+      "enableTitle": "Axtarış panelini aktivləşdir",
+      "visible": "Axtarış paneli göstəriləcək",
+      "hidden": "Axtarış paneli gizlidir"
+    },
+    "zoom": {
+      "scale": "Miqyas",
+      "decrease": "Miqyası azalt",
+      "increase": "Miqyası artır"
+    },
+    "reset": {
+      "title": "Bütün parametrləri sıfırla",
+      "description": "Bu, bütün saxlanmış parametrləri təmizləyəcək və səhifəni yenidən yükləyəcək. Bu hərəkət geri qaytarıla bilməz."
+    },
+    "support": {
+      "message": "Pulsuz və açıq mənbə — çox qəhvə və şübhəli seçimlərlə idarə olunur. Əgər sizə kömək edirsə, mənə bir qəhvə alaraq dövrü dəstəkləməyi düşünün!",
+      "buyCoffee": "Mənə bir qəhvə al"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Sabahınız xeyir",
+    "goodAfternoon": "Günortanız xeyir",
+    "goodEvening": "Axşamınız xeyir"
+  },
+  "language": {
+    "title": "Dil"
+  },
+  "flyout": {
+    "close": "Paneli bağla"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Səhifə tapılmadı"
+  },
+  "searchBar": {
+    "placeholderWithin": "\"{{pageName}}\" daxilində axtar",
+    "clearSearch": "Axtarışı təmizlə"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

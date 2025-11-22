@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "İptal",
+      "confirm": "Onayla",
+      "save": "Kaydet",
+      "delete": "Sil",
+      "edit": "Düzenle",
+      "close": "Kapat"
+    },
+    "actions": {
+      "resetAllSettings": "Tüm ayarları sıfırla (yerel depolamayı temizler)"
+    },
+    "builtWith": {
+      "text": "Yapımcı: ",
+      "by": ""
+    }
+  },
+  "sidebar": {
+    "pages": "Sayfalar",
+    "folders": "Klasörler",
+    "allItems": "Tüm öğeler",
+    "uncategorized": "Kategorize edilmemiş",
+    "subfoldersOf": "{{folderName}} alt klasörleri",
+    "untitled": "Başlıksız",
+    "ariaLabels": {
+      "navigation": "Yer imleri gezintisi",
+      "folders": "Yer imi klasörleri"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Görünüşe göre yer iminiz yok, sihri görmek için birkaç tane ekleyin! 🪄✨",
+    "form": {
+      "addTitle": "Yer imi ekle",
+      "editTitle": "Yer imini düzenle",
+      "titleLabel": "Başlık",
+      "titlePlaceholder": "Başlık girin",
+      "required": "Gerekli",
+      "invalidUrl": "Geçersiz URL"
+    },
+    "actions": {
+      "label": "Öğe işlemleri",
+      "menuLabel": "Öğe seçenekleri menüsü",
+      "deleteItem": "Öğeyi sil?",
+      "deleteMessage": "Bu işlem geri alınamaz.",
+      "edit": "Düzenle",
+      "delete": "Sil"
+    },
+    "dragHandle": "Sürükleme tutamacı"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "sections": {
+      "layout": "Düzen",
+      "personalization": "Kişiselleştirme",
+      "appearance": "Görünüm",
+      "support": "Destek",
+      "maintenance": "Bakım"
+    },
+    "greeting": {
+      "description": "Yer imi deneyiminize kişisel bir dokunuş ekleyin",
+      "enableTitle": "Karşılama mesajını etkinleştir",
+      "enabled": "Karşılama mesajı etkin",
+      "hidden": "Karşılama mesajı gizli",
+      "nameLabel": "Size nasıl hitap edelim?",
+      "namePlaceholder": "Adınızı girin...",
+      "preview": "Önizleme: \"Merhaba, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Önceden ayarlanmış temalardan seçin veya kişiselleştirilmiş renklerle kendi özel temanızı oluşturun.",
+      "chooseTheme": "Bir tema seçin",
+      "notConvinced": "İkna olmadınız mı?",
+      "tryBuilding": "Kendi temanızı oluşturmayı deneyin",
+      "customTheme": "Özel Tema",
+      "customizeColors": "Renkleri Özelleştir",
+      "customizeTitle": "Temanızı Özelleştirin",
+      "customizeDescription": "Mükemmel temanızı oluşturmak için aşağıdaki renkleri ayarlayın. Değişiklikler anında uygulanır ve otomatik olarak kaydedilir.",
+      "resetAllColors": "Tüm Renkleri Sıfırla",
+      "backgroundColors": "Arka Plan Renkleri",
+      "foregroundColors": "Ön Plan Renkleri",
+      "colorPicker": "{{color}} renk seçici"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Arka plan yer paylaşımını etkinleştir",
+      "description": "Arka planınıza kişilik katın",
+      "enabled": "Yer paylaşımı etkin",
+      "disabled": "Yer paylaşımı devre dışı",
+      "chooseOverlay": "Bir yer paylaşımı seçin",
+      "overlayOpacity": "Yer Paylaşımı Opaklığı",
+      "subtle": "İnce",
+      "bold": "Cesur",
+      "doodle1": "Karalama 1",
+      "doodle2": "Karalama 2"
+    },
+    "sidebar": {
+      "description": "Yer imi klasörlerinizle kenar çubuğunu gösterin veya gizleyin",
+      "enableTitle": "Kenar çubuğunu etkinleştir",
+      "visible": "Kenar çubuğu görünür",
+      "hidden": "Kenar çubuğu gizli"
+    },
+    "searchBar": {
+      "description": "Arama işlevinin görünürlüğünü kontrol edin",
+      "enableTitle": "Arama çubuğunu etkinleştir",
+      "visible": "Arama çubuğu gösterilecek",
+      "hidden": "Arama çubuğu gizli"
+    },
+    "zoom": {
+      "scale": "Ölçek",
+      "decrease": "Ölçeği azalt",
+      "increase": "Ölçeği artır"
+    },
+    "reset": {
+      "title": "Tüm ayarları sıfırla",
+      "description": "Bu, tüm kaydedilmiş tercihleri temizleyecek ve sayfayı yeniden yükleyecektir. Bu işlem geri alınamaz."
+    },
+    "support": {
+      "message": "Ücretsiz ve açık kaynak — çok fazla kahve ve şüpheli seçimlerle desteklenmektedir. Size yardımcı oluyorsa, bana bir kahve alarak döngüyü desteklemeyi düşünün!",
+      "buyCoffee": "Bana bir kahve al"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Günaydın",
+    "goodAfternoon": "İyi günler",
+    "goodEvening": "İyi akşamlar"
+  },
+  "language": {
+    "title": "Dil"
+  },
+  "flyout": {
+    "close": "Paneli kapat"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Sayfa bulunamadı"
+  },
+  "searchBar": {
+    "placeholderWithin": "\"{{pageName}}\" içinde ara",
+    "clearSearch": "Aramayı temizle"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

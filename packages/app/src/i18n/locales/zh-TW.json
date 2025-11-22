@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "取消",
+      "confirm": "確認",
+      "save": "儲存",
+      "delete": "刪除",
+      "edit": "編輯",
+      "close": "關閉"
+    },
+    "actions": {
+      "resetAllSettings": "重設所有設定（清除本機儲存空間）"
+    },
+    "builtWith": {
+      "text": "由 ",
+      "by": "製作"
+    }
+  },
+  "sidebar": {
+    "pages": "頁面",
+    "folders": "資料夾",
+    "allItems": "所有項目",
+    "uncategorized": "未分類",
+    "subfoldersOf": "{{folderName}}的子資料夾",
+    "untitled": "無標題",
+    "ariaLabels": {
+      "navigation": "書籤導覽",
+      "folders": "書籤資料夾"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "看起來您還沒有書籤，新增一些來見證魔法吧！🪄✨",
+    "form": {
+      "addTitle": "新增書籤",
+      "editTitle": "編輯書籤",
+      "titleLabel": "標題",
+      "titlePlaceholder": "輸入標題",
+      "required": "必填",
+      "invalidUrl": "無效的URL"
+    },
+    "actions": {
+      "label": "項目操作",
+      "menuLabel": "項目選項選單",
+      "deleteItem": "刪除項目？",
+      "deleteMessage": "此操作無法復原。",
+      "edit": "編輯",
+      "delete": "刪除"
+    },
+    "dragHandle": "拖動手柄"
+  },
+  "settings": {
+    "title": "設定",
+    "sections": {
+      "layout": "版面配置",
+      "personalization": "個人化",
+      "appearance": "外觀",
+      "support": "支援",
+      "maintenance": "維護"
+    },
+    "greeting": {
+      "description": "為您的書籤體驗添加個人風格",
+      "enableTitle": "啟用問候語",
+      "enabled": "問候語已啟用",
+      "hidden": "問候語已隱藏",
+      "nameLabel": "我們應該如何稱呼您？",
+      "namePlaceholder": "輸入您的姓名...",
+      "preview": "預覽：\"你好，{{name}}！👋\""
+    },
+    "theme": {
+      "description": "從預設主題中選擇，或使用個人化顏色建立您自己的自訂主題。",
+      "chooseTheme": "選擇主題",
+      "notConvinced": "還不確定？",
+      "tryBuilding": "嘗試建立您自己的主題",
+      "customTheme": "自訂主題",
+      "customizeColors": "自訂顏色",
+      "customizeTitle": "自訂您的主題",
+      "customizeDescription": "調整下面的顏色以建立您的完美主題。變更會立即套用並自動儲存。",
+      "resetAllColors": "重設所有顏色",
+      "backgroundColors": "背景顏色",
+      "foregroundColors": "前景顏色",
+      "colorPicker": "{{color}}顏色選擇器"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "啟用背景疊加",
+      "description": "為您的背景添加個性",
+      "enabled": "疊加已啟用",
+      "disabled": "疊加已停用",
+      "chooseOverlay": "選擇疊加",
+      "overlayOpacity": "疊加不透明度",
+      "subtle": "微妙",
+      "bold": "大膽",
+      "doodle1": "塗鴉1",
+      "doodle2": "塗鴉2"
+    },
+    "sidebar": {
+      "description": "顯示或隱藏帶有書籤資料夾的側邊欄",
+      "enableTitle": "啟用側邊欄",
+      "visible": "側邊欄可見",
+      "hidden": "側邊欄已隱藏"
+    },
+    "searchBar": {
+      "description": "控制搜尋功能的可見性",
+      "enableTitle": "啟用搜尋列",
+      "visible": "將顯示搜尋列",
+      "hidden": "搜尋列已隱藏"
+    },
+    "zoom": {
+      "scale": "縮放",
+      "decrease": "減小縮放",
+      "increase": "增大縮放"
+    },
+    "reset": {
+      "title": "重設所有設定",
+      "description": "這將清除所有儲存的偏好設定並重新載入頁面。此操作無法復原。"
+    },
+    "support": {
+      "message": "免費和開源 — 由太多咖啡和可疑的選擇驅動。如果它對您有幫助，請考慮通過給我買杯咖啡來支持這個循環！",
+      "buyCoffee": "給我買杯咖啡"
+    }
+  },
+  "greeting": {
+    "goodMorning": "早上好",
+    "goodAfternoon": "下午好",
+    "goodEvening": "晚上好"
+  },
+  "language": {
+    "title": "語言"
+  },
+  "flyout": {
+    "close": "關閉面板"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "找不到頁面"
+  },
+  "searchBar": {
+    "placeholderWithin": "在\"{{pageName}}\"中搜尋",
+    "clearSearch": "清除搜尋"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

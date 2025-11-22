@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Avbryt",
+      "confirm": "Bekräfta",
+      "save": "Spara",
+      "delete": "Radera",
+      "edit": "Redigera",
+      "close": "Stäng"
+    },
+    "actions": {
+      "resetAllSettings": "Återställ alla inställningar (rensar lokal lagring)"
+    },
+    "builtWith": {
+      "text": "Skapad med ",
+      "by": "av"
+    }
+  },
+  "sidebar": {
+    "pages": "Sidor",
+    "folders": "Mappar",
+    "allItems": "Alla objekt",
+    "uncategorized": "Okategoriserade",
+    "subfoldersOf": "Undermappar till {{folderName}}",
+    "untitled": "Utan titel",
+    "ariaLabels": {
+      "navigation": "Bokmärkesnavigering",
+      "folders": "Bokmärkesmappar"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Det verkar som att du inte har några bokmärken, lägg till några för att se magin! 🪄✨",
+    "form": {
+      "addTitle": "Lägg till bokmärke",
+      "editTitle": "Redigera bokmärke",
+      "titleLabel": "Titel",
+      "titlePlaceholder": "Ange titel",
+      "required": "Obligatoriskt",
+      "invalidUrl": "Ogiltig URL"
+    },
+    "actions": {
+      "label": "Objektåtgärder",
+      "menuLabel": "Objektalternativmeny",
+      "deleteItem": "Radera objekt?",
+      "deleteMessage": "Denna åtgärd kan inte ångras.",
+      "edit": "Redigera",
+      "delete": "Radera"
+    },
+    "dragHandle": "Drahandtag"
+  },
+  "settings": {
+    "title": "Inställningar",
+    "sections": {
+      "layout": "Layout",
+      "personalization": "Personalisering",
+      "appearance": "Utseende",
+      "support": "Support",
+      "maintenance": "Underhåll"
+    },
+    "greeting": {
+      "description": "Lägg till en personlig touch till din bokmärkesupplevelse",
+      "enableTitle": "Aktivera hälsning",
+      "enabled": "Hälsning är aktiverad",
+      "hidden": "Hälsning är dold",
+      "nameLabel": "Hur ska vi kalla dig?",
+      "namePlaceholder": "Ange ditt namn...",
+      "preview": "Förhandsvisning: \"Hej, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Välj från förinställda teman eller skapa ditt eget anpassade tema med personaliserade färger.",
+      "chooseTheme": "Välj ett tema",
+      "notConvinced": "Inte övertygad?",
+      "tryBuilding": "Försök bygga ditt eget tema",
+      "customTheme": "Anpassat Tema",
+      "customizeColors": "Anpassa Färger",
+      "customizeTitle": "Anpassa Ditt Tema",
+      "customizeDescription": "Justera färgerna nedan för att skapa ditt perfekta tema. Ändringar tillämpas omedelbart och sparas automatiskt.",
+      "resetAllColors": "Återställ Alla Färger",
+      "backgroundColors": "Bakgrundsfärger",
+      "foregroundColors": "Förgrundsfärger",
+      "colorPicker": "{{color}} färgväljare"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Aktivera bakgrundsöverlagring",
+      "description": "Lägg till personlighet till din bakgrund",
+      "enabled": "Överlagring är aktiverad",
+      "disabled": "Överlagring är inaktiverad",
+      "chooseOverlay": "Välj en överlagring",
+      "overlayOpacity": "Överlagringens Opacitet",
+      "subtle": "Subtila",
+      "bold": "Djärva",
+      "doodle1": "Klottring 1",
+      "doodle2": "Klottring 2"
+    },
+    "sidebar": {
+      "description": "Visa eller dölj sidofältet med dina bokmärkesmappar",
+      "enableTitle": "Aktivera sidofält",
+      "visible": "Sidofältet är synligt",
+      "hidden": "Sidofältet är dolt"
+    },
+    "searchBar": {
+      "description": "Kontrollera synligheten för sökfunktionen",
+      "enableTitle": "Aktivera sökfält",
+      "visible": "Sökfältet kommer att visas",
+      "hidden": "Sökfältet är dolt"
+    },
+    "zoom": {
+      "scale": "Skala",
+      "decrease": "Minska skala",
+      "increase": "Öka skala"
+    },
+    "reset": {
+      "title": "Återställ alla inställningar",
+      "description": "Detta kommer att rensa alla sparade inställningar och ladda om sidan. Denna åtgärd kan inte ångras."
+    },
+    "support": {
+      "message": "Gratis och öppen källkod — drivs av för mycket kaffe och tveksamma val. Om det hjälper dig, överväg att stödja cykeln genom att köpa mig en kaffe!",
+      "buyCoffee": "Köp mig en kaffe"
+    }
+  },
+  "greeting": {
+    "goodMorning": "God morgon",
+    "goodAfternoon": "God eftermiddag",
+    "goodEvening": "God kväll"
+  },
+  "language": {
+    "title": "Språk"
+  },
+  "flyout": {
+    "close": "Stäng panel"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Sidan hittades inte"
+  },
+  "searchBar": {
+    "placeholderWithin": "Sök i \"{{pageName}}\"",
+    "clearSearch": "Rensa sökning"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Anulează",
+      "confirm": "Confirmă",
+      "save": "Salvează",
+      "delete": "Șterge",
+      "edit": "Editează",
+      "close": "Închide"
+    },
+    "actions": {
+      "resetAllSettings": "Resetează toate setările (șterge stocarea locală)"
+    },
+    "builtWith": {
+      "text": "Creat cu ",
+      "by": "de"
+    }
+  },
+  "sidebar": {
+    "pages": "Pagini",
+    "folders": "Dosare",
+    "allItems": "Toate elementele",
+    "uncategorized": "Necategorizate",
+    "subfoldersOf": "Subdosare ale {{folderName}}",
+    "untitled": "Fără titlu",
+    "ariaLabels": {
+      "navigation": "Navigare marcaje",
+      "folders": "Dosare marcaje"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Se pare că nu ai marcaje, adaugă câteva pentru a vedea magia! 🪄✨",
+    "form": {
+      "addTitle": "Adaugă marcaj",
+      "editTitle": "Editează marcaj",
+      "titleLabel": "Titlu",
+      "titlePlaceholder": "Introdu titlul",
+      "required": "Obligatoriu",
+      "invalidUrl": "URL invalid"
+    },
+    "actions": {
+      "label": "Acțiuni element",
+      "menuLabel": "Meniu opțiuni element",
+      "deleteItem": "Șterge elementul?",
+      "deleteMessage": "Această acțiune nu poate fi anulată.",
+      "edit": "Editează",
+      "delete": "Șterge"
+    },
+    "dragHandle": "Mâner de tragere"
+  },
+  "settings": {
+    "title": "Setări",
+    "sections": {
+      "layout": "Aspect",
+      "personalization": "Personalizare",
+      "appearance": "Aspect",
+      "support": "Suport",
+      "maintenance": "Întreținere"
+    },
+    "greeting": {
+      "description": "Adaugă un aspect personal experienței tale cu marcaje",
+      "enableTitle": "Activează salutul",
+      "enabled": "Salutul este activat",
+      "hidden": "Salutul este ascuns",
+      "nameLabel": "Cum ar trebui să te numim?",
+      "namePlaceholder": "Introdu numele tău...",
+      "preview": "Previzualizare: \"Salut, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Alege dintre temele predefinite sau creează-ți propriul temă personalizată cu culori personalizate.",
+      "chooseTheme": "Alege o temă",
+      "notConvinced": "Nu ești convins?",
+      "tryBuilding": "Încearcă să-ți construiești propria temă",
+      "customTheme": "Temă Personalizată",
+      "customizeColors": "Personalizează Culorile",
+      "customizeTitle": "Personalizează-ți Tema",
+      "customizeDescription": "Ajustează culorile de mai jos pentru a-ți crea tema perfectă. Modificările sunt aplicate instantaneu și salvate automat.",
+      "resetAllColors": "Resetează Toate Culorile",
+      "backgroundColors": "Culori de Fundal",
+      "foregroundColors": "Culori de Prim Plan",
+      "colorPicker": "Selector de culoare {{color}}"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Activează suprapunerea de fundal",
+      "description": "Adaugă personalitate fundalului tău",
+      "enabled": "Suprapunerea este activată",
+      "disabled": "Suprapunerea este dezactivată",
+      "chooseOverlay": "Alege o suprapunere",
+      "overlayOpacity": "Opacitatea Suprapunerii",
+      "subtle": "Subtile",
+      "bold": "Îndrăzneț",
+      "doodle1": "Scribă 1",
+      "doodle2": "Scribă 2"
+    },
+    "sidebar": {
+      "description": "Afișează sau ascunde bara laterală cu dosarele tale de marcaje",
+      "enableTitle": "Activează bara laterală",
+      "visible": "Bara laterală este vizibilă",
+      "hidden": "Bara laterală este ascunsă"
+    },
+    "searchBar": {
+      "description": "Controlează vizibilitatea funcției de căutare",
+      "enableTitle": "Activează bara de căutare",
+      "visible": "Bara de căutare va fi afișată",
+      "hidden": "Bara de căutare este ascunsă"
+    },
+    "zoom": {
+      "scale": "Scală",
+      "decrease": "Micșorează scara",
+      "increase": "Mărește scara"
+    },
+    "reset": {
+      "title": "Resetează toate setările",
+      "description": "Aceasta va șterge toate preferințele salvate și va reîncărca pagina. Această acțiune nu poate fi anulată."
+    },
+    "support": {
+      "message": "Gratuit și open-source — alimentat de prea multă cafea și alegeri îndoielnice. Dacă te ajută, consideră să alimentezi ciclul cumpărându-mi o cafea!",
+      "buyCoffee": "Cumpără-mi o cafea"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Bună dimineața",
+    "goodAfternoon": "Bună ziua",
+    "goodEvening": "Bună seara"
+  },
+  "language": {
+    "title": "Limbă"
+  },
+  "flyout": {
+    "close": "Închide panoul"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Pagina nu a fost găsită"
+  },
+  "searchBar": {
+    "placeholderWithin": "Caută în \"{{pageName}}\"",
+    "clearSearch": "Șterge căutarea"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

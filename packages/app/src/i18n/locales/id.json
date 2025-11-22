@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Batal",
+      "confirm": "Konfirmasi",
+      "save": "Simpan",
+      "delete": "Hapus",
+      "edit": "Edit",
+      "close": "Tutup"
+    },
+    "actions": {
+      "resetAllSettings": "Reset semua pengaturan (menghapus penyimpanan lokal)"
+    },
+    "builtWith": {
+      "text": "Dibuat dengan ",
+      "by": "oleh"
+    }
+  },
+  "sidebar": {
+    "pages": "Halaman",
+    "folders": "Folder",
+    "allItems": "Semua item",
+    "uncategorized": "Tidak dikategorikan",
+    "subfoldersOf": "Subfolder dari {{folderName}}",
+    "untitled": "Tanpa judul",
+    "ariaLabels": {
+      "navigation": "Navigasi bookmark",
+      "folders": "Folder bookmark"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Sepertinya Anda tidak memiliki bookmark, tambahkan beberapa untuk melihat keajaibannya! 🪄✨",
+    "form": {
+      "addTitle": "Tambah bookmark",
+      "editTitle": "Edit bookmark",
+      "titleLabel": "Judul",
+      "titlePlaceholder": "Masukkan judul",
+      "required": "Wajib",
+      "invalidUrl": "URL tidak valid"
+    },
+    "actions": {
+      "label": "Tindakan item",
+      "menuLabel": "Menu opsi item",
+      "deleteItem": "Hapus item?",
+      "deleteMessage": "Tindakan ini tidak dapat dibatalkan.",
+      "edit": "Edit",
+      "delete": "Hapus"
+    },
+    "dragHandle": "Tangan tarik"
+  },
+  "settings": {
+    "title": "Pengaturan",
+    "sections": {
+      "layout": "Tata letak",
+      "personalization": "Personalisasi",
+      "appearance": "Tampilan",
+      "support": "Dukungan",
+      "maintenance": "Pemeliharaan"
+    },
+    "greeting": {
+      "description": "Tambahkan sentuhan pribadi pada pengalaman bookmark Anda",
+      "enableTitle": "Aktifkan sapaan",
+      "enabled": "Sapaan diaktifkan",
+      "hidden": "Sapaan disembunyikan",
+      "nameLabel": "Bagaimana kami harus memanggil Anda?",
+      "namePlaceholder": "Masukkan nama Anda...",
+      "preview": "Pratinjau: \"Halo, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Pilih dari tema yang sudah ditetapkan atau buat tema kustom Anda sendiri dengan warna yang dipersonalisasi.",
+      "chooseTheme": "Pilih tema",
+      "notConvinced": "Tidak yakin?",
+      "tryBuilding": "Coba buat tema Anda sendiri",
+      "customTheme": "Tema Kustom",
+      "customizeColors": "Sesuaikan Warna",
+      "customizeTitle": "Sesuaikan Tema Anda",
+      "customizeDescription": "Sesuaikan warna di bawah ini untuk membuat tema sempurna Anda. Perubahan diterapkan secara instan dan disimpan secara otomatis.",
+      "resetAllColors": "Reset Semua Warna",
+      "backgroundColors": "Warna Latar Belakang",
+      "foregroundColors": "Warna Latar Depan",
+      "colorPicker": "Pemilih warna {{color}}"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Aktifkan overlay latar belakang",
+      "description": "Tambahkan kepribadian ke latar belakang Anda",
+      "enabled": "Overlay diaktifkan",
+      "disabled": "Overlay dinonaktifkan",
+      "chooseOverlay": "Pilih overlay",
+      "overlayOpacity": "Opasitas Overlay",
+      "subtle": "Halus",
+      "bold": "Bold",
+      "doodle1": "Coretan 1",
+      "doodle2": "Coretan 2"
+    },
+    "sidebar": {
+      "description": "Tampilkan atau sembunyikan bilah sisi dengan folder bookmark Anda",
+      "enableTitle": "Aktifkan bilah sisi",
+      "visible": "Bilah sisi terlihat",
+      "hidden": "Bilah sisi disembunyikan"
+    },
+    "searchBar": {
+      "description": "Kontrol visibilitas fungsi pencarian",
+      "enableTitle": "Aktifkan bilah pencarian",
+      "visible": "Bilah pencarian akan ditampilkan",
+      "hidden": "Bilah pencarian disembunyikan"
+    },
+    "zoom": {
+      "scale": "Skala",
+      "decrease": "Kurangi skala",
+      "increase": "Tingkatkan skala"
+    },
+    "reset": {
+      "title": "Reset semua pengaturan",
+      "description": "Ini akan menghapus semua preferensi yang disimpan dan memuat ulang halaman. Tindakan ini tidak dapat dibatalkan."
+    },
+    "support": {
+      "message": "Gratis dan open-source — didukung oleh terlalu banyak kopi dan pilihan yang dipertanyakan. Jika ini membantu Anda, pertimbangkan untuk mendukung siklus dengan membelikan saya kopi!",
+      "buyCoffee": "Beli saya kopi"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Selamat pagi",
+    "goodAfternoon": "Selamat siang",
+    "goodEvening": "Selamat malam"
+  },
+  "language": {
+    "title": "Bahasa"
+  },
+  "flyout": {
+    "close": "Tutup panel"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Halaman tidak ditemukan"
+  },
+  "searchBar": {
+    "placeholderWithin": "Cari dalam \"{{pageName}}\"",
+    "clearSearch": "Hapus pencarian"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}

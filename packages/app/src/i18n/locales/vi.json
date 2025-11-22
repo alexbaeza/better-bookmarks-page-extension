@@ -1,0 +1,143 @@
+{
+  "common": {
+    "buttons": {
+      "cancel": "Hủy",
+      "confirm": "Xác nhận",
+      "save": "Lưu",
+      "delete": "Xóa",
+      "edit": "Chỉnh sửa",
+      "close": "Đóng"
+    },
+    "actions": {
+      "resetAllSettings": "Đặt lại tất cả cài đặt (xóa bộ nhớ cục bộ)"
+    },
+    "builtWith": {
+      "text": "Được tạo bởi ",
+      "by": ""
+    }
+  },
+  "sidebar": {
+    "pages": "Trang",
+    "folders": "Thư mục",
+    "allItems": "Tất cả mục",
+    "uncategorized": "Chưa phân loại",
+    "subfoldersOf": "Thư mục con của {{folderName}}",
+    "untitled": "Không có tiêu đề",
+    "ariaLabels": {
+      "navigation": "Điều hướng dấu trang",
+      "folders": "Thư mục dấu trang"
+    }
+  },
+  "bookmarks": {
+    "emptyState": "Có vẻ như bạn chưa có dấu trang nào, hãy thêm một số để xem điều kỳ diệu! 🪄✨",
+    "form": {
+      "addTitle": "Thêm dấu trang",
+      "editTitle": "Chỉnh sửa dấu trang",
+      "titleLabel": "Tiêu đề",
+      "titlePlaceholder": "Nhập tiêu đề",
+      "required": "Bắt buộc",
+      "invalidUrl": "URL không hợp lệ"
+    },
+    "actions": {
+      "label": "Hành động mục",
+      "menuLabel": "Menu tùy chọn mục",
+      "deleteItem": "Xóa mục?",
+      "deleteMessage": "Hành động này không thể hoàn tác.",
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa"
+    },
+    "dragHandle": "Tay cầm kéo"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "sections": {
+      "layout": "Bố cục",
+      "personalization": "Cá nhân hóa",
+      "appearance": "Giao diện",
+      "support": "Hỗ trợ",
+      "maintenance": "Bảo trì"
+    },
+    "greeting": {
+      "description": "Thêm nét cá nhân vào trải nghiệm dấu trang của bạn",
+      "enableTitle": "Bật lời chào",
+      "enabled": "Lời chào đã bật",
+      "hidden": "Lời chào bị ẩn",
+      "nameLabel": "Chúng tôi nên gọi bạn là gì?",
+      "namePlaceholder": "Nhập tên của bạn...",
+      "preview": "Xem trước: \"Xin chào, {{name}}! 👋\""
+    },
+    "theme": {
+      "description": "Chọn từ các chủ đề có sẵn hoặc tạo chủ đề tùy chỉnh của riêng bạn với màu sắc được cá nhân hóa.",
+      "chooseTheme": "Chọn chủ đề",
+      "notConvinced": "Chưa thuyết phục?",
+      "tryBuilding": "Thử tạo chủ đề của riêng bạn",
+      "customTheme": "Chủ đề Tùy chỉnh",
+      "customizeColors": "Tùy chỉnh Màu sắc",
+      "customizeTitle": "Tùy chỉnh Chủ đề của bạn",
+      "customizeDescription": "Điều chỉnh màu sắc bên dưới để tạo chủ đề hoàn hảo của bạn. Thay đổi được áp dụng ngay lập tức và lưu tự động.",
+      "resetAllColors": "Đặt lại Tất cả Màu sắc",
+      "backgroundColors": "Màu Nền",
+      "foregroundColors": "Màu Tiền cảnh",
+      "colorPicker": "Bộ chọn màu {{color}}"
+    },
+    "backgroundOverlay": {
+      "enableTitle": "Bật lớp phủ nền",
+      "description": "Thêm cá tính vào nền của bạn",
+      "enabled": "Lớp phủ đã bật",
+      "disabled": "Lớp phủ đã tắt",
+      "chooseOverlay": "Chọn lớp phủ",
+      "overlayOpacity": "Độ mờ Lớp phủ",
+      "subtle": "Tinh tế",
+      "bold": "Đậm",
+      "doodle1": "Nguệch ngoạc 1",
+      "doodle2": "Nguệch ngoạc 2"
+    },
+    "sidebar": {
+      "description": "Hiển thị hoặc ẩn thanh bên với các thư mục dấu trang của bạn",
+      "enableTitle": "Bật thanh bên",
+      "visible": "Thanh bên hiển thị",
+      "hidden": "Thanh bên bị ẩn"
+    },
+    "searchBar": {
+      "description": "Điều khiển khả năng hiển thị của chức năng tìm kiếm",
+      "enableTitle": "Bật thanh tìm kiếm",
+      "visible": "Thanh tìm kiếm sẽ được hiển thị",
+      "hidden": "Thanh tìm kiếm bị ẩn"
+    },
+    "zoom": {
+      "scale": "Tỷ lệ",
+      "decrease": "Giảm tỷ lệ",
+      "increase": "Tăng tỷ lệ"
+    },
+    "reset": {
+      "title": "Đặt lại tất cả cài đặt",
+      "description": "Điều này sẽ xóa tất cả các tùy chọn đã lưu và tải lại trang. Hành động này không thể hoàn tác."
+    },
+    "support": {
+      "message": "Miễn phí và mã nguồn mở — được cung cấp bởi quá nhiều cà phê và những lựa chọn đáng nghi ngờ. Nếu nó giúp ích cho bạn, hãy cân nhắc hỗ trợ chu kỳ bằng cách mua cho tôi một ly cà phê!",
+      "buyCoffee": "Mua cho tôi cà phê"
+    }
+  },
+  "greeting": {
+    "goodMorning": "Chào buổi sáng",
+    "goodAfternoon": "Chào buổi chiều",
+    "goodEvening": "Chào buổi tối"
+  },
+  "language": {
+    "title": "Ngôn ngữ"
+  },
+  "flyout": {
+    "close": "Đóng bảng điều khiển"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Không tìm thấy trang"
+  },
+  "searchBar": {
+    "placeholderWithin": "Tìm kiếm trong \"{{pageName}}\"",
+    "clearSearch": "Xóa tìm kiếm"
+  },
+  "app": {
+    "title": "Better Bookmarks"
+  }
+}
