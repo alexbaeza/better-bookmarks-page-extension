@@ -105,7 +105,7 @@ export const InlineFlyout = memo<InlineFlyoutProps>(
   ({ side = 'right', widthClass = 'w-64', className = '', children }) => {
     return (
       <aside
-        className={`flex ${widthClass} shrink-0 flex-col border-l border-bgColor-tertiary bg-bgColor-secondary px-2 py-1 ${className} ${side === 'right' ? '' : ''}`}
+        className={`flex ${widthClass} shrink-0 flex-col border-l border-bgColor-secondary/30 bg-bgColor-secondary px-2 py-1 ${className} ${side === 'right' ? '' : ''}`}
         data-testid="sidebar-flyout"
       >
         {children}

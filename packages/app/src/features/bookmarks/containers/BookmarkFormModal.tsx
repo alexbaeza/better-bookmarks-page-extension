@@ -66,11 +66,11 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({
               </Text>
             </label>
             <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-fgColor-muted">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-fgColor-secondary">
                 {isFolder ? (
-                  <Folder className="text-fgColor-muted" size={16} />
+                  <Folder className="text-fgColor-secondary" size={16} />
                 ) : (
-                  <Bookmark className="text-fgColor-muted" size={16} />
+                  <Bookmark className="text-fgColor-secondary" size={16} />
                 )}
               </div>
               <Input
@@ -84,7 +84,7 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({
               />
             </div>
             {formik.touched.title && formik.errors.title && (
-              <Text className="mt-1" color="danger" size="xs">
+              <Text className="mt-1" color="accent" size="xs">
                 {formik.errors.title}
               </Text>
             )}
@@ -99,8 +99,8 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({
                 </Text>
               </label>
               <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-fgColor-muted">
-                  <Globe className="text-fgColor-muted" size={16} />
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-fgColor-secondary">
+                  <Globe className="text-fgColor-secondary" size={16} />
                 </div>
                 <Input
                   className="pl-10"
@@ -113,7 +113,7 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({
                 />
               </div>
               {formik.touched.url && formik.errors.url && (
-                <Text className="mt-1" color="danger" size="xs">
+                <Text className="mt-1" color="accent" size="xs">
                   {formik.errors.url}
                 </Text>
               )}

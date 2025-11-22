@@ -43,8 +43,8 @@ describe('Text', () => {
     render(<Text color="secondary">Secondary text</Text>);
     expect(screen.getByText('Secondary text')).toHaveClass('text-fgColor-secondary');
 
-    render(<Text color="danger">Danger text</Text>);
-    expect(screen.getByText('Danger text')).toHaveClass('text-fgColor-danger');
+    render(<Text color="accent">Accent text</Text>);
+    expect(screen.getByText('Accent text')).toHaveClass('text-fgColor-accent');
   });
 
   it('applies weight classes', () => {

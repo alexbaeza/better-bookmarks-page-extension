@@ -23,7 +23,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   ) => {
     return (
       <button
-        className={`${positionClassName} relative z-20 inline-flex items-center justify-center aspect-square rounded-lg bg-bgColor-accent text-fgColor-primary hover:bg-fgColor-hover disabled:opacity-50 ${sizeClasses[size]} ${className || ''}`}
+        className={`${positionClassName} relative z-20 inline-flex items-center justify-center aspect-square rounded-lg bg-bgColor-accent text-fgColor-primary hover:bg-bgColor-accent/90 disabled:opacity-50 ${sizeClasses[size]} ${className || ''}`}
         data-testid={dataTestId}
         disabled={disabled}
         onClick={onClick}

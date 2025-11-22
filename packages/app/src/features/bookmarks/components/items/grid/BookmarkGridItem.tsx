@@ -66,7 +66,7 @@ export const BookmarkGridItem = memo<BookmarkGridItemProps>(({ item, dataTestId,
 
   const content = (
     <Bookmark.Root
-      className={`relative flex w-30 flex-col items-center gap-1 rounded-lg p-2 transition ${hovered ? 'bg-bgColor-tertiary' : 'bg-bgColor-secondary'}`}
+      className={`relative flex w-30 flex-col items-center gap-1 rounded-lg p-2 transition ${hovered ? 'bg-bgColor-secondary/60' : 'bg-bgColor-secondary'}`}
       dataTestId={testId}
       folderId={isFolder ? item.id : undefined}
       onMouseEnter={onMouseEnter}
@@ -84,7 +84,7 @@ export const BookmarkGridItem = memo<BookmarkGridItemProps>(({ item, dataTestId,
         onClick={onClick}
       >
         <Bookmark.Icon
-          className="bg-bgColor-tertiary-contrast flex size-14 items-center justify-center rounded-lg"
+          className="bg-bgColor-secondary/50 flex size-14 items-center justify-center rounded-lg"
           dataTestId="favicon"
           icon={bookmarkIcon}
         />

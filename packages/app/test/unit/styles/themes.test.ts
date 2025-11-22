@@ -6,12 +6,7 @@ describe('themes', () => {
     'bgColor-accent',
     'bgColor-primary',
     'bgColor-secondary',
-    'bgColor-tertiary',
     'fgColor-accent',
-    'fgColor-active',
-    'fgColor-danger',
-    'fgColor-hover',
-    'fgColor-muted',
     'fgColor-primary',
     'fgColor-secondary',
   ];
@@ -81,8 +76,8 @@ describe('themes', () => {
       });
     });
 
-    it('should have exactly 11 color properties', () => {
-      expect(Object.keys(themes[themeName])).toHaveLength(11);
+    it('should have exactly 6 color properties', () => {
+      expect(Object.keys(themes[themeName])).toHaveLength(6);
     });
   });
 

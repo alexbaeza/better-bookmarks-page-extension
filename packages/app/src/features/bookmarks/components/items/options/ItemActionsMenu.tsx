@@ -50,7 +50,7 @@ export const ItemActionsMenu: React.FC<ItemActionsMenuProps> = ({
   return (
     <>
       <IconButton
-        className={`relative z-20 inline-flex items-center justify-center aspect-square rounded-lg bg-bgColor-secondary text-fgColor-primary hover:bg-fgColor-hover hover:text-white disabled:opacity-50 p-1 text-xs text-fgColor-secondary hover:text-fgColor-primary hover:bg-fgColor-hover rounded ${visible ? 'opacity-100' : 'opacity-0'} ${className}`}
+        className={`relative z-20 inline-flex items-center justify-center aspect-square rounded-lg bg-bgColor-secondary text-fgColor-primary hover:bg-bgColor-primary/40 hover:text-white disabled:opacity-50 p-1 text-xs text-fgColor-secondary hover:text-fgColor-primary rounded ${visible ? 'opacity-100' : 'opacity-0'} ${className}`}
         dataTestId="item-options-button"
         icon={<MoreVertical size={iconSize} />}
         onClick={(e) => {

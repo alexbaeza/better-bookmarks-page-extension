@@ -14,11 +14,11 @@ export const Input: React.FC<InputProps> = ({ disabled = false, className = '', 
   `;
 
   const enabledStyles = `
-    bg-bgColor-tertiary border border-fgColor-muted
+    bg-bgColor-secondary border border-fgColor-secondary/30
     cursor-text
   `;
   const disabledStyles = `
-    bg-bgColor-muted border border-fgColor-muted
+    bg-bgColor-secondary/50 border border-fgColor-secondary/20
     cursor-not-allowed opacity-50
   `;
 

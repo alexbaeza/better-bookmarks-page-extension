@@ -27,7 +27,7 @@ export const ItemSkeleton: React.FC<ItemSkeletonProps> = ({ variant, dataTestId 
           </div>
 
           <div className="z-0 -mt-4 flex flex-col items-center flex-1 w-full">
-            <div className="bg-bgColor-tertiary-contrast flex size-14 items-center justify-center rounded-lg">
+            <div className="bg-bgColor-secondary/50 flex size-14 items-center justify-center rounded-lg">
               <div className="size-8 rounded-sm bg-bgColor-primary/20" />
             </div>
             <div className="flex w-full h-10 flex-col space-y-1 justify-center">

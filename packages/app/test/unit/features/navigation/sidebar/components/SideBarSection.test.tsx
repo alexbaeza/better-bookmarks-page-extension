@@ -113,7 +113,7 @@ describe('SidebarSection', () => {
     const badge = screen.getByText('5');
     expect(badge).toHaveClass(
       'rounded-full',
-      'bg-bgColor-tertiary',
+      'bg-bgColor-primary/40',
       'text-xs',
       'text-fgColor-primary',
       'font-bold',

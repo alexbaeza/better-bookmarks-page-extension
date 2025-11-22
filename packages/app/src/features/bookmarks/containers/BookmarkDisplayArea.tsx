@@ -45,7 +45,7 @@ export const BookmarkDisplayArea: React.FC<BookmarkDisplayAreaProps> = ({
     <div className="flex flex-col" data-view-mode={viewMode} ref={containerRef}>
       {isList ? (
         <List
-          className="px-4"
+          className="px-2"
           gap="xs"
           renderDivider={({ index, position, insertIndex }) => (
             <BookmarkListItemDivider

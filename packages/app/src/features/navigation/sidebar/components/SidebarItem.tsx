@@ -26,7 +26,7 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
       className={`
         grid w-full grid-cols-[auto,1fr,auto] items-center gap-2 min-w-0
         rounded-lg p-2 text-sm font-medium focus:outline-none
-        ${isSelected ? 'bg-bgColor-tertiary text-fgColor-primary' : 'text-fgColor-secondary hover:bg-bgColor-tertiary hover:text-fgColor-primary'}
+        ${isSelected ? 'bg-bgColor-accent text-fgColor-primary' : 'text-fgColor-secondary hover:bg-bgColor-primary/30 hover:text-fgColor-primary'}
         ${className}
       `}
       data-testid={dataTestId}
@@ -37,7 +37,9 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
       <div className="col-[2] min-w-0 truncate text-left">{label}</div>
       {badge != null && (
         <div className="col-[3]">
-          <Badge size="sm">{badge}</Badge>
+          <Badge size="sm" variant={isSelected ? 'accent' : 'primary'}>
+            {badge}
+          </Badge>
         </div>
       )}
     </button>

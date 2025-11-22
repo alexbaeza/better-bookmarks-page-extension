@@ -110,6 +110,6 @@ describe('IconButton', () => {
   it('should have hover styling classes', () => {
     render(<IconButton icon={mockIcon} />);
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('hover:bg-fgColor-hover');
+    expect(button).toHaveClass('hover:bg-bgColor-accent/90');
   });
 });

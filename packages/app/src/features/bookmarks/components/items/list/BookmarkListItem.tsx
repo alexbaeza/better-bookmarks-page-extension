@@ -67,7 +67,7 @@ export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId,
 
   const content = (
     <Bookmark.Root
-      className="relative flex h-12 w-full overflow-visible rounded-lg bg-bgColor-tertiary transition hover:bg-fgColor-hover"
+      className="relative flex h-12 w-full overflow-visible rounded-lg bg-bgColor-secondary transition hover:bg-bgColor-secondary/60"
       dataTestId={testId}
       folderId={isFolder ? item.id : undefined}
       onMouseEnter={onMouseEnter}

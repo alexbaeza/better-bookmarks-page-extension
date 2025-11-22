@@ -25,7 +25,7 @@ describe('Kbd', () => {
       'duration-150',
       'bg-bgColor-secondary',
       'text-fgColor-secondary',
-      'border-bgColor-tertiary'
+      'border-bgColor-secondary/50'
     );
   });
 

@@ -20,7 +20,7 @@ export const Toggle: React.FC<ToggleProps> = ({ checked, onChange, className = '
     <div
       className={[
         'peer h-6 w-11 rounded-full ',
-        'bg-bgColor-tertiary peer-checked:bg-bgColor-accent',
+        'bg-bgColor-secondary peer-checked:bg-bgColor-accent',
         'after:absolute after:left-[2px] after:top-0.5',
         'after:h-5 after:w-5 after:rounded-full',
         "after:bg-fgColor-primary after:transition-all after:content-['']",

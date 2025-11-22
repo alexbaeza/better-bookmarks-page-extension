@@ -31,7 +31,7 @@ export const BookmarkFolderContent: React.FC = () => {
             <Text align="center" className="italic" color="primary" data-testid="empty-state-message" size="sm">
               Looks like you don't have any Bookmarks, add some to see the magic! 🪄✨
             </Text>
-            <NotFoundIllustration className="mb-4 text-bgColor-tertiary" />
+            <NotFoundIllustration className="mb-4 text-bgColor-secondary" />
           </div>
         </Row>
       );
@@ -50,7 +50,7 @@ export const BookmarkFolderContent: React.FC = () => {
 
   return (
     <>
-      <div className="w-full border-b border-bgColor-tertiary">
+      <div className="w-full border-b border-bgColor-secondary/30">
         <Row alignItems="center" className="w-full p-4" gap="none" justifyContent="between">
           <BreadcrumbNavigation />
           <ViewModeToggle />

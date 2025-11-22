@@ -41,16 +41,8 @@ export const UnifiedThemeSettings: React.FC = () => {
   };
 
   const colorGroups = {
-    'Background Colors': ['bgColor-primary', 'bgColor-secondary', 'bgColor-tertiary', 'bgColor-accent'],
-    'Foreground Colors': [
-      'fgColor-primary',
-      'fgColor-secondary',
-      'fgColor-muted',
-      'fgColor-active',
-      'fgColor-hover',
-      'fgColor-accent',
-      'fgColor-danger',
-    ],
+    'Background Colors': ['bgColor-primary', 'bgColor-secondary', 'bgColor-accent'],
+    'Foreground Colors': ['fgColor-primary', 'fgColor-secondary', 'fgColor-accent'],
   };
 
   const formatKey = (key: string) => {
@@ -99,10 +91,10 @@ export const UnifiedThemeSettings: React.FC = () => {
             {theme !== 'custom' && (
               <div className="flex items-center gap-2 animate-pulse">
                 <div className="flex flex-col items-end">
-                  <div className="text-xs text-fgColor-secondary bg-bgColor-primary px-2 py-1 rounded-md border border-fgColor-active whitespace-nowrap">
+                  <div className="text-xs text-fgColor-secondary bg-bgColor-primary px-2 py-1 rounded-md border border-fgColor-secondary/30 whitespace-nowrap">
                     Not convinced?
                   </div>
-                  <div className="text-xs text-fgColor-secondary bg-bgColor-primary px-2 py-1 rounded-md border border-fgColor-active whitespace-nowrap">
+                  <div className="text-xs text-fgColor-secondary bg-bgColor-primary px-2 py-1 rounded-md border border-fgColor-secondary/30 whitespace-nowrap">
                     Try building your own theme
                   </div>
                 </div>
@@ -165,13 +157,9 @@ export const UnifiedThemeSettings: React.FC = () => {
                         <div className="text-xs text-fgColor-secondary font-mono">{activeTheme[key]}</div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div
-                          className="w-8 h-8 rounded border border-fgColor-active"
-                          style={{ backgroundColor: activeTheme[key] }}
-                        />
                         <input
                           aria-label={`${formatKey(key)} color picker`}
-                          className="w-12 h-8 rounded border border-fgColor-active cursor-pointer"
+                          className="w-8 h-8 rounded border border-fgColor-secondary/30 cursor-pointer"
                           id={`color-input-${key}`}
                           onChange={(e) => handleColorChange(key, e.target.value)}
                           type="color"
