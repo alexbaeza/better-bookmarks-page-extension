@@ -59,8 +59,8 @@ export const SettingsPanelContainer: React.FC = () => {
             icon={<Palette size={16} />}
             title={t('settings.sections.appearance')}
           >
-            <UnifiedThemeSettings />
             <BackgroundOverlaySettings dataTestId="background-overlay-settings" />
+            <UnifiedThemeSettings />
           </CollapsibleSection>
 
           {/* Maintenance */}

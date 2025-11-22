@@ -66,7 +66,7 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(
             data-testid={`sidebar-folder-item-${folder.id}`}
             icon={folderIcon}
             isSelected={isSelected}
-            label={folder.title || 'Untitled'}
+            label={folder.title || t('sidebar.untitled')}
             onClick={() => {
               if (hasKids) toggleFolder(folder.id);
               clickFolder(folder.id);

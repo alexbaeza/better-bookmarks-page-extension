@@ -21,6 +21,10 @@ vi.mock('@/features/settings/components/SearchBarSettings', () => ({
   SearchBarSettings: ({ dataTestId }: { dataTestId: string }) => <div data-testid={dataTestId}>SearchBarSettings</div>,
 }));
 
+vi.mock('@/features/settings/components/LanguageSettings', () => ({
+  LanguageSettings: ({ dataTestId }: { dataTestId: string }) => <div data-testid={dataTestId}>LanguageSettings</div>,
+}));
+
 vi.mock('@/features/settings/components/GreetingSettings', () => ({
   GreetingSettings: ({ dataTestId }: { dataTestId: string }) => <div data-testid={dataTestId}>GreetingSettings</div>,
 }));
@@ -56,7 +60,6 @@ describe('SettingsPanelContainer', () => {
       </AllProviders>
     );
 
-    expect(screen.getByText('Layout')).toBeInTheDocument();
     expect(screen.getByText('Personalization')).toBeInTheDocument();
     expect(screen.getByText('Appearance')).toBeInTheDocument();
     expect(screen.getByText('Support')).toBeInTheDocument();
@@ -70,13 +73,6 @@ describe('SettingsPanelContainer', () => {
         <SettingsPanelContainer />
       </AllProviders>
     );
-
-    // Expand Layout section
-    const layoutSection = screen.getByTestId('layout-section');
-    const layoutButton = layoutSection.querySelector('button');
-    if (layoutButton) {
-      await user.click(layoutButton);
-    }
 
     // Expand Personalization section
     const personalizationSection = screen.getByTestId('personalization-section');
@@ -93,6 +89,7 @@ describe('SettingsPanelContainer', () => {
     }
 
     // Support section is open by default
+    expect(screen.getByTestId('language-settings')).toBeInTheDocument();
     expect(screen.getByTestId('sidebar-settings')).toBeInTheDocument();
     expect(screen.getByTestId('search-bar-settings')).toBeInTheDocument();
     expect(screen.getByTestId('greeting-settings')).toBeInTheDocument();

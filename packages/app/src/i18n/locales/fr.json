@@ -10,6 +10,10 @@
     },
     "actions": {
       "resetAllSettings": "Réinitialiser tous les paramètres (efface le stockage local)"
+    },
+    "builtWith": {
+      "text": "Fait avec ",
+      "by": "par"
     }
   },
   "sidebar": {
@@ -30,7 +34,9 @@
       "addTitle": "Ajouter un signet",
       "editTitle": "Modifier le signet",
       "titleLabel": "Titre",
-      "titlePlaceholder": "Entrez le titre"
+      "titlePlaceholder": "Entrez le titre",
+      "required": "Requis",
+      "invalidUrl": "URL invalide"
     },
     "actions": {
       "label": "Actions de l'élément",
@@ -61,13 +67,30 @@
       "preview": "Aperçu : \"Bonjour, {{name}} ! 👋\""
     },
     "theme": {
+      "description": "Choisissez parmi les thèmes prédéfinis ou créez votre propre thème personnalisé avec des couleurs personnalisées.",
+      "chooseTheme": "Choisir un thème",
+      "notConvinced": "Pas convaincu ?",
+      "tryBuilding": "Essayez de créer votre propre thème",
+      "customTheme": "Thème personnalisé",
       "customizeColors": "Personnaliser les couleurs",
+      "customizeTitle": "Personnalisez votre thème",
+      "customizeDescription": "Ajustez les couleurs ci-dessous pour créer votre thème parfait. Les modifications sont appliquées instantanément et enregistrées automatiquement.",
+      "resetAllColors": "Réinitialiser toutes les couleurs",
+      "backgroundColors": "Couleurs d'arrière-plan",
+      "foregroundColors": "Couleurs de premier plan",
       "colorPicker": "Sélecteur de couleur {{color}}"
     },
     "backgroundOverlay": {
       "enableTitle": "Activer la superposition d'arrière-plan",
+      "description": "Ajoutez de la personnalité à votre arrière-plan",
       "enabled": "La superposition est activée",
-      "disabled": "La superposition est désactivée"
+      "disabled": "La superposition est désactivée",
+      "chooseOverlay": "Choisir une superposition",
+      "overlayOpacity": "Opacité de la superposition",
+      "subtle": "Subtil",
+      "bold": "Audacieux",
+      "doodle1": "Gribouillage 1",
+      "doodle2": "Gribouillage 2"
     },
     "sidebar": {
       "description": "Afficher ou masquer la barre latérale avec vos dossiers de signets",

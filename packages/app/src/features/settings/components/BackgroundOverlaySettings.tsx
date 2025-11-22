@@ -99,10 +99,7 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
 
   return (
     <Stack data-testid={dataTestId} gap="md">
-      <SettingItem
-        description="Add some personality to your background"
-        label={t('settings.backgroundOverlay.enableTitle')}
-      >
+      <SettingItem description={t('settings.backgroundOverlay.description')}>
         <SettingCard
           description={
             isOverlayEnabled
@@ -134,7 +131,7 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
 
       {/* Overlay Selection - only when overlay is enabled */}
       {isOverlayEnabled && (
-        <SettingItem label="Choose an overlay">
+        <SettingItem label={t('settings.backgroundOverlay.chooseOverlay')}>
           <div className="grid grid-cols-3 gap-4">
             {overlayOptions.map((opt, idx) => (
               <div key={opt.image}>{renderImage(opt.image, opt.text, idx)}</div>
@@ -145,7 +142,7 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
 
       {/* Opacity Control */}
       {isOverlayEnabled && (
-        <SettingItem label="Overlay Opacity">
+        <SettingItem label={t('settings.backgroundOverlay.overlayOpacity')}>
           <Stack gap="sm">
             <Row alignItems="center" justifyContent="between">
               <Text color="secondary" size="xs">
@@ -164,10 +161,10 @@ export const BackgroundOverlaySettings = ({ dataTestId }: BackgroundOverlaySetti
             />
             <Row gap="none" justifyContent="between">
               <Text color="secondary" size="xs">
-                Subtle
+                {t('settings.backgroundOverlay.subtle')}
               </Text>
               <Text color="secondary" size="xs">
-                Bold
+                {t('settings.backgroundOverlay.bold')}
               </Text>
             </Row>
           </Stack>

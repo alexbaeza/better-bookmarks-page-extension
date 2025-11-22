@@ -36,8 +36,8 @@ export const BookmarkFormModal: React.FC<BookmarkFormModalProps> = ({
       onClose();
     },
     validationSchema: Yup.object({
-      title: Yup.string().required('Required'),
-      url: isFolder ? Yup.mixed().notRequired() : Yup.string().url('Invalid URL').nullable(),
+      title: Yup.string().required(t('bookmarks.form.required')),
+      url: isFolder ? Yup.mixed().notRequired() : Yup.string().url(t('bookmarks.form.invalidUrl')).nullable(),
     }),
   });
 

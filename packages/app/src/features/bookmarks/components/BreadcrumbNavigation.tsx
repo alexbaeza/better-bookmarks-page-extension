@@ -4,16 +4,21 @@ import { Fragment, useMemo } from 'react';
 
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
+import { useTranslation } from '@/i18n/hooks';
 import { IconButton } from '@/shared/ui/IconButton';
 import { Text } from '@/shared/ui/Text';
 import { truncateWithEllipsis } from '@/shared/utils/array-utils';
 import { buildBreadcrumbPath } from '@/shared/utils/breadcrumb-utils';
 
 export const BreadcrumbNavigation: React.FC = () => {
+  const { t } = useTranslation();
   const { navigationStack, navigateToPage, navigateBack, canGoBack } = useBookmarkNavigation();
   const { rawFolders } = useBookmarks();
 
-  const breadcrumbPath = useMemo(() => buildBreadcrumbPath(navigationStack, rawFolders), [navigationStack, rawFolders]);
+  const breadcrumbPath = useMemo(
+    () => buildBreadcrumbPath(navigationStack, rawFolders, t),
+    [navigationStack, rawFolders, t]
+  );
 
   const handleBreadcrumbClick = (pageId: string) => {
     navigateToPage(pageId);

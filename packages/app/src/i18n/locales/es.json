@@ -10,6 +10,10 @@
     },
     "actions": {
       "resetAllSettings": "Restablecer todas las configuraciones (borra el almacenamiento local)"
+    },
+    "builtWith": {
+      "text": "Hecho con ",
+      "by": "por"
     }
   },
   "sidebar": {
@@ -30,7 +34,9 @@
       "addTitle": "Agregar marcador",
       "editTitle": "Editar marcador",
       "titleLabel": "Título",
-      "titlePlaceholder": "Ingresa el título"
+      "titlePlaceholder": "Ingresa el título",
+      "required": "Requerido",
+      "invalidUrl": "URL inválida"
     },
     "actions": {
       "label": "Acciones del elemento",
@@ -61,13 +67,30 @@
       "preview": "Vista previa: \"Hola, {{name}}! 👋\""
     },
     "theme": {
+      "description": "Elige entre temas predefinidos o crea tu propio tema personalizado con colores personalizados.",
+      "chooseTheme": "Elige un tema",
+      "notConvinced": "¿No estás convencido?",
+      "tryBuilding": "Intenta crear tu propio tema",
+      "customTheme": "Tema personalizado",
       "customizeColors": "Personalizar colores",
+      "customizeTitle": "Personaliza tu tema",
+      "customizeDescription": "Ajusta los colores a continuación para crear tu tema perfecto. Los cambios se aplican instantáneamente y se guardan automáticamente.",
+      "resetAllColors": "Restablecer todos los colores",
+      "backgroundColors": "Colores de fondo",
+      "foregroundColors": "Colores de primer plano",
       "colorPicker": "Selector de color {{color}}"
     },
     "backgroundOverlay": {
       "enableTitle": "Habilitar superposición de fondo",
+      "description": "Añade personalidad a tu fondo",
       "enabled": "La superposición está habilitada",
-      "disabled": "La superposición está deshabilitada"
+      "disabled": "La superposición está deshabilitada",
+      "chooseOverlay": "Elige una superposición",
+      "overlayOpacity": "Opacidad de la superposición",
+      "subtle": "Sutil",
+      "bold": "Audaz",
+      "doodle1": "Garabato 1",
+      "doodle2": "Garabato 2"
     },
     "sidebar": {
       "description": "Mostrar u ocultar la barra lateral con tus carpetas de marcadores",

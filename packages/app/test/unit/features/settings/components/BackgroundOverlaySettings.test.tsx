@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { BackgroundOverlaySettings } from '@/features/settings/components/BackgroundOverlaySettings';
+import { AllProviders } from '~test/test-utils';
 
 describe('BackgroundSettings', () => {
   beforeEach(() => {
@@ -8,13 +9,21 @@ describe('BackgroundSettings', () => {
   });
 
   it('renders correctly', () => {
-    render(<BackgroundOverlaySettings />);
+    render(
+      <AllProviders>
+        <BackgroundOverlaySettings />
+      </AllProviders>
+    );
     expect(screen.getByText('Add some personality to your background')).toBeInTheDocument();
     expect(screen.getByTestId('background-overlay-toggle')).toBeInTheDocument();
   });
 
   it('enables overlay when toggle is clicked', () => {
-    render(<BackgroundOverlaySettings />);
+    render(
+      <AllProviders>
+        <BackgroundOverlaySettings />
+      </AllProviders>
+    );
 
     const toggle = screen.getByTestId('background-overlay-toggle');
     fireEvent.click(toggle);
@@ -24,7 +33,11 @@ describe('BackgroundSettings', () => {
   });
 
   it('renders images when overlay is enabled', () => {
-    render(<BackgroundOverlaySettings />);
+    render(
+      <AllProviders>
+        <BackgroundOverlaySettings />
+      </AllProviders>
+    );
 
     const toggle = screen.getByTestId('background-overlay-toggle');
     fireEvent.click(toggle);
@@ -34,7 +47,11 @@ describe('BackgroundSettings', () => {
   });
 
   it('renders opacity slider when overlay is enabled', () => {
-    render(<BackgroundOverlaySettings />);
+    render(
+      <AllProviders>
+        <BackgroundOverlaySettings />
+      </AllProviders>
+    );
 
     const toggle = screen.getByTestId('background-overlay-toggle');
     fireEvent.click(toggle);
@@ -44,7 +61,11 @@ describe('BackgroundSettings', () => {
   });
 
   it('handles image clicks when overlay is enabled', () => {
-    render(<BackgroundOverlaySettings />);
+    render(
+      <AllProviders>
+        <BackgroundOverlaySettings />
+      </AllProviders>
+    );
 
     const toggle = screen.getByTestId('background-overlay-toggle');
     fireEvent.click(toggle);
@@ -56,7 +77,11 @@ describe('BackgroundSettings', () => {
   });
 
   it('handles key events on background overlay toggle', () => {
-    render(<BackgroundOverlaySettings />);
+    render(
+      <AllProviders>
+        <BackgroundOverlaySettings />
+      </AllProviders>
+    );
 
     const toggle = screen.getByTestId('background-overlay-toggle');
     fireEvent.keyDown(toggle, { key: 'Enter' });
@@ -67,7 +92,11 @@ describe('BackgroundSettings', () => {
   });
 
   it('handles click events on background overlay toggle to disable', () => {
-    render(<BackgroundOverlaySettings />);
+    render(
+      <AllProviders>
+        <BackgroundOverlaySettings />
+      </AllProviders>
+    );
 
     const toggle = screen.getByTestId('background-overlay-toggle');
     fireEvent.click(toggle);
@@ -75,7 +104,11 @@ describe('BackgroundSettings', () => {
   });
 
   it('handles click events on background overlay toggle to enable', () => {
-    render(<BackgroundOverlaySettings />);
+    render(
+      <AllProviders>
+        <BackgroundOverlaySettings />
+      </AllProviders>
+    );
 
     const toggle = screen.getByTestId('background-overlay-toggle');
     fireEvent.click(toggle);

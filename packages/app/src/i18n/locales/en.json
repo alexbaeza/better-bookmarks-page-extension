@@ -10,6 +10,10 @@
     },
     "actions": {
       "resetAllSettings": "Reset all settings (clears local storage)"
+    },
+    "builtWith": {
+      "text": "Built with ",
+      "by": "by"
     }
   },
   "sidebar": {
@@ -30,7 +34,9 @@
       "addTitle": "Add Bookmark",
       "editTitle": "Edit Bookmark",
       "titleLabel": "Title",
-      "titlePlaceholder": "Enter title"
+      "titlePlaceholder": "Enter title",
+      "required": "Required",
+      "invalidUrl": "Invalid URL"
     },
     "actions": {
       "label": "Item actions",
@@ -61,13 +67,30 @@
       "preview": "Preview: \"Hello, {{name}}! 👋\""
     },
     "theme": {
+      "description": "Choose from preset themes or create your own custom theme with personalized colors.",
+      "chooseTheme": "Choose a theme",
+      "notConvinced": "Not convinced?",
+      "tryBuilding": "Try building your own theme",
+      "customTheme": "Custom Theme",
       "customizeColors": "Customize Colors",
+      "customizeTitle": "Customize Your Theme",
+      "customizeDescription": "Adjust colors below to create your perfect theme. Changes are applied instantly and saved automatically.",
+      "resetAllColors": "Reset All Colors",
+      "backgroundColors": "Background Colors",
+      "foregroundColors": "Foreground Colors",
       "colorPicker": "{{color}} color picker"
     },
     "backgroundOverlay": {
       "enableTitle": "Enable Background Overlay",
+      "description": "Add some personality to your background",
       "enabled": "Overlay is enabled",
-      "disabled": "Overlay is disabled"
+      "disabled": "Overlay is disabled",
+      "chooseOverlay": "Choose an overlay",
+      "overlayOpacity": "Overlay Opacity",
+      "subtle": "Subtle",
+      "bold": "Bold",
+      "doodle1": "Doodle 1",
+      "doodle2": "Doodle 2"
     },
     "sidebar": {
       "description": "Show or hide the sidebar with your bookmark folders",
