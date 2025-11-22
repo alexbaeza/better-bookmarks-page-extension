@@ -66,7 +66,7 @@ export const BookmarkMasonryColumn: React.FC<BookmarkMasonryColumnProps> = ({
 
   return (
     <div className="group relative w-full" ref={containerRef}>
-      <div className="mb-2 mt-3 flex items-center justify-between space-x-2">
+      <div className="my-2 flex items-center justify-between space-x-2">
         <div className="flex items-center space-x-2 truncate">
           <Text as="h2" className="leading-6 tracking-wide uppercase" color="primary" lineClamp={1} size="sm" truncate>
             {highlighter(name, searchTerm)}
