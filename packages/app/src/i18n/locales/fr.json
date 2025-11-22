@@ -17,6 +17,8 @@
     "folders": "Dossiers",
     "allItems": "Tous les éléments",
     "uncategorized": "Non classé",
+    "subfoldersOf": "Sous-dossiers de {{folderName}}",
+    "untitled": "Sans titre",
     "ariaLabels": {
       "navigation": "Navigation des signets",
       "folders": "Dossiers de signets"
@@ -107,5 +109,12 @@
   "notFound": {
     "title": "404",
     "message": "Page non trouvée"
+  },
+  "searchBar": {
+    "placeholderWithin": "Rechercher dans \"{{pageName}}\"",
+    "clearSearch": "Effacer la recherche"
+  },
+  "app": {
+    "title": "Better Bookmarks"
   }
 }

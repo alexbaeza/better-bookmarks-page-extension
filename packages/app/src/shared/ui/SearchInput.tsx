@@ -1,5 +1,6 @@
 import { Search as SearchIcon, X } from 'lucide-react';
 import { forwardRef, useMemo } from 'react';
+import { useTranslation } from '@/i18n/hooks';
 import { useSearchShortcutState } from '@/shared/hooks/useKeyboardState';
 import { useModifierKey } from '@/shared/hooks/usePlatform';
 import { Kbd } from '@/shared/ui/Kbd';
@@ -15,6 +16,7 @@ interface SearchInputProps {
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   ({ value, onChange, placeholder, className = '', 'data-testid': dataTestId, showShortcut = true }, ref) => {
+    const { t } = useTranslation();
     const modifierKey = useModifierKey();
     const { isModifierPressed, isShiftPressed, isKPressed } = useSearchShortcutState();
 
@@ -55,7 +57,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         {shortcutKeys}
         {value && (
           <button
-            aria-label="Clear search"
+            aria-label={t('searchBar.clearSearch')}
             className="absolute inset-y-0 right-0 flex items-center pr-4 text-fgColor-secondary hover:text-fgColor-primary z-10"
             onClick={() => onChange('')}
             type="button"

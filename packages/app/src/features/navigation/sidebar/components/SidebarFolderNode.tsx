@@ -5,6 +5,7 @@ import { memo, useCallback } from 'react';
 import { DroppableFolder } from '@/features/bookmarks/components/dnd/DroppableFolder';
 import { useBookmarkActions } from '@/features/bookmarks/hooks/useBookmarkActions';
 import { countFolders, countItems, onlyFolders } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
+import { useTranslation } from '@/i18n/hooks';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 
 import { SidebarItem } from './SidebarItem';
@@ -21,6 +22,7 @@ type FolderNodeProps = {
 
 export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(
   ({ folder, level, expandedIds, toggleFolder, openFolderId, clickFolder }) => {
+    const { t } = useTranslation();
     const { move } = useBookmarkActions();
 
     const handleDrop = useCallback(
@@ -75,7 +77,7 @@ export const SidebarFolderNode: React.FC<FolderNodeProps> = memo(
         {/* Nested Children */}
         {isOpen && hasKids && folder.children && (
           <fieldset
-            aria-label={`Subfolders of ${folder.title || 'Untitled'}`}
+            aria-label={t('sidebar.subfoldersOf', { folderName: folder.title || t('sidebar.untitled') })}
             className="relative ml-0 pl-0 overflow-visible min-w-0"
           >
             {/* Vertical spine for this branch */}

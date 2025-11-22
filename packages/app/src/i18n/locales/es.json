@@ -17,6 +17,8 @@
     "folders": "Carpetas",
     "allItems": "Todos los elementos",
     "uncategorized": "Sin categorizar",
+    "subfoldersOf": "Subcarpetas de {{folderName}}",
+    "untitled": "Sin título",
     "ariaLabels": {
       "navigation": "Navegación de marcadores",
       "folders": "Carpetas de marcadores"
@@ -107,5 +109,12 @@
   "notFound": {
     "title": "404",
     "message": "Página no encontrada"
+  },
+  "searchBar": {
+    "placeholderWithin": "Buscar en \"{{pageName}}\"",
+    "clearSearch": "Limpiar búsqueda"
+  },
+  "app": {
+    "title": "Better Bookmarks"
   }
 }

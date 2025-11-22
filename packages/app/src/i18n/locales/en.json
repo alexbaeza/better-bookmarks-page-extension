@@ -17,6 +17,8 @@
     "folders": "Folders",
     "allItems": "All Items",
     "uncategorized": "Uncategorized",
+    "subfoldersOf": "Subfolders of {{folderName}}",
+    "untitled": "Untitled",
     "ariaLabels": {
       "navigation": "Bookmarks navigation",
       "folders": "Bookmark folders"
@@ -107,5 +109,12 @@
   "notFound": {
     "title": "404",
     "message": "Page not found"
+  },
+  "searchBar": {
+    "placeholderWithin": "Search within \"{{pageName}}\"",
+    "clearSearch": "Clear search"
+  },
+  "app": {
+    "title": "Better Bookmarks"
   }
 }
