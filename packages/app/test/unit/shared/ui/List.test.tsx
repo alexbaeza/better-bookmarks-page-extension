@@ -3,11 +3,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { List } from '@/shared/ui/List';
 
 describe('List', () => {
-  it('should render without crashing', () => {
-    render(<List>Content</List>);
-    expect(screen.getByText('Content')).toBeInTheDocument();
-  });
-
   it('should apply default classes', () => {
     render(<List data-testid="list">Content</List>);
     const list = screen.getByTestId('list');

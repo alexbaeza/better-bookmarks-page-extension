@@ -19,18 +19,6 @@ describe('DroppableFolder', () => {
     mockOnDrop = vi.fn<() => void>();
   });
 
-  it('should render without crashing', () => {
-    render(
-      <AllProviders>
-        <DroppableFolder folderId="folder-1" onDrop={mockOnDrop}>
-          Content
-        </DroppableFolder>
-      </AllProviders>
-    );
-
-    expect(screen.getByText('Content')).toBeInTheDocument();
-  });
-
   it('should apply dataTestId', () => {
     render(
       <AllProviders>
@@ -114,7 +102,7 @@ describe('DroppableFolder', () => {
       );
 
       // onDrop should not be called because child already handled it
-      expect(mockOnDrop).not.toHaveBeenCalled();
+      expect(mockOnDrop).toHaveBeenCalledTimes(0);
     });
 
     it('should call onDrop when this folder is the direct target and child did not handle it', () => {

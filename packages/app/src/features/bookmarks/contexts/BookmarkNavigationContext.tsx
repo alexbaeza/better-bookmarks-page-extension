@@ -1,5 +1,8 @@
-import type React from 'react';
-import { createContext, type ReactNode, useContext, useState } from 'react';
+import type { ReactNode } from 'react';
+import { createContext, use, useCallback, useMemo, useState } from 'react';
+
+import { getLast, removeLast, takeUntil } from '@/shared/utils/array-utils';
+import { isRootPage } from '@/shared/utils/page-utils';
 
 export enum BookmarkPage {
   All = 'All',
@@ -21,71 +24,73 @@ export interface NavigationContextType {
 
 const BookmarkNavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
-export const BookmarkNavigationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const BookmarkNavigationProvider = ({ children }: { children: ReactNode }) => {
   const [currentPage, setCurrentPage] = useState<PageId>(BookmarkPage.All);
   const [navigationStack, setNavigationStack] = useState<PageId[]>(['All']);
 
-  const navigateToFolder = (folderId: string) => {
+  const navigateToFolder = useCallback((folderId: string) => {
     setNavigationStack((prev) => [...prev, folderId]);
     setCurrentPage(folderId);
-  };
+  }, []);
 
-  const navigateBack = () => {
-    if (navigationStack.length > 1) {
-      const newStack = navigationStack.slice(0, -1);
-      setNavigationStack(newStack);
-      setCurrentPage(newStack[newStack.length - 1]);
-    }
-  };
+  const navigateBack = useCallback(() => {
+    setNavigationStack((prev) => {
+      if (prev.length > 1) {
+        const newStack = removeLast(prev);
+        const lastPage = getLast(newStack);
+        if (lastPage) {
+          setCurrentPage(lastPage);
+        }
+        return newStack;
+      }
+      return prev;
+    });
+  }, []);
 
-  const navigateToPage = (pageId: PageId) => {
+  const navigateToPage = useCallback((pageId: PageId) => {
     // If navigating to a root page, reset stack
-    if (pageId === BookmarkPage.All || pageId === BookmarkPage.Uncategorized) {
+    if (isRootPage(pageId)) {
       setNavigationStack([pageId]);
     } else {
       // For folder navigation, find the index in current stack or add it
-      const existingIndex = navigationStack.indexOf(pageId);
-      if (existingIndex >= 0) {
-        // Navigate to existing position in stack
-        const newStack = navigationStack.slice(0, existingIndex + 1);
-        setNavigationStack(newStack);
-      } else {
+      setNavigationStack((prev) => {
+        const existingIndex = prev.indexOf(pageId);
+        if (existingIndex >= 0) {
+          // Navigate to existing position in stack
+          return takeUntil(prev, existingIndex);
+        }
         // Add to stack if not found
-        setNavigationStack((prev) => [...prev, pageId]);
-      }
+        return [...prev, pageId];
+      });
     }
     setCurrentPage(pageId);
-  };
+  }, []);
 
-  const navigateToFolderWithPath = (folderId: string, path: PageId[]) => {
+  const navigateToFolderWithPath = useCallback((folderId: string, path: PageId[]) => {
     setNavigationStack(path);
     setCurrentPage(folderId);
-  };
+  }, []);
 
   const canGoBack = navigationStack.length > 1;
 
-  return (
-    <BookmarkNavigationContext.Provider
-      value={{
-        currentPage,
-        navigationStack,
-        setCurrentPage,
-        navigateToFolder,
-        navigateBack,
-        navigateToPage,
-        navigateToFolderWithPath,
-        canGoBack,
-      }}
-    >
-      {children}
-    </BookmarkNavigationContext.Provider>
+  const value = useMemo(
+    () => ({
+      canGoBack,
+      currentPage,
+      navigateBack,
+      navigateToFolder,
+      navigateToFolderWithPath,
+      navigateToPage,
+      navigationStack,
+      setCurrentPage,
+    }),
+    [canGoBack, currentPage, navigateBack, navigateToFolder, navigateToFolderWithPath, navigateToPage, navigationStack]
   );
+
+  return <BookmarkNavigationContext.Provider value={value}>{children}</BookmarkNavigationContext.Provider>;
 };
 
-export const useBookmarkNavigation = () => {
-  const ctx = useContext(BookmarkNavigationContext);
-  if (!ctx) {
-    throw new Error('useBookmarkNavigation must be used within BookmarkNavigationProvider');
-  }
-  return ctx;
+export const useBookmarkNavigation = (): NavigationContextType => {
+  // use() throws if context is undefined, so this is safe
+  return use(BookmarkNavigationContext) as NavigationContextType;
 };

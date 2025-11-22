@@ -6,9 +6,15 @@ import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
 import { Sidebar } from '@/features/navigation/sidebar/containers/Sidebar';
 import { AllProviders } from '~test/test-utils';
 
-vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
-  useBookmarkNavigation: vi.fn(),
-}));
+vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', async () => {
+  const actual = await vi.importActual<typeof import('@/features/bookmarks/contexts/BookmarkNavigationContext')>(
+    '@/features/bookmarks/contexts/BookmarkNavigationContext'
+  );
+  return {
+    ...actual,
+    useBookmarkNavigation: vi.fn(),
+  };
+});
 
 vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
   useBookmarks: vi.fn(),
@@ -40,12 +46,14 @@ vi.mock('@/features/navigation/sidebar/components/SidebarItem', () => ({
 
 vi.mock('@/features/navigation/sidebar/components/SidebarFolderNode', () => ({
   SidebarFolderNode: ({ folder, clickFolder }: { folder: any; clickFolder: (id: string) => void }) => {
-    const renderFolder = (f: any) => (
-      <div key={f.id}>
-        <button data-testid={`sidebar-folder-${f.id}`} onClick={() => clickFolder(f.id)} type="button">
-          {f.title}
+    const renderFolder = (folder: any) => (
+      <div key={folder.id}>
+        <button data-testid={`sidebar-folder-${folder.id}`} onClick={() => clickFolder(folder.id)} type="button">
+          {folder.title}
         </button>
-        {f.children?.filter((c: any) => Array.isArray(c.children)).map((child: any) => renderFolder(child))}
+        {folder.children
+          ?.filter((child: any) => Array.isArray(child.children))
+          .map((nestedFolder: any) => renderFolder(nestedFolder))}
       </div>
     );
     return renderFolder(folder);

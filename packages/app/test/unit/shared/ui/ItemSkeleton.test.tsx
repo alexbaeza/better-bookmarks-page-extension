@@ -4,11 +4,6 @@ import { ItemSkeleton } from '@/shared/ui/ItemSkeleton';
 
 describe('ItemSkeleton', () => {
   describe('grid variant', () => {
-    it('should render without crashing', () => {
-      render(<ItemSkeleton variant="grid" />);
-      expect(screen.getByTestId('bookmark-skeleton-item')).toBeInTheDocument();
-    });
-
     it('should have grid-specific classes', () => {
       render(<ItemSkeleton variant="grid" />);
       const skeleton = screen.getByTestId('bookmark-skeleton-item');
@@ -31,11 +26,6 @@ describe('ItemSkeleton', () => {
   });
 
   describe('list variant', () => {
-    it('should render without crashing', () => {
-      render(<ItemSkeleton variant="list" />);
-      expect(screen.getByTestId('bookmark-skeleton-item')).toBeInTheDocument();
-    });
-
     it('should have list-specific classes', () => {
       render(<ItemSkeleton variant="list" />);
       const skeleton = screen.getByTestId('bookmark-skeleton-item');

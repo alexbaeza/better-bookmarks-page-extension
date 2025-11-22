@@ -25,7 +25,7 @@ describe('ItemActionsMenu', () => {
     );
     const button = getByTestId('item-options-button');
     fireEvent.click(button);
-    expect(onClick).not.toHaveBeenCalled();
+    expect(onClick).toHaveBeenCalledTimes(0);
   });
 
   it('should apply custom className', () => {

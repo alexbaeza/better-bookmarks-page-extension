@@ -68,24 +68,24 @@ describe('useBookmarkModals', () => {
     expect(result.current.remove).toBeDefined();
   });
 
-  it('calls create when openCreateModal is invoked', async () => {
+  it('does not call create immediately when openCreateModal is invoked', async () => {
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
     await act(async () => {
       result.current.openCreateModal('parent1');
     });
 
-    expect(mockCreate).not.toHaveBeenCalled();
+    expect(mockCreate).toHaveBeenCalledTimes(0);
   });
 
-  it('calls update when openEditModal is invoked', async () => {
+  it('does not call update immediately when openEditModal is invoked', async () => {
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
     await act(async () => {
       result.current.openEditModal(mockBookmarkItem);
     });
 
-    expect(mockUpdate).not.toHaveBeenCalled();
+    expect(mockUpdate).toHaveBeenCalledTimes(0);
   });
 
   it('opens folder modal when openFolderModal is invoked', async () => {

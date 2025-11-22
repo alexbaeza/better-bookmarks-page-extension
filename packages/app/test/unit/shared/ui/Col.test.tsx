@@ -3,11 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { Col } from '@/shared/ui/Col';
 
 describe('Col', () => {
-  it('should render without crashing', () => {
-    render(<Col>Content</Col>);
-    expect(screen.getByText('Content')).toBeInTheDocument();
-  });
-
   it('should apply default flex-1 class when no span is provided', () => {
     render(<Col data-testid="col">Content</Col>);
     const col = screen.getByTestId('col');

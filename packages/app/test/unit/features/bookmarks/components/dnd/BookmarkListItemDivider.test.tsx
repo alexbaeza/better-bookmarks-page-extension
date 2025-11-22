@@ -19,17 +19,6 @@ describe('BookmarkListItemDivider', () => {
     mockOnReorder = vi.fn<() => void>();
   });
 
-  it('should render without crashing', () => {
-    const { container } = render(
-      <AllProviders>
-        <BookmarkListItemDivider folderId="folder-1" insertIndex={0} onReorder={mockOnReorder} />
-      </AllProviders>
-    );
-
-    const divider = container.querySelector('.relative');
-    expect(divider).toBeInTheDocument();
-  });
-
   it('should apply dataTestId', () => {
     render(
       <AllProviders>

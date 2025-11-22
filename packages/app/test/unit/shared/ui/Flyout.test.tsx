@@ -72,7 +72,7 @@ describe('Flyout', () => {
     const content = screen.getByText('Flyout content');
     fireEvent.click(content);
 
-    expect(mockOnClose).not.toHaveBeenCalled();
+    expect(mockOnClose).toHaveBeenCalledTimes(0);
   });
 
   it('calls onClose when Escape key is pressed', () => {

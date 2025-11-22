@@ -8,17 +8,23 @@ vi.mock('react-dnd', () => ({
   useDrop: () => [{ isOver: false, canDrop: false }, vi.fn()],
 }));
 
-vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
-  useBookmarkNavigation: () => ({
-    navigateToFolder: vi.fn(),
-    currentPage: 'All',
-    setCurrentPage: vi.fn(),
-    navigateToPage: vi.fn(),
-    navigateBack: vi.fn(),
-    canGoBack: false,
-    navigationStack: ['All'],
-  }),
-}));
+vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', async () => {
+  const actual = await vi.importActual<typeof import('@/features/bookmarks/contexts/BookmarkNavigationContext')>(
+    '@/features/bookmarks/contexts/BookmarkNavigationContext'
+  );
+  return {
+    ...actual,
+    useBookmarkNavigation: () => ({
+      navigateToFolder: vi.fn(),
+      currentPage: 'All',
+      setCurrentPage: vi.fn(),
+      navigateToPage: vi.fn(),
+      navigateBack: vi.fn(),
+      canGoBack: false,
+      navigationStack: ['All'],
+    }),
+  };
+});
 
 vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
   useBookmarks: () => ({

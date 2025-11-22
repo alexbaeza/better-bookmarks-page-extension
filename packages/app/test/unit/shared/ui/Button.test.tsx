@@ -59,7 +59,7 @@ describe('Button', () => {
     expect(button).toBeDisabled();
 
     fireEvent.click(button);
-    expect(onClick).not.toHaveBeenCalled();
+    expect(onClick).toHaveBeenCalledTimes(0);
   });
 
   it('applies disabled styles for primary variant', () => {

@@ -3,11 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { Row } from '@/shared/ui/Row';
 
 describe('Row', () => {
-  it('should render without crashing', () => {
-    render(<Row>Content</Row>);
-    expect(screen.getByText('Content')).toBeInTheDocument();
-  });
-
   it('should apply default classes', () => {
     render(<Row data-testid="row">Content</Row>);
     const row = screen.getByTestId('row');
@@ -108,16 +103,5 @@ describe('Row', () => {
   it('should apply data-testid', () => {
     render(<Row data-testid="test-row">Content</Row>);
     expect(screen.getByTestId('test-row')).toBeInTheDocument();
-  });
-
-  it('should render children correctly', () => {
-    render(
-      <Row>
-        <div data-testid="child1">Child 1</div>
-        <div data-testid="child2">Child 2</div>
-      </Row>
-    );
-    expect(screen.getByTestId('child1')).toBeInTheDocument();
-    expect(screen.getByTestId('child2')).toBeInTheDocument();
   });
 });

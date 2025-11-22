@@ -35,22 +35,6 @@ describe('DraggableBookmarkItem', () => {
     mockMove = vi.fn();
   });
 
-  it('should render without crashing', () => {
-    const item = {
-      id: '1',
-      title: 'Test Bookmark',
-      url: 'https://example.com',
-    };
-
-    render(
-      <AllProviders>
-        <DraggableBookmarkItem folderId="folder-1" index={0} item={item} />
-      </AllProviders>
-    );
-
-    expect(screen.getByTestId('draggable-1')).toBeInTheDocument();
-  });
-
   it('should render BookmarkItem', () => {
     const item = {
       id: '1',

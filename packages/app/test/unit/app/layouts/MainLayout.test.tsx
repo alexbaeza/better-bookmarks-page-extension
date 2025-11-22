@@ -30,18 +30,6 @@ vi.mock('@/app/layouts/MainContent', () => ({
 }));
 
 describe('MainLayout', () => {
-  it('should render without crashing', () => {
-    when(mockUseAtomValue).calledWith().thenReturn(false);
-    render(<MainLayout />);
-    expect(screen.getByTestId('main-content')).toBeInTheDocument();
-  });
-
-  it('should render MainContent component', () => {
-    when(mockUseAtomValue).calledWith().thenReturn(false);
-    render(<MainLayout />);
-    expect(screen.getByTestId('main-content')).toBeInTheDocument();
-  });
-
   it('should render Sidebar when sidebar is enabled', () => {
     when(mockUseAtomValue).calledWith().thenReturn(true);
     render(<MainLayout />);

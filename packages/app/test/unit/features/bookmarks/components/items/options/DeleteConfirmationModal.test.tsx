@@ -66,7 +66,7 @@ describe('DeleteConfirmationModal', () => {
     );
     await user.click(screen.getByTestId('bookmark-delete-cancel-button'));
     expect(mockOnClose).toHaveBeenCalled();
-    expect(mockOnConfirm).not.toHaveBeenCalled();
+    expect(mockOnConfirm).toHaveBeenCalledTimes(0);
   });
 
   it('should call onConfirm and onClose when delete button is clicked', async () => {

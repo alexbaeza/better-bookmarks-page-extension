@@ -2,13 +2,11 @@ import { useCallback, useDeferredValue, useEffect, useMemo, useRef } from 'react
 
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { useBookmarkSearchTerm } from '@/features/bookmarks/contexts/BookmarkSearchContext';
-import { findFolderById } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
-
-const includesIgnoreCase = (text: string, lowerTerm: string): boolean => {
-  if (!lowerTerm) return true;
-  return text.toLowerCase().includes(lowerTerm);
-};
+import { hasItems } from '@/shared/utils/array-utils';
+import { getPageContainers } from '@/shared/utils/bookmark-search-utils';
+import { isRootPage } from '@/shared/utils/page-utils';
+import { includesIgnoreCase, normalizeString } from '@/shared/utils/string-utils';
 
 interface BookmarkData {
   rawFolders: IBookmarkItem[];
@@ -28,7 +26,7 @@ export const useBookmarkSearch = ({ rawFolders, rawUncategorized }: BookmarkData
     }
   }, [resetSearch]);
 
-  const normalizedSearchTerm = useMemo(() => searchTerm.trim().toLowerCase(), [searchTerm]);
+  const normalizedSearchTerm = useMemo(() => normalizeString(searchTerm), [searchTerm]);
 
   const deferredSearchTerm = useDeferredValue(normalizedSearchTerm);
 
@@ -48,33 +46,24 @@ export const useBookmarkSearch = ({ rawFolders, rawUncategorized }: BookmarkData
   );
 
   const pageContainers = useMemo(() => {
-    let containers: IBookmarkItem[];
-    if (currentPage === 'All') {
-      containers = rawFolders;
-    } else if (currentPage === 'Uncategorized') {
-      containers = rawUncategorized ? [rawUncategorized] : [];
-    } else {
-      const folder = findFolderById(rawFolders, currentPage);
-      containers = folder ? [folder] : [];
-    }
-
+    const containers = getPageContainers(currentPage, rawFolders, rawUncategorized);
     return containers
-      .map((c) => ({
-        ...c,
-        children: filterChildren(c),
+      .map((container) => ({
+        ...container,
+        children: filterChildren(container),
       }))
-      .filter((c) => (c.children?.length ?? 0) > 0);
+      .filter((container) => hasItems(container.children));
   }, [rawFolders, rawUncategorized, currentPage, filterChildren]);
 
   const items = useMemo(() => {
-    if (currentPage === 'All' || currentPage === 'Uncategorized') {
+    if (isRootPage(currentPage)) {
       return [];
     }
     return pageContainers[0]?.children || [];
   }, [currentPage, pageContainers]);
 
   const counts = useMemo(() => {
-    const all = rawFolders.reduce((sum, f) => sum + filterChildren(f).length, 0);
+    const all = rawFolders.reduce((sum, folder) => sum + filterChildren(folder).length, 0);
     const unc = rawUncategorized ? filterChildren(rawUncategorized).length : 0;
     return { all, uncategorized: unc };
   }, [rawFolders, rawUncategorized, filterChildren]);
@@ -110,7 +99,7 @@ const buildFilteredChildrenByFolderId = (
     map.set(folder.id, filteredChildren);
 
     for (const child of children) {
-      if (child.children && child.children.length > 0) {
+      if (hasItems(child.children)) {
         foldersToProcess.push(child);
       }
     }

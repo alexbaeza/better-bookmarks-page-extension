@@ -3,11 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { Kbd } from '@/shared/ui/Kbd';
 
 describe('Kbd', () => {
-  it('should render without crashing', () => {
-    render(<Kbd>Ctrl</Kbd>);
-    expect(screen.getByText('Ctrl')).toBeInTheDocument();
-  });
-
   it('should render keyboard key text', () => {
     render(<Kbd>Enter</Kbd>);
     expect(screen.getByText('Enter')).toBeInTheDocument();

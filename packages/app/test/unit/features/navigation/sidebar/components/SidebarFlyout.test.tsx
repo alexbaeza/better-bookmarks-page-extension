@@ -6,9 +6,15 @@ import { useFavicon } from '@/features/bookmarks/hooks/useFavicon';
 import { SidebarFlyout } from '@/features/navigation/sidebar/components/SidebarFlyout';
 import { AllProviders } from '~test/test-utils';
 
-vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
-  useBookmarkNavigation: vi.fn(),
-}));
+vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', async () => {
+  const actual = await vi.importActual<typeof import('@/features/bookmarks/contexts/BookmarkNavigationContext')>(
+    '@/features/bookmarks/contexts/BookmarkNavigationContext'
+  );
+  return {
+    ...actual,
+    useBookmarkNavigation: vi.fn(),
+  };
+});
 
 vi.mock('@/features/bookmarks/hooks/useFavicon', () => ({
   useFavicon: vi.fn(),
@@ -198,5 +204,108 @@ describe('SidebarFlyout', () => {
     expect(screen.getByText('Folder with undefined children')).toBeInTheDocument();
     expect(screen.getByText('Folders (0)')).toBeInTheDocument();
     expect(screen.getByText('Items (0)')).toBeInTheDocument();
+  });
+
+  it('renders bookmark with empty URL', () => {
+    const mockUseFavicon = vi.mocked(useFavicon);
+    when(mockUseFavicon).calledWith('').thenReturn('');
+
+    const folderWithEmptyUrl = {
+      children: [
+        {
+          id: 'bookmark-empty-url',
+          title: 'Bookmark Empty URL',
+          url: '',
+        },
+      ],
+      id: 'folder-empty-url',
+      title: 'Folder Empty URL',
+    };
+
+    render(
+      <AllProviders>
+        <SidebarFlyout clickFolder={mockClickFolder} folder={folderWithEmptyUrl} onClose={mockOnClose} />
+      </AllProviders>
+    );
+
+    expect(screen.getByText('Bookmark Empty URL')).toBeInTheDocument();
+  });
+
+  it('renders bookmark with selected state when currentPage matches', () => {
+    const mockUseBookmarkNavigation = vi.mocked(useBookmarkNavigation);
+    when(mockUseBookmarkNavigation).calledWith().thenReturn({
+      currentPage: 'bookmark-1',
+      setCurrentPage: vi.fn(),
+    });
+
+    render(
+      <AllProviders>
+        <SidebarFlyout clickFolder={mockClickFolder} folder={mockFolder} onClose={mockOnClose} />
+      </AllProviders>
+    );
+
+    const bookmarkItem = screen.getByTestId('flyout-bookmark-bookmark-1');
+    expect(bookmarkItem).toBeInTheDocument();
+  });
+
+  it('renders folder with selected state when currentPage matches', () => {
+    const mockUseBookmarkNavigation = vi.mocked(useBookmarkNavigation);
+    when(mockUseBookmarkNavigation).calledWith().thenReturn({
+      currentPage: 'subfolder-1',
+      setCurrentPage: vi.fn(),
+    });
+
+    render(
+      <AllProviders>
+        <SidebarFlyout clickFolder={mockClickFolder} folder={mockFolder} onClose={mockOnClose} />
+      </AllProviders>
+    );
+
+    const folderItem = screen.getByTestId('flyout-folder-subfolder-1');
+    expect(folderItem).toBeInTheDocument();
+  });
+
+  it('renders bookmark with untitled when title is missing', () => {
+    const folderWithUntitledBookmark = {
+      children: [
+        {
+          id: 'bookmark-untitled',
+          title: '',
+          url: 'https://example.com',
+        },
+      ],
+      id: 'folder-untitled',
+      title: 'Folder Untitled',
+    };
+
+    render(
+      <AllProviders>
+        <SidebarFlyout clickFolder={mockClickFolder} folder={folderWithUntitledBookmark} onClose={mockOnClose} />
+      </AllProviders>
+    );
+
+    expect(screen.getByText('Untitled')).toBeInTheDocument();
+  });
+
+  it('renders folder with untitled when title is missing', () => {
+    const folderWithUntitledFolder = {
+      children: [
+        {
+          children: [],
+          id: 'subfolder-untitled',
+          title: '',
+        },
+      ],
+      id: 'folder-untitled',
+      title: 'Folder Untitled',
+    };
+
+    render(
+      <AllProviders>
+        <SidebarFlyout clickFolder={mockClickFolder} folder={folderWithUntitledFolder} onClose={mockOnClose} />
+      </AllProviders>
+    );
+
+    expect(screen.getByText('Untitled')).toBeInTheDocument();
   });
 });

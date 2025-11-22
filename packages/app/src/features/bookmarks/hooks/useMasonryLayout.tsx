@@ -21,10 +21,10 @@ const findShortestColumnIndex = (columnHeights: number[]): number => {
   let shortestColumnIndex = 0;
   let shortestHeight = columnHeights[0];
 
-  for (let i = 1; i < columnHeights.length; i++) {
-    if (columnHeights[i] < shortestHeight) {
-      shortestHeight = columnHeights[i];
-      shortestColumnIndex = i;
+  for (let columnIndex = 1; columnIndex < columnHeights.length; columnIndex++) {
+    if (columnHeights[columnIndex] < shortestHeight) {
+      shortestHeight = columnHeights[columnIndex];
+      shortestColumnIndex = columnIndex;
     }
   }
 

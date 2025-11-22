@@ -38,10 +38,10 @@ export class BookmarksService {
       chrome?: { bookmarks?: unknown };
       browser?: { bookmarks?: unknown };
     };
-    const g = globalThis as MaybeGlobals;
-    const isCypressTest = Boolean(g.Cypress);
-    const hasChromeAPI = Boolean(g.chrome?.bookmarks);
-    const hasBrowserAPI = Boolean(g.browser?.bookmarks);
+    const globals = globalThis as MaybeGlobals;
+    const isCypressTest = Boolean(globals.Cypress);
+    const hasChromeAPI = Boolean(globals.chrome?.bookmarks);
+    const hasBrowserAPI = Boolean(globals.browser?.bookmarks);
 
     // Using mock API if in test or if browser APIs are not available
     return isTest || isCypressTest || !(hasChromeAPI || hasBrowserAPI);

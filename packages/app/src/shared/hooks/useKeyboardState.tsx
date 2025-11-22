@@ -43,7 +43,7 @@ export const useKeyboardState = (targetKeys: string[]): Set<string> => {
   const { isMac } = usePlatform();
 
   // Normalize target keys to lowercase for comparison
-  const normalizedTargetKeys = targetKeys.map((k) => k.toLowerCase());
+  const normalizedTargetKeys = targetKeys.map((key) => key.toLowerCase());
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

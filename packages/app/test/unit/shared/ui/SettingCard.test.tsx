@@ -3,12 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { SettingCard } from '@/shared/ui/SettingCard';
 
 describe('SettingCard', () => {
-  it('should render without crashing', () => {
-    render(<SettingCard description="Test description" title="Test Title" />);
-    expect(screen.getByText('Test Title')).toBeInTheDocument();
-    expect(screen.getByText('Test description')).toBeInTheDocument();
-  });
-
   it('should render title and description', () => {
     render(<SettingCard description="Description text" title="Title text" />);
     expect(screen.getByText('Title text')).toBeInTheDocument();

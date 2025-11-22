@@ -191,7 +191,7 @@ describe('faviconCache', () => {
     await import('@/features/bookmarks/lib/favicon-cache');
 
     // setInterval should not be called when window is undefined
-    expect(setIntervalSpy).not.toHaveBeenCalled();
+    expect(setIntervalSpy).toHaveBeenCalledTimes(0);
 
     // Restore window
     globalThis.window = originalWindow;

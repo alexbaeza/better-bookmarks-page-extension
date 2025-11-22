@@ -3,11 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { Content } from '@/shared/ui/Content';
 
 describe('Content', () => {
-  it('should render without crashing', () => {
-    render(<Content>Content</Content>);
-    expect(screen.getByText('Content')).toBeInTheDocument();
-  });
-
   it('should apply padding by default', () => {
     render(<Content data-testid="content">Content</Content>);
     const content = screen.getByTestId('content');

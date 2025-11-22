@@ -9,6 +9,7 @@ import { useBookmarkModals } from '@/features/bookmarks/hooks/useBookmarkModals'
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
 import { highlighter } from '@/features/bookmarks/lib/highlighter';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
+import { isBookmarkFolder } from '@/shared/utils/bookmark-utils';
 
 export interface BookmarkGridItemProps {
   item: IBookmarkItem;
@@ -36,7 +37,7 @@ export const BookmarkGridItem = memo<BookmarkGridItemProps>(({ item, dataTestId,
   };
 
   const highlightedTitle = highlighter(item.title, searchTerm);
-  const isFolder = Boolean(item.children);
+  const isFolder = isBookmarkFolder(item);
   const bookmarkIcon = useBookmarkIcon(item.url, 'md');
 
   const {

@@ -1,60 +1,26 @@
 import { ChevronRight, Home } from 'lucide-react';
 import type React from 'react';
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
-import { findItemById } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import { IconButton } from '@/shared/ui/IconButton';
 import { Text } from '@/shared/ui/Text';
+import { truncateWithEllipsis } from '@/shared/utils/array-utils';
+import { buildBreadcrumbPath } from '@/shared/utils/breadcrumb-utils';
 
 export const BreadcrumbNavigation: React.FC = () => {
   const { navigationStack, navigateToPage, navigateBack, canGoBack } = useBookmarkNavigation();
   const { rawFolders } = useBookmarks();
 
-  const buildBreadcrumbPath = () => {
-    const path: Array<{ id: string; title: string }> = [];
-
-    for (const pageId of navigationStack) {
-      if (pageId === 'All') {
-        path.push({ id: 'All', title: 'All Bookmarks' });
-      } else if (pageId === 'Uncategorized') {
-        path.push({ id: 'Uncategorized', title: 'Uncategorized' });
-      } else {
-        const folder = findItemById(rawFolders, pageId);
-        if (folder) {
-          path.push({ id: folder.id, title: folder.title || 'Untitled' });
-        }
-      }
-    }
-
-    return path;
-  };
-
-  const breadcrumbPath = buildBreadcrumbPath();
+  const breadcrumbPath = useMemo(() => buildBreadcrumbPath(navigationStack, rawFolders), [navigationStack, rawFolders]);
 
   const handleBreadcrumbClick = (pageId: string) => {
     navigateToPage(pageId);
   };
 
   // Truncate middle breadcrumbs if more than 5 items
-  const getDisplayPath = () => {
-    if (breadcrumbPath.length <= 5) {
-      return { display: breadcrumbPath, showEllipsis: false };
-    }
-    // Show first 2, ellipsis, last 2
-    return {
-      display: [
-        breadcrumbPath[0],
-        breadcrumbPath[1],
-        breadcrumbPath[breadcrumbPath.length - 2],
-        breadcrumbPath[breadcrumbPath.length - 1],
-      ],
-      showEllipsis: true,
-    };
-  };
-
-  const { display, showEllipsis } = getDisplayPath();
+  const { display, showEllipsis } = useMemo(() => truncateWithEllipsis(breadcrumbPath, 5), [breadcrumbPath]);
 
   const renderBreadcrumbItem = (item: { id: string; title: string }, index: number, originalIndex?: number) => (
     <Fragment key={item.id}>

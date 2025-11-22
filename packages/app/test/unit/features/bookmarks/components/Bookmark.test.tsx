@@ -124,7 +124,7 @@ describe('Bookmark', () => {
         </button>
       );
       await user.click(screen.getByText('Action'));
-      expect(parentClick).not.toHaveBeenCalled();
+      expect(parentClick).toHaveBeenCalledTimes(0);
     });
   });
 

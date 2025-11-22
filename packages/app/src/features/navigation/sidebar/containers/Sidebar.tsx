@@ -14,6 +14,7 @@ import { SidebarFlyout } from '@/features/navigation/sidebar/components/SidebarF
 import { SidebarFolderNode } from '@/features/navigation/sidebar/components/SidebarFolderNode';
 import { SidebarItem } from '@/features/navigation/sidebar/components/SidebarItem';
 import { Text } from '@/shared/ui/Text';
+import { isAllPage, isRootPage, isUncategorizedPage } from '@/shared/utils/page-utils';
 
 export interface SidebarProps {
   title?: string;
@@ -24,17 +25,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
   const { counts, rawFolders, isLoading } = useBookmarks();
   const { currentPage, navigateToPage, navigateToFolderWithPath } = useBookmarkNavigation();
 
-  const isAll = currentPage === 'All';
-  const isUncat = currentPage === 'Uncategorized';
+  const isRoot = isRootPage(currentPage);
+  const isAll = isAllPage(currentPage);
+  const isUncat = isUncategorizedPage(currentPage);
 
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [openFolderId, setOpenFolderId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isAll || isUncat) {
+    if (isRoot) {
       setOpenFolderId(null);
     }
-  }, [isAll, isUncat]);
+  }, [isRoot]);
 
   const roots = useMemo(() => rawFolders.filter(onlyFolders), [rawFolders]);
 
@@ -116,12 +118,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
           <div className="border-t border-bgColor-tertiary py-6" />
 
           <SidebarSection title="Folders">
-            {roots.map((f) => (
+            {roots.map((folder) => (
               <SidebarFolderNode
                 clickFolder={clickFolder}
                 expandedIds={expandedIds}
-                folder={f}
-                key={f.id}
+                folder={folder}
+                key={folder.id}
                 level={0}
                 openFolderId={openFolderId}
                 toggleFolder={toggleFolder}

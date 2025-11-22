@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
 import { findFolderById } from '@/features/bookmarks/lib/browser/utils/bookmark-tree-utils';
 import { SearchInput } from '@/shared/ui/SearchInput';
+import { isAllPage, isRootPage } from '@/shared/utils/page-utils';
 
 export const SearchBar: React.FC = () => {
   const { currentPage, searchTerm, setSearchTerm, rawFolders } = useBookmarks();
@@ -16,13 +17,11 @@ export const SearchBar: React.FC = () => {
     setInputValue(searchTerm);
   }, [searchTerm]);
 
-  const getPageName = useCallback(() => {
-    if (currentPage === 'All' || currentPage === 'Uncategorized') return currentPage;
-    const folder = findFolderById(rawFolders, currentPage);
-    return folder?.title ?? currentPage;
-  }, [currentPage, rawFolders]);
+  const pageName = isRootPage(currentPage)
+    ? currentPage
+    : (findFolderById(rawFolders, currentPage)?.title ?? currentPage);
 
-  const placeholder = currentPage === 'All' ? `Search "All" items…` : `Search within "${getPageName()}"`;
+  const placeholder = isAllPage(currentPage) ? `Search "All" items…` : `Search within "${pageName}"`;
 
   const handleChange = useCallback(
     (value: string) => {

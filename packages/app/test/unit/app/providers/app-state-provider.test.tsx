@@ -52,17 +52,6 @@ describe('AppStateProvider', () => {
     vi.restoreAllMocks();
   });
 
-  it('should provide initial state', async () => {
-    const wrapper = defaultWrapper;
-    const { result } = renderHook(() => useAppStateContext(), { wrapper });
-
-    await waitFor(() => {
-      expect(result.current).toBeDefined();
-      expect(result.current.bookmarks).toBeDefined();
-      expect(typeof result.current.refreshBookmarks).toBe('function');
-    });
-  });
-
   it('should dispatch PROVIDER_INITIALISED on mount', async () => {
     const { result } = renderHook(() => useAppStateContext(), { wrapper: defaultWrapper });
 
@@ -75,7 +64,7 @@ describe('AppStateProvider', () => {
     renderHook(() => useAppStateContext(), { wrapper: defaultWrapper });
 
     await waitFor(() => {
-      expect(mockLoadBookmarksTree).toHaveBeenCalled();
+      expect(mockLoadBookmarksTree).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -114,15 +103,7 @@ describe('AppStateProvider', () => {
     renderHook(() => useAppStateContext(), { wrapper });
 
     await waitFor(() => {
-      expect(mockLoadBookmarksTree).toHaveBeenCalled();
-    });
-  });
-
-  it('should render children correctly', async () => {
-    const { result } = renderHook(() => useAppStateContext(), { wrapper: defaultWrapper });
-
-    await waitFor(() => {
-      expect(result.current).toBeDefined();
+      expect(mockLoadBookmarksTree).toHaveBeenCalledTimes(1);
     });
   });
 

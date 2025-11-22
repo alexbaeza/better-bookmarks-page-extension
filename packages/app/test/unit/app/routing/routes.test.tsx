@@ -3,13 +3,15 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { when } from 'vitest-when';
 import { AppRoutes } from '@/app/routing/routes';
 
-vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
-  useBookmarkNavigation: vi.fn(),
-  BookmarkPage: {
-    All: 'All',
-    Uncategorized: 'Uncategorized',
-  },
-}));
+vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', async () => {
+  const actual = await vi.importActual<typeof import('@/features/bookmarks/contexts/BookmarkNavigationContext')>(
+    '@/features/bookmarks/contexts/BookmarkNavigationContext'
+  );
+  return {
+    ...actual,
+    useBookmarkNavigation: vi.fn(),
+  };
+});
 
 vi.mock('@/app/routing/Page', () => ({
   Page: ({ pageId }: { pageId: string }) => {
@@ -112,7 +114,7 @@ describe('AppRoutes', () => {
 
     render(<AppRoutes />);
 
-    expect(mockUseBookmarkNavigation).toHaveBeenCalled();
+    expect(mockUseBookmarkNavigation).toHaveBeenCalledTimes(1);
   });
 
   it('should render NotFoundPage in default fallback case', () => {
@@ -120,7 +122,7 @@ describe('AppRoutes', () => {
       .calledWith()
       .thenReturn({
         ...createMockReturn('', []),
-        currentPage: null as unknown as string, // TypeScript will complain but we're testing runtime behavior
+        currentPage: '' as unknown as string, // Empty string should trigger NotFoundPage
       });
 
     render(<AppRoutes />);

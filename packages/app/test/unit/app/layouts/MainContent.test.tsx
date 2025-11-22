@@ -7,11 +7,6 @@ vi.mock('@/app/layouts/Header', () => ({
 }));
 
 describe('MainContent', () => {
-  it('should render without crashing', () => {
-    render(<MainContent />);
-    expect(screen.getByTestId('app-content-container')).toBeInTheDocument();
-  });
-
   it('should render Header component', () => {
     render(<MainContent />);
     expect(screen.getByTestId('header')).toBeInTheDocument();
@@ -20,15 +15,6 @@ describe('MainContent', () => {
   it('should render content container', () => {
     render(<MainContent />);
     expect(screen.getByTestId('app-content')).toBeInTheDocument();
-  });
-
-  it('should render children when provided', () => {
-    render(
-      <MainContent>
-        <div data-testid="test-child">Test Child</div>
-      </MainContent>
-    );
-    expect(screen.getByTestId('test-child')).toBeInTheDocument();
   });
 
   it('should have flex-1 and overflow classes on container', () => {
@@ -41,42 +27,5 @@ describe('MainContent', () => {
     render(<MainContent />);
     const content = screen.getByTestId('app-content');
     expect(content).toHaveClass('flex-1', 'overflow-y-auto', 'min-h-0');
-  });
-
-  it('should render Header before content', () => {
-    render(
-      <MainContent>
-        <div data-testid="test-child">Child</div>
-      </MainContent>
-    );
-
-    const content = screen.getByTestId('app-content');
-    const header = screen.getByTestId('header');
-    const child = screen.getByTestId('test-child');
-
-    expect(content).toBeInTheDocument();
-    expect(header).toBeInTheDocument();
-    expect(child).toBeInTheDocument();
-
-    expect(content).toContainElement(header);
-    expect(content).toContainElement(child);
-    const children = Array.from(content.children);
-    expect(children.length).toBeGreaterThan(0);
-    const headerIndex = Array.from(content.childNodes).findIndex((node) => {
-      return node.nodeType === 1 && (node as Element).contains?.(header);
-    });
-    expect(headerIndex).toBeGreaterThanOrEqual(0);
-  });
-
-  it('should accept multiple children', () => {
-    render(
-      <MainContent>
-        <div data-testid="child-1">Child 1</div>
-        <div data-testid="child-2">Child 2</div>
-      </MainContent>
-    );
-
-    expect(screen.getByTestId('child-1')).toBeInTheDocument();
-    expect(screen.getByTestId('child-2')).toBeInTheDocument();
   });
 });

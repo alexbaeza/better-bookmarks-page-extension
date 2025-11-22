@@ -3,11 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { Badge } from '@/shared/ui/Badge';
 
 describe('Badge', () => {
-  it('should render without crashing', () => {
-    render(<Badge>Badge</Badge>);
-    expect(screen.getByText('Badge')).toBeInTheDocument();
-  });
-
   it('should apply default classes', () => {
     render(<Badge dataTestId="badge">Badge</Badge>);
     const badge = screen.getByTestId('badge');

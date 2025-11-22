@@ -126,6 +126,7 @@ describe('BookmarkMasonryLayout', () => {
         reportHeight(500);
       });
 
+      expect(reportHeight).toHaveBeenCalledTimes(1);
       expect(reportHeight).toHaveBeenCalledWith(500);
       expect(heightGetter(mockFolders[0])).toBe(500);
     });

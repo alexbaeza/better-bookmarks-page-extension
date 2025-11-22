@@ -124,6 +124,7 @@ describe('BookmarkMasonryColumn', () => {
       await droppableProps.onDrop?.('dragged-id', 'from-folder', 0);
     });
 
+    expect(moveMock).toHaveBeenCalledTimes(1);
     expect(moveMock).toHaveBeenCalledWith('dragged-id', { parentId: folderId });
   });
 
@@ -141,6 +142,7 @@ describe('BookmarkMasonryColumn', () => {
       />
     );
 
+    expect(onHeightChange).toHaveBeenCalledTimes(1);
     expect(onHeightChange).toHaveBeenCalledWith(folderId, 250);
     expect(resizeObservers).toHaveLength(1);
 
@@ -156,8 +158,8 @@ describe('BookmarkMasonryColumn', () => {
       );
     });
 
+    expect(onHeightChange).toHaveBeenCalledTimes(2);
     expect(onHeightChange).toHaveBeenCalledWith(folderId, 375);
-    getBoundingClientRectSpy.mockRestore();
   });
 
   it('skips ResizeObserver wiring when onHeightChange is not provided', () => {
@@ -167,7 +169,6 @@ describe('BookmarkMasonryColumn', () => {
     render(<BookmarkMasonryColumn folderContents={folderContents} folderId={folderId} name="My Folder" />);
 
     expect(resizeObservers).toHaveLength(0);
-    getBoundingClientRectSpy.mockRestore();
   });
 
   it('falls back to getBoundingClientRect when ResizeObserver is unavailable', () => {
@@ -186,8 +187,7 @@ describe('BookmarkMasonryColumn', () => {
       />
     );
 
+    expect(onHeightChange).toHaveBeenCalledTimes(1);
     expect(onHeightChange).toHaveBeenCalledWith(folderId, 250);
-
-    getBoundingClientRectSpy.mockRestore();
   });
 });

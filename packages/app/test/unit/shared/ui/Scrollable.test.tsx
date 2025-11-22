@@ -3,11 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { Scrollable } from '@/shared/ui/Scrollable';
 
 describe('Scrollable', () => {
-  it('should render without crashing', () => {
-    render(<Scrollable>Content</Scrollable>);
-    expect(screen.getByText('Content')).toBeInTheDocument();
-  });
-
   it('should apply default classes', () => {
     render(<Scrollable data-testid="scrollable">Content</Scrollable>);
     const scrollable = screen.getByTestId('scrollable');

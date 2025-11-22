@@ -19,17 +19,6 @@ describe('BookmarkGridItemDivider', () => {
     mockOnReorder = vi.fn<() => void>();
   });
 
-  it('should render without crashing', () => {
-    const { container } = render(
-      <AllProviders>
-        <BookmarkGridItemDivider folderId="folder-1" insertIndex={0} onReorder={mockOnReorder} />
-      </AllProviders>
-    );
-
-    const divider = container.querySelector('.absolute');
-    expect(divider).toBeInTheDocument();
-  });
-
   it('should apply dataTestId', () => {
     render(
       <AllProviders>

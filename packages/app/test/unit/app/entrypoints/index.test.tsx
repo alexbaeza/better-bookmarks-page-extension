@@ -1,12 +1,10 @@
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const mockRender = vi.fn();
-const mockCreateRoot = vi.fn(() => ({
-  render: mockRender,
-}));
+let mockRender: ReturnType<typeof vi.fn>;
+let mockCreateRoot: ReturnType<typeof vi.fn>;
 
 vi.mock('react-dom/client', () => ({
-  createRoot: mockCreateRoot,
+  createRoot: (...args: unknown[]) => mockCreateRoot(...args),
 }));
 
 vi.mock('@/app/entrypoints/app', () => ({
@@ -16,6 +14,13 @@ vi.mock('@/app/entrypoints/app', () => ({
 vi.mock('@/styles/globals.css', () => ({}));
 
 describe('index entrypoint', () => {
+  beforeEach(() => {
+    mockRender = vi.fn();
+    mockCreateRoot = vi.fn(() => ({
+      render: mockRender,
+    }));
+  });
+
   it('should verify root element requirements', () => {
     const rootElement = document.createElement('div');
     rootElement.id = 'root';

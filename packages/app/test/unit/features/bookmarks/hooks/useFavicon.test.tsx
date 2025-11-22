@@ -16,13 +16,13 @@ describe('useFavicon', () => {
   it('returns empty string when url is undefined', () => {
     const { result } = renderHook(() => useFavicon(undefined));
     expect(result.current).toBe('');
-    expect(bookmarksLib.getFaviconUrl).not.toHaveBeenCalled();
+    expect(bookmarksLib.getFaviconUrl).toHaveBeenCalledTimes(0);
   });
 
   it('returns empty string when url is empty string', () => {
     const { result } = renderHook(() => useFavicon(''));
     expect(result.current).toBe('');
-    expect(bookmarksLib.getFaviconUrl).not.toHaveBeenCalled();
+    expect(bookmarksLib.getFaviconUrl).toHaveBeenCalledTimes(0);
   });
 
   it('calls getFaviconUrl with the url and returns result', () => {

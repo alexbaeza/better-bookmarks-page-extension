@@ -19,6 +19,10 @@ describe('bookmarks module', () => {
     when(vi.spyOn(factory, 'createBookmarkAPI')).calledWith().thenReturn(mockAPI);
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   describe('loadBookmarksTree', () => {
     it('parses bookmark tree correctly', async () => {
       const mockTree = {
@@ -63,6 +67,7 @@ describe('bookmarks module', () => {
 
       const result = await bookmarksModule.createBookmark('1', { title: 'New Bookmark', url: 'http://new.com' });
 
+      expect(mockAPI.createBookmark).toHaveBeenCalledTimes(1);
       expect(mockAPI.createBookmark).toHaveBeenCalledWith('1', { title: 'New Bookmark', url: 'http://new.com' });
       expect(result).toStrictEqual(createdItem);
     });
@@ -85,6 +90,7 @@ describe('bookmarks module', () => {
 
       const result = await bookmarksModule.updateBookmark('1', { title: 'Updated Title' });
 
+      expect(mockAPI.updateBookmark).toHaveBeenCalledTimes(1);
       expect(mockAPI.updateBookmark).toHaveBeenCalledWith('1', { title: 'Updated Title' });
       expect(result).toStrictEqual(updatedItem);
     });
@@ -96,6 +102,7 @@ describe('bookmarks module', () => {
 
       await bookmarksModule.removeBookmark('1');
 
+      expect(mockAPI.removeBookmark).toHaveBeenCalledTimes(1);
       expect(mockAPI.removeBookmark).toHaveBeenCalledWith('1');
     });
   });
@@ -106,6 +113,7 @@ describe('bookmarks module', () => {
 
       await bookmarksModule.moveBookmark('1', { parentId: '2' });
 
+      expect(mockAPI.moveBookmark).toHaveBeenCalledTimes(1);
       expect(mockAPI.moveBookmark).toHaveBeenCalledWith('1', '2', undefined);
     });
   });
@@ -125,6 +133,7 @@ describe('bookmarks module', () => {
 
       const result = await bookmarksModule.getBookmarkById('1');
 
+      expect(mockAPI.getBookmark).toHaveBeenCalledTimes(1);
       expect(mockAPI.getBookmark).toHaveBeenCalledWith('1');
       expect(result).toStrictEqual(bookmark);
     });
@@ -147,6 +156,7 @@ describe('bookmarks module', () => {
 
       const result = await bookmarksModule.searchBookmarks('test');
 
+      expect(mockAPI.searchBookmarks).toHaveBeenCalledTimes(1);
       expect(mockAPI.searchBookmarks).toHaveBeenCalledWith('test');
       expect(result).toStrictEqual(results);
     });

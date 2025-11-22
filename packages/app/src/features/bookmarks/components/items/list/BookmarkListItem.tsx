@@ -10,6 +10,7 @@ import { useBookmarks } from '@/features/bookmarks/hooks/useBookmarks';
 import { highlighter } from '@/features/bookmarks/lib/highlighter';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
 import { Row } from '@/shared/ui/Row';
+import { isBookmarkFolder } from '@/shared/utils/bookmark-utils';
 
 export interface BookmarkListItemProps {
   item: IBookmarkItem;
@@ -37,7 +38,7 @@ export const BookmarkListItem = memo<BookmarkListItemProps>(({ item, dataTestId,
   };
 
   const highlightedTitle = highlighter(item.title, searchTerm);
-  const isFolder = Boolean(item.children);
+  const isFolder = isBookmarkFolder(item);
   const bookmarkIcon = useBookmarkIcon(item.url, 'sm');
 
   const {

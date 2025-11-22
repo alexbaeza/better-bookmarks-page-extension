@@ -74,6 +74,6 @@ describe('useRawBookmarkData', () => {
     mockAppStateContext.providerInitialised = true;
     renderHook(() => useRawBookmarkData());
 
-    expect(mockRefreshBookmarks).not.toHaveBeenCalled();
+    expect(mockRefreshBookmarks).toHaveBeenCalledTimes(0);
   });
 });

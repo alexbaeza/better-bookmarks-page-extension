@@ -4,9 +4,15 @@ import { when } from 'vitest-when';
 import { Page } from '@/app/routing/Page';
 import { render, screen } from '~test/test-utils';
 
-vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
-  useBookmarkNavigation: vi.fn(),
-}));
+vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', async () => {
+  const actual = await vi.importActual<typeof import('@/features/bookmarks/contexts/BookmarkNavigationContext')>(
+    '@/features/bookmarks/contexts/BookmarkNavigationContext'
+  );
+  return {
+    ...actual,
+    useBookmarkNavigation: vi.fn(),
+  };
+});
 vi.mock('@/features/bookmarks/containers/BookmarkFolderContent', () => ({
   BookmarkFolderContent: () => <div data-testid="content">Content</div>,
 }));

@@ -12,6 +12,10 @@ const mockUseBookmarks = vi.fn();
 
 vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', () => ({
   useBookmarkNavigation: () => mockUseBookmarkNavigation(),
+  BookmarkPage: {
+    All: 'All',
+    Uncategorized: 'Uncategorized',
+  },
 }));
 
 vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
@@ -73,6 +77,7 @@ describe('BreadcrumbNavigation', () => {
     const breadcrumbItem = screen.getByTestId('breadcrumb-item-All');
     await user.click(breadcrumbItem);
 
+    expect(mockNavigateToPage).toHaveBeenCalledTimes(1);
     expect(mockNavigateToPage).toHaveBeenCalledWith('All');
   });
 
@@ -87,6 +92,7 @@ describe('BreadcrumbNavigation', () => {
     const backButton = screen.getByTestId('breadcrumb-back');
     await user.click(backButton);
 
+    expect(mockNavigateBack).toHaveBeenCalledTimes(1);
     expect(mockNavigateBack).toHaveBeenCalled();
   });
 

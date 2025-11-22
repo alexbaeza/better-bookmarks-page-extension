@@ -25,11 +25,6 @@ describe('ZoomControls', () => {
     when(mockUseSetAtom).calledWith().thenReturn(vi.fn());
   });
 
-  it('should render without crashing', () => {
-    render(<ZoomControls />);
-    expect(screen.getByTestId('zoom-controls')).toBeInTheDocument();
-  });
-
   it('should display "Scale" label', () => {
     render(<ZoomControls />);
     expect(screen.getByText('Scale')).toBeInTheDocument();

@@ -1,10 +1,9 @@
-import { vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { when } from 'vitest-when';
 
 import { FirefoxBookmarkAPI } from '@/features/bookmarks/lib/browser/api/firefox-api';
 import type { MockBookmarksAPI } from '@/features/bookmarks/lib/browser/api/mock-bookmarks-api';
 import { generateMockFirefoxBookmarkTree } from '~test/mocks/bookmark-data';
-import type { TestWindow } from '~test/test-types';
 
 const mockBrowserBookmarks = {
   create: vi.fn(),
@@ -23,36 +22,30 @@ const mockBrowser = {
   bookmarks: mockBrowserBookmarks,
 } as { bookmarks: typeof mockBrowserBookmarks; notifications?: { create: unknown } };
 
-Object.defineProperty(window, 'browser', {
-  configurable: true,
-  value: mockBrowser,
-  writable: true,
-});
-
 describe('FirefoxBookmarkAPI', () => {
   let api: FirefoxBookmarkAPI;
 
+  beforeEach(() => {
+    vi.stubGlobal('browser', mockBrowser);
+    api = new FirefoxBookmarkAPI();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   describe('constructor', () => {
     it('throws error when Firefox bookmarks API is not available', () => {
-      Reflect.deleteProperty(window, 'browser');
+      vi.unstubAllGlobals();
 
       expect(() => new FirefoxBookmarkAPI()).toThrow('Firefox bookmarks API not available');
     });
 
     it('throws error when Firefox bookmarks API is undefined', () => {
-      (window as TestWindow).browser = { bookmarks: undefined } as TestWindow['browser'];
+      vi.stubGlobal('browser', { bookmarks: undefined });
 
       expect(() => new FirefoxBookmarkAPI()).toThrow('Firefox bookmarks API not available');
     });
-  });
-
-  beforeEach(() => {
-    Object.defineProperty(window, 'browser', {
-      configurable: true,
-      value: mockBrowser,
-      writable: true,
-    });
-    api = new FirefoxBookmarkAPI();
   });
 
   it('uses provided mock bookmarks API when constructed with mock instance', async () => {
@@ -201,6 +194,7 @@ describe('FirefoxBookmarkAPI', () => {
         url: 'https://example.com',
       });
 
+      expect(mockBrowserBookmarks.create).toHaveBeenCalledTimes(1);
       expect(mockBrowserBookmarks.create).toHaveBeenCalledWith({
         parentId: '1',
         title: 'New Bookmark',
@@ -226,6 +220,7 @@ describe('FirefoxBookmarkAPI', () => {
         title: 'New Folder',
       });
 
+      expect(mockBrowserBookmarks.create).toHaveBeenCalledTimes(1);
       expect(mockBrowserBookmarks.create).toHaveBeenCalledWith({
         parentId: '1',
         title: 'New Folder',
@@ -253,6 +248,7 @@ describe('FirefoxBookmarkAPI', () => {
         title: 'New Folder',
       });
 
+      expect(mockBrowserBookmarks.create).toHaveBeenCalledTimes(1);
       expect(mockBrowserBookmarks.create).toHaveBeenCalledWith({
         parentId: 'Uncategorized',
         title: 'New Folder',
@@ -289,6 +285,7 @@ describe('FirefoxBookmarkAPI', () => {
         url: 'https://updated.com',
       });
 
+      expect(mockBrowserBookmarks.update).toHaveBeenCalledTimes(1);
       expect(mockBrowserBookmarks.update).toHaveBeenCalledWith('4', {
         title: 'Updated Bookmark',
         url: 'https://updated.com',
@@ -313,6 +310,7 @@ describe('FirefoxBookmarkAPI', () => {
         title: 'Updated Title',
       });
 
+      expect(mockBrowserBookmarks.update).toHaveBeenCalledTimes(1);
       expect(mockBrowserBookmarks.update).toHaveBeenCalledWith('4', {
         title: 'Updated Title',
       });
@@ -328,6 +326,7 @@ describe('FirefoxBookmarkAPI', () => {
 
       await api.moveBookmark('4', '2');
 
+      expect(mockBrowserBookmarks.move).toHaveBeenCalledTimes(1);
       expect(mockBrowserBookmarks.move).toHaveBeenCalledWith('4', {
         parentId: '2',
       });
@@ -340,6 +339,7 @@ describe('FirefoxBookmarkAPI', () => {
 
       await api.moveBookmark('4', '2', 1);
 
+      expect(mockBrowserBookmarks.move).toHaveBeenCalledTimes(1);
       expect(mockBrowserBookmarks.move).toHaveBeenCalledWith('4', {
         index: 1,
         parentId: '2',
@@ -359,6 +359,7 @@ describe('FirefoxBookmarkAPI', () => {
 
       const result = await api.getBookmark('4');
 
+      expect(mockBrowserBookmarks.get).toHaveBeenCalledTimes(1);
       expect(mockBrowserBookmarks.get).toHaveBeenCalledWith('4');
       expect(result?.id).toBe('4');
       expect(result?.title).toBe('Test Bookmark');
@@ -403,6 +404,7 @@ describe('FirefoxBookmarkAPI', () => {
 
       const result = await api.searchBookmarks('google');
 
+      expect(mockBrowserBookmarks.search).toHaveBeenCalledTimes(1);
       expect(mockBrowserBookmarks.search).toHaveBeenCalledWith({ query: 'google' });
       expect(result).toHaveLength(2);
       expect(result[0].title).toBe('Google Search');
@@ -441,7 +443,9 @@ describe('FirefoxBookmarkAPI', () => {
 
       await api.reorderItems('1', 0, 2);
 
+      expect(mockBrowserBookmarks.getSubTree).toHaveBeenCalledTimes(1);
       expect(mockBrowserBookmarks.getSubTree).toHaveBeenCalledWith('1');
+      expect(mockBrowserBookmarks.move).toHaveBeenCalledTimes(1);
       expect(mockBrowserBookmarks.move).toHaveBeenCalledWith('item1', { index: 2 });
     });
 
