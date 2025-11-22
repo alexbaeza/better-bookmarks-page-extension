@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import { when } from 'vitest-when';
 import { useBookmarkNavigation } from '@/features/bookmarks/contexts/BookmarkNavigationContext';
@@ -18,17 +18,6 @@ vi.mock('@/features/bookmarks/contexts/BookmarkNavigationContext', async () => {
 
 vi.mock('@/features/bookmarks/hooks/useBookmarks', () => ({
   useBookmarks: vi.fn(),
-}));
-
-vi.mock('@/features/navigation/sidebar/components/SidebarFlyout', () => ({
-  SidebarFlyout: ({ folder, onClose }: { folder: any; onClose: () => void }) => (
-    <div data-testid="sidebar-flyout">
-      <div data-testid="flyout-title">{folder.title}</div>
-      <button data-testid="flyout-close-button" onClick={onClose} type="button">
-        Close
-      </button>
-    </div>
-  ),
 }));
 
 vi.mock('@/features/navigation/sidebar/components/SidebarItem', () => ({
@@ -391,45 +380,6 @@ describe('Sidebar', () => {
     expect(uncategorizedButton).toHaveAttribute('data-selected', 'true');
   });
 
-  it.skip('renders SidebarFlyout when a folder is clicked', async () => {
-    render(
-      <AllProviders>
-        <Sidebar />
-      </AllProviders>
-    );
-
-    const folderButton = screen.getByTestId('sidebar-folder-folder-1');
-    fireEvent.click(folderButton);
-
-    await waitFor(() => {
-      expect(screen.getByTestId('sidebar-flyout')).toBeInTheDocument();
-    });
-
-    expect(screen.getByTestId('flyout-title')).toHaveTextContent('Test Folder 1');
-  });
-
-  it.skip('closes flyout when close button is clicked', async () => {
-    render(
-      <AllProviders>
-        <Sidebar />
-      </AllProviders>
-    );
-
-    const folderButton = screen.getByTestId('sidebar-folder-folder-1');
-    fireEvent.click(folderButton);
-
-    await waitFor(() => {
-      expect(screen.getByTestId('sidebar-flyout')).toBeInTheDocument();
-    });
-
-    const closeButton = screen.getByTestId('flyout-close-button');
-    fireEvent.click(closeButton);
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('sidebar-flyout')).not.toBeInTheDocument();
-    });
-  });
-
   it('renders custom footer when provided', () => {
     const customFooter = <div data-testid="custom-footer">Custom Footer</div>;
 
@@ -440,52 +390,6 @@ describe('Sidebar', () => {
     );
 
     expect(screen.getByTestId('custom-footer')).toBeInTheDocument();
-  });
-
-  it('does not render flyout when currentPage is All', () => {
-    when(mockUseBookmarkNavigation)
-      .calledWith()
-      .thenReturn({
-        currentPage: 'All',
-        setCurrentPage: mockSetCurrentPage,
-        navigateToFolder: vi.fn(),
-        navigateToPage: vi.fn(),
-        navigateBack: vi.fn(),
-        navigateToFolderWithPath: vi.fn(),
-        canGoBack: false,
-        navigationStack: ['All'],
-      });
-
-    render(
-      <AllProviders>
-        <Sidebar />
-      </AllProviders>
-    );
-
-    expect(screen.queryByTestId('sidebar-flyout')).not.toBeInTheDocument();
-  });
-
-  it('does not render flyout when currentPage is Uncategorized', () => {
-    when(mockUseBookmarkNavigation)
-      .calledWith()
-      .thenReturn({
-        currentPage: 'Uncategorized',
-        setCurrentPage: mockSetCurrentPage,
-        navigateToFolder: vi.fn(),
-        navigateToPage: vi.fn(),
-        navigateBack: vi.fn(),
-        navigateToFolderWithPath: vi.fn(),
-        canGoBack: false,
-        navigationStack: ['All', 'Uncategorized'],
-      });
-
-    render(
-      <AllProviders>
-        <Sidebar />
-      </AllProviders>
-    );
-
-    expect(screen.queryByTestId('sidebar-flyout')).not.toBeInTheDocument();
   });
 
   it('handles empty folders array', () => {

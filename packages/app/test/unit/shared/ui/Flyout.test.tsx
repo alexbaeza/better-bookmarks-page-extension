@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { Flyout, InlineFlyout } from '@/shared/ui/Flyout';
+import { Flyout } from '@/shared/ui/Flyout';
 import { AllProviders } from '~test/test-utils';
 
 describe('Flyout', () => {
@@ -197,17 +197,5 @@ describe('Flyout', () => {
     fireEvent.keyDown(flyout, { key: 'Escape' });
 
     expect(mockOnClose).toHaveBeenCalled();
-  });
-
-  it('renders InlineFlyout', () => {
-    render(
-      <AllProviders>
-        <InlineFlyout>
-          <div>Inline flyout content</div>
-        </InlineFlyout>
-      </AllProviders>
-    );
-
-    expect(screen.getByText('Inline flyout content')).toBeInTheDocument();
   });
 });

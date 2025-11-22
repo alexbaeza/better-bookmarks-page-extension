@@ -9,23 +9,8 @@ export interface IBookmarkItem {
   children?: IBookmarkItem[];
 }
 
-export interface BookmarkFolderRootProps {
-  folderId: string;
-  name: string;
-  folderContents: IBookmarkItem[];
-}
-
-export interface BookmarkContentRendererProps {
-  folderContents: IBookmarkItem[];
-  folderId: string;
-}
-
 export interface BookmarkFormModalProps {
   onClose: () => void;
   onSave: (values: { title: string; url?: string }) => void;
   initialValues?: { title: string; url?: string };
-}
-
-export interface RenderFoldersProps {
-  folders: IBookmarkItem[];
 }

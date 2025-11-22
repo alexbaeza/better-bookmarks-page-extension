@@ -1,11 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type {
-  BookmarkContentRendererProps,
-  BookmarkFolderRootProps,
-  BookmarkFormModalProps,
-  IBookmarkItem,
-  RenderFoldersProps,
-} from '@/shared/types/bookmarks';
+import type { BookmarkFormModalProps, IBookmarkItem } from '@/shared/types/bookmarks';
 
 describe('bookmarks types', () => {
   describe('IBookmarkItem', () => {
@@ -67,45 +61,6 @@ describe('bookmarks types', () => {
     });
   });
 
-  describe('BookmarkFolderRootProps', () => {
-    it('should accept valid folder root props', () => {
-      const props: BookmarkFolderRootProps = {
-        folderId: '1',
-        name: 'Test Folder',
-        folderContents: [
-          { id: '2', title: 'Bookmark 1' },
-          { id: '3', title: 'Bookmark 2' },
-        ],
-      };
-
-      expect(props.folderId).toBe('1');
-      expect(props.name).toBe('Test Folder');
-      expect(props.folderContents).toHaveLength(2);
-    });
-
-    it('should accept empty folderContents array', () => {
-      const props: BookmarkFolderRootProps = {
-        folderId: '1',
-        name: 'Empty Folder',
-        folderContents: [],
-      };
-
-      expect(props.folderContents).toHaveLength(0);
-    });
-  });
-
-  describe('BookmarkContentRendererProps', () => {
-    it('should accept valid content renderer props', () => {
-      const props: BookmarkContentRendererProps = {
-        folderContents: [{ id: '1', title: 'Test' }],
-        folderId: '0',
-      };
-
-      expect(props.folderId).toBe('0');
-      expect(props.folderContents).toHaveLength(1);
-    });
-  });
-
   describe('BookmarkFormModalProps', () => {
     it('should accept props with callbacks', () => {
       const onClose = () => {};
@@ -145,27 +100,6 @@ describe('bookmarks types', () => {
 
       expect(props.initialValues?.title).toBe('Test Folder');
       expect(props.initialValues?.url).toBeUndefined();
-    });
-  });
-
-  describe('RenderFoldersProps', () => {
-    it('should accept array of folders', () => {
-      const props: RenderFoldersProps = {
-        folders: [
-          { id: '1', title: 'Folder 1' },
-          { id: '2', title: 'Folder 2' },
-        ],
-      };
-
-      expect(props.folders).toHaveLength(2);
-    });
-
-    it('should accept empty folders array', () => {
-      const props: RenderFoldersProps = {
-        folders: [],
-      };
-
-      expect(props.folders).toHaveLength(0);
     });
   });
 });

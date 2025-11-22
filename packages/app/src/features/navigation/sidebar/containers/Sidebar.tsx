@@ -128,10 +128,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ title = 'Better Bookmarks', fo
         </div>
         {footer && <div className="shrink-0 mt-auto">{footer}</div>}
       </nav>
-
-      {/* {openFolderId && selectedFolder && ( */}
-      {/* <SidebarFlyout clickFolder={clickFolder} folder={selectedFolder} onClose={() => setOpenFolderId(null)} /> */}
-      {/* )} */}
     </div>
   );
 };
