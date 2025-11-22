@@ -16,7 +16,7 @@ describe('bookmarks module', () => {
   };
 
   beforeEach(() => {
-    when(vi.spyOn(factory, 'createBookmarkAPI')).calledWith().thenReturn(mockAPI);
+    when(vi.spyOn(factory, 'createBookmarkAPI')).calledWith().thenResolve(mockAPI);
   });
 
   afterEach(() => {

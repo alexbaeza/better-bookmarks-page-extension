@@ -16,14 +16,20 @@ export interface BookmarksData {
  */
 export class BookmarksService {
   private api: BrowserBookmarkAPI | null = null;
+  private apiPromise: Promise<BrowserBookmarkAPI> | null = null;
 
   /**
    * Get the browser API instance (singleton pattern)
+   * Uses lazy initialization with dynamic imports for mock files
    */
-  private getAPI(): BrowserBookmarkAPI {
-    if (!this.api) {
-      this.api = createBookmarkAPI();
+  private async getAPI(): Promise<BrowserBookmarkAPI> {
+    if (this.api) {
+      return this.api;
     }
+    if (!this.apiPromise) {
+      this.apiPromise = createBookmarkAPI();
+    }
+    this.api = await this.apiPromise;
     return this.api;
   }
 
@@ -48,7 +54,7 @@ export class BookmarksService {
   }
 
   async loadBookmarksTree(): Promise<BookmarksData> {
-    const browserAPI = this.getAPI();
+    const browserAPI = await this.getAPI();
     // Fetch fresh data from browser API (syncs with browser's bookmark state)
     const tree: BookmarkTree = await browserAPI.getBookmarksTree();
 
@@ -96,24 +102,24 @@ export class BookmarksService {
   }
 
   async createBookmark(parentId: string | null, details: { title: string; url?: string }): Promise<IBookmarkItem> {
-    const browserAPI = this.getAPI();
+    const browserAPI = await this.getAPI();
     const created = await browserAPI.createBookmark(parentId, details);
     return created;
   }
 
   async removeBookmark(id: string): Promise<void> {
-    const browserAPI = this.getAPI();
+    const browserAPI = await this.getAPI();
     await browserAPI.removeBookmark(id);
   }
 
   async updateBookmark(id: string, changes: { title?: string; url?: string }): Promise<IBookmarkItem> {
-    const browserAPI = this.getAPI();
+    const browserAPI = await this.getAPI();
     const updated = await browserAPI.updateBookmark(id, changes);
     return updated;
   }
 
   async moveBookmark(id: string, dest: { parentId: string; index?: number }): Promise<void> {
-    const browserAPI = this.getAPI();
+    const browserAPI = await this.getAPI();
 
     const current = await browserAPI.getBookmark(id);
     const fromFolderId = current?.parentId ?? '';
@@ -126,7 +132,7 @@ export class BookmarksService {
   }
 
   async getBookmarkById(id: string): Promise<IBookmarkItem | null> {
-    const browserAPI = this.getAPI();
+    const browserAPI = await this.getAPI();
     const bookmark = await browserAPI.getBookmark(id);
     if (!bookmark) {
       return null;
@@ -139,7 +145,7 @@ export class BookmarksService {
   }
 
   async searchBookmarks(query: string): Promise<IBookmarkItem[]> {
-    const browserAPI = this.getAPI();
+    const browserAPI = await this.getAPI();
     const results = await browserAPI.searchBookmarks(query);
     return results as IBookmarkItem[];
   }
@@ -158,7 +164,7 @@ export class BookmarksService {
     // Persist overlay order first so UI reflects change immediately
     orderingService.moveItem(itemId, fromFolderId, toFolderId, toIndex);
     // Then perform the actual browser move to trigger sync on next import
-    const browserAPI = this.getAPI();
+    const browserAPI = await this.getAPI();
     await browserAPI.moveBookmark(itemId, toFolderId, toIndex);
   }
 
