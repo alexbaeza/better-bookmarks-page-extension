@@ -26,10 +26,11 @@ Feature: Theme Builder
     Examples:
       | colorKey           | defaultColor | newColor |
       | bgColor-primary    | #1F1E25      | #FF0000  |
-      | bgColor-secondary  | #1C1B22      | #00FF00  |
+      | bgColor-secondary  | #2A2930      | #00FF00  |
       | bgColor-accent     | #007AFF      | #0000FF  |
-      | fgColor-primary     | #F9F9FA      | #FFFFFF  |
-      | fgColor-danger     | #E03C31      | #FF4444  |
+      | fgColor-primary    | #F9F9FA      | #FFFFFF  |
+      | fgColor-secondary  | #A0A0A5      | #CCCCCC  |
+      | fgColor-accent     | #007AFF      | #FF00FF  |
 
   Scenario: Switch from custom theme to preset theme
     When I click "settings-toggle"
@@ -47,14 +48,14 @@ Feature: Theme Builder
     Then the app should have custom theme with "bgColor-primary" color
     When I select color "#2D1B69" for "bgColor-primary"
     And I select color "#3D2B7A" for "bgColor-secondary"
-    And I select color "#4D3B8A" for "bgColor-tertiary"
     And I select color "#FF6B6B" for "bgColor-accent"
     And I select color "#FFFFFF" for "fgColor-primary"
     And I select color "#CCCCCC" for "fgColor-secondary"
-    And I select color "#FF4444" for "fgColor-danger"
+    And I select color "#FF00FF" for "fgColor-accent"
     Then the app should have custom theme with "bgColor-primary" color
     And the "bgColor-primary" color should be "#2D1B69"
     And the "bgColor-secondary" color should be "#3D2B7A"
     And the "bgColor-accent" color should be "#FF6B6B"
     And the "fgColor-primary" color should be "#FFFFFF"
-    And the "fgColor-danger" color should be "#FF4444"
+    And the "fgColor-secondary" color should be "#CCCCCC"
+    And the "fgColor-accent" color should be "#FF00FF"
