@@ -1,5 +1,4 @@
 import { useModal } from '@/app/providers/modal-context';
-import { BookmarkFolderModal } from '@/features/bookmarks/containers/BookmarkFolderModal';
 import { BookmarkFormModal } from '@/features/bookmarks/containers/BookmarkFormModal';
 import { useBookmarkActions } from '@/features/bookmarks/hooks/useBookmarkActions';
 import type { IBookmarkItem } from '@/shared/types/bookmarks';
@@ -7,12 +6,6 @@ import type { IBookmarkItem } from '@/shared/types/bookmarks';
 export const useBookmarkModals = () => {
   const { showModal, hideModal } = useModal();
   const { create, update, remove } = useBookmarkActions();
-
-  const openFolderModal = (folder: IBookmarkItem) => {
-    showModal(
-      <BookmarkFolderModal folderContents={folder.children ?? []} folderId={folder.id} folderTitle={folder.title} />
-    );
-  };
 
   const openEditModal = (item: IBookmarkItem) => {
     const onSave = async (values: { title: string; url?: string }) => {
@@ -35,7 +28,6 @@ export const useBookmarkModals = () => {
   return {
     openCreateModal,
     openEditModal,
-    openFolderModal,
     remove,
   };
 };

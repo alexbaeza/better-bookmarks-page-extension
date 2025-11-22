@@ -19,16 +19,6 @@ const mockBookmarkItem = {
   url: 'https://example.com',
 };
 
-const mockFolder = {
-  children: [],
-  dateAdded: undefined,
-  dateGroupModified: undefined,
-  id: 'folder1',
-  parentId: '0',
-  title: 'Test Folder',
-  url: undefined,
-};
-
 describe('useBookmarkModals', () => {
   let mockCreate: ReturnType<typeof vi.fn>;
   let mockUpdate: ReturnType<typeof vi.fn>;
@@ -64,7 +54,6 @@ describe('useBookmarkModals', () => {
 
     expect(result.current.openCreateModal).toBeDefined();
     expect(result.current.openEditModal).toBeDefined();
-    expect(result.current.openFolderModal).toBeDefined();
     expect(result.current.remove).toBeDefined();
   });
 
@@ -88,16 +77,6 @@ describe('useBookmarkModals', () => {
     expect(mockUpdate).toHaveBeenCalledTimes(0);
   });
 
-  it('opens folder modal when openFolderModal is invoked', async () => {
-    const { result } = renderHook(() => useBookmarkModals(), { wrapper });
-
-    await act(async () => {
-      result.current.openFolderModal(mockFolder);
-    });
-
-    expect(mockFolder).toBeDefined();
-  });
-
   it('returns remove function from useBookmarkActions', () => {
     const { result } = renderHook(() => useBookmarkModals(), { wrapper });
 
@@ -109,22 +88,6 @@ describe('useBookmarkModals', () => {
 
     expect(typeof result.current.openCreateModal).toBe('function');
     expect(typeof result.current.openEditModal).toBe('function');
-    expect(typeof result.current.openFolderModal).toBe('function');
     expect(typeof result.current.remove).toBe('function');
-  });
-
-  it('handles folder with undefined children', async () => {
-    const folderWithUndefinedChildren = {
-      ...mockFolder,
-      children: undefined,
-    };
-
-    const { result } = renderHook(() => useBookmarkModals(), { wrapper });
-
-    await act(async () => {
-      result.current.openFolderModal(folderWithUndefinedChildren);
-    });
-
-    expect(typeof result.current.openFolderModal).toBe('function');
   });
 });

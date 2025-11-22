@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type {
   BookmarkContentRendererProps,
-  BookmarkFolderModalProps,
   BookmarkFolderRootProps,
   BookmarkFormModalProps,
   IBookmarkItem,
@@ -146,40 +145,6 @@ describe('bookmarks types', () => {
 
       expect(props.initialValues?.title).toBe('Test Folder');
       expect(props.initialValues?.url).toBeUndefined();
-    });
-  });
-
-  describe('BookmarkFolderModalProps', () => {
-    it('should accept required props', () => {
-      const item: IBookmarkItem = { id: '1', title: 'Test' };
-      const props: BookmarkFolderModalProps = {
-        item,
-        folderContents: [],
-      };
-
-      expect(props.item).toBe(item);
-      expect(props.folderContents).toHaveLength(0);
-    });
-
-    it('should accept optional dataTestId', () => {
-      const props: BookmarkFolderModalProps = {
-        dataTestId: 'test-id',
-        item: { id: '1', title: 'Test' },
-        folderContents: [],
-      };
-
-      expect(props.dataTestId).toBe('test-id');
-    });
-
-    it('should accept optional dragHandleProps', () => {
-      const dragHandleProps = { className: 'drag-handle' };
-      const props: BookmarkFolderModalProps = {
-        item: { id: '1', title: 'Test' },
-        folderContents: [],
-        dragHandleProps,
-      };
-
-      expect(props.dragHandleProps).toBe(dragHandleProps);
     });
   });
 

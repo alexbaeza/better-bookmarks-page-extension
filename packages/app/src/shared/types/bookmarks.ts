@@ -26,13 +26,6 @@ export interface BookmarkFormModalProps {
   initialValues?: { title: string; url?: string };
 }
 
-export interface BookmarkFolderModalProps {
-  dataTestId?: string;
-  item: IBookmarkItem;
-  folderContents: IBookmarkItem[];
-  dragHandleProps?: React.HTMLAttributes<HTMLElement>;
-}
-
 export interface RenderFoldersProps {
   folders: IBookmarkItem[];
 }
