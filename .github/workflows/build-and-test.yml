@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -40,7 +40,7 @@ jobs:
     needs: [lint-and-format]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -62,7 +62,7 @@ jobs:
     needs: [lint-and-format, tests-unit]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup environment
         uses: ./.github/actions/setup
@@ -84,7 +84,7 @@ jobs:
         browser: [chrome, firefox]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup environment
         uses: ./.github/actions/setup
