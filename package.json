@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@better-bookmarks/shared-tooling": "workspace:*",
-    "@biomejs/biome": "^2.3.5",
+    "@biomejs/biome": "^2.3.7",
     "@codecov/vite-plugin": "^1.9.1",
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
@@ -41,7 +41,7 @@
     "@semantic-release/npm": "^13.1.2",
     "conventional-changelog-cli": "^5.0.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.6",
+    "lint-staged": "^16.2.7",
     "semantic-release": "^25.0.1"
   },
   "lint-staged": {
